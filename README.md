@@ -8,17 +8,32 @@ Static site — no build step, no dependencies. Deployed via GitHub Pages.
 ## Structure
 
 ```
-index.html …            14 screen templates (T · Home, T · Conferences, …)
-partials/               header / nav / footer — edited once, applied everywhere
 assets/
-  tokens.css            colours, spacing, type scale — mirrors Figma Variables
-  base.css              reset, typography, 45° cut treatment
-  modules.css           one section per module ID (F-02, S-01, R-02 …)
-  motion.css            transitions & animations, all timings as variables
-  app.js                nav, tabs, accordion, filters, page transitions
-  data.js               all content (teams, standings, games, news)
-system/                 design system specimen sheets (foundations → templates)
+  tokens.css        colours, spacing, type, motion — mirrors Figma Variables
+  base.css          reset, typography, 45° cut treatment
+  elements.css      element library (buttons, fields, chips, cards …)
+  modules.css       modules, one section per ID (F-02, S-01, R-02 …)
+  motion.css        transitions, scroll reveal, page transitions
+  interactions.css  GENERATED — hover/focus/active, copied from the specimen
+                    modifier classes by tools/gen_states.py. Do not hand-edit.
+  behaviour.css     hand-written interaction: cursors, open/close, clipping
+  app.js            accordions, carousels, menus, selection, tooltips
+system/
+  index.html        guideline site — sidebar, search, deep links
+  nav.json          menu structure (order and names live here)
+  blocks/           98 component fragments, one file each
+  _check/           the six specimen sheets — source of truth
+  assets/           docs.css (specimen chrome), shell.css (site chrome)
+tools/              scripts that derive blocks/ and interactions.css
 ```
+
+**Guideline site:** `system/index.html` — every component gets a hash URL such
+as `#01-elements/ctl-01-button`, so a single component can be linked to
+directly. Search filters by name and purpose; the width buttons preview a block
+at 1920 / 1280 / 768 / 390.
+
+The site and the prototype load the *same* CSS. A change to a token or a
+component appears in the documentation and in the screens at once.
 
 ## Editing
 

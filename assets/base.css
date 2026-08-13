@@ -1,0 +1,133 @@
+/* ============================================================
+   FIBA 3x3 Nations League — base.css
+   Reset, typography scale and the 45° cut treatment.
+   Generated from design-system/*.html — edit here, not there.
+   ============================================================ */
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+body {
+  background:var(--surface-page);
+  color:var(--text-primary);
+  font-family:'Barlow',sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+b {
+  font-weight:700;
+}
+.cut {
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));
+}
+.cut-l {
+  --c:16px;
+}
+.cut-m {
+  --c:12px;
+}
+.cut-out > *:not(.cutfill) {
+  position:relative;
+}
+.cut-out {
+  --ic:calc(var(--c) - 0.586 * var(--n,1px));
+}
+.cut-s {
+  --c:8px;
+}
+.t-h2 {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:32px;
+  line-height:36px;
+  letter-spacing:-0.2px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.t-h3 {
+  font-family:'Barlow',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  line-height:26px;
+  color:var(--text-primary);
+}
+.t-body-m {
+  font-family:'Barlow',sans-serif;
+  font-weight:400;
+  font-size:16px;
+  line-height:24px;
+  color:var(--text-secondary);
+}
+.t-body-s {
+  font-family:'Barlow',sans-serif;
+  font-weight:400;
+  font-size:14px;
+  line-height:20px;
+  color:var(--text-secondary);
+}
+.t-body-l {
+  font-family:'Barlow',sans-serif;
+  font-weight:400;
+  font-size:18px;
+  line-height:28px;
+  color:var(--text-secondary);
+}
+.t-label {
+  font-family:'Barlow',sans-serif;
+  font-weight:600;
+  font-size:14px;
+  line-height:18px;
+  color:var(--text-primary);
+}
+.t-caption {
+  font-family:'Barlow',sans-serif;
+  font-weight:600;
+  font-size:12px;
+  line-height:16px;
+  letter-spacing:0.6px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+}
+.t-data-m {
+  font-family:'Barlow',sans-serif;
+  font-weight:600;
+  font-size:16px;
+  line-height:20px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text-primary);
+}
+.focus-ring {
+  outline:2px solid var(--action-default);
+  outline-offset:2px;
+}
+.lbl {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:inherit;
+  font:inherit;
+  letter-spacing:inherit;
+  text-transform:inherit;
+}
+.lbl {
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  color:inherit;
+  font:inherit;
+  letter-spacing:inherit;
+  text-transform:inherit;
+}
+.cutfill {
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  background:var(--of,var(--surface-page));
+  clip-path:polygon(var(--ic) 0,100% 0,100% calc(100% - var(--ic)),calc(100% - var(--ic)) 100%,0 100%,0 var(--ic));
+}
+.cut-in {
+  clip-path:polygon(var(--ic) 0,100% 0,100% calc(100% - var(--ic)),calc(100% - var(--ic)) 100%,0 100%,0 var(--ic));
+}

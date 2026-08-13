@@ -1,0 +1,438 @@
+/* ============================================================
+   FIBA 3x3 Nations League — interactions.css   GENERATED FILE
+   Produced by tools/gen_states.py. Do not hand-edit.
+
+   Each rule copies the declarations of its specimen modifier
+   class verbatim, so the documented state and the live state
+   cannot drift apart. Change the modifier, then regenerate.
+   Hand-written behaviour lives in assets/behaviour.css.
+   ============================================================ */
+
+/* from .btn-primary-hover */
+.live .btn-primary:hover {
+  background:var(--action-hover);
+  color:var(--text-inverse);
+}
+
+/* from .btn-primary-active */
+.live .btn-primary:active {
+  background:var(--action-pressed);
+  color:var(--text-inverse);
+}
+
+/* from .btn-primary-focus */
+.live .btn-primary:focus-visible {
+  --of:var(--action-default);
+  color:var(--text-inverse);
+  border:2px solid transparent;
+  background:var(--surface-page);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .btn-outline-hover */
+.live .btn-outline:hover {
+  --of:var(--surface-sunken);
+  color:var(--text-primary);
+  border:1px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .btn-outline-active */
+.live .btn-outline:active {
+  background:var(--surface-sunken-2);
+  color:var(--text-primary);
+  border:1px solid var(--action-default);
+}
+
+/* from .btn-outline-focus */
+.live .btn-outline:focus-visible {
+  --of:var(--surface-page);
+  color:var(--text-primary);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .btn-ghost-hover */
+.live .btn-ghost:hover {
+  background:var(--action-ghost-bg);
+  color:var(--text-primary);
+}
+
+/* from .btn-ghost-active */
+.live .btn-ghost:active {
+  background:var(--surface-sunken-2);
+  color:var(--text-primary);
+}
+
+/* from .btn-ghost-focus */
+.live .btn-ghost:focus-visible {
+  --of:var(--action-ghost-bg);
+  color:var(--text-primary);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .lnk-hover */
+.live .lnk:hover {
+  color:var(--action-default);
+  border-bottom:2px solid var(--action-default);
+  padding-bottom:0;
+}
+
+/* from .lnk-focus */
+.live .lnk:focus-visible {
+  color:var(--action-default);
+  border-bottom:2px solid var(--action-default);
+  padding-bottom:0;
+  outline:2px solid var(--action-default);
+  outline-offset:4px;
+}
+
+/* from .tab-hover */
+.live .tab:not(.tab-active):hover {
+  color:var(--text-primary);
+  background:var(--surface-sunken);
+}
+
+/* from .tab-focus */
+.live .tab:focus-visible {
+  color:var(--text-primary);
+  outline:2px solid var(--action-default);
+  outline-offset:-2px;
+}
+
+/* from .fld-hover */
+.live .fld:hover {
+  border:1px solid transparent;
+  background:var(--border-strong);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .fld-focus-ring */
+.live .fld:focus-within {
+  --of:var(--surface-page);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .search-hover */
+.live .search:hover {
+  border:1px solid transparent;
+  background:var(--border-strong);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .search-focus */
+.live .search:focus-within {
+  border:2px solid transparent;
+  padding:0 15px 0 21px;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .chk-box-hover */
+.live .chk:hover .chk-box:not(.chk-box-on) {
+  border:1px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .chk-box-focus */
+.live .chk:focus-within .chk-box {
+  --of:var(--surface-page);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .el02-hover */
+.live .el02-seg:not(.el02-on):hover {
+  --of:var(--action-ghost-bg);
+  color:var(--text-primary);
+}
+
+/* from .el02-focus */
+.live .el02-seg:focus-visible {
+  --of:var(--surface-page);
+  color:var(--text-primary);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .chip-hover */
+.live .chip:not(.chip-on):hover {
+  border:1px solid transparent;
+  color:var(--text-primary);
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .chip-focus */
+.live .chip:focus-visible {
+  --of:var(--surface-page);
+  color:var(--text-primary);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .ftag-hover */
+.live .ftag:not(.ftag-plain):hover {
+  background:var(--surface-sunken-2);
+}
+
+/* from .ftag-focus */
+.live .ftag:focus-visible {
+  --of:var(--surface-sunken);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .pag-hover */
+.live .pag-i:not(.pag-cur):not(.pag-dis):hover {
+  --of:var(--surface-sunken);
+  border:1px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .pag-focus */
+.live .pag-i:focus-visible {
+  --of:var(--surface-page);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .trow-hover */
+.live .trow:hover {
+  background:var(--surface-sunken);
+}
+
+/* from .trow-focus */
+.live .trow:focus-visible {
+  background:var(--surface-page);
+  outline:2px solid var(--action-default);
+  outline-offset:-2px;
+}
+
+/* from .acm-row-hover */
+.live .acm-row:hover {
+  background:var(--surface-sunken);
+}
+
+/* from .acm-row-focus */
+.live .acm-row:focus-visible {
+  background:var(--surface-page);
+  outline:2px solid var(--action-default);
+  outline-offset:-2px;
+}
+
+/* from .ac-row-hover */
+.live .ac-row:hover {
+  background:var(--surface-sunken);
+}
+
+/* from .acc-head-hover */
+.live .acc-head:hover {
+  background:var(--surface-sunken);
+}
+
+/* from .ntab-hover */
+.live .ntab:not(.ntab-on):hover {
+  color:var(--chrome-text);
+  background:var(--chrome-hover);
+}
+
+/* from .ntab-focus */
+.live .ntab:focus-visible {
+  color:var(--text-primary);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .alpha-i.alpha-hover */
+.live .alpha-i:not(.alpha-on):not(.alpha-dis):hover {
+  background:var(--action-ghost-bg);
+  color:var(--text-primary);
+}
+
+/* from .card-hover */
+.live .card-int:hover {
+  border:1px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+
+/* from .card-focus */
+.live .card-int:focus-visible {
+  --of:var(--surface-page);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .dsel-hover */
+.live .dsel:hover {
+  background:#3A3A3A;
+}
+
+/* from .dsel-focus */
+.live .dsel:focus-visible {
+  --of:#262626;
+  border:2px solid transparent;
+  background:#FFFFFF;
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .dsel-item-hover */
+.live .dsel-item:hover {
+  background:var(--surface-sunken);
+}
+
+/* from .crumb-hover */
+.live .crumb:not(.crumb-cur):hover {
+  color:var(--text-primary);
+  border-bottom:1px solid var(--action-default);
+}
+
+/* from .shm-i-hover */
+.live .shm-i:hover {
+  background:var(--surface-sunken);
+}
+
+/* from .dotb-hover */
+.live .dotb:not(.dotb-sel):hover {
+  background:var(--action-hover);
+  color:var(--text-inverse);
+}
+
+/* from .dotb-focus */
+.live .dotb:focus-visible {
+  --of:var(--action-default);
+  color:var(--text-inverse);
+  border:2px solid transparent;
+  background:var(--surface-page);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .dotb-active */
+.live .dotb:active {
+  background:var(--action-pressed);
+  color:var(--text-inverse);
+}
+
+/* from .wl-hover */
+.live .wl:hover {
+  background:var(--action-hover);
+}
+
+/* from .wl-focus-live */
+.live .wl-live:focus-visible {
+  --of:var(--status-live);
+  color:#FFFFFF;
+  border:2px solid transparent;
+  background:var(--surface-page);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .wl-focus-dark */
+.live .wl-dark:focus-visible {
+  --of:var(--action-default);
+  color:var(--text-inverse);
+  border:2px solid transparent;
+  background:var(--surface-page);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .wl-focus-ghost */
+.live .wl-ghost:focus-visible {
+  --of:var(--surface-page);
+  color:var(--text-primary);
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+  position:relative;
+  --n:2px;
+}
+
+/* from .f03-i.f03-hover */
+.live .f03-i:not(.f03-dis):hover {
+  color:var(--chrome-text);
+  background:var(--chrome-hover);
+}
+
+/* from .e09-cell-hover */
+.live .e09-cell:hover {
+  background:var(--action-default);
+}
+
+/* from .mm-l-hover */
+.live .mm-l:hover {
+  color:var(--chrome-accent);
+}
+
+/* from .s03-hover */
+.live .s03-d:not(.s03-on):not(.s03-off):hover {
+  background:var(--border-strong);
+}
+
+/* from .s03-focus */
+.live .s03-d:focus-visible {
+  background:var(--action-default);
+  --n:2px;
+  border:2px solid transparent;
+}

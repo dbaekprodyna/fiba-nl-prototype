@@ -1,0 +1,248 @@
+# Changelog
+
+## 2026-08-13 — Review round 4 + guideline site
+
+### Why the same bugs kept coming back
+
+Two of my own patches were silently doing nothing.
+
+1. A `str.replace()` that did not match (the file had `box-shadow:inset`, the
+   patch looked for `box-shadow: inset`) — so the C-02 / C-04 underline fix was
+   never applied, twice.
+2. A shell command chained with `&&` where an earlier `rm` failed on a
+   permission error, so the heredoc that appended half of interactions.css
+   never ran.
+
+Every patch now asserts that it changed something and fails loudly if not.
+
+### Structural change: generated state rules
+
+`assets/interactions.css` is now **generated** by `tools/gen_states.py`. Each
+`.live X:hover` rule copies the declarations of its specimen modifier class
+verbatim, so a documented state and the live state cannot drift. This is what
+caused the wrong Outline-button and WatchLive hovers: the hand-written rule
+repainted the border layer where the specimen tints the fill. Hand-written
+interaction moved to `assets/behaviour.css`.
+
+### The bracket corner, third attempt
+
+`.cutfill` is the first DOM child of every cut container, so
+`.s06-side:first-of-type` matched *it*, never the first row. Replaced with an
+adjacency selector.
+
+### Fixes
+
+- ctl-01 / ctl-07 / ctl-04 / el-11 — hover and focus now match the specimen.
+- el-06 StopDots — the interactive dot adopts the Button Filled state set.
+- el-07, S-01, R-02, T · Conference, T · Standings — el-09 Legend under the
+  table, flush, no top border.
+- el-16 Card — flat at rest, e2 shadow on hover.
+- el-21 Tooltip — the arrow is held on the anchor and hides with the bubble
+  (it sits *before* the bubble, so a sibling selector could never reach it).
+- el-22 — all five bars animate through the set.
+- el-30 CalendarStrip — day-cell states documented: default, hover, focus,
+  selected, disabled.
+- S-04 GameList — targeted `.c-away` / `.c-box`, the classes this markup
+  actually uses; an earlier fix aimed at `.s04-team`, which does not exist.
+- S-09 — the black and red segments overlap by 4px.
+- C-03 — viewer controls reuse the documented icon button; `.lb-img` no longer
+  forced to 3:2, which was pushing the photo over the modal header.
+- F-03m — mobile "More" sheet built, grouped as Nations League / Info /
+  Competition Family, matching the reference prototype.
+- T · Home — the logo link is vertically centred again (an `align-self` I added
+  last round was the cause); the Live now filter defaults to All.
+
+### Step 2 — guideline site
+
+`system/index.html`. Sidebar, search, deep-linkable hash URLs, viewport preview,
+and a stage that scales a 1920 sheet to fit the pane. **98 blocks** split out of
+the six sheets by `tools/split_blocks.py` into `system/blocks/`, with
+`system/nav.json` driving the menu.
+
+To edit: content lives in the block fragment, order and names in `nav.json`,
+looks in `assets/*.css`. All single-file changes.
+
+## 2026-08-13 — Review round 3
+
+**Root cause of the dead Live demos.** Building a demo meant stripping the
+forced-state classes off a specimen. `btn-primary-hover` was deleted whole —
+so the variant `btn-primary` went with it and the clone was a bare `.btn` with
+no styling and nothing to hover. Same for `wl-focus-live`, which survived the
+strip (the suffix is in the middle) and pinned WatchLive permanently in focus.
+
+Stripping now *maps* a state class back to its resting class instead of
+deleting it, keeping the result only when it extends a class the element
+already has. All 35 demos rebuilt. A handful also get an explicit source state
+(ctl-01 and ctl-07 show all three variants, el-06 the interactive stop
+selector, el-13 and el-14 the dismissible variants, el-23 four levels).
+
+**Root cause of the missing corners.** A cut container paints its 45° corners
+with its own background. Any child that fills edge to edge paints straight over
+them — a collapsed accordion header, the first and last row of a bracket card,
+a photo tile. Those children now carry the same cut sized to the inner radius
+(`--ic`). This fixes el-07, S-01, S-06 and the C-03 viewer at once.
+
+**Root cause of the wrong underlines.** `box-shadow: inset` follows the *box*,
+so a headline in a block underlined the empty space after the text. Replaced
+with `text-decoration` + offset everywhere, which follows the text.
+
+**Root cause of the sliver photos.** `.car-slide` had a fixed width but the
+default `flex-shrink: 1`, so doubling the slide count squeezed them into
+portrait slivers. Slides, tiles, thumbnails and the viewer image are now
+`flex: 0 0 auto` with a 3:2 ratio.
+
+**Also fixed**
+
+- el-11 / ctl-04 — focus lived on the inner `<input>`, so the painted container
+  never matched `:focus-visible`. Now `:focus-within`.
+- el-19 — the caret came from whichever specimen was cloned and could already
+  point up. It is replaced at init with one known chevron; rotation alone
+  expresses the state.
+- el-22 — the progress bar snapped back to empty once the playhead moved past
+  it. It now stays filled.
+- el-13 / el-14 — clicking the X removes the chip.
+- el-21 — the info anchor opens and closes the tooltip.
+- el-23 — the current breadcrumb is not hoverable or clickable.
+- el-30 / S-03 — selected day is filled with inverse text, like every other
+  selected control. T · Home's 22nd now reads as selected.
+- F-06 — sponsor and social marks have default, hover and focus states.
+- S-04 — the away team reads name, code, flag; Box Score is centred on the row.
+- R-02 — every table using Q / S / R markers carries the legend beneath it.
+- E-11 — the search field is the width of the results; the dark skeleton pulses
+  in chrome grey.
+- C-03 viewer — download, share and close are real controls with states.
+- T · Home — Advertising is a full-width section again, left-aligned and spaced
+  like every other section. It sits after the split, so collapsing Live now does
+  not move it as long as Qualification is the taller column.
+- T · Conference — Conference standings and Games are both 1440 wide.
+
+## 2026-08-13 — Review round 2
+
+**Live demos now actually work.** The demo blocks cloned each component's
+*default* state, which for a field, checkbox or disclosure row is a painted
+`<div>` with nothing to operate. Two changes: the demo now clones the **richest**
+state (so el-19 gets its body, el-28 its menu, ctl-04 its open select), and
+`assets/app.js` gained real behaviour.
+
+- ctl-04 — a real `<input>` in the field, plus a dark select that opens, selects
+  and writes the value back to the trigger.
+- ctl-05 — checkbox toggles.
+- el-11 — real search `<input>`.
+- el-19 — disclosure rows open and close.
+- el-22 — a standalone CarouselIndicator runs its own auto-advance loop.
+- el-28 — share menu opens from the trigger and closes on outside click.
+
+**More stale cut-border rules found.** The round-1 merge only promoted the fixed
+version when 02-elements had it. Rule corrected to "modern wins from any file",
+which repaired five more: `.c02-card`, `.lb`, `.lb-nav`, `.car-btn-dis`,
+`.s03-d` — the cause of the broken corners in C-02 NewsRail, the C-03 viewer and
+the T · Stop bracket.
+
+**Fixes**
+
+- *el-18* — the assembled 390px bar had Home pushed out of line, from a stray
+  `.darkbed` wrapper round-1 put inside the bar. Unwrapped; `tabbar-dark` now
+  sits on the bar itself.
+- *el-20 / T · Conferences* — `.lnk` no longer stretches, so the hover underline
+  is the width of the link rather than the row.
+- *R-01* — the Q / S legend moved out to sit flush under the R-02 table, no top
+  border, zero spacing.
+- *E-08* — the keyvisual artwork had an intrinsic pixel width, so it only looked
+  full-bleed on the 240 and 180 cards where it overflowed. Now 100% at all sizes.
+- *E-10* — list rows hover like table rows.
+- *E-11 / T · Search* — results presented on the dark chrome surface, rows hover
+  with `--chrome-hover` (same as el-18).
+- *C-02 / C-04 / T · Home / T · News* — one shared news interaction: card hover
+  repaints the cut-aware border, headline underlines to its own width.
+- *C-03 / T · Home* — twice the photos, indicator extended to match. Pause works
+  and the icon swaps to Play. Previous works (the specimen shows it disabled at
+  position 0; the live carousel wraps).
+- *C-04 / T · News* — category filter removed.
+- *T · Home* — Advertising headline removed and the slot pinned inside the right
+  column under Qualification, so collapsing Live now no longer moves it.
+- *T · Standings* — table fills the 1440 content width.
+- *T · Article* — category chip removed; Share button has a hover state.
+- *Wording* — "Find your federation" renamed to **Find a team** everywhere, so
+  the E-01 section header matches the footer link. Changed in the specimen
+  sheets and in `design-system/` too, so a future html.to.design import does not
+  reintroduce the old label.
+
+## 2026-08-13 — Review round 1
+
+**Interaction model reworked.** The 57 auto-generated `:hover` pairs from the
+extraction were wrong in two ways: they made the specimen sheets react to the
+pointer, and several of them targeted a container instead of the item inside it
+(the whole nav bar lit up instead of one nav item). All 57 were removed.
+
+- New `assets/interactions.css` — every interactive rule is scoped to `.live`.
+  Specimen state rows are frozen; only `.live` blocks respond to the pointer.
+- Correct targets derived from the markup, not from the class name:
+  `.f03-i` not `.f03`, `.alpha-i` not `.alpha`, `.disc-head` not `.disc`,
+  `.pag-i` not `.pag`, `.el02-seg` not `.el02`.
+- **35 Live demo blocks** added, one under each element in 02-elements.
+- Module and template frames are live; state rows labelled hover/focus/active
+  stay static.
+
+**Fixes**
+
+- *Foundations 06* — `.bs-box` had lost `position:relative` in the merge, so
+  `.cutfill` escaped its box and the branded gradient painted as a fill instead
+  of a stroke. Restored.
+- *SVG case* — HTML parsers lowercase attribute names and SVG is case-sensitive,
+  so `viewBox` became `viewbox` and every flag, icon and logo broke. 2,612 names
+  restored; `tools/fix_svg_case.py` added and `relink2.py` hardened.
+- *el-02 GenderSwitch* — segments had no border at all, so hover read as a flat
+  grey rectangle. They now use the cut-aware border, and hover tints the interior
+  while keeping the 45° corner.
+- *el-18 NavTab* — documented on the dark chrome bar it actually sits on. Hover
+  surface changed from `--action-ghost-bg` to the new `--chrome-hover` (#2E2E2E).
+- *el-19 DisclosureRow* — hover moved from the whole panel to the header only.
+  Dark variant uses `--chrome-hover`.
+- *el-25 AlphaIndex* — hover moved from the row to the individual letter.
+- *el-26 Skeleton* — loading pulse added (1.6s, reduced-motion aware).
+- *F-03 CompetitionNav* — hover moved from the bar to the nav item.
+- *S-03 CalendarStrip* — base day-cell states declared: today, hover, focus,
+  live, disabled.
+- *S-05 Pools · S-06 Bracket · R-01 QualificationBoard · Standings table* —
+  whole-row hover.
+- *E-03 ConferenceGrid* — underline drawn with an inset shadow so it matches the
+  text width instead of spanning the flex row.
+- *E-09 FederationDirectory* — hover repaints the cut-aware border layer, so the
+  colour change follows the 45° corner.
+- *Season status* — branded stroke rotates (12s, `@property --bs-angle`).
+- *Photos* — carousel works: slides translate, indicator fills over the dwell
+  time, play/pause toggles, dots are clickable.
+- *Live now* — accordions work; the first opens on load, the rest stay closed.
+
+**New files:** `assets/interactions.css`, `assets/app.js`,
+`tools/fix_svg_case.py`.
+
+**Still to confirm visually:** *el-15 AutocompleteMenu* — the two-surface hover
+could not be reproduced from the code alone. A screenshot of the hover row would
+pin it down.
+
+## 2026-08-13 — CSS extraction
+
+Stylesheets lifted out of the six `design-system/*.html` specimen sheets into a
+shared, hand-editable library.
+
+- **898 selectors** analysed across the six sheets; 810 appeared in more than one.
+- **72 conflicts** found. 66 were one issue: the cut-aware border technique
+  (`--of` / `--n` / `.cutfill`) had been applied to `02-elements.html` but only
+  partially propagated to the module and template sheets.
+- Markup was checked and found **already consistent** — every element using a
+  cut-border class already carried its `.cutfill` child. So the stale CSS meant
+  **46 rules were rendering the 45° border incorrectly** in the module and
+  template sheets. Merging fixed them.
+- Remaining 6 conflicts resolved by hand: `:root` (union, 40 variables),
+  `.t-h2` (28/32 → 32/36, foundations was stale), `.lbl`, and three doc-chrome
+  rules that moved to `system/assets/docs.css`.
+- **57 pseudo-class pairs** generated: every `.x-hover` / `.x-focus` / `.x-active`
+  specimen class now also fires as `.x:hover` / `.x:focus-visible` / `.x:active`.
+  The specimen sheets and real interaction run off the same code.
+- Motion tokens and `motion.css` added (transitions, scroll reveal, view
+  transitions, reduced-motion).
+
+Files: `assets/tokens.css` `base.css` `elements.css` `modules.css` `motion.css`,
+`system/assets/docs.css`. Relinked specimen sheets in `system/_check/` for
+visual comparison against the originals.

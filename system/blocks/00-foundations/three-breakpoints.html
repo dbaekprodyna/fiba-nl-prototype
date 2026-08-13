@@ -1,0 +1,36 @@
+<div class="fn-block">
+<h3 class="t-h3 fn-block-title">Three breakpoints</h3>
+<p class="t-body-s fn-note">Column counts follow the current mainstream convention — four on a handset, eight on a portrait tablet, twelve from laptop width up. Breakpoint boundaries at 600 and 1024 match the Material 3 window-size classes and sit between the Bootstrap sm/md and md/lg steps, so a layout described here translates without re-mapping.</p>
+<div class="bp-row"><div class="bp-mobile bp-card cut cut-s cut-out"><div class="cutfill"></div>
+<div class="bp-head"><div class="t-h3">Mobile</div><div class="t-caption">&lt; 600</div></div>
+<div class="bp-specs">
+<div class="bp-s"><div class="t-caption spec-k">Design width</div><div class="t-data-m">390px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Columns</div><div class="t-data-m">4</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Gutter</div><div class="t-data-m">16px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Margin</div><div class="t-data-m">16px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Column</div><div class="t-data-m">77.5px</div></div>
+</div>
+<div class="bp-demo" style="padding:0 16.4px;gap:16.4px"><div class="grid-column grid-col grid-col-mobile"></div><div class="grid-column grid-col grid-col-mobile"></div><div class="grid-column grid-col grid-col-mobile"></div><div class="grid-column grid-col grid-col-mobile"></div></div>
+<div class="t-body-s bp-note">iPhone-class handset. Content is single-column; the four columns exist for halves and thirds only.</div></div><div class="bp-tablet bp-card cut cut-s cut-out"><div class="cutfill"></div>
+<div class="bp-head"><div class="t-h3">Tablet</div><div class="t-caption">600 – 1023</div></div>
+<div class="bp-specs">
+<div class="bp-s"><div class="t-caption spec-k">Design width</div><div class="t-data-m">768px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Columns</div><div class="t-data-m">8</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Gutter</div><div class="t-data-m">24px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Margin</div><div class="t-data-m">32px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Column</div><div class="t-data-m">67px</div></div>
+</div>
+<div class="bp-demo" style="padding:0 16.7px;gap:12.5px"><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div><div class="grid-column grid-col grid-col-tablet"></div></div>
+<div class="t-body-s bp-note">Portrait tablet. Tables drop their lowest-priority columns rather than scrolling sideways.</div></div><div class="bp-desktop bp-card cut cut-s cut-out"><div class="cutfill"></div>
+<div class="bp-head"><div class="t-h3">Desktop</div><div class="t-caption">1024 +</div></div>
+<div class="bp-specs">
+<div class="bp-s"><div class="t-caption spec-k">Design width</div><div class="t-data-m">1440px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Columns</div><div class="t-data-m">12</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Gutter</div><div class="t-data-m">24px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Margin</div><div class="t-data-m">0px</div></div>
+<div class="bp-s"><div class="t-caption spec-k">Column</div><div class="t-data-m">98px</div></div>
+</div>
+<div class="bp-demo" style="padding:0 0.0px;gap:6.7px"><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div><div class="grid-column grid-col grid-col-desktop"></div></div>
+<div class="t-body-s bp-note">Content frame centred in a 1920 viewport with 240px of viewport space each side.</div></div></div>
+<div class="figma-note cut cut-s"><div class="t-label">In Figma</div><div class="t-body-s">Build each breakpoint as its own fixed-width frame — 390, 768 and 1440 — rather than as a fluid layout. Figma has no notion of a fluid grid, so a responsive page still imports as one frame at whatever width it was captured. The three widths become a <code>breakpoint</code> variant property on every module that changes shape.</div></div>
+</div>

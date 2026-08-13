@@ -1,0 +1,339 @@
+/* ============================================================
+   FIBA 3x3 Nations League — docs.css
+   Specimen-sheet chrome. Used by the guideline site only.
+   Generated from design-system/*.html — edit here, not there.
+   ============================================================ */
+
+.doc {
+  display:flex;
+  flex-direction:column;
+  width:1920px;
+}
+.doc-header {
+  display:flex;
+  justify-content:center;
+  width:1920px;
+  padding:64px 240px 48px 240px;
+  background:var(--surface-sunken);
+  border-bottom:1px solid var(--border-default);
+}
+.doc-header-inner {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:1440px;
+}
+.doc-title {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:56px;
+  line-height:56px;
+  letter-spacing:-0.5px;
+  text-transform:uppercase;
+}
+.doc-sub {
+  max-width:830px;
+}
+.doc-meta {
+  color:var(--text-muted);
+  padding-top:8px;
+}
+.doc-content {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  width:1920px;
+  padding:0 240px;
+}
+.el-block {
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  width:1440px;
+  padding:56px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.ds-name {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:28px;
+  line-height:32px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.el-head {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.el-purpose {
+  max-width:952px;
+  color:var(--text-secondary);
+}
+.el-states {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:40px;
+  align-items:flex-start;
+}
+.el-states-col {
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+}
+.el-state {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  align-items:flex-start;
+}
+.el-state-label {
+  color:var(--text-muted);
+}
+.el-note {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:16px 20px 18px 24px;
+  background:#F1F3FF;
+  border-left:2px solid #253AFF;
+  max-width:952px;
+}
+.bs-box {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:432px;
+  height:200px;
+}
+.bs-box {
+  border-style:solid;
+  border-color:transparent;
+}
+.m-block {
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+  width:1440px;
+  padding:64px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.m-block-full {
+  width:1920px;
+  padding:64px 0;
+}
+.m-block-full .m-head {
+  padding:0 240px;
+}
+.m-block-full .m-state {
+  padding:0 240px;
+}
+.m-block-full .m-state-bleed {
+  padding:0;
+}
+.m-block-full .el-note {
+  margin:0 240px;
+}
+.m-head {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+.m-family {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+  width:1440px;
+  padding:40px 0 8px 0;
+}
+.doc-header {
+  padding:64px 240px 48px 240px;
+}
+.m-family-name {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:40px;
+  line-height:44px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.m-family-desc {
+  color:var(--text-muted);
+  padding-bottom:4px;
+}
+.m-states {
+  display:flex;
+  flex-direction:column;
+  gap:28px;
+}
+.m-state {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.m-frame {
+  display:flex;
+  flex-direction:column;
+  width:1440px;
+}
+.tpl-block {
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  width:1920px;
+  padding:56px 0 72px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.tpl-head {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:0 240px;
+}
+.tpl-frame {
+  display:flex;
+  flex-direction:column;
+  width:1920px;
+}
+.doc-eyebrow {
+  color:var(--text-muted);
+}
+.fn-section {
+  display:flex;
+  flex-direction:column;
+  gap:32px;
+  width:1440px;
+  padding:64px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.fn-section-head {
+  display:flex;
+  flex-direction:row;
+  gap:24px;
+  align-items:flex-start;
+}
+.fn-section-num {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  background:var(--action-default);
+  color:var(--text-inverse);
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:24px;
+  clip-path:polygon(8px 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%,0 8px);
+}
+.fn-section-titles {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.fn-note {
+  max-width:952px;
+  color:var(--text-secondary);
+}
+.fn-block {
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.fn-block-title {
+  padding-top:12px;
+}
+.spec-strip {
+  display:flex;
+  flex-direction:row;
+  gap:1px;
+  background:var(--border-subtle);
+  width:1440px;
+}
+.spec-item {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  flex:1 1 0;
+  padding:16px 20px;
+  background:var(--surface-raised);
+}
+.spec-k {
+  color:var(--text-muted);
+}
+.swatch-row {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:16px;
+}
+.swatch {
+  display:flex;
+  flex-direction:column;
+  gap:0;
+  width:277px;
+  --of:var(--surface-page);
+  border:1px solid transparent;
+  background:var(--border-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+.swatch-chip {
+  width:275px;
+  height:72px;
+}
+.swatch-chip-bordered {
+  border-bottom:1px solid var(--border-subtle);
+}
+.swatch-meta {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:16px 16px 20px 20px;
+}
+.swatch-var {
+  font-family:'Barlow',monospace;
+}
+.swatch-raw {
+  color:var(--text-muted);
+  text-transform:none;
+  letter-spacing:0;
+}
+.swatch-foot {
+  display:flex;
+  flex-direction:row;
+  gap:8px;
+  align-items:center;
+}
+.swatch-use {
+  color:var(--text-muted);
+}
+.bs-box .t-label {
+  position:relative;
+}
+
+/* ---- Live demo block --------------------------------------
+   Sits under a component's state rows. The rows above are a
+   frozen specimen; this one actually responds to the pointer. */
+.live-demo {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  margin-top:8px;
+  padding:24px 28px 28px 28px;
+  background:var(--surface-raised);
+  border-left:2px solid var(--action-default);
+}
+.live-demo-label {
+  color:var(--text-primary);
+}
+.live-stage {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:24px;
+  align-items:flex-start;
+}

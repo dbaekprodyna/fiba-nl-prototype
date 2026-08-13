@@ -1,0 +1,213 @@
+/* ============================================================
+   FIBA 3x3 Nations League — behaviour.css
+   Hand-written interaction that has no specimen equivalent:
+   cursors, open/close, clipping, layout corrections.
+
+   Its sibling assets/interactions.css is GENERATED from the
+   specimen modifier classes by tools/gen_states.py.
+   Do not hand-edit that file — edit the modifier in
+   elements.css / modules.css and regenerate.
+   ============================================================ */
+
+.live .btn, .live .lnk, .live .tab, .live .chip, .live .card-int,
+.live .pag-i, .live .ntab, .live .alpha-i, .live .f03-i, .live .f03-search,
+.live .crumb:not(.crumb-cur), .live .disc-head, .live .acc-head,
+.live .acm-row, .live .ac-row, .live .e09-cell, .live .dsel, .live .dsel-item,
+.live .shm-i, .live .shm-trig, .live .ftag, .live .dotb, .live .wl,
+.live .el02-seg, .live .mm-l, .live .trow, .live .s05-row, .live .s06-side,
+.live .r01-row, .live .e10-row, .live .s03-d, .live .s03nav, .live .car-btn,
+.live .lb-tile, .live .lb-act, .live .lb-nav, .live .c02-card, .live .c02-hcard,
+.live .c04-row, .live .chip-x, .live .ftag-x, .live .tip-anchor,
+.live .f06-link, .live .f06-sponlogos > *, .live .f06-social > *,
+.live .stopnav-i, .live .ind-d, .live .ind-prog {
+  cursor: pointer;
+}
+.live .btn-primary-disabled, .live .btn-outline-disabled,
+.live .btn-ghost-disabled { cursor: default; }
+.live .crumb-cur { cursor: default; pointer-events: none; }
+
+/* ---- Row hovers — a module decision, not an element state ---- */
+.live .s05-row:hover  { background: var(--surface-sunken); }
+.live .s06-side:hover { background: var(--surface-sunken); }
+.live .r01-row:hover  { background: var(--surface-sunken); }
+.live .e10-row:hover  { background: var(--surface-sunken); }
+.live .c04-row:hover  { background: var(--surface-sunken); }
+.live .c02-card:hover { background: var(--action-default); }
+.live .e11-dark .e11-row:hover,
+.live .ovl .e11-row:hover { background: var(--chrome-hover); }
+.live .s03nav:not(.s03nav-dis):hover { background: var(--action-default); }
+.live .car-btn:not(.car-btn-dis):hover { background: var(--action-default); }
+.live .lb-nav:hover { background: var(--action-default); }
+
+/* ---- Headline underlines -------------------------------------
+   text-decoration follows the glyphs. A border or an inset shadow
+   follows the box, so a short last line gets underlined empty
+   space to the right of the text.                                */
+.live .c02-card:hover .c02-title,
+.live .c02-hcard:hover .c02-title,
+.live .c04-row:hover .c04-t,
+.live .e03-conf:hover .e03-name,
+.live .f06-link:hover,
+.live .crumb:not(.crumb-cur):hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.live .e03-conf:hover .e03-name { color: var(--text-primary); }
+
+/* ---- Corner cuts covered by edge-to-edge children -------------
+   A cut container paints its 45° corners with its own background.
+   Any child that fills edge to edge paints over them, so it has to
+   carry the same cut at the inner radius (--ic).
+
+   .cutfill is the FIRST DOM child of every cut container, so
+   :first-of-type matches that, never the first row. Use adjacency
+   instead — this is why the bracket kept its square top corner
+   through two rounds of fixes.                                   */
+.live [data-open="false"] > .acc-head,
+.live [data-open="false"] > .disc-head {
+  clip-path: polygon(var(--ic, 0px) 0, 100% 0, 100% calc(100% - var(--ic, 0px)),
+                     calc(100% - var(--ic, 0px)) 100%, 0 100%, 0 var(--ic, 0px));
+}
+.s06-game > .cutfill + .s06-side,
+.s06-game > .s06-side:first-child {
+  clip-path: polygon(var(--ic) 0, 100% 0, 100% 100%, 0 100%, 0 var(--ic));
+}
+.s06-game > .s06-side:last-child {
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - var(--ic)),
+                     calc(100% - var(--ic)) 100%, 0 100%);
+}
+
+/* ---- Live-demo form controls are real inputs ------------------ */
+.live .fld-in, .live .search-in {
+  flex: 1 1 0; min-width: 0; border: 0; outline: 0;
+  background: transparent; color: inherit; font: inherit; letter-spacing: inherit;
+}
+.live .fld-in::placeholder, .live .search-in::placeholder { color: var(--text-muted); }
+.live .fld:focus-within .fld-in,
+.live .search:focus-within .search-in { color: var(--text-primary); }
+
+/* ---- Open / close --------------------------------------------- */
+.live .acc-panel { display: block; }
+.live [data-open="false"] > .acc-panel { display: none; }
+.live .acc-head svg, .live .disc-head svg { transition: transform var(--dur-base) var(--ease-out); }
+.live [hidden] { display: none !important; }
+.live .shm-trig { user-select: none; }
+
+/* ---- Carousel -------------------------------------------------- */
+.live .car-viewport { overflow: hidden; width: 100%; }
+.live .car-stage { transition: transform var(--dur-slow) var(--ease-in-out); will-change: transform; }
+.live .ind-fill { width: 0; }
+.live .car-btn.car-playing .car-ico-play { display: none; }
+.live .car-btn.car-playing .car-ico-pause { display: block; }
+.live .car-btn:not(.car-playing) .car-ico-play { display: block; }
+.live .car-btn:not(.car-playing) .car-ico-pause { display: none; }
+
+/* ---- C-03 photographs keep a landscape ratio ------------------
+   Fixed width plus the default flex-shrink:1 squeezed slides into
+   slivers as soon as the set doubled. .lb-img is excluded — it has
+   its own fixed stage size and a ratio there overflowed the modal. */
+.car-slide, .lb-tile { flex: 0 0 auto; aspect-ratio: 3 / 2; height: auto; }
+.lb-tile {
+  position: relative; background-clip: border-box;
+  --n: 0px; border: 0 solid transparent; --of: var(--surface-sunken);
+}
+.live .lb-tile:hover { --n: 2px; border-width: 2px; background: var(--action-default); }
+
+/* ---- el-16 Card — rests flat (e0), lifts on hover (e2) -------- */
+.live .card-int { transition: filter var(--dur-fast) var(--ease-out); }
+.live .card-int:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
+
+/* ---- S-04 GameList — the away side mirrors the home side ------
+   Reading outward from the score: name, code, flag. The cells are
+   .c-home / .c-away, not .s04-team — an earlier fix targeted
+   classes that do not exist in this markup.                      */
+.c-away { justify-content: flex-end; }
+.c-away .ftag, .c-away .ftag-txt { flex-direction: row-reverse; }
+.c-box { align-items: center; }
+
+/* ---- S-09 SeasonStatus — the two segments meet ---------------- */
+.s09-live { margin-left: -4px; }
+
+/* ---- E-11 SearchResults --------------------------------------- */
+.e11 > .search, .e11-dark > .search { width: 100%; }
+.e11-dark .sk { background: var(--chrome-bg-2); }
+@media (prefers-reduced-motion: no-preference) {
+  .e11-dark .sk { animation: sk-pulse-dark 1.6s var(--ease-in-out) infinite; }
+}
+@keyframes sk-pulse-dark {
+  0%, 100% { background: var(--chrome-bg-2); }
+  50%      { background: #3A3A3A; }
+}
+
+/* ---- el-09 Legend attached flush to a table ------------------- */
+.legend-attached { margin-top: 0; padding-top: 12px; border-top: 0; }
+
+/* ---- F-06 SiteFooter — sponsor and social marks are links ----- */
+.f06-sponlogos > *, .f06-social > * {
+  color: var(--chrome-text-muted); opacity: .75;
+  transition: color var(--dur-fast) var(--ease-out), opacity var(--dur-fast) var(--ease-out);
+}
+.live .f06-sponlogos > *:hover, .live .f06-social > *:hover { color: var(--chrome-text); opacity: 1; }
+.live .f06-sponlogos > *:focus-visible, .live .f06-social > *:focus-visible {
+  outline: 2px solid var(--chrome-text); outline-offset: 3px; opacity: 1;
+}
+.live .f06-link:hover { color: var(--chrome-text); }
+
+/* ---- F-03m mobile "More" sheet --------------------------------
+   Full-screen panel on the chrome surface, matching the reference
+   prototype's grouping: Nations League / Info / Competition Family. */
+.f03m-sheet {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  width: 390px;
+  background: var(--chrome-bg);
+  color: var(--chrome-text);
+  z-index: 20;
+}
+.f03m-sheet-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+  padding: 0 16px 0 20px;
+  border-bottom: 1px solid var(--chrome-line);
+}
+.f03m-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 20px 24px 20px;
+  overflow-y: auto;
+}
+.f03m-grp { display: flex; flex-direction: column; gap: 2px; padding: 14px 0 6px 0; }
+.f03m-grp + .f03m-grp { border-top: 1px solid var(--chrome-line); }
+.f03m-grp-h {
+  font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 12px;
+  letter-spacing: 1px; text-transform: uppercase; color: var(--chrome-text-muted);
+  padding-bottom: 6px;
+}
+.f03m-l {
+  display: flex; align-items: center; justify-content: space-between;
+  min-height: 48px; padding: 0 4px;
+  font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 17px;
+  color: var(--chrome-text);
+}
+.f03m-ext { color: var(--chrome-text-muted); font-size: 14px; }
+.live .f03m-l { cursor: pointer; }
+.live .f03m-l:hover { background: var(--chrome-hover); }
+.live .f03m-l:focus-visible { outline: 2px solid var(--chrome-text); outline-offset: -2px; }
+.f03m-stage { position: relative; }
+
+/* ---- Keyboard focus fallback ---------------------------------- */
+.live :focus-visible:not(.cut-out):not(.btn):not(.chip):not(.ftag):not(.card-int) {
+  outline: 2px solid var(--action-default);
+  outline-offset: 2px;
+}
+.live .disc-dark :focus-visible, .live .f03 :focus-visible,
+.live .tabbar :focus-visible, .live .ovl :focus-visible,
+.live .e11-dark :focus-visible, .live .f03m-sheet :focus-visible {
+  outline-color: var(--chrome-text);
+}

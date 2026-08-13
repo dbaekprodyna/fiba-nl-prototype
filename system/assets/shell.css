@@ -1,0 +1,208 @@
+/* ============================================================
+   FIBA 3x3 Nations League — shell.css
+   Chrome for the guideline site: sidebar, top bar, stage.
+   Deliberately separate from the design system's own CSS —
+   nothing here should ever leak into a component.
+   ============================================================ */
+
+.shell {
+  display: grid;
+  grid-template-columns: 288px minmax(0, 1fr);
+  min-height: 100vh;
+  background: var(--surface-page);
+}
+
+/* ---- sidebar ------------------------------------------------ */
+.nav {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background: var(--chrome-bg);
+  color: var(--chrome-text);
+  border-right: 1px solid var(--chrome-line);
+}
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 20px 18px 24px;
+  color: inherit;
+  text-decoration: none;
+  border-bottom: 1px solid var(--chrome-line);
+}
+.nav-brand-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: var(--chrome-text);
+  color: var(--chrome-bg);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 19px;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+.nav-brand-txt {
+  font-family: 'Barlow', sans-serif;
+  font-size: 13px;
+  line-height: 17px;
+  letter-spacing: 0.3px;
+  color: var(--chrome-text-muted);
+}
+.nav-brand-txt b { color: var(--chrome-text); font-weight: 700; }
+
+.nav-search { padding: 14px 16px 10px 20px; }
+.nav-search input {
+  width: 100%;
+  height: 38px;
+  padding: 0 12px;
+  background: var(--chrome-bg-2);
+  border: 1px solid transparent;
+  color: var(--chrome-text);
+  font: 600 14px 'Barlow', sans-serif;
+  outline: none;
+}
+.nav-search input::placeholder { color: var(--chrome-text-muted); }
+.nav-search input:focus { border-color: var(--chrome-text); }
+
+.nav-tree { flex: 1 1 0; overflow-y: auto; padding: 4px 8px 20px 8px; }
+.grp { padding: 10px 0 6px 0; }
+.grp-h {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 12px;
+  font: 600 11px 'Barlow', sans-serif;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--chrome-text-muted);
+}
+.grp-h span { opacity: .6; }
+.grp-i {
+  display: block;
+  padding: 8px 12px;
+  color: var(--chrome-text-muted);
+  font: 600 14px 'Barlow', sans-serif;
+  text-decoration: none;
+  border-left: 2px solid transparent;
+}
+.grp-i:hover { color: var(--chrome-text); background: var(--chrome-hover); }
+.grp-i.on {
+  color: var(--chrome-text);
+  background: var(--chrome-hover);
+  border-left-color: var(--status-live);
+}
+.grp-none { padding: 16px 12px; color: var(--chrome-text-muted); font: 400 14px 'Barlow', sans-serif; }
+
+.nav-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-top: 1px solid var(--chrome-line);
+  font: 600 12px 'Barlow', sans-serif;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--chrome-text-muted);
+}
+.nav-foot a { color: var(--chrome-text); text-decoration: none; }
+.nav-foot a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+/* ---- main pane ---------------------------------------------- */
+.main { display: flex; flex-direction: column; min-width: 0; }
+.bar {
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  height: 64px;
+  padding: 0 32px;
+  background: var(--surface-page);
+  border-bottom: 1px solid var(--border-subtle);
+}
+.bar-crumb { display: flex; align-items: baseline; gap: 10px; min-width: 0; }
+.bar-crumb span {
+  font: 600 11px 'Barlow', sans-serif;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.bar-crumb b {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.bar-tools { display: flex; align-items: center; gap: 12px; flex: 0 0 auto; }
+
+.seg { display: flex; border: 1px solid var(--border-default); }
+.seg button {
+  height: 32px;
+  padding: 0 12px;
+  background: var(--surface-page);
+  border: 0;
+  border-right: 1px solid var(--border-subtle);
+  font: 600 12px 'Barlow', sans-serif;
+  letter-spacing: 0.4px;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.seg button:last-child { border-right: 0; }
+.seg button.on { background: var(--action-default); color: var(--text-inverse); }
+.ghost {
+  height: 32px;
+  padding: 0 14px;
+  background: transparent;
+  border: 1px solid var(--border-default);
+  font: 600 12px 'Barlow', sans-serif;
+  letter-spacing: 0.4px;
+  cursor: pointer;
+}
+.ghost:hover { background: var(--surface-sunken); }
+
+/* ---- stage --------------------------------------------------- */
+.doc { flex: 1 1 0; padding: 32px; overflow-x: hidden; }
+.stage-wrap { overflow: hidden; }
+.stage { transform-origin: 0 0; }
+
+/* The specimen sheets carry their own page furniture; inside the
+   shell the block is the whole page, so that furniture is dropped. */
+.stage .doc-header, .stage .doc-meta { display: none; }
+.stage .el-block, .stage .m-block, .stage .tpl-block, .stage .fn-block {
+  width: 1440px;
+  border-bottom: 0;
+  padding-top: 0;
+}
+
+.empty-state { max-width: 620px; padding: 48px 0; }
+.empty-state h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 48px;
+  line-height: 1;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+.empty-state p { font: 400 17px/27px 'Barlow', sans-serif; color: var(--text-secondary); margin-bottom: 14px; }
+.empty-state .hint { font-size: 15px; color: var(--text-muted); }
+.loading { padding: 40px 0; color: var(--text-muted); font: 600 14px 'Barlow', sans-serif; }
+.src {
+  padding: 28px 0 8px 0;
+  font: 400 12px 'Barlow', sans-serif;
+  color: var(--text-muted);
+}
+.src code { font-family: ui-monospace, Menlo, monospace; }
+
+@media (max-width: 1100px) {
+  .shell { grid-template-columns: 1fr; }
+  .nav { position: static; height: auto; }
+  .nav-tree { max-height: 300px; }
+}

@@ -1,0 +1,70 @@
+/* ============================================================
+   FIBA 3x3 Nations League — motion.css
+   Transitions and animations. Timings come from tokens.css.
+   Generated from design-system/*.html — edit here, not there.
+   ============================================================ */
+
+@media (prefers-reduced-motion: no-preference) {
+  .btn, .chip, .card, .tab, .lnk, .pag-i, .ntab, .fld, .search,
+  .acc-row, .trow, .e09-cell, .s03-d, .car-btn, .lb-nav {
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      color            var(--dur-fast) var(--ease-out),
+      border-color     var(--dur-fast) var(--ease-out),
+      transform        var(--dur-fast) var(--ease-out);
+  }
+  .card-int:hover, .e09-cell:hover { transform: translateY(-2px); }
+  .acc-body { transition: grid-template-rows var(--dur-base) var(--ease-in-out); }
+}
+
+/* Scroll reveal — applied by app.js via IntersectionObserver */
+.reveal { opacity: 0; transform: translateY(16px); }
+.reveal.is-in {
+  opacity: 1; transform: none;
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+}
+
+/* Cross-document page transitions (progressive enhancement) */
+@view-transition { navigation: auto; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+    scroll-behavior: auto !important;
+  }
+  .reveal { opacity: 1; transform: none; }
+}
+
+/* ---- el-26 Skeleton — loading pulse ------------------------
+   The placeholder brightens and settles back on a loop, so a
+   slow API response reads as "loading" rather than "broken".  */
+.sk {
+  animation: sk-pulse 1.6s var(--ease-in-out) infinite;
+}
+@keyframes sk-pulse {
+  0%, 100% { background: var(--surface-sunken); }
+  50%      { background: var(--surface-raised); }
+}
+
+/* ---- Branded stroke — slow rotation ------------------------
+   Reserved for the single hero container per page (the season
+   status block). @property makes the angle animatable.        */
+@property --bs-angle {
+  syntax: '<angle>';
+  initial-value: 180deg;
+  inherits: false;
+}
+.brandstroke-spin.brandstroke-spin {
+  background: conic-gradient(from var(--bs-angle) at 50% 50%,
+    #253B97 10%, #0038FF 53%, #FCA800 79%, #ED0038 94%, #253B97 100%);
+  animation: bs-spin 12s linear infinite;
+}
+@keyframes bs-spin {
+  to { --bs-angle: 540deg; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sk, .brandstroke-spin.brandstroke-spin { animation: none; }
+}
