@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<title>FIBA 3x3 Nations League — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700&family=Barlow+Condensed:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --surface-page:#0A0A0A; --surface-raised:#161616; --border-subtle:#262626;
+  --text-primary:#FFFFFF; --text-secondary:#A3A3A3; --text-muted:#525252;
+  --status-live:#E30613; --status-ready:#009A3E;
+  --c:12px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--surface-page); color:var(--text-primary);
+  font-family:'Barlow',sans-serif; -webkit-font-smoothing:antialiased;
+  min-height:100vh; display:flex; align-items:center; justify-content:center; padding:48px 24px;
+}
+.wrap{width:100%; max-width:760px}
+.eyebrow{
+  font-size:12px; font-weight:600; letter-spacing:1.4px; text-transform:uppercase;
+  color:var(--status-live); margin-bottom:16px;
+}
+h1{
+  font-family:'Barlow Condensed',sans-serif; font-weight:800; text-transform:uppercase;
+  font-size:clamp(40px,7vw,72px); line-height:0.95; letter-spacing:-0.5px; margin-bottom:20px;
+}
+.lead{font-size:clamp(15px,2vw,18px); line-height:1.6; color:var(--text-secondary); max-width:52ch}
+.status{
+  display:inline-flex; align-items:center; gap:10px; margin-top:36px; padding:12px 20px;
+  background:var(--surface-raised); border:1px solid var(--border-subtle);
+  clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));
+  font-size:13px; font-weight:600; letter-spacing:0.6px; text-transform:uppercase;
+}
+.dot{width:8px;height:8px;background:var(--status-ready);border-radius:50%;animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.meta{margin-top:48px;padding-top:24px;border-top:1px solid var(--border-subtle);
+  font-size:12px;letter-spacing:0.6px;text-transform:uppercase;color:var(--text-muted)}
+@media (prefers-reduced-motion:reduce){.dot{animation:none}}
+</style>
+</head>
+<body>
+  <main class="wrap">
+    <p class="eyebrow">FIBA 3x3 · Nations League 2027</p>
+    <h1>Website<br>Prototype</h1>
+    <p class="lead">Interactive prototype in progress. Screens, navigation and motion are being built out — this page will be replaced by the live homepage.</p>
+    <div class="status"><span class="dot"></span> Deployment active</div>
+    <p class="meta">Confidential — not for distribution</p>
+  </main>
+</body>
+</html>
