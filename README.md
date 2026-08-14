@@ -3,7 +3,12 @@
 Interactive prototype for the FIBA 3x3 Nations League site redesign (pitch, 2026).
 Static site — no build step, no dependencies. Deployed via GitHub Pages.
 
-**Live:** `https://<account>.github.io/fiba-nl-prototype/`
+**Live:** https://dbaekprodyna.github.io/fiba-nl-prototype/
+**Design system:** https://dbaekprodyna.github.io/fiba-nl-prototype/system/
+
+14 screens, filled with the real 2026 season. Query-string routing:
+`conference.html?id=africa-east`, `stop.html?id=africa-east-stop-1`,
+`team.html?ioc=KEN`, `player.html?id=<uuid>`, `article.html?id=<slug>`.
 
 ## Structure
 

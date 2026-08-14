@@ -1,0 +1,67 @@
+/* ============================================================
+   FIBA 3x3 Nations League — site.css
+   The prototype's own layout. The design system supplies every
+   component; this only turns the specimen page into a document
+   that fills a browser window.
+   ============================================================ */
+
+body.live {
+  margin: 0;
+  background: var(--surface-page);
+}
+
+/* The templates were drawn at a fixed 1920 with a 1440 column.
+   Here the page is whatever the window gives us, with the same
+   240px gutter proportionally. */
+.tpl {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.tpl-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 0 clamp(20px, 4vw, 120px);
+}
+.tpl-content > *,
+.tpl-sub,
+.tpl-split {
+  width: 100%;
+  max-width: var(--content-max);
+  min-width: 0;
+}
+.tpl-split { display: flex; gap: clamp(24px, 2.5vw, 48px); }
+.tpl-colL { flex: 1 1 0; min-width: 0; }
+.tpl-colR { flex: 0 1 460px; min-width: 0; }
+
+/* Full-bleed chrome */
+.f02, .f03, .f06, .mm, .ovl {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+.f03-list { flex-wrap: wrap; }
+
+/* Navigation wrappers added by the page builder must not disturb
+   the layout the design system already produces. */
+a.nav-a {
+  display: contents;
+  color: inherit;
+  text-decoration: none;
+}
+
+/* A row or card that stands for a link. */
+[data-href] { cursor: pointer; }
+
+/* Anything the data layer has not filled yet is dimmed rather than
+   left looking like real content. */
+.is-placeholder { opacity: .45; }
+
+@media (max-width: 1100px) {
+  .tpl-split { flex-direction: column; }
+  .tpl-colR { flex: 1 1 auto; }
+}

@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-08-14 — The prototype
+
+14 screens, built from the approved templates and filled with the real season.
+
+`tools/build_pages.py` lifts each T · block out of `04-templates.html` as a
+standalone page — the markup is the design, untouched — wires the navigation
+and marks the body `.live`, so every interaction the design system documents
+works on the real site.
+
+`assets/site.js` finds each module in the page and rewrites its rows from
+`assets/data/*.json`. Nothing is hard-coded into the HTML, so a change to a
+component in the design system shows up here with no edits.
+
+| screen | what is real |
+|---|---|
+| Home | live conferences with standings, qualification board, news, photo carousel, season counts |
+| Conferences | 18 conferences grouped by region |
+| Conference | stop timeline, conference standings |
+| Stop | venue, pools with seeds and records |
+| Standings | season federation table built from every stop |
+| Teams | every federation, A–Z, letters without entries disabled |
+| Team | roster as player cards, season totals |
+| Player | name, federation, ranking points |
+| Stats | ranking leaderboard |
+| News · Article | three real articles with Cloudinary images |
+| Calendar | 108 stops by month |
+| Search | federation results |
+
+**Routing** is by query string — `conference.html?id=africa-east`,
+`stop.html?id=africa-east-stop-1`, `team.html?ioc=KEN`, `player.html?id=<uuid>`.
+No page is generated per record, so 711 players cost one file.
+
+**Flags** are real: 230 IOC SVGs from the brand assets, swapped in by IOC code.
+67 of the 68 codes in the data have one; New Caledonia (CAL) falls back to a
+grey disc.
+
+**Photographs** come straight from Cloudinary with the crop and width as URL
+parameters — no images in the repo.
+
+Game scores are still missing from the snapshot, so the fixture tables on Stop
+and the game log on Player are dimmed rather than filled with invented results.
+
 ## 2026-08-14 — Real data in place
 
 Second snapshot folded in. `assets/data/` now holds the 2026 season:
