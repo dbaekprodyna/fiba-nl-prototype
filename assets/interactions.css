@@ -105,6 +105,12 @@
   background:var(--surface-sunken);
 }
 
+/* from .tabs-ghost .tab-hover */
+.live .tabs-ghost .tab:not(.tab-active):hover {
+  color:var(--text-primary);
+  background:var(--action-ghost-bg);
+}
+
 /* from .tab-focus */
 .live .tab:focus-visible {
   color:var(--text-primary);

@@ -258,3 +258,40 @@
 /* F-03m — the sheet is a panel, not a strip. */
 .f03m-sheet-top { height: 56px; padding: 0 20px; }
 .f03m-close { padding: 8px 4px; }
+
+/* ============================================================
+   Review round 6
+   ============================================================ */
+
+/* E-08 PlayerCard — e1 at rest, e2 on hover. The card clips its
+   own artwork, so the shadow has to come from a filter, and the
+   grid needs room for it. */
+.e10, .pcard-row { padding: 6px; }
+.pcard { filter: drop-shadow(0 1px 2px rgba(0,0,0,.15)); }
+.live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
+.live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
+
+/* F-03m — a phone frame, not a full page. */
+.f03m-stage { position: relative; width: 390px; display: flex; flex-direction: column; }
+.f03m-stage .f03m-sheet { top: 0; bottom: 64px; }      /* the bar stays visible */
+.f03m-searchbar {
+  display: flex; align-items: center; gap: 10px;
+  height: 56px; padding: 0 16px 0 20px;
+  background: var(--chrome-bg-2); color: var(--chrome-text);
+}
+.f03m-searchbar input {
+  flex: 1 1 0; min-width: 0; border: 0; outline: 0; background: transparent;
+  color: var(--chrome-text); font: 600 15px 'Barlow', sans-serif;
+}
+.f03m-searchbar input::placeholder { color: var(--chrome-text-muted); }
+.f03m-search { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; color: var(--chrome-text); }
+.live .f03m-search { cursor: pointer; }
+.live .f03m-search:hover { background: var(--chrome-hover); }
+.live .f03m-search:focus-visible { outline: 2px solid var(--chrome-text); outline-offset: -2px; }
+
+/* F-06 — the sponsor band is full bleed; only its content is inset. */
+.stage .f06 { padding-left: 0; padding-right: 0; }
+.stage .f06-spon { padding-left: 40px; padding-right: 40px; }
+.stage .f06-cols, .stage .f06-brandrow, .stage .f06-bar { padding-left: 40px; padding-right: 40px; }
+.stage .mm { padding-left: 0; padding-right: 0; }
+.stage .mm-in, .stage .mm-top { padding-left: 40px; padding-right: 40px; }

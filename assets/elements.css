@@ -807,7 +807,9 @@
   height:32px;
 }
 .flag-ring {
-  border:2px solid var(--surface-sunken);
+  --ring:var(--surface-sunken);
+  border:0;
+  box-shadow:0 0 0 2px var(--ring);
 }
 .btn-primary-focus {
   --of:var(--action-default);
@@ -2292,3 +2294,18 @@
    A 4px bar with an 8px cut leaves hairlines at the corners;
    the cut is scaled to the bar.                               */
 .ind-d, .ind-prog { --c:2px; }
+
+/* ---- ctl-03 Tab, ghost variant ------------------------------
+   Placed inside a stop card, so the hover wash is lighter than
+   the standalone tab strip.                                    */
+.tabs-ghost .tab-hover, .tab-ghost-hover {
+  color:var(--text-primary);
+  background:var(--action-ghost-bg);
+}
+
+/* ---- F-02 family links stay on one line, right aligned ----- */
+.f02-fam {
+  flex-wrap:nowrap;
+  justify-content:flex-end;
+  white-space:nowrap;
+}

@@ -91,7 +91,7 @@
 .grp.open .grp-i.on {
   color: var(--chrome-text);
   background: var(--chrome-hover);
-  border-left-color: var(--status-live);
+  border-left-color: var(--chrome-text);
 }
 .grp-none { padding: 16px 12px; color: var(--chrome-text-muted); font: 400 14px 'Barlow', sans-serif; }
 
@@ -217,4 +217,4 @@
   min-width: 0;
 }
 .stage .f02 { padding-right: 16px; }
-.stage .f06, .stage .mm { padding-left: 40px; padding-right: 40px; }
+

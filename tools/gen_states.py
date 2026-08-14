@@ -12,8 +12,12 @@ import os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 css = "".join(open(os.path.join(ROOT, "assets", f)).read() for f in ("elements.css", "modules.css"))
 css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)   # a comment would otherwise glue onto the next selector
-RULES = {" ".join(s.split()): " ".join(b.split())
-         for s, b in re.findall(r"(?m)^([^{}\n][^{}]*?)\{([^{}]*?)\}", css, re.S)}
+RULES = {}
+for _sel, _body in re.findall(r"(?m)^([^{}\n][^{}]*?)\{([^{}]*?)\}", css, re.S):
+    for _one in _sel.split(","):                 # a comma group is several rules
+        _one = " ".join(_one.split())
+        if _one:
+            RULES[_one] = " ".join(_body.split())
 
 MAP = [
  (".btn-primary-hover", ".btn-primary:hover"), (".btn-primary-active", ".btn-primary:active"),
@@ -23,7 +27,8 @@ MAP = [
  (".btn-ghost-hover", ".btn-ghost:hover"), (".btn-ghost-active", ".btn-ghost:active"),
  (".btn-ghost-focus", ".btn-ghost:focus-visible"),
  (".lnk-hover", ".lnk:hover"), (".lnk-focus", ".lnk:focus-visible"),
- (".tab-hover", ".tab:not(.tab-active):hover"), (".tab-focus", ".tab:focus-visible"),
+ (".tab-hover", ".tab:not(.tab-active):hover"),
+ (".tabs-ghost .tab-hover", ".tabs-ghost .tab:not(.tab-active):hover"), (".tab-focus", ".tab:focus-visible"),
  (".fld-hover", ".fld:hover"), (".fld-focus-ring", ".fld:focus-within"),
  (".search-hover", ".search:hover"), (".search-focus", ".search:focus-within"),
  (".chk-box-hover", ".chk:hover .chk-box:not(.chk-box-on)"),

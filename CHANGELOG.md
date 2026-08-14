@@ -1,5 +1,42 @@
 # Changelog
 
+## 2026-08-13 — Review round 6
+
+**Root cause of the broken flags.** `.flag-ring` drew its ring with a `border`
+on a `box-sizing: border-box` element, so 4px came out of the content box. At
+`flag-s` (20px) that is a fifth of the artwork, and the circular `overflow`
+clip cut the rest. The ring is a `box-shadow` now, drawn outside the box, and
+the flag keeps its full size. Context overrides use a `--ring` variable.
+
+**Root cause of the unstable indicator.** Restarting a CSS *transition* depends
+on a style flush landing between two frames — sometimes it did, sometimes the
+bar jumped straight to full. Replaced with a keyframe animation restarted by
+removing the class and forcing a reflow, which is deterministic. Both the
+standalone el-22 and the C-03 carousel use it.
+
+**gen_states.py** now indexes comma groups, so `.tabs-ghost .tab-hover,
+.tab-ghost-hover { … }` is reachable as either selector. It previously keyed the
+whole group as one string and silently skipped it.
+
+### Fixes
+
+- Sidebar — the active marker is white, not red.
+- ctl-03 — the ghost variant hovers to `--action-ghost-bg`, lighter than the
+  standalone strip.
+- el-03 / el-30 / el-05 — the live dot is a bouncing basketball: it falls,
+  squashes on contact, springs back.
+- el-07 — the Live demo carries the legend under its table.
+- F-02 — family links stay on one line, right aligned.
+- F-03m — the phone frame is 420 tall instead of 720; search is a real control
+  with the NavTab hover, opening a search bar under the header; More opens the
+  menu above the bottom bar and marks itself active.
+- F-05 — four columns spread across the content width with auto gaps.
+- F-06 — the sponsor band is full bleed again; only its contents are inset.
+- S-05 — pool headers carry the tooltip.
+- R-01 / R-02 — same table width as the rest; every table with markers has its
+  legend.
+- E-08 — cards sit on e1 and lift to e2; the grid has room for the shadow.
+
 ## 2026-08-13 — Guideline site restructured
 
 **Anchor navigation.** Each group is now one long page and the sidebar is its

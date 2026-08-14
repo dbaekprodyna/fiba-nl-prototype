@@ -1681,14 +1681,17 @@
 .mm-in {
   display:flex;
   flex-direction:row;
-  gap:24px;
+  justify-content:space-between;
+  gap:48px;
   padding:36px 240px 44px 240px;
 }
 .mm-col {
   display:flex;
   flex-direction:column;
   gap:12px;
-  width:342px;
+  flex:1 1 0;
+  min-width:200px;
+  max-width:342px;
 }
 .mm-h {
   font-family:'Barlow',sans-serif;
@@ -2776,7 +2779,7 @@ code {
 .e11-dark .search-txt-filled { color:var(--chrome-text); }
 .e11-dark .e11-row svg,
 .e11-dark .search svg { color:var(--chrome-text-muted); }
-.e11-dark .flag-ring { border-color:var(--chrome-bg-2); }
+.e11-dark .flag-ring { --ring:var(--chrome-bg-2); }
 
 /* ---- R-01 legend, reparented under R-02 -------------------- */
 .legend-attached {

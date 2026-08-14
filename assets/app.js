@@ -66,16 +66,38 @@
       });
     }
 
-    /* -- F-03m mobile "More" sheet ---------------------------- */
+    /* -- F-03m mobile chrome ---------------------------------- */
+    var msearch = closestIn(ev.target, '.f03m-search', scope);
+    if (msearch) {
+      var mstage = msearch.closest('.f03m-stage') || msearch.parentElement.parentElement;
+      var panel = mstage && mstage.querySelector('.f03m-searchbar');
+      if (panel) {
+        panel.hidden = !panel.hidden;
+        if (!panel.hidden) { var mi = panel.querySelector('input'); if (mi) mi.focus(); }
+        return;
+      }
+    }
     var more = closestIn(ev.target, '.ntab', scope);
     if (more && /more/i.test(more.textContent)) {
       var stage = more.closest('.f03m-stage');
       var sheet = stage && stage.querySelector('.f03m-sheet');
-      if (sheet) { sheet.hidden = false; return; }
+      if (sheet) {
+        sheet.hidden = false;
+        [].forEach.call(stage.querySelectorAll('.ntab'), function (t) { t.classList.remove('ntab-on'); });
+        more.classList.add('ntab-on');
+        return;
+      }
     }
     if (closestIn(ev.target, '.f03m-close', scope)) {
       var sh = ev.target.closest('.f03m-sheet');
-      if (sh) { sh.hidden = true; return; }
+      if (sh) {
+        sh.hidden = true;
+        var st2 = sh.closest('.f03m-stage');
+        if (st2) [].forEach.call(st2.querySelectorAll('.ntab'), function (t) {
+          t.classList.toggle('ntab-on', /home/i.test(t.textContent));
+        });
+        return;
+      }
     }
 
     /* -- el-11 clear the search field ------------------------- */
@@ -232,16 +254,7 @@
     [].forEach.call(dots, function (d, k) {
       d.classList.toggle('ind-d-on', k === i && !d.classList.contains('ind-prog'));
       var fill = d.querySelector('.ind-fill');
-      if (fill) {
-        fill.style.transition = 'none';
-        fill.style.width = '0px';
-        if (k === i && car.dataset.playing === 'true') {
-          requestAnimationFrame(function () {
-            fill.style.transition = 'width ' + SLIDE_MS + 'ms linear';
-            fill.style.width = '100%';
-          });
-        }
-      }
+      if (fill) fillBar(fill, k === i && car.dataset.playing === 'true', k < i);
     });
   }
   function step(car, d) { go(car, (parseInt(car.dataset.i, 10) || 0) + d); }
@@ -365,6 +378,19 @@
     });
   }
 
+  /* Restart the fill by removing the class and forcing a reflow —
+     re-triggering a transition depends on a style flush landing
+     between two frames, which is why it sometimes jumped to full. */
+  function fillBar(fill, running, done) {
+    fill.classList.remove('ind-filling');
+    fill.style.width = done ? '100%' : '0%';
+    if (!running) return;
+    void fill.offsetWidth;
+    fill.style.removeProperty('width');
+    fill.style.setProperty('--ind-dur', SLIDE_MS + 'ms');
+    fill.classList.add('ind-filling');
+  }
+
   /* ---------- standalone indicator (el-22) -------------------
      A CarouselIndicator documented on its own still has to show
      what auto-advance looks like, so it runs its own loop.     */
@@ -384,21 +410,7 @@
           if (c.classList.contains('ind-dot')) c.classList.toggle('ind-dot-on', k === i);
         });
         var fill = ind.querySelector('.ind-fill');
-        if (fill && progAt >= 0) {
-          fill.style.transition = 'none';
-          /* Once the playhead moves past the progress cell it must read as
-             a completed bar, not snap back to empty. */
-          fill.style.width = i > progAt ? '100%' : '0px';
-          if (i === progAt) {
-            void fill.offsetWidth;               /* flush the reset before animating */
-            requestAnimationFrame(function () {
-              requestAnimationFrame(function () {
-                fill.style.transition = 'width ' + SLIDE_MS + 'ms linear';
-                fill.style.width = '100%';
-              });
-            });
-          }
-        }
+        if (fill && progAt >= 0) fillBar(fill, i === progAt, i > progAt);
       }
       paint();
       ind._t = setInterval(function () { i = (i + 1) % n; paint(); }, SLIDE_MS);
