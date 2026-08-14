@@ -1,5 +1,43 @@
 # Changelog
 
+## 2026-08-14 — Focus ring root cause, flag and roster bugs
+
+### The double stroke, finally
+
+The cut is built from **untyped** custom properties, so the browser has to
+substitute `calc(8px - 0.586 * 2px)` as raw text inside `polygon()`. Chrome
+resolves it; other engines treat it as invalid and fall back to a **rectangle** —
+which is exactly the second black stroke that kept coming back on ctl-04 and
+el-11. In my browser it always looked correct, which is why three rounds of
+fixes did nothing.
+
+`--c`, `--n` and `--ic` are now registered with `@property` as `<length>`, so
+they compute to real lengths before substitution, plus an `@supports` fallback.
+
+### Two real prototype bugs
+
+- `flag(document.body, ioc)` repainted **every** flag on the page with one
+  country — the results table and the game log all showed the selected team's
+  flag. `flag()` now refuses to walk the document; header calls are scoped to
+  the header.
+- A team's roster merged every player the federation had fielded all season, so
+  Kenya showed 16 instead of 4. A 3x3 squad is four players at one stop; the
+  page shows the most recent squad.
+
+### Design system
+
+- Foundations block titles renamed: **Grid** and **Breakpoints**.
+- Notes have their padding back instead of text against the container edge.
+- S-09: column gap halved, the black and red bars overlap by 8px.
+- F-03m: 848px tall.
+- Prototype ↗ opens in a new tab.
+
+### Added
+
+`MOTA-TASKLIST-STATUS.md` — all 36 tasks from the designer task list checked
+against the build: 20 done, 9 pending (all interaction wiring plus the
+Qualification specification), 3 blocked on game data, 2 open questions.
+
 ## 2026-08-14 — The prototype
 
 14 screens, built from the approved templates and filled with the real season.

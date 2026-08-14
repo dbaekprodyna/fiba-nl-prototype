@@ -43,8 +43,13 @@
 
   /* The specimen carries an inline SVG flag; swap in the real one. */
   function flag(node, ioc) {
-    if (!ioc) return;
-    $$('.flag', node).forEach(function (f) {
+    if (!ioc || !node) return;
+    /* Never walk the whole document: a page-wide call would repaint every
+       flag on the page with one country, which is what happened to the
+       results table and the game log. */
+    var targets = node.classList && node.classList.contains('flag')
+      ? [node] : $$('.flag', node);
+    targets.forEach(function (f) {
       f.innerHTML = '';
       var img = document.createElement('img');
       img.src = 'assets/flags/' + ioc + '.svg';
@@ -321,17 +326,17 @@
     var t = (ioc ? D.teams.filter(function (x) { return x.ioc === ioc; })[0] : null) || D.teams[0];
     var all = D.teams.filter(function (x) { return x.ioc === t.ioc; });
     $$('.t-h1, .e04-name, .f04-title').forEach(function (n) { n.textContent = t.name; });
-    $$('.e04-head .flag, .f04 .flag').forEach(function () {});
-    flag(document.body, t.ioc);
-    text(document, '.e04-code, .ftag-code', t.ioc);
+    var head = $('.e04-top') || $('.e04');
+    if (head) { flag(head, t.ioc); text(head, '.ftag-code', t.ioc); text(head, '.ftag-name', t.name); }
 
-    var roster = [];
-    all.forEach(function (x) {
-      x.roster.forEach(function (m) {
-        var p = player(m.id);
-        if (p && roster.indexOf(p) === -1) roster.push(p);
-      });
-    });
+    /* A 3x3 squad is four players at one stop. Show the most recent squad
+       rather than everyone the federation has fielded all season. */
+    var squad = all.slice().sort(function (a, b) {
+      var ea = stop(a.stop) || {}, eb = stop(b.stop) || {};
+      return (eb.start || '').localeCompare(ea.start || '');
+    })[0] || t;
+    var roster = squad.roster.map(function (m) { return player(m.id); })
+                             .filter(Boolean);
     repeat(document, '.pcard', roster, function (card, p) {
       text(card, '.pcard-first', p.first);
       text(card, '.pcard-last', p.last);
@@ -363,9 +368,8 @@
     text(document, '.e05-first', p.first);
     text(document, '.e05-last', p.last);
     $$('.f04-title').forEach(function (n) { n.textContent = p.name; });
-    flag(document.body, p.ioc);
-    text(document, '.ftag-code', p.ioc);
-    text(document, '.ftag-name', p.country);
+    var ph = $('.e05-id') || $('.e05');
+    if (ph) { flag(ph, p.ioc); text(ph, '.ftag-code', p.ioc); text(ph, '.ftag-name', p.country); }
     var g = $$('.e05-gv');
     if (g[0]) g[0].textContent = p.age != null ? p.age : '';
     if (g[1]) g[1].textContent = (p.rankingPoints || 0).toLocaleString();

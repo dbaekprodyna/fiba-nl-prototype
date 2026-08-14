@@ -18,6 +18,10 @@ body {
 b {
   font-weight:700;
 }
+@property --c  { syntax: '<length>'; initial-value: 8px; inherits: true; }
+@property --n  { syntax: '<length>'; initial-value: 1px; inherits: true; }
+@property --ic { syntax: '<length>'; initial-value: 8px; inherits: true; }
+
 .cut {
   clip-path:polygon(var(--c) 0,100% 0,100% calc(100% - var(--c)),calc(100% - var(--c)) 100%,0 100%,0 var(--c));
 }
@@ -130,4 +134,10 @@ b {
 }
 .cut-in {
   clip-path:polygon(var(--ic) 0,100% 0,100% calc(100% - var(--ic)),calc(100% - var(--ic)) 100%,0 100%,0 var(--ic));
+}
+
+/* Belt and braces: if @property is unavailable the fill still has to be a
+   cut shape, so give it the outer radius rather than an invalid length. */
+@supports not (background: paint(x)) {
+  .cut-out { --ic: var(--c); }
 }

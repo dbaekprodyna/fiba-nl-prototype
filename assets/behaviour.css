@@ -127,7 +127,7 @@
 .c-box { align-items: center; }
 
 /* ---- S-09 SeasonStatus — the two segments meet ---------------- */
-.s09-live { margin-left: -4px; }
+.s09-live { margin-left: -8px; }
 
 /* ---- E-11 SearchResults --------------------------------------- */
 .e11 > .search, .e11-dark > .search { width: 100%; }
@@ -314,8 +314,7 @@
 .f03m-stage {
   position: relative;
   width: 390px;
-  aspect-ratio: 402 / 874;   /* iPhone 17 */
-  height: auto;
+  height: 848px;
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -363,3 +362,12 @@
 }
 .tpl, .tpl-content, .tpl-sub, .tpl-split { width: 100%; max-width: 100%; min-width: 0; }
 .tpl-colL, .tpl-colR { min-width: 0; }
+
+/* ---- Notes sit inside the content column, not against its edge ---- */
+.el-note {
+  padding: 16px 24px 18px 24px;
+  max-width: 100%;
+}
+.el-note > * { padding-left: 0; }
+.fn-note, .m-family-desc { padding-left: 0; }
+.stage .el-note { margin-left: 0; margin-right: 0; }

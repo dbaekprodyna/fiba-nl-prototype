@@ -4,13 +4,13 @@
   "name": "Foundations",
   "items": [
    {
-    "slug": "desktop-the-frame-everything-in-02-and-03-is-drawn-at",
-    "title": "Desktop — the frame everything in 02 and 03 is drawn at",
+    "slug": "grid",
+    "title": "Grid",
     "desc": "12 × 98 + 11 × 24 = 1440. There is no outer margin inside the content frame — the 240px on each side is viewport space, not a grid margin."
    },
    {
-    "slug": "three-breakpoints",
-    "title": "Three breakpoints",
+    "slug": "breakpoints",
+    "title": "Breakpoints",
     "desc": "Column counts follow the current mainstream convention — four on a handset, eight on a portrait tablet, twelve from laptop width up. Breakpoint boundaries at 600 and 1024 match the"
    },
    {
