@@ -13,7 +13,16 @@
   "end": "2026-07-01",
   "galleries": 2,
   "photos": 189,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/jpfeeegz22qngwsss8m5"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/jpfeeegz22qngwsss8m5",
+  "venue": "Aga Khan Academy Mombasa",
+  "location": "Mombasa, Kenya",
+  "lat": -4.05,
+  "lon": 39.66667,
+  "teamsRegistered": 10,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "29ce2655-7dba-4e4f-92e8-4b9a05c16723",
@@ -109,7 +118,16 @@
   "end": "2026-08-03",
   "galleries": 6,
   "photos": 708,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/q1zb0lugf8vdnftruehl"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/q1zb0lugf8vdnftruehl",
+  "venue": "Place Des Arts",
+  "location": "Monastir, Tunisia",
+  "lat": 35.77507,
+  "lon": 10.8168373,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "4913917c-9187-4d46-a732-83d61b696c52",
@@ -205,7 +223,16 @@
   "end": "2026-07-20",
   "galleries": 8,
   "photos": 250,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/v68usilk8bwgaqjp8skx"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/v68usilk8bwgaqjp8skx",
+  "venue": "Royal Aria Convention Centre",
+  "location": "Gaborone, Botswana",
+  "lat": -24.6575642,
+  "lon": 25.9168777,
+  "teamsRegistered": 10,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "4f794965-871a-45f2-9d21-f85981953103",
@@ -301,7 +328,16 @@
   "end": "2026-06-27",
   "galleries": 2,
   "photos": 198,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/a5etz1hqvhctirvx2ugk"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/a5etz1hqvhctirvx2ugk",
+  "venue": "Av. Grecia 2001",
+  "location": "Ñuñoa, Santiago Metropolitan, Chile",
+  "lat": -33.46667,
+  "lon": -70.6,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "c1598e1a-086c-4071-891d-c2eda7385d0c",
@@ -397,7 +433,16 @@
   "end": "2026-07-20",
   "galleries": 6,
   "photos": 716,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/zd9wp0oigxzvqfy7ukwo"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/zd9wp0oigxzvqfy7ukwo",
+  "venue": "Parque Olímpico Gran Asunción",
+  "location": "Asunción, Paraguay",
+  "lat": -25.3,
+  "lon": -57.63333,
+  "teamsRegistered": 10,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "418ee205-7a04-4d98-9c27-cca469ed3c86",
@@ -493,7 +538,16 @@
   "end": "2026-08-10",
   "galleries": 10,
   "photos": 742,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ioycccnefpqiwamkx1wx"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ioycccnefpqiwamkx1wx",
+  "venue": "Cangzhou Sports Stadium (indoor) No.1, Jiefangxi Road, Cangzhou, Hebei, China",
+  "location": "Cangzhou, China",
+  "lat": 38.3095436,
+  "lon": 116.856422,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "6bc2dbab-cd71-4f60-9e2e-ee84f6f33cde",
@@ -589,7 +643,16 @@
   "end": "2026-08-17",
   "galleries": 0,
   "photos": 0,
-  "cover": null
+  "cover": null,
+  "venue": "Hextar World Empire City",
+  "location": "Petaling Jaya, Malaysia",
+  "lat": 3.099175,
+  "lon": 101.64502,
+  "teamsRegistered": 12,
+  "status": "Created",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "94028b31-2c76-41b9-b4fb-1631189433ce",
@@ -685,7 +748,16 @@
   "end": "2026-08-20",
   "galleries": 0,
   "photos": 0,
-  "cover": null
+  "cover": null,
+  "venue": "*SCAPE",
+  "location": "Singapore, Singapore",
+  "lat": 1.351616,
+  "lon": 103.808052,
+  "teamsRegistered": 12,
+  "status": "Created",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "cdebe11f-1235-458b-ad59-9ebb546b4e9f",
@@ -781,7 +853,16 @@
   "end": "2026-06-01",
   "galleries": 6,
   "photos": 963,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ylq8hio3zuar5mkqhqwy"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ylq8hio3zuar5mkqhqwy",
+  "venue": "Vilnius",
+  "location": "Vilnius, Vilnius, Lithuania",
+  "lat": 54.6870461,
+  "lon": 25.2829113,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "24345648-aca6-4e9c-b7ab-af650ea39b88",
@@ -877,7 +958,16 @@
   "end": "2026-07-07",
   "galleries": 6,
   "photos": 479,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/lvlpon4ltoqo3jmhoe81"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/lvlpon4ltoqo3jmhoe81",
+  "venue": "Riga",
+  "location": "Riga, Riga, Latvia",
+  "lat": 56.949398,
+  "lon": 24.1051846,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "cd7aa8f6-6a56-47de-b090-29299716eacc",
@@ -973,7 +1063,16 @@
   "end": "2026-06-12",
   "galleries": 6,
   "photos": 1146,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/uhzywjxvcwdl9qhpaaty"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/uhzywjxvcwdl9qhpaaty",
+  "venue": "Vienna",
+  "location": "Vienna, Vienna, Austria",
+  "lat": 48.2083549,
+  "lon": 16.3725033,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "78cd83fd-668d-40fc-b5ca-906af4eb054c",
@@ -1069,7 +1168,16 @@
   "end": "2026-08-06",
   "galleries": 6,
   "photos": 830,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ohdqrx1ruo0hmdhorx1e"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ohdqrx1ruo0hmdhorx1e",
+  "venue": "Kolonáda Karolinina a Rudolfova pramene",
+  "location": "Mariánské Lázně, Czechia",
+  "lat": 49.97432,
+  "lon": 12.7036381,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "6f6484c7-83a7-449c-95fb-94a6de98ff23",
@@ -1165,7 +1273,16 @@
   "end": "2026-06-11",
   "galleries": 6,
   "photos": 420,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/gxsgneireg12humjzqyh"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/gxsgneireg12humjzqyh",
+  "venue": "Nouméa",
+  "location": "Noumea, Sud, New Caledonia",
+  "lat": -22.2755947,
+  "lon": 166.439926,
+  "teamsRegistered": 8,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "ea4ad87d-7955-45c7-a631-284956ab0206",
@@ -1261,7 +1378,16 @@
   "end": "2026-07-06",
   "galleries": 10,
   "photos": 771,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/rz9r5uf0wnru2okodc78"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/rz9r5uf0wnru2okodc78",
+  "venue": "East Luanhe Road, Gucheng Subdistrict, Luanzhou City, Tangshan City, Hebei Province",
+  "location": "Tangshan, China",
+  "lat": 39.6289,
+  "lon": 118.174614,
+  "teamsRegistered": 10,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "28f29fe9-113f-46fd-9e7e-a8fa22884e99",
@@ -1357,7 +1483,16 @@
   "end": "2026-07-13",
   "galleries": 6,
   "photos": 587,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/hesuvtohb9aqkwmow5zj"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/hesuvtohb9aqkwmow5zj",
+  "venue": "Hextar World Empire City",
+  "location": "Petaling Jaya, Malaysia",
+  "lat": 3.099175,
+  "lon": 101.64502,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "014927da-05f0-475c-a8d2-5f1e8e3b6147",
@@ -1453,7 +1588,16 @@
   "end": "2026-08-02",
   "galleries": 6,
   "photos": 667,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/y9ujits5mle3di0auao3"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/y9ujits5mle3di0auao3",
+  "venue": "Kolonáda Karolinina a Rudolfova pramene",
+  "location": "Mariánské Lázně, Czechia",
+  "lat": 49.97432,
+  "lon": 12.7036381,
+  "teamsRegistered": 10,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "89d0d2a2-6490-49ab-a1ca-04b4b16ef12c",
@@ -1549,7 +1693,16 @@
   "end": "2026-07-31",
   "galleries": 8,
   "photos": 631,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/f4qqgiluxdrctvsb06iq"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/f4qqgiluxdrctvsb06iq",
+  "venue": "Városi Sportcsarnok",
+  "location": "Szolnok, Hungary",
+  "lat": 47.175457,
+  "lon": 20.1946812,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "67b5986f-7419-4e9d-a8f7-6fc7349ee2be",
@@ -1645,7 +1798,16 @@
   "end": "2026-07-03",
   "galleries": 2,
   "photos": 8,
-  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ifi7ovxjljle28huzjji"
+  "cover": "https://website-content-api.fiba3x3.com/v1/Public/ImageProxy/ifi7ovxjljle28huzjji",
+  "venue": "Bucharest",
+  "location": "Bucharest, Bucharest, Romania",
+  "lat": 44.4,
+  "lon": 26.08333,
+  "teamsRegistered": 12,
+  "status": "Official",
+  "courts": [
+   "Main"
+  ]
  },
  {
   "id": "5cc1cf3f-c3ba-40e3-84bd-a33899645e10",

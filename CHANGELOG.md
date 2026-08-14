@@ -1,5 +1,30 @@
 # Changelog
 
+## 2026-08-14 — Real data in place
+
+Second snapshot folded in. `assets/data/` now holds the 2026 season:
+
+| file | records |
+|---|---|
+| conferences.json | 18 |
+| events.json | 108 stops, 18 with venue, coordinates and registration counts |
+| standings.json | 36 — 18 stops × men/women, with rank, seed, W/L, points |
+| teams.json | 202 with rosters |
+| players.json | 711 with age, IOC, home city, ranking points |
+| news.json | 3 |
+| photos.json | 401 galleries |
+
+About 660 KB. Verified end to end: Africa East · Stop 1 in Mombasa resolves to
+its venue, its men's standings (Kenya 3–0, 58 points) and South Sudan's four-man
+roster with ranking points.
+
+Missing: individual game scores. They sit behind each stop's `/games` route and
+were in neither pass, so GameList and the bracket still have no real fixtures.
+Everything else is real.
+
+`tools/build_data2.py` derives men/women from the roster's gender, since the
+category id alone does not say which is which.
+
 ## 2026-08-14 — Fluid containers + real data
 
 ### Containers are fluid at source, not patched in the shell

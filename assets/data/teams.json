@@ -1,0 +1,5246 @@
+[
+ {
+  "id": "bae200fa-52bc-4983-a586-b0dade376852",
+  "name": "Somalia",
+  "ioc": "SOM",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "719bec60-a17c-430f-b508-1573c232e0cd",
+    "captain": false
+   },
+   {
+    "id": "8b119ea9-56af-4b41-939f-0dd35d359e2e",
+    "captain": false
+   },
+   {
+    "id": "2a69ea4f-ae3e-455d-8636-256b9f0edcfc",
+    "captain": false
+   },
+   {
+    "id": "1bd08ace-e3a1-4c64-882b-782175c4e350",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "1bac4b6c-7afd-4ded-bab3-e1feeb936b70",
+  "name": "South Sudan",
+  "ioc": "SSD",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "7f34eb15-7ab6-4103-8847-718944fce4ec",
+    "captain": false
+   },
+   {
+    "id": "93251b4e-4314-4a6e-a427-b851c1c191f8",
+    "captain": false
+   },
+   {
+    "id": "80e815d6-3189-4fbf-8195-76a0d6cee8bc",
+    "captain": false
+   },
+   {
+    "id": "83213fbc-2fe2-4021-ab91-5c8a2d2ff008",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "8aeab758-bf9e-4d78-8528-da8bbce56c2a",
+  "name": "Burundi",
+  "ioc": "BDI",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "98233eda-8bd5-41a8-a475-ccc41b4892c5",
+    "captain": false
+   },
+   {
+    "id": "0d33b7ea-b0bb-4925-b5d4-32dabbdbbf28",
+    "captain": false
+   },
+   {
+    "id": "cdc90a35-64e5-48c2-a904-6de1db380474",
+    "captain": false
+   },
+   {
+    "id": "0036df7a-9502-497e-9784-f55f81093b72",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "039e7091-43de-425a-b411-c3d32beab671",
+  "name": "Uganda",
+  "ioc": "UGA",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "3acab8b2-3443-407b-aad7-2c4e1611a7e4",
+    "captain": false
+   },
+   {
+    "id": "23d8e41c-75fe-41d4-b2fb-bc83c80c021d",
+    "captain": false
+   },
+   {
+    "id": "0660e50b-0a58-4848-aa01-dbe955592038",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3d834b7a-7801-4091-9da0-6b5a38be7581",
+  "name": "Somalia",
+  "ioc": "SOM",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "55d72f3e-8737-420f-ad9a-b7c4d7851230",
+    "captain": false
+   },
+   {
+    "id": "1c535bda-4cf2-42d7-87b2-314eff156d43",
+    "captain": false
+   },
+   {
+    "id": "8bbe42e6-22a5-43b9-9e3e-cb55e49abaa0",
+    "captain": false
+   },
+   {
+    "id": "639e8069-5f61-4940-9523-5cd2e673c8e9",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "8047e713-1c2f-4f1d-aa04-3afa954ae38d",
+  "name": "South Sudan",
+  "ioc": "SSD",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "f975dabe-56c5-4eea-82be-11c97210a9bf",
+    "captain": false
+   },
+   {
+    "id": "84faeaea-b6bd-496f-b6d9-cebef34eb104",
+    "captain": false
+   },
+   {
+    "id": "633de6fb-93d5-4f28-84ec-317d0f37b50f",
+    "captain": false
+   },
+   {
+    "id": "bbf41c13-7cb7-42b0-a8ae-862ad9000970",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "685f8b7f-cfcf-4402-8301-8c45bb92f71f",
+  "name": "Kenya",
+  "ioc": "KEN",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "43863148-1293-4800-8e97-894294348120",
+    "captain": false
+   },
+   {
+    "id": "95bc9bde-93a8-4f26-bfcb-1da08295021c",
+    "captain": false
+   },
+   {
+    "id": "6a920e25-df68-4ead-8c00-159d231b20dc",
+    "captain": false
+   },
+   {
+    "id": "22eb33c2-6f33-4177-b5cf-894519376842",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "abf8735f-35fd-4d97-91ad-d6bb2621a453",
+  "name": "Burundi",
+  "ioc": "BDI",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "b3e0692a-711f-43f4-a693-2764004a8d76",
+    "captain": false
+   },
+   {
+    "id": "dc0c9044-9722-4adc-9a49-ebc6bebc579b",
+    "captain": false
+   },
+   {
+    "id": "e815d237-a44f-454f-bbad-904c6375d670",
+    "captain": false
+   },
+   {
+    "id": "069f9691-13ae-4898-8502-97128486c9da",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d4152033-ab44-48fb-b81e-389212e1c8c7",
+  "name": "Kenya",
+  "ioc": "KEN",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "3debf141-535c-4af0-86a6-6ae44e3a131f",
+    "captain": false
+   },
+   {
+    "id": "6c2496f9-08a7-4fac-a219-81224516203b",
+    "captain": false
+   },
+   {
+    "id": "7182be7e-4c51-4146-818c-427a8ee4504b",
+    "captain": false
+   },
+   {
+    "id": "fdcf38f5-bc4f-4ea2-95c2-b66dc701ee08",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ac67918e-d640-4c7e-9b70-f9e11be144e2",
+  "name": "Uganda",
+  "ioc": "UGA",
+  "status": "Official",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ddbb0891-f7a8-457c-9211-70580709cc65",
+    "captain": false
+   },
+   {
+    "id": "ed90d04b-776c-478e-8ceb-1ec26a113055",
+    "captain": false
+   },
+   {
+    "id": "c60b8293-4000-4083-af21-9d8f418f6ef9",
+    "captain": false
+   },
+   {
+    "id": "5b437bd9-7ae0-4a6b-b7e8-8311b2c26831",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "2adc939f-66c6-4dc5-bdd8-1bce12c61805",
+  "name": "Tunisia",
+  "ioc": "TUN",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "332a2f3f-1a2b-4f36-ab73-0ee88f7d9a1d",
+    "captain": false
+   },
+   {
+    "id": "0e5eebc4-60ce-44f6-916d-f2dd171b2b0e",
+    "captain": false
+   },
+   {
+    "id": "967300a4-cef4-4213-8ba2-3f4168609458",
+    "captain": false
+   },
+   {
+    "id": "97bf180f-9dd0-484b-9094-8e85c54ee7c3",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "a11fbe28-13a0-4c6a-aa94-c1e1e1ae1f07",
+  "name": "Kenya (U21)",
+  "ioc": "KEN",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "af8c5964-8539-4f50-863d-e13987e780cb",
+    "captain": false
+   },
+   {
+    "id": "dd65321d-af98-4ab7-899d-c3ab07a7a3fd",
+    "captain": false
+   },
+   {
+    "id": "631308f1-cc5c-4ed0-8555-89a69588d3e4",
+    "captain": false
+   },
+   {
+    "id": "2f85438d-3fb1-47a8-86eb-a7ac5411252d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "7248c10b-3374-42b8-9611-ef6ff76acf95",
+  "name": "Kenya (U21)",
+  "ioc": "KEN",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "aef657c3-e123-4e92-96d9-69f419dd8b0d",
+    "captain": false
+   },
+   {
+    "id": "708df049-0612-43b3-aadb-8c305c6c3e6f",
+    "captain": false
+   },
+   {
+    "id": "2227cefa-4a62-40b3-8aef-74a57b531e07",
+    "captain": false
+   },
+   {
+    "id": "93bca339-09e7-414a-b8f9-10b41b81ce2b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6f0f3ea9-2349-4ad5-b2a6-94bed0f44add",
+  "name": "Algeria",
+  "ioc": "ALG",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "f4ccb871-0640-4ad6-9f77-070fad37f133",
+    "captain": false
+   },
+   {
+    "id": "2124522c-73ea-4a15-b4eb-56945f199662",
+    "captain": false
+   },
+   {
+    "id": "1aae664f-1ace-4d74-9ff2-2b5c92fd7541",
+    "captain": false
+   },
+   {
+    "id": "4b8ddf7e-0e95-440e-afc0-c648c696fc6b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "16c4a8b1-81c4-4870-94ef-a566150ab163",
+  "name": "Uganda (U21)",
+  "ioc": "UGA",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "444c5ff4-7275-412e-b8b1-e86259706a3a",
+    "captain": false
+   },
+   {
+    "id": "4484587b-3532-4432-bbe9-1415d3643234",
+    "captain": false
+   },
+   {
+    "id": "984fac4b-2aea-4ee3-a6ac-097aab0ac37a",
+    "captain": false
+   },
+   {
+    "id": "68960a18-bb67-4149-8ddc-19f1525c2ac2",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "7c6b85d8-f384-4915-b808-ad1cbebea82c",
+  "name": "Benin",
+  "ioc": "BEN",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "0868843e-f670-41f2-b574-310c431674dd",
+    "captain": false
+   },
+   {
+    "id": "510caf00-64ac-418e-ac99-a4dba4b07eb0",
+    "captain": false
+   },
+   {
+    "id": "cbc776c9-fd93-4ad1-acab-a84ec86f5cf2",
+    "captain": false
+   },
+   {
+    "id": "0081e7c4-8b04-42c6-bec2-1b75a1fd49e6",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "8de7d779-c710-4d40-aa74-fbfb750a8146",
+  "name": "Egypt",
+  "ioc": "EGY",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "dad90850-c966-4923-89bd-522a45c6b0b5",
+    "captain": false
+   },
+   {
+    "id": "7e92adab-f7c4-445d-ab11-a72904b10875",
+    "captain": false
+   },
+   {
+    "id": "fe67b2cc-4236-4a30-8fc8-26cb0b46bead",
+    "captain": false
+   },
+   {
+    "id": "3ed878b1-6f79-47b2-8542-b75dbb4fe12c",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "21545b3b-8d27-4abc-bf42-5b90368fc0fb",
+  "name": "Egypt",
+  "ioc": "EGY",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "7cca4744-0c08-41a9-a248-fb410d06b8a1",
+    "captain": false
+   },
+   {
+    "id": "6ae6ca89-89e1-4b17-955e-2a2da80e5401",
+    "captain": false
+   },
+   {
+    "id": "41fdfbd0-43cb-4f1f-9bd3-f9c00a8f6517",
+    "captain": false
+   },
+   {
+    "id": "24d6e635-512e-4f03-9723-b8b798be8cc5",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6e0e86a5-b48d-4c92-b62d-868bec9030dd",
+  "name": "Uganda (U21)",
+  "ioc": "UGA",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "845c1cff-a474-4ff3-bc3c-619156cd60e2",
+    "captain": false
+   },
+   {
+    "id": "5f226b6f-8722-4bef-bb78-79c81c4f4c11",
+    "captain": false
+   },
+   {
+    "id": "4cf6387c-bba2-449d-bb4e-84641e405c5a",
+    "captain": false
+   },
+   {
+    "id": "340e65e0-bb1a-4bd4-a0bb-34fb39cde39b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "bdce61ac-e3bb-431f-9618-a8c3d0950038",
+  "name": "Algeria",
+  "ioc": "ALG",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "3b67d7f3-38c4-4f8f-b569-fe52f54759a1",
+    "captain": false
+   },
+   {
+    "id": "f4d10c7f-1105-4d77-96bf-40a6ebe899c0",
+    "captain": false
+   },
+   {
+    "id": "01792c10-248f-41bf-92aa-fc5a55a03d2c",
+    "captain": false
+   },
+   {
+    "id": "081391c4-3682-4b41-a3bf-39cb8f223604",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "f0b80d43-5b8c-40e4-8a22-1dca14d4b812",
+  "name": "Benin",
+  "ioc": "BEN",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "cb3bb509-5cff-4843-8c85-ef11d039b4a2",
+    "captain": false
+   },
+   {
+    "id": "1084926d-7581-4863-984b-26126c94043d",
+    "captain": false
+   },
+   {
+    "id": "6ebd06d6-f5eb-4f86-a1aa-f365f65af79e",
+    "captain": false
+   },
+   {
+    "id": "d162c6c4-d726-4fd6-8f5a-795993763605",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "51e91513-3e2a-427b-a7fc-e8de12610bc4",
+  "name": "Tunisia",
+  "ioc": "TUN",
+  "status": "Official",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "a311507a-1f02-430f-b007-b213b2bfd4ce",
+    "captain": false
+   },
+   {
+    "id": "29b84c79-eefc-4f7c-b649-b15d40b56dfe",
+    "captain": false
+   },
+   {
+    "id": "ace16a52-862f-424d-97e5-371c9ff11c51",
+    "captain": false
+   },
+   {
+    "id": "90543007-9c47-4344-bc3d-be23233b8d1b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "523a0d81-6722-4d72-8ea1-d06c0046809d",
+  "name": "Algeria (U21)",
+  "ioc": "ALG",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "03b69b72-ee90-4e72-8426-866e19a4bd24",
+    "captain": false
+   },
+   {
+    "id": "d021d77e-6e67-4b07-9f15-facf76a07068",
+    "captain": false
+   },
+   {
+    "id": "e2043767-6dd0-49a8-a9e7-48b90a5cfcde",
+    "captain": false
+   },
+   {
+    "id": "0d8b3eca-4b01-4302-9943-0548afe8a5ba",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "4926394d-227f-4d35-8f98-cd3638750c30",
+  "name": "Angola",
+  "ioc": "ANG",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "568dea48-19bb-4979-956c-25ac0f75ccd4",
+    "captain": false
+   },
+   {
+    "id": "3966e505-917c-4973-9446-84ce95462c4e",
+    "captain": false
+   },
+   {
+    "id": "c8fe3a50-63f6-4329-bdc9-6fc6f1312729",
+    "captain": false
+   },
+   {
+    "id": "6532da9f-67bb-4623-b576-75b18b49d78a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "60242db1-e738-43e2-8217-a7cde704a153",
+  "name": "Egypt (U21)",
+  "ioc": "EGY",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ee466d95-f809-4fc6-a3f6-08969f12ba5d",
+    "captain": false
+   },
+   {
+    "id": "525ae09f-5592-4335-baab-627f7a3be845",
+    "captain": false
+   },
+   {
+    "id": "88c3450c-8647-4e08-8b42-e4e29217a3b6",
+    "captain": false
+   },
+   {
+    "id": "f03e3760-436f-4757-8594-a52281f4794d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ab0f7a6a-79d8-4c11-8ed8-5ec79f138155",
+  "name": "Botswana",
+  "ioc": "BOT",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "67d47673-c298-41cd-bb53-3faaee8ca5b7",
+    "captain": false
+   },
+   {
+    "id": "41c04015-907f-4c33-adfa-1239ef699705",
+    "captain": false
+   },
+   {
+    "id": "6e9e2ff6-45a0-457c-9f03-2415ac27d070",
+    "captain": false
+   },
+   {
+    "id": "208b9073-a0cb-42ce-9d5b-3a67e1bd4107",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d63945e7-03a8-49f1-8efd-806bfdbf77c7",
+  "name": "Algeria (U21)",
+  "ioc": "ALG",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "a94f8d23-e511-486c-b66d-a1abc14461f5",
+    "captain": false
+   },
+   {
+    "id": "dc56e804-ed25-49ef-9339-8b6a1f8777dd",
+    "captain": false
+   },
+   {
+    "id": "048162b5-645e-4bd6-ae9e-43a9fa9c2565",
+    "captain": false
+   },
+   {
+    "id": "d20a9831-4291-4455-afc5-cd81bcdb82be",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "be92c9df-665a-4114-b5cb-bcf4212c2e6a",
+  "name": "Botswana",
+  "ioc": "BOT",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "90f309d1-25c3-4b59-a2ea-09464e5502fe",
+    "captain": false
+   },
+   {
+    "id": "825925b9-b3fc-4858-90f1-d95b58d95ce6",
+    "captain": false
+   },
+   {
+    "id": "b3681af3-c75b-4f2d-b9bd-9670320ca81b",
+    "captain": false
+   },
+   {
+    "id": "106547e8-fd29-43ca-91e8-05d7219c08df",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c7aca667-19a1-47ba-8383-0d65094a545c",
+  "name": "Angola",
+  "ioc": "ANG",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "bed70a09-17f0-47de-bca4-a448c9321e55",
+    "captain": false
+   },
+   {
+    "id": "245d27ed-5117-4b2d-8fb1-e9a51496ef00",
+    "captain": false
+   },
+   {
+    "id": "5b0f0c13-0ac0-4a79-a9a1-55d25b23725e",
+    "captain": false
+   },
+   {
+    "id": "11c8e48d-4f15-43d0-8089-85253efb8131",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d8fc1631-8b73-4edb-866a-50c439009071",
+  "name": "Madagascar",
+  "ioc": "MAD",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "f05c77bc-6c52-4ef0-bb0e-27410c18c21d",
+    "captain": false
+   },
+   {
+    "id": "31d285cb-0851-46a1-94cf-dec585c8a0f1",
+    "captain": false
+   },
+   {
+    "id": "9bbed80c-f928-4edb-a5fa-d635a2b3953e",
+    "captain": false
+   },
+   {
+    "id": "7e4539ec-c4ab-499d-89c4-c122f4ae5a92",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "50378bf0-356d-46a4-af6f-a370e362bf62",
+  "name": "Madagascar",
+  "ioc": "MAD",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "b1f19772-dd43-40ad-ad3a-4ed60d79a7d9",
+    "captain": false
+   },
+   {
+    "id": "ad96cac8-4cd1-42c2-b295-85083def94cc",
+    "captain": false
+   },
+   {
+    "id": "95939d0c-630a-477e-a52a-6fcced030357",
+    "captain": false
+   },
+   {
+    "id": "5b938556-8a27-4fbf-b6db-e9fb9f91b07f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "a4e98995-80c6-4962-b112-a011e09a5f01",
+  "name": "Egypt (U21)",
+  "ioc": "EGY",
+  "status": "Official",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "eea9f13d-a6c6-4135-88a3-a2cfd55258d9",
+    "captain": false
+   },
+   {
+    "id": "42fbb97e-3353-4606-a933-c431da39d837",
+    "captain": false
+   },
+   {
+    "id": "38a3bb8a-600e-4085-aa92-f0e4c3a1a57b",
+    "captain": false
+   },
+   {
+    "id": "0d75132b-bb2e-43b9-8a31-788de67fe323",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "2310bb8e-458c-436c-9399-a96a1a96bafe",
+  "name": "Chile",
+  "ioc": "CHI",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "116c07f4-e1f2-4681-9ff6-ef7004d4eacf",
+    "captain": false
+   },
+   {
+    "id": "788c963c-2776-4b2f-8f0e-b9da4b5854bc",
+    "captain": false
+   },
+   {
+    "id": "ba292b03-efa4-40fa-82e5-0e814717d822",
+    "captain": false
+   },
+   {
+    "id": "1311adfa-e33b-4a7c-817c-fca26b06acd2",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "9616fada-9408-401a-ae3e-1d05e7929000",
+  "name": "Chile",
+  "ioc": "CHI",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "adf8539f-4a8f-46fa-8c80-b2f02939a0fe",
+    "captain": false
+   },
+   {
+    "id": "b17466b1-9ac9-4ec1-9bb3-d7b477b610ab",
+    "captain": false
+   },
+   {
+    "id": "277b82c3-fecb-4419-b8b1-bfd8f8095f56",
+    "captain": false
+   },
+   {
+    "id": "72343999-8933-4ece-b32f-4b96953be4fb",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "83085051-0f6d-4b93-8660-fd9bbfc3a53f",
+  "name": "Argentina U21",
+  "ioc": "ARG",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "fb092af6-af9a-4a85-988a-083c54bac709",
+    "captain": false
+   },
+   {
+    "id": "58b4d988-f408-435e-9890-373a71ea967c",
+    "captain": false
+   },
+   {
+    "id": "ca3ff0b3-89ed-425f-828f-e2e4ebd9f6ba",
+    "captain": false
+   },
+   {
+    "id": "cff50ffd-39fd-435e-84ce-039ca39cda8d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d93dde3d-94c5-4adf-88b5-dc2f7372075e",
+  "name": "Cayman Islands",
+  "ioc": "CAY",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "4bad446b-4fb6-4f80-9253-0907227609d3",
+    "captain": false
+   },
+   {
+    "id": "632b1317-95e2-48ff-aa7b-1505c7f7a6f5",
+    "captain": false
+   },
+   {
+    "id": "a40a6ff6-43c3-48c4-8178-76053e287e11",
+    "captain": false
+   },
+   {
+    "id": "5e06d18a-3165-4342-8a0b-3719f2dd81fd",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6883a220-4c51-46a5-8f33-c245f62edc3d",
+  "name": "Cayman Islands",
+  "ioc": "CAY",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "8856590b-5563-435f-9540-567ea3268e46",
+    "captain": false
+   },
+   {
+    "id": "fd458643-0547-4e97-a6c9-0844558cfe50",
+    "captain": false
+   },
+   {
+    "id": "7cb66286-08de-4605-8949-0faba2a6e8ff",
+    "captain": false
+   },
+   {
+    "id": "e1a5d458-25d2-40ed-9027-955754aec19f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "484dc7eb-5ca1-4388-b3cd-426b89145a02",
+  "name": "USA",
+  "ioc": "USA",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "6f1f29f3-d8f8-4d72-9918-d9934d147d77",
+    "captain": false
+   },
+   {
+    "id": "f313db37-e46e-403a-b7d9-527961ab1242",
+    "captain": false
+   },
+   {
+    "id": "a40e8ffb-acb9-40be-b469-608efdc66136",
+    "captain": false
+   },
+   {
+    "id": "e7281fcb-e272-4b6b-a1ac-714013bc9ccd",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "89f987de-8968-464a-98b3-804f21bc096c",
+  "name": "Canada",
+  "ioc": "CAN",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "1ebbefea-94e4-4851-9a30-3e61a3b03278",
+    "captain": false
+   },
+   {
+    "id": "8bd6171e-bab8-4d77-9a89-62ccdcda6150",
+    "captain": false
+   },
+   {
+    "id": "f144804e-7900-4d73-972d-60519b2212f6",
+    "captain": false
+   },
+   {
+    "id": "5bcba964-1db9-4420-ad0f-7927874fb4fd",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e2cd3f81-47ee-4360-81d1-3bca97cd7cb2",
+  "name": "Puerto Rico",
+  "ioc": "PUR",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ad762cd0-d652-4026-809b-a5a03d18e619",
+    "captain": false
+   },
+   {
+    "id": "916694d5-f8ab-4bed-abc1-9abe547d19e8",
+    "captain": false
+   },
+   {
+    "id": "7852ffb0-59bf-48cb-916b-50cb74656857",
+    "captain": false
+   },
+   {
+    "id": "9de1bf22-19f5-4558-9fc7-9d0a1d65208e",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "4508fe52-6ff4-4d6a-96b1-7288f2cd8ce1",
+  "name": "USA",
+  "ioc": "USA",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "d2d3dd34-4a78-4f61-bb77-12bd161ac3df",
+    "captain": false
+   },
+   {
+    "id": "45ac03fc-daf8-46a2-b87f-336c8daf751e",
+    "captain": false
+   },
+   {
+    "id": "654b72bb-6ad0-4211-8fcb-40ce789756ca",
+    "captain": false
+   },
+   {
+    "id": "98347591-855a-49e2-acf8-594c11c71d1f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "bbc811cf-cc35-4cac-94b2-d7bde8595bad",
+  "name": "Puerto Rico",
+  "ioc": "PUR",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "408de498-2f18-44f0-aced-28604bb67090",
+    "captain": false
+   },
+   {
+    "id": "0e2e64bd-abd0-4972-b67d-56774c094448",
+    "captain": false
+   },
+   {
+    "id": "190f3a8b-d51e-40d9-8887-19a9c9b2eb7a",
+    "captain": false
+   },
+   {
+    "id": "5c427b10-05eb-4921-9711-80cbaf9afe9d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c13d9a38-4297-4809-96dd-4a156ad553f6",
+  "name": "Argentina U21",
+  "ioc": "ARG",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "9592702e-fca1-4f10-8178-4ff57d1f03ed",
+    "captain": false
+   },
+   {
+    "id": "67251898-bbdb-4ffd-b79c-051686c6784f",
+    "captain": false
+   },
+   {
+    "id": "bc01b8fc-21e0-4b57-9042-344ba6ef8d69",
+    "captain": false
+   },
+   {
+    "id": "2cfd3af8-eacb-4947-9724-289c3997f8f5",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "fb35535e-eec5-41e1-be83-a0617434d027",
+  "name": "Canada",
+  "ioc": "CAN",
+  "status": "Official",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "08958a2d-9745-40a3-b671-df2ec0e59584",
+    "captain": false
+   },
+   {
+    "id": "df237ea3-2bf8-4f77-918d-97d5d683786f",
+    "captain": false
+   },
+   {
+    "id": "0a6191f4-59c5-43d0-9062-d875860edef1",
+    "captain": false
+   },
+   {
+    "id": "d3b0c699-cec0-482f-848f-83a51c9360de",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ddda67af-3f92-465f-9c9e-d7465a3d3e7b",
+  "name": "Chile U21",
+  "ioc": "CHI",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "aa3b5c57-475c-4331-bd29-d55556f9ac83",
+    "captain": false
+   },
+   {
+    "id": "4a0b09c0-79d2-4e6b-be92-f38e512ea2f6",
+    "captain": false
+   },
+   {
+    "id": "612b4d40-27be-43ff-9f91-31a0242949b3",
+    "captain": false
+   },
+   {
+    "id": "bf1b4771-c708-46f3-93ca-1ab1927718d6",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c920c797-4dc0-4412-89e2-74ae4f29097a",
+  "name": "Canada U21",
+  "ioc": "CAN",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "f42d0302-e0d2-4cc8-a7a9-3f5895e94187",
+    "captain": false
+   },
+   {
+    "id": "4578ba08-2dc6-432c-a5a0-fe3675e97947",
+    "captain": false
+   },
+   {
+    "id": "2106fefc-d016-4f73-bf84-4fc028ba477a",
+    "captain": false
+   },
+   {
+    "id": "64753cd1-a771-4b52-b91c-9245918fbee4",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "da01a04f-ec84-473d-9dcd-43265b61e743",
+  "name": "Canada U21",
+  "ioc": "CAN",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "02f899c8-0d48-4961-be80-00cb21ea582a",
+    "captain": false
+   },
+   {
+    "id": "1ffb86ed-dcc4-4dfa-8ab2-baf558905d20",
+    "captain": false
+   },
+   {
+    "id": "cd2707b9-f235-4c44-a580-f8dc15e70c4a",
+    "captain": false
+   },
+   {
+    "id": "87537cb5-ef11-415e-857f-3724f249b1a5",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "4e9d8555-5b07-49b4-af04-412fa377bdf8",
+  "name": "Paraguay",
+  "ioc": "PAR",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "12f1edd3-8ebf-4637-aa38-22048bf6ca72",
+    "captain": false
+   },
+   {
+    "id": "702b0907-6e4e-4dbf-b479-a6da3ef172c4",
+    "captain": false
+   },
+   {
+    "id": "ee0908d9-493b-4524-85f1-1e4c4b8b627d",
+    "captain": false
+   },
+   {
+    "id": "0591c35a-d3af-43b4-b5af-5f38143c9a00",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "72f5bf8d-4507-40a5-911e-58c1ec4a9cb5",
+  "name": "Paraguay",
+  "ioc": "PAR",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "a31fdaeb-f0c6-4c84-a466-6e9866511ed9",
+    "captain": false
+   },
+   {
+    "id": "aed10c07-f4f4-48b2-8dcd-329c2019ccb6",
+    "captain": false
+   },
+   {
+    "id": "7e08ec76-bd94-47d2-9a67-05490b90a670",
+    "captain": false
+   },
+   {
+    "id": "ff81eb1e-3976-489f-ba07-b749fae890a3",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "8ac05cdf-1e1e-45d8-98ef-295ab3753f6b",
+  "name": "Argentina",
+  "ioc": "ARG",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "eae21f2a-7978-423e-bc62-f5242eeace03",
+    "captain": false
+   },
+   {
+    "id": "6ff63019-4119-4f4a-ba5e-f72f36a7fe23",
+    "captain": false
+   },
+   {
+    "id": "cb538955-65bd-494d-9023-bdca6cf61ce3",
+    "captain": false
+   },
+   {
+    "id": "4331f1fa-0fb2-485a-a8d5-bc4a483d4338",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "64ff2318-684d-4a60-a1f5-ae1add0cf019",
+  "name": "Brazil",
+  "ioc": "BRA",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "29561f31-46e1-4399-8b08-506ea118608b",
+    "captain": false
+   },
+   {
+    "id": "477156d0-a796-44d5-8260-fe6ee4635013",
+    "captain": false
+   },
+   {
+    "id": "fb34304a-13bd-4d2e-963f-0dae5ea97fb8",
+    "captain": false
+   },
+   {
+    "id": "10befb1c-624d-443e-a128-cd5d5a22c507",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c07bb463-2b65-4a62-8636-b72181c69573",
+  "name": "Argentina",
+  "ioc": "ARG",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "f1b002d8-8060-415d-9f41-70467f5a61d9",
+    "captain": false
+   },
+   {
+    "id": "f1e89b53-ebe7-4c55-a047-6f196bae57dc",
+    "captain": false
+   },
+   {
+    "id": "2fd1636d-6b76-4def-927c-2f5edac002ef",
+    "captain": false
+   },
+   {
+    "id": "86189961-c5ee-4acf-9844-cbadfea70232",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "517fb9cd-bd76-4332-8b93-7dbb9d77e171",
+  "name": "Brazil",
+  "ioc": "BRA",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "70ecbdd7-14bd-4979-9a82-fbaaac44e0d2",
+    "captain": false
+   },
+   {
+    "id": "a97cea76-a06f-419d-b9cb-88f3121af9b3",
+    "captain": false
+   },
+   {
+    "id": "522340c0-7bfb-414c-8c45-b63e12756980",
+    "captain": false
+   },
+   {
+    "id": "bff075c6-65d2-49d8-bfdc-bc9c8a5c0c78",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "4bfcc0cd-7470-4040-8d32-37e599711692",
+  "name": "Chile U21",
+  "ioc": "CHI",
+  "status": "Official",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "1b770b03-f630-4675-a41d-12bd82daae04",
+    "captain": false
+   },
+   {
+    "id": "b9e3065e-2685-44aa-875a-7d54a4830b7e",
+    "captain": false
+   },
+   {
+    "id": "6dd0bfce-8a1e-4263-9620-3162b060a5d5",
+    "captain": false
+   },
+   {
+    "id": "a8d26c4c-d03a-4102-854d-e96b5c4bd189",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "09c19e99-576a-4697-b3e9-b07be1f67364",
+  "name": "Japan",
+  "ioc": "JPN",
+  "status": "Official",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "c2f57feb-a400-4896-bc51-770e12962a5c",
+    "captain": false
+   },
+   {
+    "id": "1b0ec3fb-9d64-4e7d-9550-bc71821f8ec8",
+    "captain": false
+   },
+   {
+    "id": "ffbb9abb-82ca-460e-8d3c-6ceb82b06e24",
+    "captain": false
+   },
+   {
+    "id": "70b7f440-2a86-4fb2-a193-a5834fc3a966",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d620405c-8542-41de-b21b-92cf915bf5a5",
+  "name": "China",
+  "ioc": "CHN",
+  "status": "Official",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "09dc8674-ba8a-4eda-97ca-4c75f245cfaa",
+    "captain": false
+   },
+   {
+    "id": "1c44b9ea-2cfe-47f3-a776-68bc40cf0ab2",
+    "captain": false
+   },
+   {
+    "id": "92796d8f-f8af-417c-b7ed-b01ac8c080e1",
+    "captain": false
+   },
+   {
+    "id": "b0dd422f-cb31-4c93-81fd-612ea652ec62",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "54f3dd13-a78b-4323-b01c-ffc56c8dc161",
+  "name": "Mongolia",
+  "ioc": "MGL",
+  "status": "Official",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "48ec88b4-9e3f-48d4-bc01-1ba9856e1b62",
+    "captain": false
+   },
+   {
+    "id": "b97f11a6-c150-4f67-8e86-173ac556be7b",
+    "captain": false
+   },
+   {
+    "id": "2a72743e-cf12-47b5-9cce-61ed034e7d96",
+    "captain": false
+   },
+   {
+    "id": "b94273bd-3a65-4d1a-84a7-022f8a00ee09",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "9a51e148-564b-45ac-9229-3327f6f0bb97",
+  "name": "Kazakhstan",
+  "ioc": "KAZ",
+  "status": "Official",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "d81206c5-7462-490b-8a9e-519e869ebda1",
+    "captain": false
+   },
+   {
+    "id": "7e1b63a7-0aa8-46a4-9219-bae5db319cf3",
+    "captain": false
+   },
+   {
+    "id": "03033220-a642-4c0e-8706-85a97085d05d",
+    "captain": false
+   },
+   {
+    "id": "c1855902-e953-4e44-824f-c6368136542a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "1fe8828f-38ba-427b-b62d-9a9e16f2e414",
+  "name": "China",
+  "ioc": "CHN",
+  "status": "Validated",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "b40c0ec2-59a9-4f8f-8fd7-2667bf6c5a2f",
+    "captain": false
+   },
+   {
+    "id": "bbe2ce8e-e10c-4c01-b25a-436392664c79",
+    "captain": false
+   },
+   {
+    "id": "b5738398-f405-4d64-982b-3400f6aac944",
+    "captain": false
+   },
+   {
+    "id": "c6eb2081-bade-433a-b858-50075bf79aab",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c2a7b806-e301-4478-9464-4c4727e7eaf0",
+  "name": "Kazakhstan",
+  "ioc": "KAZ",
+  "status": "Validated",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "a2d41f53-57e3-442b-b705-7a45c1902e2b",
+    "captain": false
+   },
+   {
+    "id": "77cfc256-7af4-44cc-af47-3caf6450e502",
+    "captain": false
+   },
+   {
+    "id": "9bfb41d8-afbf-4d0d-9805-5fccf1302009",
+    "captain": false
+   },
+   {
+    "id": "7a6663c4-f09b-4677-8ee6-86670ae25520",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "a1de990b-0fd4-434d-a17a-76de69e7abce",
+  "name": "Japan",
+  "ioc": "JPN",
+  "status": "Validated",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ad596022-a479-431f-83e8-99691ca9b780",
+    "captain": false
+   },
+   {
+    "id": "d59c8487-ea02-46dd-9718-bc8be2493f72",
+    "captain": false
+   },
+   {
+    "id": "1bb713f3-6cc0-4e01-aecd-a450e8d983f9",
+    "captain": false
+   },
+   {
+    "id": "0bb59a7f-2514-4346-aa0f-debcbe7e4551",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "483f561b-238f-4650-acf7-bab4934bcc8f",
+  "name": "Iran",
+  "ioc": "IRI",
+  "status": "Validated",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "567956e9-8977-4176-a270-5ebb2f6c17b2",
+    "captain": false
+   },
+   {
+    "id": "65a7277f-33f9-4126-8aee-957c7d0d6d20",
+    "captain": false
+   },
+   {
+    "id": "5346ae86-aec1-46ba-bad8-e9fe8f9edd34",
+    "captain": false
+   },
+   {
+    "id": "96f9dcd4-14d5-4c52-b2c7-34cb465a44ef",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "33eecfb8-10da-4d30-a783-55e1a6c580f7",
+  "name": "Mongolia",
+  "ioc": "MGL",
+  "status": "Validated",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "2bdd076c-2182-4640-baa2-96552006b568",
+    "captain": false
+   },
+   {
+    "id": "cd5c30bd-ec0d-46c1-9fea-513491f78336",
+    "captain": false
+   },
+   {
+    "id": "3b777a49-e140-4c67-a232-053cc00adb0d",
+    "captain": false
+   },
+   {
+    "id": "6ebffa62-6e22-471c-93e8-17d9c158c94d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ee794f89-1bce-4a5d-b725-2250142a0106",
+  "name": "Republic of Korea",
+  "ioc": "KOR",
+  "status": "Validated",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "d7e299bc-07f1-4593-a7a0-17cad67f24d4",
+    "captain": false
+   },
+   {
+    "id": "ba038156-c698-4d12-a7a3-3ea326023aa5",
+    "captain": false
+   },
+   {
+    "id": "ec9034ba-68bd-41dc-9051-82a5d77a8591",
+    "captain": false
+   },
+   {
+    "id": "95f814c0-f999-4efa-a0c6-a1b0bc7055fa",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "0c36efda-25bb-420a-bea9-c2dc4f2dff04",
+  "name": "Iran",
+  "ioc": "IRI",
+  "status": "Official",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "7f69f85e-5d55-42c0-bd06-02e3e91e4f4f",
+    "captain": false
+   },
+   {
+    "id": "d82301ec-94d8-4c5a-88fc-ab3b52b0019e",
+    "captain": false
+   },
+   {
+    "id": "6dd280df-1cce-40f0-87f8-b54d1e488010",
+    "captain": false
+   },
+   {
+    "id": "9ba3e383-03e1-425f-ae8e-0d4a05e4a208",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "80351c57-7c04-42b9-a1aa-9af52256ba59",
+  "name": "Republic of Korea",
+  "ioc": "KOR",
+  "status": "Official",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ab015c97-5545-4707-95ae-430198dd5229",
+    "captain": false
+   },
+   {
+    "id": "73139116-24e4-4263-a9cd-b8d0d3278842",
+    "captain": false
+   },
+   {
+    "id": "e45de340-5b9d-4b74-a7eb-23d5a1b6186a",
+    "captain": false
+   },
+   {
+    "id": "b6c0d905-4633-4613-b4a5-0453c90f8c4d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "03d966d2-0358-416d-963a-88a0d43dedf7",
+  "name": "Malaysia",
+  "ioc": "MAS",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "85ca828e-8174-4828-92eb-1cc0a1220eab",
+  "name": "Philippines",
+  "ioc": "PHI",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "49ef01f9-840b-4f3f-850f-43a33d52119d",
+  "name": "Malaysia",
+  "ioc": "MAS",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "eae2112d-3376-4a2d-8f97-0fff8d4f8818",
+  "name": "Philippines",
+  "ioc": "PHI",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "ba38491d-c590-4faf-9a02-7a64069612de",
+  "name": "New Zealand",
+  "ioc": "NZL",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "98e76212-4679-439a-8cea-e85883ab64a5",
+  "name": "New Zealand",
+  "ioc": "NZL",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "87b6da8b-6676-417f-9d12-208b69b1a857",
+  "name": "Chinese Taipei",
+  "ioc": "TPE",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "7788881d-e9dd-4d0d-9df5-82c81f365787",
+  "name": "Chinese Taipei",
+  "ioc": "TPE",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "72fd2e7e-680a-4168-80d5-401221d6c0ec",
+  "name": "Vietnam",
+  "ioc": "VIE",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "dc1677d5-3694-4c75-a8d8-c6b725293beb",
+  "name": "Thailand",
+  "ioc": "THA",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "c0d3f550-ac23-4e8b-92ed-4b35d2fc19e5",
+  "name": "Thailand",
+  "ioc": "THA",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "f10b7658-8774-4c18-a86a-c26c7edd92ff",
+  "name": "Vietnam",
+  "ioc": "VIE",
+  "status": "Registered",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "af438cb2-ab40-41be-8b54-6c2863768c4a",
+  "name": "Australia",
+  "ioc": "AUS",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "c04c5175-7b18-4ae1-afd5-5e77214303e6",
+  "name": "Singapore",
+  "ioc": "SGP",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "4413ea34-6b6a-4f38-8b7b-b6413fde1ae0",
+  "name": "Turkmenistan",
+  "ioc": "TKM",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "ad5531cc-c75f-40fe-a05d-9c7d41b64629",
+  "name": "Singapore",
+  "ioc": "SGP",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "cdb984db-61a8-4900-a27a-95619c0b7c46",
+  "name": "Bahrain",
+  "ioc": "BRN",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "40172dac-1f58-400e-816b-2b3dca4c07d1",
+  "name": "Saudi Arabia",
+  "ioc": "KSA",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "5bfb3811-b5a1-4bc0-87e9-121bbd9fbb92",
+  "name": "Qatar",
+  "ioc": "QAT",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "71d7f516-b6ed-48e3-806c-4b6ff3b795ec",
+  "name": "Bahrain",
+  "ioc": "BRN",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "f9cdef6a-6141-4d83-94a4-380e18706053",
+  "name": "Australia",
+  "ioc": "AUS",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "f648d0f8-9940-4428-9d4d-946b775da59e",
+  "name": "Qatar",
+  "ioc": "QAT",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "2f9a106d-5570-41ec-b843-311e6ff947c0",
+  "name": "Turkmenistan",
+  "ioc": "TKM",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "b5e8e12a-2d5a-484f-a66d-9e19eae51589",
+  "name": "Saudi Arabia",
+  "ioc": "KSA",
+  "status": "Registered",
+  "eventId": "e2b1bd6b-5ca9-4dbf-b834-280e43e28cd2",
+  "stop": "asia-west-pacific-stop-1",
+  "conference": "asia-west-pacific",
+  "gender": "",
+  "roster": []
+ },
+ {
+  "id": "332a386f-383d-4c2a-805a-acc48fb7b6d7",
+  "name": "Slovenia",
+  "ioc": "SLO",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "27276273-825a-4b70-9e21-7f5c6037edc6",
+    "captain": false
+   },
+   {
+    "id": "4a5f6581-1e06-485c-825a-bb7e3d51966f",
+    "captain": false
+   },
+   {
+    "id": "de493329-adc0-43cf-b430-d44aee39bbc7",
+    "captain": false
+   },
+   {
+    "id": "8c01d9a7-8972-4064-9e28-31c9ec64fad8",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ad99253b-cda6-420c-b855-877e5822f45d",
+  "name": "Lithuania",
+  "ioc": "LTU",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "d8fcf697-9af2-4233-99cb-1ba308c8fc2d",
+    "captain": false
+   },
+   {
+    "id": "fa8b8a94-b0dd-47cd-947a-ff6b90c27783",
+    "captain": false
+   },
+   {
+    "id": "2d74cb8c-ff3d-4e1b-9e42-5b5c534776a2",
+    "captain": false
+   },
+   {
+    "id": "7575d7ba-43b0-46d8-acd8-01fc09b41ad4",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6c7881a5-df0f-469c-986a-cdb3432b4896",
+  "name": "Lithuania",
+  "ioc": "LTU",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "0a9d0c22-854b-49cb-bd91-8b669cbc59d2",
+    "captain": false
+   },
+   {
+    "id": "a4cd7886-b28c-40b8-be3f-ff61fdc86adb",
+    "captain": false
+   },
+   {
+    "id": "680289dc-cc9e-4ecc-b28e-94f359889689",
+    "captain": false
+   },
+   {
+    "id": "62d05b20-5201-46fc-b2f6-aac5ceb88e37",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "29a5313b-64b6-4600-8089-66bd59ea2109",
+  "name": "Azerbaijan",
+  "ioc": "AZE",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "cf68c249-0181-4547-ad9a-91559bb67619",
+    "captain": false
+   },
+   {
+    "id": "02b967a3-d34a-4d6e-94f6-8c0c5fca0584",
+    "captain": false
+   },
+   {
+    "id": "b1847190-9b69-4ac6-ae2f-ff36e285d048",
+    "captain": false
+   },
+   {
+    "id": "f87acf05-ba24-4fdf-a4fd-1ba19d6a532c",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "7476876c-65d0-486f-b211-0302300b8172",
+  "name": "Germany",
+  "ioc": "GER",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "1db1b84d-c83e-4471-bf85-6f87f5011259",
+    "captain": false
+   },
+   {
+    "id": "3d416465-1f7a-4938-ad49-ca0c84b66bdb",
+    "captain": false
+   },
+   {
+    "id": "e4ae572d-d154-41c5-830a-2d73f5558978",
+    "captain": false
+   },
+   {
+    "id": "a5f288c2-f43f-4c5e-a77d-75764cd9a848",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3de3fff6-6622-4a84-a6fb-50b568b696de",
+  "name": "Slovenia",
+  "ioc": "SLO",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "cb78edfe-031e-4a32-ad27-bfd5714c3191",
+    "captain": false
+   },
+   {
+    "id": "f63c96ab-e36c-4fd1-a310-f0315698c5a8",
+    "captain": false
+   },
+   {
+    "id": "0f427449-42e1-44cc-a8c3-9182cb66452e",
+    "captain": false
+   },
+   {
+    "id": "818aa08e-09a2-4dee-b16e-6586c2f5df5b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "4d03ae6b-33b3-4a90-8190-7008c0576986",
+  "name": "Italy",
+  "ioc": "ITA",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "643b8e42-1868-4a3c-89d1-c6114b7f3a93",
+    "captain": false
+   },
+   {
+    "id": "3425f66a-7d45-4fec-a2e1-c8d4cae0c42a",
+    "captain": false
+   },
+   {
+    "id": "8ebcf076-e1fe-4d18-a283-6a56d022822b",
+    "captain": false
+   },
+   {
+    "id": "b4d8185a-1794-44df-929a-199fa0270631",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "9cfbcff6-2d23-4c92-a30f-6ebd550d9a27",
+  "name": "Italy",
+  "ioc": "ITA",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ed276a20-8330-4ab2-a257-72255730bd6e",
+    "captain": false
+   },
+   {
+    "id": "608e5938-76c4-4e6b-9fa1-2554549522a6",
+    "captain": false
+   },
+   {
+    "id": "7219272a-ee61-4ce5-89f4-bf423a0afba7",
+    "captain": false
+   },
+   {
+    "id": "efddb3d2-8d4c-4d50-8011-a81acf5e66e7",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "b585f669-dbe1-4ed3-a78e-5039c78a39db",
+  "name": "Germany",
+  "ioc": "GER",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "206510c5-36d0-481f-916d-f41b872fb37c",
+    "captain": false
+   },
+   {
+    "id": "6e76370e-b5d1-4363-9823-789b6231ad72",
+    "captain": false
+   },
+   {
+    "id": "fe20f357-8ae8-4e62-a5f6-e377e47cf46a",
+    "captain": false
+   },
+   {
+    "id": "3e5a599b-b42a-49a7-924f-35ce636a1d38",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "750f1e2b-aa93-4f37-ae7f-424956ea56a8",
+  "name": "Azerbaijan",
+  "ioc": "AZE",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "2ad0f04b-13aa-4adf-9ed1-e6a43914d384",
+    "captain": false
+   },
+   {
+    "id": "8b3e77c1-d426-463e-b2d7-16b10bb12769",
+    "captain": false
+   },
+   {
+    "id": "0ce7dd04-4e70-4770-adea-6b9b5442bcd7",
+    "captain": false
+   },
+   {
+    "id": "2ae9f8f5-7435-4357-be97-87fc7bac47db",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "03e0b1dc-45e0-4bb7-bcba-e2748729b5bf",
+  "name": "Croatia",
+  "ioc": "CRO",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "bec2a439-d29c-4d55-a182-3af5bf64f7c2",
+    "captain": false
+   },
+   {
+    "id": "1fa8bb7d-7ea7-4de4-a063-4d11874d7aa2",
+    "captain": false
+   },
+   {
+    "id": "38e1639b-5625-4923-8c0b-d01bea54a315",
+    "captain": false
+   },
+   {
+    "id": "10845ddd-c606-4a9e-a906-73671e75edff",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "119421d6-c087-44e9-ae20-b5f88dadfb95",
+  "name": "Croatia",
+  "ioc": "CRO",
+  "status": "Official",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "479998d3-2e2c-465c-8781-e734e1cd5553",
+    "captain": false
+   },
+   {
+    "id": "975a6895-9db5-4294-bc60-63b4d60399ae",
+    "captain": false
+   },
+   {
+    "id": "9df3fed2-b05c-4ffc-b978-6984053241f9",
+    "captain": false
+   },
+   {
+    "id": "e0d4e876-2102-46a5-8ef0-1606dcf1817e",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3d7de2a6-8483-4238-96f9-80a86a031118",
+  "name": "Poland",
+  "ioc": "POL",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "2139732a-b8af-46d7-ab19-6d422641e9b4",
+    "captain": false
+   },
+   {
+    "id": "a7d9febf-f463-4d9c-b626-b94669228cd1",
+    "captain": false
+   },
+   {
+    "id": "d1f332d0-59c4-41f6-aea1-2b5e1ae2ac39",
+    "captain": false
+   },
+   {
+    "id": "bb2f88a5-6e93-4dd0-a5ce-8db21373f2a0",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "046a498a-d7b6-4b82-af49-fde57fde3fed",
+  "name": "Latvia",
+  "ioc": "LAT",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "6ba99387-7743-4b3a-a8c4-11367609d160",
+    "captain": false
+   },
+   {
+    "id": "ce101dd7-7fae-4613-81ec-7e9594ea625a",
+    "captain": false
+   },
+   {
+    "id": "bd89a4e9-15a6-4fef-ba4a-599a93e9ce7d",
+    "captain": false
+   },
+   {
+    "id": "8aa28d46-8b54-4f8d-88b1-960c0312f43b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "779c7654-9561-4cc2-a842-96e8c9f4d759",
+  "name": "Switzerland",
+  "ioc": "SUI",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "223ef6fe-bece-4735-b318-72c66f1ecfb1",
+    "captain": false
+   },
+   {
+    "id": "15164a30-71e0-4c6c-90d1-f0e80155cb10",
+    "captain": false
+   },
+   {
+    "id": "7a11fa79-322b-448f-a1d5-53b8ecd7963e",
+    "captain": false
+   },
+   {
+    "id": "82e3c7d5-7976-4e19-8066-a8f69adafc1b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c1126b65-98d5-495b-898c-e17afae67250",
+  "name": "Ukraine",
+  "ioc": "UKR",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "855cc391-561e-49d2-a6c5-ffada74c4d0e",
+    "captain": false
+   },
+   {
+    "id": "a797cb60-e191-4a82-ada7-8c877de05c5b",
+    "captain": false
+   },
+   {
+    "id": "43bebf15-430e-4993-8d00-465726270f0f",
+    "captain": false
+   },
+   {
+    "id": "499a3d30-d61b-4863-a13b-9b01c6cfb834",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "7cf2c4b0-bc1b-42fd-8dda-83d773c07bd5",
+  "name": "Romania",
+  "ioc": "ROU",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "07217fa3-aa22-47d2-873f-fa20143c9de7",
+    "captain": false
+   },
+   {
+    "id": "4948f287-62e1-4af5-b65b-3d4302887b20",
+    "captain": false
+   },
+   {
+    "id": "30eeae92-bd99-4a95-8e24-013cfb6f43c9",
+    "captain": false
+   },
+   {
+    "id": "bb494cff-da53-45cd-946b-60f3e00bfa02",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "f45eb33a-0e52-4c83-ae7e-ea016d6e6162",
+  "name": "Serbia",
+  "ioc": "SRB",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "fad744da-1aed-4ff1-af65-56d282b738bf",
+    "captain": false
+   },
+   {
+    "id": "11ede976-1e6b-45e2-a87a-3f9f0ebad84c",
+    "captain": false
+   },
+   {
+    "id": "7b0cd806-14be-40b3-9c76-8c9b2a352e1a",
+    "captain": false
+   },
+   {
+    "id": "570bb25b-2601-40d8-9ce4-e0a895e61e7f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e11dfb99-6db5-4f50-9b2a-59c82da91ed4",
+  "name": "Latvia",
+  "ioc": "LAT",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "41a5d1ea-179e-4c2b-9cf6-8d48a315971f",
+    "captain": false
+   },
+   {
+    "id": "2e25b40a-36b2-4310-9454-a1b9785a09f6",
+    "captain": false
+   },
+   {
+    "id": "e27e2149-a7e8-4aa6-bc85-f3461bca4416",
+    "captain": false
+   },
+   {
+    "id": "be9f44e5-1baa-4289-83e8-837298b603cd",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e694f705-328e-41a6-8b03-48e42e419068",
+  "name": "Romania",
+  "ioc": "ROU",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "3359b864-790f-4454-b6ab-3298446eb035",
+    "captain": false
+   },
+   {
+    "id": "0d82d524-bc05-4254-bbc4-181fc0fe0442",
+    "captain": false
+   },
+   {
+    "id": "a96f6be0-ab81-4d4c-b7ff-c0ba7f6d6350",
+    "captain": false
+   },
+   {
+    "id": "357b59a7-6a7e-42e9-b8ef-45218a726f5f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "b499f04e-9d16-4f4b-a0da-aa2aeea73d2e",
+  "name": "Ukraine",
+  "ioc": "UKR",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "7559e152-54eb-4a2f-ace9-64992ccc9201",
+    "captain": false
+   },
+   {
+    "id": "fea78b06-0f12-4761-84a2-8f37d0b97184",
+    "captain": false
+   },
+   {
+    "id": "c48c64cd-a1f8-4820-9960-3914b35b74e2",
+    "captain": false
+   },
+   {
+    "id": "633f8759-b698-4dca-a0ad-31032428f91f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c72c6b9c-3583-4a3e-b5b3-b3c551d3ceb7",
+  "name": "Switzerland",
+  "ioc": "SUI",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "c1b023c1-bc4d-412f-98bc-f88212985dce",
+    "captain": false
+   },
+   {
+    "id": "9641a114-be45-4813-8022-41adbf718f27",
+    "captain": false
+   },
+   {
+    "id": "0ed93807-5a98-4379-aa64-a069cc62721f",
+    "captain": false
+   },
+   {
+    "id": "b52d2494-2878-4cb1-84d3-36737370c40e",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "50713203-6dba-46fb-ab2b-f3833ff22992",
+  "name": "Serbia",
+  "ioc": "SRB",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "2b9ec211-ee71-4244-97ba-7793a6a0b43d",
+    "captain": false
+   },
+   {
+    "id": "851714d9-00d0-443c-acf4-fcc8c922e077",
+    "captain": false
+   },
+   {
+    "id": "2a6caa00-d80d-4972-b3a6-ef8d605f9562",
+    "captain": false
+   },
+   {
+    "id": "bfbc0499-27da-4453-a6cb-746f82031646",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e5ed6f97-ca69-4a5a-a8e7-3b5a0294db63",
+  "name": "Poland",
+  "ioc": "POL",
+  "status": "Official",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "a75da6a5-26f0-4af6-bb79-4c98a10aaac0",
+    "captain": false
+   },
+   {
+    "id": "1bdc0820-75af-43ba-8dcc-8ecbb8484ddb",
+    "captain": false
+   },
+   {
+    "id": "71d458c2-98e9-4d4d-9ee1-971b843d65a3",
+    "captain": false
+   },
+   {
+    "id": "ba180d45-63de-4b0f-ae38-99a76f7e1b75",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "92cd41bf-3144-489a-9100-c5c8cf3357e3",
+  "name": "Ireland",
+  "ioc": "IRL",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "9644ea1b-43dd-46aa-82ee-54dcada3d75a",
+    "captain": false
+   },
+   {
+    "id": "550a3a80-5750-43aa-a351-08bf5d9e51d3",
+    "captain": false
+   },
+   {
+    "id": "5e471976-9f49-4004-b308-6c1dbab9e75d",
+    "captain": false
+   },
+   {
+    "id": "f3a6e8ba-3cc0-4554-8fa4-d063dc1ff193",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "09e06293-17f9-450a-bd75-4ee55600a091",
+  "name": "France",
+  "ioc": "FRA",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "f42ab297-f548-4aef-ae44-4205173bf43d",
+    "captain": false
+   },
+   {
+    "id": "69a1c7fa-978d-471d-8613-311bb830ed31",
+    "captain": false
+   },
+   {
+    "id": "1f9d826b-b7e6-491d-a7d1-75e601784896",
+    "captain": false
+   },
+   {
+    "id": "0df018eb-7002-4906-99a8-d58234dd7f27",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "80dee46b-4906-4b05-86ae-ba7531817654",
+  "name": "France",
+  "ioc": "FRA",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "3af63362-c3f6-4926-b5b4-3c51381ba2d3",
+    "captain": false
+   },
+   {
+    "id": "c3520d03-4379-475c-8d9b-65eca31a7db0",
+    "captain": false
+   },
+   {
+    "id": "563d2b3e-74e8-45c6-ae2e-8b7e1ac24bf1",
+    "captain": false
+   },
+   {
+    "id": "8cce567b-1a3e-4239-97f2-c89405951440",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "bff3e253-41eb-4a3b-a46b-d893a0b96781",
+  "name": "Türkiye",
+  "ioc": "TUR",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "56ea8b2c-9ee5-4998-aa41-7ce8b05c26ab",
+    "captain": false
+   },
+   {
+    "id": "dafa82a1-bb4a-4e78-bfd9-d6bb9cce61c9",
+    "captain": false
+   },
+   {
+    "id": "c1f50699-2135-4d85-a1ad-3f5328feb61d",
+    "captain": false
+   },
+   {
+    "id": "3a238cf1-943c-49be-a2da-9c9d049a8339",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "0ed538a5-26c9-4884-89b0-9c3044e01976",
+  "name": "Austria",
+  "ioc": "AUT",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ff6cc2b4-27c7-46c8-b991-0482fc7c2556",
+    "captain": false
+   },
+   {
+    "id": "0892b131-5a59-4dd8-b532-3778381b6446",
+    "captain": false
+   },
+   {
+    "id": "2f17c8bc-7be7-424c-8bfb-045fa30bc761",
+    "captain": false
+   },
+   {
+    "id": "711e8036-6b86-458f-a215-a9e30c5ae932",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "58199695-80b4-4363-90b0-ef08cbc714ef",
+  "name": "Netherlands",
+  "ioc": "NED",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "e15299ce-5088-49b9-937b-581f67f80a3b",
+    "captain": false
+   },
+   {
+    "id": "a27113a0-0d58-4671-98a4-30061c9ac6cc",
+    "captain": false
+   },
+   {
+    "id": "8f4db16b-7a8d-4c0e-8909-3600eb867b69",
+    "captain": false
+   },
+   {
+    "id": "b5f3a7ad-3534-4b15-90bd-a3e252b9318b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "53f90874-6f23-4df0-b8f5-b7e138df2c13",
+  "name": "Ireland",
+  "ioc": "IRL",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "36ecb059-68a0-4590-8d65-595038798e5e",
+    "captain": false
+   },
+   {
+    "id": "c4e6c813-41f8-4fa5-a131-8b7e1d7a73b9",
+    "captain": false
+   },
+   {
+    "id": "f16eea38-5c40-4eae-8f5f-20d05f238205",
+    "captain": false
+   },
+   {
+    "id": "e1d6cfb3-aa46-4512-a272-a58e5163f163",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "643766c7-04a3-4834-8b0f-e8c9a7bbfab8",
+  "name": "Hungary",
+  "ioc": "HUN",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "c35ae719-237c-440f-97a1-605f3c41e38b",
+    "captain": false
+   },
+   {
+    "id": "0046fb51-168b-4459-89f2-5962891b77ec",
+    "captain": false
+   },
+   {
+    "id": "19eafb29-0844-4dcb-9a6f-bafa9a234e79",
+    "captain": false
+   },
+   {
+    "id": "b3384437-339a-4e0f-9cdf-80244db87a81",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "a8f7d426-27e7-4c29-9be0-3507cbd9b047",
+  "name": "Hungary",
+  "ioc": "HUN",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "abc21560-09d1-4d4d-81af-384046e717e2",
+    "captain": false
+   },
+   {
+    "id": "8438b092-db1e-4008-b20b-1489dafaabe7",
+    "captain": false
+   },
+   {
+    "id": "f93dc8c6-b736-4007-9e3b-e9904225bd6b",
+    "captain": false
+   },
+   {
+    "id": "27a3a66a-282a-49de-95b1-9bd82a9fa7f2",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "615c1d45-f0cc-43a4-a21a-8b29fe066453",
+  "name": "Austria",
+  "ioc": "AUT",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "8a7f5c0a-4afe-4736-975d-e91ebf3d6042",
+    "captain": false
+   },
+   {
+    "id": "6f7f18cd-cbc1-484b-9bbe-e41c1a2060ff",
+    "captain": false
+   },
+   {
+    "id": "5af03296-f8cb-4ed8-82a4-53dc41a21e91",
+    "captain": false
+   },
+   {
+    "id": "c6e6b6dd-1f62-4502-8f51-8f6ebcaa72fa",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "134968e0-31f8-4969-b057-95be6b2cbcaa",
+  "name": "Türkiye",
+  "ioc": "TUR",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "b85f9e9b-354d-497c-b29e-7d435bf92ed8",
+    "captain": false
+   },
+   {
+    "id": "68bd13de-dcf2-4318-afcf-38b30392d9f4",
+    "captain": false
+   },
+   {
+    "id": "24adf0d7-2b4f-41b0-990b-84b007d46ca4",
+    "captain": false
+   },
+   {
+    "id": "27fd8285-23cb-4d6d-b32e-d607381fd3fd",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "959aa7c3-1f9e-49e7-a9ac-dfbea0062be1",
+  "name": "Netherlands",
+  "ioc": "NED",
+  "status": "Official",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "af10b98c-e57f-4941-9bb9-c2756ca88817",
+    "captain": false
+   },
+   {
+    "id": "70b7a652-9cc3-447e-b3d0-96903a151450",
+    "captain": false
+   },
+   {
+    "id": "d72897cb-b653-4bc8-b99c-9d4dc7c535aa",
+    "captain": false
+   },
+   {
+    "id": "69230699-243d-4a99-a8b3-1c65900c28d8",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "35ff84a0-7362-46d4-bbbe-e217dd748faa",
+  "name": "Greece",
+  "ioc": "GRE",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "10fbfdb4-bfa9-4565-8537-6fb90737f06e",
+    "captain": false
+   },
+   {
+    "id": "d94f6dfd-dc92-45ac-9f67-6ccfea2ca5c2",
+    "captain": false
+   },
+   {
+    "id": "b416d4fa-d7b1-4cf2-a352-219636dfc211",
+    "captain": false
+   },
+   {
+    "id": "05a1073b-d610-487f-9b0e-4f8469467864",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e6755543-20c1-4e70-bb01-7925c81a7d69",
+  "name": "Slovakia",
+  "ioc": "SVK",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "300100c8-ba3e-4afb-9411-4f76b3bccb9f",
+    "captain": false
+   },
+   {
+    "id": "a6fcfc5d-b772-45f6-a799-5c803e33fac4",
+    "captain": false
+   },
+   {
+    "id": "80f7f148-4299-4100-a88b-f748a88d9ea0",
+    "captain": false
+   },
+   {
+    "id": "cb945823-6af3-4b8b-854f-c4c6d6b2d5b1",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "aa659f50-a3c1-44fd-880b-690e21756377",
+  "name": "Czechia",
+  "ioc": "CZE",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "dedbce72-baa2-457e-ad18-3a60fda0e8bd",
+    "captain": false
+   },
+   {
+    "id": "b96d10c2-e07d-4e06-b929-d2d42e4439f2",
+    "captain": false
+   },
+   {
+    "id": "5da24a95-922f-44f8-ad62-be3e589d4e76",
+    "captain": false
+   },
+   {
+    "id": "c990b8ef-7ba9-4db9-9a29-cf6cd1e58d1a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3e700f91-e76f-4774-b4f8-d5506540713f",
+  "name": "Great Britain",
+  "ioc": "GBR",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "2bc811c7-2221-43e9-a3f8-4d9d082b92d2",
+    "captain": false
+   },
+   {
+    "id": "354279a2-b16f-4f49-a95d-eacd499c24b1",
+    "captain": false
+   },
+   {
+    "id": "7f891de6-1746-4aa0-bdff-20139b6261a5",
+    "captain": false
+   },
+   {
+    "id": "14a5c5e4-ee98-4d63-9412-bb42beb32750",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "85a33765-b3e1-43a6-9cdf-913e6536c3c3",
+  "name": "Czechia",
+  "ioc": "CZE",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "462f3b93-92d2-43c5-ab24-3b91e7453f23",
+    "captain": false
+   },
+   {
+    "id": "02c05589-cb1a-4e9c-a06a-b8093377e0b4",
+    "captain": false
+   },
+   {
+    "id": "eec07101-badd-4b8a-b851-1fd85fabfe64",
+    "captain": false
+   },
+   {
+    "id": "b35cf166-be0c-42a1-b832-fc06536e5c6d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "022f6fb0-30b1-4d1d-b4e8-7a85d25f6412",
+  "name": "Portugal",
+  "ioc": "POR",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "bae99315-5143-4645-80a6-c188f5ebbb39",
+    "captain": false
+   },
+   {
+    "id": "a1ed9af1-7d9c-4db7-a762-1d020b24d47b",
+    "captain": false
+   },
+   {
+    "id": "3f9b25d5-a6c1-491f-8335-711625c720fb",
+    "captain": false
+   },
+   {
+    "id": "319a7507-5358-4f14-b3c6-712c4d5a5e79",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e41e4a68-6bc4-430b-a312-0db962dd97b7",
+  "name": "Spain",
+  "ioc": "ESP",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "e1dc2d7c-e738-4ae2-bb81-d2f2ac4ead05",
+    "captain": false
+   },
+   {
+    "id": "7154c917-1bd8-4a73-afe3-0c377bae6032",
+    "captain": false
+   },
+   {
+    "id": "79725a9e-2190-4ee5-a88b-ceb793d67103",
+    "captain": false
+   },
+   {
+    "id": "026ee7d2-2754-4ae5-a906-39047b71e2fe",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "884f21c0-ddfd-47ea-8d34-cf2037dd59a7",
+  "name": "Portugal",
+  "ioc": "POR",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "c5ebc2cd-7d12-46d4-bc78-5a3eeb11c129",
+    "captain": false
+   },
+   {
+    "id": "3821fdc4-96d3-48aa-ba0a-0815bb5ddda8",
+    "captain": false
+   },
+   {
+    "id": "fafc9096-a86a-4821-b92b-7d421a9d5a3e",
+    "captain": false
+   },
+   {
+    "id": "3703b57f-091f-4cf1-9e77-25a0d557c3b6",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d0612e32-9125-4f1c-a0c3-5e426525ad84",
+  "name": "Spain",
+  "ioc": "ESP",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "25b49b35-8e9d-4140-86fe-d1b119fb0e40",
+    "captain": false
+   },
+   {
+    "id": "9496a4f8-ebba-4b24-9af0-155e8c784fa0",
+    "captain": false
+   },
+   {
+    "id": "3c9c362e-85e4-4b8d-999b-cdebb5d05a29",
+    "captain": false
+   },
+   {
+    "id": "6a588451-4cef-4c9d-9cfc-d82eff9a23f1",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "7a18e0d9-62ea-44c9-aa0b-ef51d3b46982",
+  "name": "Great Britain",
+  "ioc": "GBR",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "cf22e5c9-49f5-4522-b40e-45ac21a1c7f4",
+    "captain": false
+   },
+   {
+    "id": "66441ed3-3799-4857-8bf8-6023a2dc5489",
+    "captain": false
+   },
+   {
+    "id": "4f77ad4b-2b61-44e1-8934-88dc1c213c7f",
+    "captain": false
+   },
+   {
+    "id": "f07a83e3-1050-4d23-aefb-7f6eedd568c6",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "24ea69b5-0459-4a54-90a1-2a0f91861e60",
+  "name": "Greece",
+  "ioc": "GRE",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "f28efbf1-b266-402a-9f27-9b3d35328bc6",
+    "captain": false
+   },
+   {
+    "id": "42594aec-7aa9-4b7b-b93d-f1c62bea06d5",
+    "captain": false
+   },
+   {
+    "id": "494997e5-518d-4c75-aaea-c2eaea822820",
+    "captain": false
+   },
+   {
+    "id": "6e62e7b4-f360-47b7-b84e-574f84272ab4",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6dc8f150-1762-4954-9ae4-18237d0bbe23",
+  "name": "Slovakia",
+  "ioc": "SVK",
+  "status": "Official",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "8b386322-5949-4901-b9ec-5b55f85697d6",
+    "captain": false
+   },
+   {
+    "id": "bd5b14c5-1906-414f-8adf-d5338cd0774d",
+    "captain": false
+   },
+   {
+    "id": "8d7d85c9-adcb-44a1-a74f-c5b1090d701d",
+    "captain": false
+   },
+   {
+    "id": "5f42ac88-e920-4a88-8911-5c07bb889340",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3a9d844d-a1d0-401a-81a4-d6769f030c17",
+  "name": "New Caledonia",
+  "ioc": "CAL",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "b1c4a5d7-de49-4182-a697-f904d4f50e11",
+    "captain": false
+   },
+   {
+    "id": "74b640e7-e865-4a7f-8592-6415e603d1bc",
+    "captain": false
+   },
+   {
+    "id": "092aed58-4eef-44b8-92e0-faf590fb64a8",
+    "captain": false
+   },
+   {
+    "id": "c7dd6a49-f29d-494a-bf0d-7b7f2d373113",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "84a02beb-a7d0-466e-af30-6a6824ac8d69",
+  "name": "Solomon Islands",
+  "ioc": "SOL",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "fd1466eb-3b20-4189-8a62-6f1b47371996",
+    "captain": false
+   },
+   {
+    "id": "aaf90afd-6754-4874-82cf-909df43778d1",
+    "captain": false
+   },
+   {
+    "id": "37b8357d-89c9-4382-a337-3fe0745bb28c",
+    "captain": false
+   },
+   {
+    "id": "8f4646f3-4ce8-4035-8ed1-fe4b22acf153",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "625f9c38-9312-4466-8379-1c5460b10717",
+  "name": "Fiji",
+  "ioc": "FIJ",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "fb68b6ce-0126-4146-8637-d0b3ec55aaf7",
+    "captain": false
+   },
+   {
+    "id": "644be094-bad3-41dc-8912-de78c17ef4fd",
+    "captain": false
+   },
+   {
+    "id": "998db938-3c89-45da-8f24-3183b160f13f",
+    "captain": false
+   },
+   {
+    "id": "381d6a05-f1f3-4968-ae51-058755545232",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "1d774cb0-79c8-46be-896c-ebbe4ed55064",
+  "name": "Solomon Islands",
+  "ioc": "SOL",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "b32e63b5-679c-4c1f-8e7e-dc221ebb7329",
+    "captain": false
+   },
+   {
+    "id": "eca25a09-7150-4327-9e2f-c4da36306e37",
+    "captain": false
+   },
+   {
+    "id": "f34a98e2-1172-42b6-9399-16044e54f873",
+    "captain": false
+   },
+   {
+    "id": "a2a87fe4-3873-42d8-8385-3c4c3dc81357",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "eb79f7a4-6179-4b3f-9c11-8e462f9afb0c",
+  "name": "New Caledonia",
+  "ioc": "CAL",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ee56e25f-b396-4a93-9e07-fb5d50b61029",
+    "captain": false
+   },
+   {
+    "id": "744d141d-205f-43b9-a8b3-f0444faf37a3",
+    "captain": false
+   },
+   {
+    "id": "52d27d3d-9f26-44bc-91d0-d78663602cf8",
+    "captain": false
+   },
+   {
+    "id": "8b030281-2948-47f7-ba01-163949dd3c85",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "136734be-67b5-40e2-933c-e6817ce2c2b5",
+  "name": "Fiji",
+  "ioc": "FIJ",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "a5db2926-93dc-4fb4-ae05-59c69b6fdf08",
+    "captain": false
+   },
+   {
+    "id": "be319342-62fd-47a2-8aa3-de1c6efae8a0",
+    "captain": false
+   },
+   {
+    "id": "29af66da-8df3-4be5-ace0-33d96b43972b",
+    "captain": false
+   },
+   {
+    "id": "2dfb3f0e-fa56-4edd-b145-37cb255d330d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "0b364b0f-241c-4071-818c-9fba36068c11",
+  "name": "Tonga",
+  "ioc": "TGA",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ac625f85-d579-47e3-80b8-3ef4a8c073fa",
+    "captain": false
+   },
+   {
+    "id": "80fd160b-af3a-41ca-8852-f58361413763",
+    "captain": false
+   },
+   {
+    "id": "a20c4dc6-2e0c-4fc5-ba53-80c7d242cf6b",
+    "captain": false
+   },
+   {
+    "id": "c63a49c5-0580-4181-bd42-392364d411c0",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3cd36591-21ae-42d8-ba63-e40090bc9dba",
+  "name": "Tonga",
+  "ioc": "TGA",
+  "status": "Official",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "4caf9f17-0c73-4582-8576-1001438fcce2",
+    "captain": false
+   },
+   {
+    "id": "a6d4fefa-96a1-4ee1-9d2e-616b5c316784",
+    "captain": false
+   },
+   {
+    "id": "73de792a-5e77-413f-81fa-22eac9a9a046",
+    "captain": false
+   },
+   {
+    "id": "14ac7b75-2eed-40a0-8401-c89f90d5b88d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "37c76e73-0859-4a9c-b271-be71ec1578fb",
+  "name": "China (U21)",
+  "ioc": "CHN",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "a0921256-34f7-4546-a18a-678292846d51",
+    "captain": false
+   },
+   {
+    "id": "f6e6e8f7-c455-4742-8325-15546f7da617",
+    "captain": false
+   },
+   {
+    "id": "d7997148-0f41-40f0-98f9-c8a1695c8f53",
+    "captain": false
+   },
+   {
+    "id": "a8e29814-6aad-45fd-9b49-87a106aabe1c",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "5f777804-1ac3-4e16-9590-c1a800ab8b33",
+  "name": "Qatar (U21)",
+  "ioc": "QAT",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "2b021c6c-2b0b-43a5-8473-98820b7aa0a6",
+    "captain": false
+   },
+   {
+    "id": "0aeac560-bf58-4798-bc8a-9fd88148630b",
+    "captain": false
+   },
+   {
+    "id": "4faf990d-a980-425e-a592-d2baef473b13",
+    "captain": false
+   },
+   {
+    "id": "b85394e3-020c-4690-aebe-2ff3e23cbf6a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3d513bda-58e2-477d-ba89-fd5518887c21",
+  "name": "Mongolia (U21)",
+  "ioc": "MGL",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "fc8e7216-1d1f-42e7-aae8-eca694d810ca",
+    "captain": false
+   },
+   {
+    "id": "6392cead-9067-4a64-9556-f031657f5b46",
+    "captain": false
+   },
+   {
+    "id": "e251b79a-5bac-4016-a2bc-dd4c4541637e",
+    "captain": false
+   },
+   {
+    "id": "6750cfa6-dca6-4fc2-b24e-e599069630ed",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "93e408a0-7647-4980-86dc-eb3f874b4c32",
+  "name": "Kazakhstan (U21)",
+  "ioc": "KAZ",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "c21a3a86-f1fb-4e95-9542-1094c49625e3",
+    "captain": false
+   },
+   {
+    "id": "2d514cfa-e0b9-479b-b672-1f31e281bb1b",
+    "captain": false
+   },
+   {
+    "id": "876e0bf8-40f6-4462-8fb2-dc62c4da19e6",
+    "captain": false
+   },
+   {
+    "id": "56222dfc-f4d9-44fc-8c0e-8edcd0cadd5a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "64a8fc8b-a928-44ec-bb63-e73d2dc1f242",
+  "name": "Russia (U21)",
+  "ioc": "RUS",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "5c9f2a46-fea0-4d10-8762-26c8b8f8b915",
+    "captain": false
+   },
+   {
+    "id": "423d01c3-1728-4e09-8319-49a9deeebb35",
+    "captain": false
+   },
+   {
+    "id": "40725d38-03f4-4fc4-8c5b-c7cc46e06b74",
+    "captain": false
+   },
+   {
+    "id": "93abd6ad-bd78-4fde-8224-4a7c688a7522",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "324a47b7-5d59-4c2e-8958-d4e14fe53465",
+  "name": "Qatar (U21)",
+  "ioc": "QAT",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "fca7db22-587f-459f-9391-3d3d969734b1",
+    "captain": false
+   },
+   {
+    "id": "53b245f5-0f4b-472a-8236-9af3949d705e",
+    "captain": false
+   },
+   {
+    "id": "3a6b1cc0-7d8e-4694-9279-b75108686905",
+    "captain": false
+   },
+   {
+    "id": "da83d947-b79d-40ca-8f8a-6c495af0f9a5",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3bacb56b-21b9-4d2d-a600-ef6f5e9cdd77",
+  "name": "Kazakhstan (U21)",
+  "ioc": "KAZ",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "59579e45-314d-4a36-90dd-44295a31e568",
+    "captain": false
+   },
+   {
+    "id": "d63b11a1-9c77-4cd6-94bd-17ff0d693bae",
+    "captain": false
+   },
+   {
+    "id": "2ef5231d-04c3-4c9d-b7f6-72b24c0e8473",
+    "captain": false
+   },
+   {
+    "id": "7f48f758-c651-488a-8051-84c57718ab2a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "70e44939-bb6d-4b5c-9c60-bf11fde61521",
+  "name": "China (U21)",
+  "ioc": "CHN",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "91aa6a6d-3a92-400f-87e4-a2924cbd365d",
+    "captain": false
+   },
+   {
+    "id": "894fe153-0f04-4722-b42f-4c39d59cf720",
+    "captain": false
+   },
+   {
+    "id": "3a7fea47-4d58-4542-ac3d-e1e364f6014c",
+    "captain": false
+   },
+   {
+    "id": "f407bcea-091d-451d-b1ce-ba19d863e14c",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "383a4311-ac23-4b99-bcbd-9ea548f2216b",
+  "name": "Russia (U21)",
+  "ioc": "RUS",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "7e73672a-6b22-4471-8e41-c043443c8245",
+    "captain": false
+   },
+   {
+    "id": "d8ed6662-a99a-44a1-bf51-2935d703720a",
+    "captain": false
+   },
+   {
+    "id": "f5e98a69-b321-4496-994e-a69e682aadb6",
+    "captain": false
+   },
+   {
+    "id": "77e1c1b8-ec62-47d1-8a86-daafe28ace7b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "97735b4d-c50c-4cb8-8389-97d57a2a1096",
+  "name": "Mongolia (U21)",
+  "ioc": "MGL",
+  "status": "Official",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "e7b59609-bedd-4224-af9e-c48b86df8976",
+    "captain": false
+   },
+   {
+    "id": "a99fa7b4-32a6-41ec-9be2-2a6ba3e26072",
+    "captain": false
+   },
+   {
+    "id": "daaeebda-6922-4d02-a82b-56735970a8fd",
+    "captain": false
+   },
+   {
+    "id": "2a2eb802-6231-4117-a327-9e2cccf182fe",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3d83cb90-069c-457d-be4e-094eb591e6cc",
+  "name": "Singapore (U21)",
+  "ioc": "SGP",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "9fea1674-0d34-494b-b230-bced39af4c97",
+    "captain": false
+   },
+   {
+    "id": "bcd6516a-809e-4048-be07-f19d319ad6e7",
+    "captain": false
+   },
+   {
+    "id": "c8632a15-4d74-489e-b243-d5ff5390d559",
+    "captain": false
+   },
+   {
+    "id": "fb69e91b-81c6-4f63-8023-0263a0767804",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "9865dd85-1bbd-4c30-9496-e56390715b84",
+  "name": "Belarus (U21)",
+  "ioc": "BLR",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "8032bf47-f848-4ecf-83e5-a8b966772ab4",
+    "captain": false
+   },
+   {
+    "id": "70930ebd-7759-4c62-abef-a3127ae4ed66",
+    "captain": false
+   },
+   {
+    "id": "49035c03-2ea3-4496-8148-f6fb690b5cb4",
+    "captain": false
+   },
+   {
+    "id": "ab73ade5-0262-49a8-876e-bc134ffdb9d2",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ca7d7ba9-9a6f-4d57-b915-00c755a93bda",
+  "name": "Belarus (U21)",
+  "ioc": "BLR",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "4bfea605-923b-4554-9cc5-0490175c9c2a",
+    "captain": false
+   },
+   {
+    "id": "2a784510-227b-4313-8b19-3e93421fece8",
+    "captain": false
+   },
+   {
+    "id": "85d92471-bcce-484e-81ca-44842bd997fd",
+    "captain": false
+   },
+   {
+    "id": "6dd29560-352b-43f5-a44b-26e7128f934b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "5b2e1a47-bec0-4c61-9bac-d0aa64a2827f",
+  "name": "Philippines (U21)",
+  "ioc": "PHI",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "e3c36b47-b871-48f6-863f-3d1d458ba02e",
+    "captain": false
+   },
+   {
+    "id": "e767a24a-e4b7-4ab7-80fd-c26bd6d2252d",
+    "captain": false
+   },
+   {
+    "id": "cd67787c-42c3-4216-b0f3-dcf7c50ecede",
+    "captain": false
+   },
+   {
+    "id": "9db0981d-498b-4aed-bb35-8e3ba52ecc47",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "8b7ae943-ee4c-4643-b1a4-3d864d6708f0",
+  "name": "Japan (U21)",
+  "ioc": "JPN",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "cd2964a3-288e-49b2-9a9b-de55dac382e0",
+    "captain": false
+   },
+   {
+    "id": "ab72ffd7-4371-4974-a592-bbc8a8af54a6",
+    "captain": false
+   },
+   {
+    "id": "232be5cd-19d9-4205-928d-2bc20284fd0c",
+    "captain": false
+   },
+   {
+    "id": "9030e237-80ec-4417-b8ba-ab8664008082",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c6ed5a5e-92c6-445d-b981-312c0c0a7991",
+  "name": "Philippines (U21)",
+  "ioc": "PHI",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "e577dd5a-8a26-4adf-9758-6771da97184a",
+    "captain": false
+   },
+   {
+    "id": "3452dcdb-a698-4f0e-badb-641a785b611b",
+    "captain": false
+   },
+   {
+    "id": "f35d01c9-1e09-4dfa-9133-5d8bf845a8dd",
+    "captain": false
+   },
+   {
+    "id": "e3d86150-a7e2-4988-83dc-781279d64654",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "b1eae9f4-3be7-4a4d-b00d-9c03ce2c786a",
+  "name": "Malaysia (U21)",
+  "ioc": "MAS",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "8d714935-8aa3-468a-9098-a3017efe65c3",
+    "captain": false
+   },
+   {
+    "id": "dc0eb957-7c02-4682-8cb7-32196a6010e0",
+    "captain": false
+   },
+   {
+    "id": "d0592aa7-3b2b-4592-84d8-3d6f00fe2263",
+    "captain": false
+   },
+   {
+    "id": "8b2a2cd0-f7ce-40d4-b1ab-bf8cf9fe5123",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ac13bf0b-ca24-44ce-a010-be10ddca1558",
+  "name": "Japan (U21)",
+  "ioc": "JPN",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ded2385f-d323-4805-8c4c-fe537a44038d",
+    "captain": false
+   },
+   {
+    "id": "1950831f-7d6e-4543-8b56-8fff68d6747d",
+    "captain": false
+   },
+   {
+    "id": "b186243d-0676-4b7d-80c6-6e529f035b6a",
+    "captain": false
+   },
+   {
+    "id": "266cf625-be96-4b52-9b94-3cc70f82e1aa",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d9ef71ef-7228-422f-8bd1-779f90a8365f",
+  "name": "New Zealand (U21)",
+  "ioc": "NZL",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "2da0c1e0-c506-49f8-94af-97a4b15abf23",
+    "captain": false
+   },
+   {
+    "id": "b76c8299-d46e-4a82-ba9e-0476ef3a7342",
+    "captain": false
+   },
+   {
+    "id": "9427cc01-5088-4c2c-b887-527f6a1e5003",
+    "captain": false
+   },
+   {
+    "id": "d294a354-9328-4df7-9cd4-b2f18cfa6ebd",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "01bc9a77-6515-4975-8875-3f4fc6c1faf5",
+  "name": "Malaysia (U21)",
+  "ioc": "MAS",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "4254258d-6dc4-46e1-8273-60fa3931f22a",
+    "captain": false
+   },
+   {
+    "id": "c57c1d69-7839-43ed-b5a5-a1ea6dfc5124",
+    "captain": false
+   },
+   {
+    "id": "63881447-4196-40f4-80db-e86b445b12ad",
+    "captain": false
+   },
+   {
+    "id": "e35e4a44-4c13-4bd3-8cdd-e73ec0cc7774",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "0c68bb09-8747-40ea-b355-f49bf4c83651",
+  "name": "New Zealand (U21)",
+  "ioc": "NZL",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "6cd39edf-5409-4637-8f4c-8f48ba165618",
+    "captain": false
+   },
+   {
+    "id": "0ee8c853-fad5-4546-b4ad-2af35ffe125e",
+    "captain": false
+   },
+   {
+    "id": "f73bbf7d-2344-44dc-b7d7-26dd30dffd85",
+    "captain": false
+   },
+   {
+    "id": "16a2325b-d299-497d-a3c9-8fb4e481a4d5",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "204131b7-fd3f-4504-a8e0-b88da8d75e68",
+  "name": "Singapore (U21)",
+  "ioc": "SGP",
+  "status": "Official",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "9793e5fb-85da-4a03-8bc3-e3bb9c081b30",
+    "captain": false
+   },
+   {
+    "id": "aa6cae7a-4665-4e9d-8b6e-671a7ee0f508",
+    "captain": false
+   },
+   {
+    "id": "1b371e0c-e27c-4fae-8d36-6f80abecb24c",
+    "captain": false
+   },
+   {
+    "id": "d93ce95b-b668-42e9-9849-85e1927136f0",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "a4e81352-2587-4b7d-95de-3479b958e41d",
+  "name": "Slovakia (U21)",
+  "ioc": "SVK",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "293773e0-c8e9-484a-a3d9-8294fae91a9a",
+    "captain": false
+   },
+   {
+    "id": "004b492c-6a10-45aa-9d1d-fea1a0daabaf",
+    "captain": false
+   },
+   {
+    "id": "ddc41c51-920f-4fef-ad81-c4aeb0b4e737",
+    "captain": false
+   },
+   {
+    "id": "7411ee10-a90a-42d8-83b7-f5c38137dc0b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "049257fb-c79d-4d5f-8e42-76f1d5cf4f32",
+  "name": "Germany (U21)",
+  "ioc": "GER",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "f22e50da-0373-42e9-b1da-96e09bc5172c",
+    "captain": false
+   },
+   {
+    "id": "53abe083-b8e0-43b6-a18f-f1d6cb466a6f",
+    "captain": false
+   },
+   {
+    "id": "31de25d3-7579-470a-a94c-aaae151ccc86",
+    "captain": false
+   },
+   {
+    "id": "60218a6e-4069-4426-97f2-350c5d530c22",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "a97b38f6-f5b3-454b-a2c6-1491c806ae38",
+  "name": "Germany (U21)",
+  "ioc": "GER",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "c4dc3c85-92ce-4c05-a365-da485d232893",
+    "captain": false
+   },
+   {
+    "id": "f1ffd7d6-1a80-4ed3-8dcd-5b7189ad3b92",
+    "captain": false
+   },
+   {
+    "id": "a0646473-c7f7-495a-b5dc-229ce8289e85",
+    "captain": false
+   },
+   {
+    "id": "1726485f-a597-4e7c-93b5-c8f4f2124983",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "fe37bd62-3a0f-4225-ade8-5513c4e3c6f2",
+  "name": "Slovakia (U21)",
+  "ioc": "SVK",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "6de1b0f9-2749-4271-b2b1-b0d5e92ffe96",
+    "captain": false
+   },
+   {
+    "id": "0c4f89ca-c7af-4fb4-bb73-1582c432e87a",
+    "captain": false
+   },
+   {
+    "id": "c8823c31-b453-4e3f-b9ec-c96ff4b54558",
+    "captain": false
+   },
+   {
+    "id": "a4ec8717-ba5e-40d3-8dad-68e4dc64a3b4",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "763cbb59-88e9-443e-98f8-e197135fbb4b",
+  "name": "Slovenia (U21)",
+  "ioc": "SLO",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "6c5c4a0a-4e12-4fa5-92d0-99fdf66d4b87",
+    "captain": false
+   },
+   {
+    "id": "16a64b9c-9693-4875-af4f-fddb1bca3e3c",
+    "captain": false
+   },
+   {
+    "id": "e7f67417-4c6a-401c-ac98-824d5619c434",
+    "captain": false
+   },
+   {
+    "id": "823566cb-47e3-4cfd-b32e-341c2292861d",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e484a4d5-78dc-4943-afea-9c86fa797073",
+  "name": "Slovenia (U21)",
+  "ioc": "SLO",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "e9e9348c-cc77-404a-b179-7737121c3624",
+    "captain": false
+   },
+   {
+    "id": "3ae183cd-36cc-43c7-bd84-7464b6327ebf",
+    "captain": false
+   },
+   {
+    "id": "c204dddb-7866-4a7c-b2e5-5c812c81ccf5",
+    "captain": false
+   },
+   {
+    "id": "58f62605-792d-4d6a-8b43-21d8861bab9a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "297e09a6-d33c-4717-9104-98151a08393a",
+  "name": "Czechia (U21)",
+  "ioc": "CZE",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "d7ffd8f7-48db-492f-922b-b91d455c4289",
+    "captain": false
+   },
+   {
+    "id": "0d4f8802-cd12-45ec-84f4-d1ff63a892d0",
+    "captain": false
+   },
+   {
+    "id": "a027dc15-05ef-477a-a842-e6fd0ec74ff3",
+    "captain": false
+   },
+   {
+    "id": "b079be76-6f2e-434f-a718-0cf67fa44548",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6d9c1602-cb63-40ca-98b1-3d3a86904b98",
+  "name": "Italy (U21)",
+  "ioc": "ITA",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ec92152a-ec13-4f05-864c-77a31424b7b6",
+    "captain": false
+   },
+   {
+    "id": "9ba0238a-2f7f-4802-ba80-c070d06c8ab7",
+    "captain": false
+   },
+   {
+    "id": "b1650410-1a28-499a-a9fd-ce5d64b094ce",
+    "captain": false
+   },
+   {
+    "id": "6244b573-9079-410d-a5ab-5fce7ff4a25c",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e4e2d6ad-c812-4ca5-885e-c9f3fdd80729",
+  "name": "Czechia (U21)",
+  "ioc": "CZE",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "4d62ad2f-6f9f-4e49-8c4c-f33f63281a03",
+    "captain": false
+   },
+   {
+    "id": "a5ae202f-f89b-4330-ac03-145126f1ecaf",
+    "captain": false
+   },
+   {
+    "id": "0940a368-0d55-4ca5-9871-0c613f58c724",
+    "captain": false
+   },
+   {
+    "id": "6fe3f9b3-fc86-4021-bdd2-bfd31987bb69",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3d346214-d5c6-41c1-8899-d5f7d526f099",
+  "name": "Italy (U21)",
+  "ioc": "ITA",
+  "status": "Official",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "1f52df54-8824-41f5-9c1e-494fa25dac09",
+    "captain": false
+   },
+   {
+    "id": "58ca9881-37fc-447b-a393-894bd6c2e8e4",
+    "captain": false
+   },
+   {
+    "id": "c4d27e08-75f7-492b-b3e6-0f5898508869",
+    "captain": false
+   },
+   {
+    "id": "3125c7c3-562c-4ad9-9c2f-35b8557cdc92",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3ee64f32-31c0-482d-8db3-ff4714726114",
+  "name": "Poland (U21)",
+  "ioc": "POL",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "2e27466a-3121-4e3e-88f2-4bcc67f3e868",
+    "captain": false
+   },
+   {
+    "id": "76d2eecb-1b0e-41c3-9922-71cc47c58797",
+    "captain": false
+   },
+   {
+    "id": "34f62746-ae77-4371-a3d1-35a327c1c4bf",
+    "captain": false
+   },
+   {
+    "id": "2732d5d0-7d49-4955-a9f3-8a5eac0b1f67",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "9aa49cde-c3e8-4ef7-97d1-738fe08bd185",
+  "name": "Ukraine (U21)",
+  "ioc": "UKR",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "a39e5c9e-9579-4bf2-8d3d-5274a7f2ba1c",
+    "captain": false
+   },
+   {
+    "id": "651ac10e-7e59-4238-bad0-2fb7caf499b9",
+    "captain": false
+   },
+   {
+    "id": "dcabe9fe-6da7-4992-8ebb-299d000f3ce4",
+    "captain": false
+   },
+   {
+    "id": "9007d0a6-a2dc-4e93-8e71-4fec03d7f051",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "bf39cc43-0a69-4788-86bc-1108f71d3453",
+  "name": "Hungary (U21)",
+  "ioc": "HUN",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "7785e4d4-4eda-4bb0-a65a-b4380bbf4110",
+    "captain": false
+   },
+   {
+    "id": "744a12f3-ca62-4549-be51-92e3463bb0bd",
+    "captain": false
+   },
+   {
+    "id": "c3173335-d386-42a0-88bc-126aa649841d",
+    "captain": false
+   },
+   {
+    "id": "c284e381-cf47-4237-a6f8-3820f6c04c7b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "fd72c8a2-936b-46ca-a377-51684e4b839e",
+  "name": "Netherlands (U21)",
+  "ioc": "NED",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ccd48e27-2706-4049-9a08-76a574fcbbfd",
+    "captain": false
+   },
+   {
+    "id": "5d126052-7fdf-49b9-91e7-036acc32c42d",
+    "captain": false
+   },
+   {
+    "id": "33b13358-31b6-4d7b-9030-b634cbacdf98",
+    "captain": false
+   },
+   {
+    "id": "af8cbeca-b2ec-4a42-9b5c-7cad7895af6f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "3083890a-ab2f-41ef-bb7e-6354083bdea3",
+  "name": "Netherlands (U21)",
+  "ioc": "NED",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "c711a3bb-95ed-4b8a-94c8-110327594ad2",
+    "captain": false
+   },
+   {
+    "id": "6e2d8a1f-1326-43b0-a352-146f3fd9afe1",
+    "captain": false
+   },
+   {
+    "id": "bd3f896d-55a0-456c-8456-dfc9611a039a",
+    "captain": false
+   },
+   {
+    "id": "b9f958cd-254c-4b26-a85d-e6117048f04e",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6b9f745f-8200-4638-839a-e5a97252bd02",
+  "name": "Austria (U21)",
+  "ioc": "AUT",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "b37d3c30-614d-4cdf-982c-38d7610e0b89",
+    "captain": false
+   },
+   {
+    "id": "60667e7c-6584-4f1b-879e-3e8eb0f57dac",
+    "captain": false
+   },
+   {
+    "id": "087d2c90-f1fb-4c5d-b71a-37d462bd6213",
+    "captain": false
+   },
+   {
+    "id": "a80a9f52-885c-4669-b8da-54a9cb1b6937",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "c82e5f59-e795-4a70-8ceb-bd0ecc88962f",
+  "name": "Ireland (U21)",
+  "ioc": "IRL",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ff6f5bf9-0f34-420b-922c-55a07cf5281a",
+    "captain": false
+   },
+   {
+    "id": "cdda10d9-b8ac-42e8-a3ec-0cb1bcf4032b",
+    "captain": false
+   },
+   {
+    "id": "780dca29-04cb-483a-97dd-e4b36a04c4a6",
+    "captain": false
+   },
+   {
+    "id": "c9cd13a1-77ea-4350-811a-31aa91e4fee0",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e006e23c-7ba7-43eb-a61f-4bb68809c670",
+  "name": "Hungary (U21)",
+  "ioc": "HUN",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "4e7fadd6-20ba-4029-8f69-9c26abb722a0",
+    "captain": false
+   },
+   {
+    "id": "c0d0949c-e335-4a19-98f4-5a39b0e4cff9",
+    "captain": false
+   },
+   {
+    "id": "7f1a948f-1448-4fc0-a62d-970274a3330f",
+    "captain": false
+   },
+   {
+    "id": "c48da5c3-234b-431d-ab69-3086741b156b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "759ee394-9b40-4ba6-8e82-d5d94c2c8deb",
+  "name": "Austria (U21)",
+  "ioc": "AUT",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "abb345ad-768c-48c9-afdf-8f8ed4ff4aba",
+    "captain": false
+   },
+   {
+    "id": "ee1c1b2b-2e76-4441-97f9-0b46981162c9",
+    "captain": false
+   },
+   {
+    "id": "3aad98c1-356e-47c5-b942-a70028159b1f",
+    "captain": false
+   },
+   {
+    "id": "7092bb82-a797-43da-86f7-612f8c748a80",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "0ce17601-8d4d-415d-9201-a59d2c915684",
+  "name": "Ireland (U21)",
+  "ioc": "IRL",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "c31ab108-263d-478e-8ea4-59715334377f",
+    "captain": false
+   },
+   {
+    "id": "ff5d0ca1-ee7a-4b08-bc38-14f339e0c453",
+    "captain": false
+   },
+   {
+    "id": "ac8b3e17-7c77-4cf2-a2fb-2ce4d968dce1",
+    "captain": false
+   },
+   {
+    "id": "0b274253-bdd1-4fb0-a047-df6d058377ec",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "bc1578c3-42f0-44ee-8143-fcf5a0689abc",
+  "name": "Ukraine (U21)",
+  "ioc": "UKR",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "ddd0ca52-484a-4b0c-980c-51d90c472c8c",
+    "captain": false
+   },
+   {
+    "id": "171c8515-aba7-4d7b-8a41-9fb058b17a72",
+    "captain": false
+   },
+   {
+    "id": "065641a9-ec37-4d1a-86eb-b9a70e654407",
+    "captain": false
+   },
+   {
+    "id": "abbb778b-3741-48d4-a97d-5fa588d35274",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "d3303126-1861-4a38-b37a-862a58e21c7d",
+  "name": "Poland (U21)",
+  "ioc": "POL",
+  "status": "Official",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "27f59bbe-5a67-4e98-afa7-d4a274b12f5e",
+    "captain": false
+   },
+   {
+    "id": "dce0f580-952a-4af0-b81c-7dca872ea25d",
+    "captain": false
+   },
+   {
+    "id": "8014ec7b-3816-4777-b47e-220e3005095f",
+    "captain": false
+   },
+   {
+    "id": "d5fe27d6-77fb-4173-8358-01586200410a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "7b5dcacf-5893-4d91-8fd4-37ead18d8319",
+  "name": "Romania (U21)",
+  "ioc": "ROU",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "029e3d35-9ad8-4b89-987d-15358f0db2c2",
+    "captain": false
+   },
+   {
+    "id": "75ce23ac-2d5c-4cc0-8ad0-501567befefd",
+    "captain": false
+   },
+   {
+    "id": "62e7830e-f7b6-4937-93d2-6dc7002d7d6d",
+    "captain": false
+   },
+   {
+    "id": "cab6bde6-5edf-4297-8c60-3b60e826d63f",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "e0eff488-5348-40e2-90d7-c33c59909283",
+  "name": "Great Britain (U21)",
+  "ioc": "GBR",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "0d10465d-3384-401d-b7f7-1dcd01023887",
+    "captain": false
+   },
+   {
+    "id": "0beaf310-76d2-4834-9e76-3afd220a0780",
+    "captain": false
+   },
+   {
+    "id": "78098fb8-6bab-441c-aa22-fb6fef8de0dc",
+    "captain": false
+   },
+   {
+    "id": "82291ce4-5df6-4506-964e-3967cac41aff",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "53ab2f60-9ede-4e6f-b790-a5c4084ce15c",
+  "name": "Serbia (U21)",
+  "ioc": "SRB",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "ba8fb416-59e8-4a31-a68b-fee39760353e",
+    "captain": false
+   },
+   {
+    "id": "177d7a7d-ee54-48bf-8b1e-361580829054",
+    "captain": false
+   },
+   {
+    "id": "cb0fdba3-81d9-4316-9438-28484bfcf971",
+    "captain": false
+   },
+   {
+    "id": "d3e94730-e6d8-4e0e-a14b-b2d2cf58514b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "6bee5876-ccfe-4ea3-9960-2c556f8b9e51",
+  "name": "France (U21)",
+  "ioc": "FRA",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "d250716d-7e2e-48c7-9ae7-403b44c7e0a4",
+    "captain": false
+   },
+   {
+    "id": "ab7d4cd4-e9e6-485d-bb9a-4c07c2270c94",
+    "captain": false
+   },
+   {
+    "id": "4fbd240c-9544-45a2-b379-3e5fea7bdeca",
+    "captain": false
+   },
+   {
+    "id": "f0b58324-f81b-4058-b2b4-4892473d310a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "bb477315-d61c-48ad-8da7-cbc8317793dc",
+  "name": "Greece (U21)",
+  "ioc": "GRE",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "1ce06d9a-0817-473c-be16-6de6189b1427",
+    "captain": false
+   },
+   {
+    "id": "85f35cf8-119b-4e13-a713-77367a45b424",
+    "captain": false
+   },
+   {
+    "id": "3ba45e2e-ad83-4906-9d73-bdee10fe6d93",
+    "captain": false
+   },
+   {
+    "id": "4bb2f50d-bb19-4102-bf20-b8bfbecd97df",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "31556aad-cfa2-4c9c-bc44-ce7c6c369934",
+  "name": "Serbia (U21)",
+  "ioc": "SRB",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "173e3edd-aa08-4345-9158-4c8a5ef4ce4e",
+    "captain": false
+   },
+   {
+    "id": "3e2f74e3-5047-41f5-8b24-ecd3d4a3a193",
+    "captain": false
+   },
+   {
+    "id": "80d866f7-099f-4711-9667-53a771bede4e",
+    "captain": false
+   },
+   {
+    "id": "e4a816ee-353d-4a84-aea0-d43722267a1b",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "cdd160ab-4602-4504-a88b-65741489ed5b",
+  "name": "France (U21)",
+  "ioc": "FRA",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "cc14c861-a09e-46d1-8b99-99d2f57f3164",
+    "captain": false
+   },
+   {
+    "id": "d3652314-e340-4aad-b930-ac924bccb70e",
+    "captain": false
+   },
+   {
+    "id": "8d73cec1-ec96-4fd8-af77-c31e8126ffcc",
+    "captain": false
+   },
+   {
+    "id": "aa2cefc4-91da-4700-83ad-9ee741d42f2a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "2210bd62-9100-4b61-840f-e209438acdfb",
+  "name": "Great Britain (U21)",
+  "ioc": "GBR",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "03dc454d-dd89-4644-81c2-8064c6f9f947",
+    "captain": false
+   },
+   {
+    "id": "9de85dc4-06e3-4177-b38e-e31c93a32bf8",
+    "captain": false
+   },
+   {
+    "id": "4cb0fa63-ed58-4f07-a12d-0f09983370f3",
+    "captain": false
+   },
+   {
+    "id": "9efbfc7f-56ad-48c3-9a8e-721aeaceb7db",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "b5cf62b5-71c6-40b4-b073-78b0381b4af0",
+  "name": "Greece (U21)",
+  "ioc": "GRE",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "756ea7ca-c009-4d66-83fd-62b37f1fb753",
+    "captain": false
+   },
+   {
+    "id": "783d72bc-5494-4425-82e7-81128dd43f4a",
+    "captain": false
+   },
+   {
+    "id": "712c46a6-5374-498f-91d4-c8be99377428",
+    "captain": false
+   },
+   {
+    "id": "f41050cb-d8e4-4da1-a0a0-d8544aad02db",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "736ca38e-c5dd-4d1f-9e45-6388403facfd",
+  "name": "Spain (U21)",
+  "ioc": "ESP",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "roster": [
+   {
+    "id": "efd62485-c286-47d1-a176-0caa8cab0423",
+    "captain": false
+   },
+   {
+    "id": "e4e38d6d-3047-4643-a121-f18db1861a65",
+    "captain": false
+   },
+   {
+    "id": "da5592c4-3616-4be1-b95f-97230636eaa0",
+    "captain": false
+   },
+   {
+    "id": "dd3c1df2-7cf2-4d22-a59b-7bcb9f063e4a",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "ee974013-6f75-4f50-b664-d56160abb2da",
+  "name": "Romania (U21)",
+  "ioc": "ROU",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "da4536fe-2439-42a2-8309-20e202cebd00",
+    "captain": false
+   },
+   {
+    "id": "701f6923-a6ed-4d9e-8fd5-5d853098c0df",
+    "captain": false
+   },
+   {
+    "id": "6d1ca512-1765-44b3-87ad-b9fdda7da8a4",
+    "captain": false
+   },
+   {
+    "id": "2ea115fb-5aed-495d-b30b-7d5b3c92879e",
+    "captain": false
+   }
+  ]
+ },
+ {
+  "id": "f9739387-35b8-4b9f-a24c-7b349ab6327b",
+  "name": "Spain (U21)",
+  "ioc": "ESP",
+  "status": "Official",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "roster": [
+   {
+    "id": "03da4a3b-a112-4900-8fb0-4f80260ee56e",
+    "captain": false
+   },
+   {
+    "id": "e9c84f4c-4443-4316-97c7-82d83b8a88b1",
+    "captain": false
+   },
+   {
+    "id": "f9aa9ae1-d21a-4e48-9fa5-6912448aeb40",
+    "captain": false
+   },
+   {
+    "id": "dc5efe31-ce00-4294-a4b9-177fec2a4d3c",
+    "captain": false
+   }
+  ]
+ }
+]
