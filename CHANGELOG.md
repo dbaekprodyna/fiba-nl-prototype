@@ -1,5 +1,42 @@
 # Changelog
 
+## 2026-08-14 — Fluid containers + real data
+
+### Containers are fluid at source, not patched in the shell
+
+Every fixed container width in the specimen CSS — 76 of them — was rewritten
+by `tools/fluidify.py` from `width: 1440px` to `width: 100%; max-width: 1440px`.
+Anything under 640px is a real component size (a 342 card, a 44 button) and was
+left alone. The shell no longer has to override anything, and the same change
+makes the prototype responsive later.
+
+R-01 and the other 1400-wide tables were normalised to 1440, so every table in
+Modules II lines up.
+
+Notes, purpose text and state rows wrap instead of forcing a minimum width.
+
+### Data
+
+`fiba-nl-2026-snapshot.json` (1.39 MB) processed into `assets/data/`:
+
+| file | records |
+|---|---|
+| conferences.json | 18 |
+| events.json | 108 |
+| news.json | 3 |
+| photos.json | 401 |
+
+The stop slugs generated from the data match the live site's own URLs exactly
+(`africa-east-stop-1`), which means a second pass can walk them directly.
+
+Standings, teams, players and games load per stop and were not in the first
+snapshot. `tools/snapshot2.js` collects them — the stop list is baked in,
+ordered one-per-conference first so a short run still covers the whole season's
+shape.
+
+Images stay as Cloudinary URLs with the crop and width as parameters, so no
+image folder is needed.
+
 ## 2026-08-14 — Review round 8
 
 ### Why the anchor menu stopped working

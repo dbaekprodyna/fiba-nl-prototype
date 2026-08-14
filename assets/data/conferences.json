@@ -1,0 +1,290 @@
+[
+ {
+  "id": "africa-east",
+  "conferenceId": "2885567d-ea0d-4a94-bb77-84d756405ed3",
+  "name": "Africa East",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Africa East",
+  "region": "Africa",
+  "stops": [
+   "africa-east-stop-1",
+   "africa-east-stop-2",
+   "africa-east-stop-3",
+   "africa-east-stop-4",
+   "africa-east-stop-5",
+   "africa-east-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "africa-north",
+  "conferenceId": "e6f4676d-ed64-4d69-8eba-e40e6f0c85d1",
+  "name": "Africa North",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Africa North",
+  "region": "Africa",
+  "stops": [
+   "africa-north-stop-1",
+   "africa-north-stop-2",
+   "africa-north-stop-3",
+   "africa-north-stop-4",
+   "africa-north-stop-5",
+   "africa-north-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "africa-south",
+  "conferenceId": "14f5b722-f778-4594-9a81-a28dddb0dbc3",
+  "name": "Africa South",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Africa South",
+  "region": "Africa",
+  "stops": [
+   "africa-south-stop-1",
+   "africa-south-stop-2",
+   "africa-south-stop-3",
+   "africa-south-stop-4",
+   "africa-south-stop-5",
+   "africa-south-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "americas-north",
+  "conferenceId": "922bf96c-d652-4061-95af-e462ab8b9b6a",
+  "name": "Americas North",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Americas North",
+  "region": "Americas",
+  "stops": [
+   "americas-north-stop-1",
+   "americas-north-stop-2",
+   "americas-north-stop-3",
+   "americas-north-stop-4",
+   "americas-north-stop-5",
+   "americas-north-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "americas-south",
+  "conferenceId": "57abf816-36d3-415f-aa7b-be36e0db7c23",
+  "name": "Americas South",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Americas South",
+  "region": "Americas",
+  "stops": [
+   "americas-south-stop-1",
+   "americas-south-stop-2",
+   "americas-south-stop-3",
+   "americas-south-stop-4",
+   "americas-south-stop-5",
+   "americas-south-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "asia-central-east",
+  "conferenceId": "46e55e02-3e7f-4aaa-bf93-7c1dcabbda24",
+  "name": "Asia Central/East",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Asia Central/East",
+  "region": "Asia",
+  "stops": [
+   "asia-central-east-stop-1",
+   "asia-central-east-stop-2",
+   "asia-central-east-stop-3",
+   "asia-central-east-stop-4",
+   "asia-central-east-stop-5",
+   "asia-central-east-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "asia-sea",
+  "conferenceId": "4af172d3-2657-4e68-a1f0-b9a15bcbb0c3",
+  "name": "Asia SEA",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Asia SEA",
+  "region": "Asia",
+  "stops": [
+   "asia-sea-stop-1",
+   "asia-sea-stop-2",
+   "asia-sea-stop-3",
+   "asia-sea-stop-4",
+   "asia-sea-stop-5",
+   "asia-sea-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "asia-west-pacific",
+  "conferenceId": "944adbf9-f46e-4475-a37c-5019cf7a7472",
+  "name": "Asia West/Pacific",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Asia West/Pacific",
+  "region": "Asia",
+  "stops": [
+   "asia-west-pacific-stop-1",
+   "asia-west-pacific-stop-2",
+   "asia-west-pacific-stop-3",
+   "asia-west-pacific-stop-4",
+   "asia-west-pacific-stop-5",
+   "asia-west-pacific-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "europe-1",
+  "conferenceId": "d2e33213-14ad-422b-a943-07b8bc88ba8b",
+  "name": "Europe-1",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Europe-1",
+  "region": "Europe-1",
+  "stops": [
+   "europe-1-stop-1",
+   "europe-1-stop-2",
+   "europe-1-stop-3",
+   "europe-1-stop-4",
+   "europe-1-stop-5",
+   "europe-1-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "europe-2",
+  "conferenceId": "6f6c776e-75e7-4695-a472-7ee5519ddbc7",
+  "name": "Europe-2",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Europe-2",
+  "region": "Europe-2",
+  "stops": [
+   "europe-2-stop-1",
+   "europe-2-stop-2",
+   "europe-2-stop-3",
+   "europe-2-stop-4",
+   "europe-2-stop-5",
+   "europe-2-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "europe-3",
+  "conferenceId": "02bc7e5c-52cf-443d-a4c1-bb287a8009af",
+  "name": "Europe-3",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Europe-3",
+  "region": "Europe-3",
+  "stops": [
+   "europe-3-stop-1",
+   "europe-3-stop-2",
+   "europe-3-stop-3",
+   "europe-3-stop-4",
+   "europe-3-stop-5",
+   "europe-3-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "europe-4",
+  "conferenceId": "8fcde393-d758-47f1-8c96-7db690825708",
+  "name": "Europe-4",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Europe-4",
+  "region": "Europe-4",
+  "stops": [
+   "europe-4-stop-1",
+   "europe-4-stop-2",
+   "europe-4-stop-3",
+   "europe-4-stop-4",
+   "europe-4-stop-5",
+   "europe-4-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "pacific",
+  "conferenceId": "7318868d-f1eb-4f01-9cbe-791d9bddd2f8",
+  "name": "Pacific",
+  "label": "FIBA 3x3 Youth Nations League 2026 - Pacific",
+  "region": "Pacific",
+  "stops": [
+   "pacific-stop-1",
+   "pacific-stop-2",
+   "pacific-stop-3",
+   "pacific-stop-4",
+   "pacific-stop-5",
+   "pacific-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "u21-asia-1",
+  "conferenceId": "41cc80fd-3211-4516-8fec-925605e8726d",
+  "name": "U21 Asia-1",
+  "label": "FIBA 3x3 Youth Nations League 2026 - U21 Asia-1",
+  "region": "U21",
+  "stops": [
+   "u21-asia-1-stop-1",
+   "u21-asia-1-stop-2",
+   "u21-asia-1-stop-3",
+   "u21-asia-1-stop-4",
+   "u21-asia-1-stop-5",
+   "u21-asia-1-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "u21-asia-2",
+  "conferenceId": "2c038ad7-c126-4fbc-aa8f-a6e1ac4d7f9f",
+  "name": "U21 Asia-2",
+  "label": "FIBA 3x3 Youth Nations League 2026 - U21 Asia-2",
+  "region": "U21",
+  "stops": [
+   "u21-asia-2-stop-1",
+   "u21-asia-2-stop-2",
+   "u21-asia-2-stop-3",
+   "u21-asia-2-stop-4",
+   "u21-asia-2-stop-5",
+   "u21-asia-2-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "u21-europe-1",
+  "conferenceId": "f4d277f6-43ac-4653-861f-b0c91404f3a8",
+  "name": "U21 Europe-1",
+  "label": "FIBA 3x3 Youth Nations League 2026 - U21 Europe-1",
+  "region": "U21",
+  "stops": [
+   "u21-europe-1-stop-1",
+   "u21-europe-1-stop-2",
+   "u21-europe-1-stop-3",
+   "u21-europe-1-stop-4",
+   "u21-europe-1-stop-5",
+   "u21-europe-1-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "u21-europe-2",
+  "conferenceId": "ee2b8f06-d11b-4147-81f7-bedca95b1f57",
+  "name": "U21 Europe-2",
+  "label": "FIBA 3x3 Youth Nations League 2026 - U21 Europe-2",
+  "region": "U21",
+  "stops": [
+   "u21-europe-2-stop-1",
+   "u21-europe-2-stop-2",
+   "u21-europe-2-stop-3",
+   "u21-europe-2-stop-4",
+   "u21-europe-2-stop-5",
+   "u21-europe-2-stop-6"
+  ],
+  "stopCount": 6
+ },
+ {
+  "id": "u21-europe-3",
+  "conferenceId": "ec5604d4-b395-4430-aad5-f70d2a74634b",
+  "name": "U21 Europe-3",
+  "label": "FIBA 3x3 Youth Nations League 2026 - U21 Europe-3",
+  "region": "U21",
+  "stops": [
+   "u21-europe-3-stop-1",
+   "u21-europe-3-stop-2",
+   "u21-europe-3-stop-3",
+   "u21-europe-3-stop-4",
+   "u21-europe-3-stop-5",
+   "u21-europe-3-stop-6"
+  ],
+  "stopCount": 6
+ }
+]

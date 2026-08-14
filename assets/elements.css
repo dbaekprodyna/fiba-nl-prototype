@@ -639,7 +639,8 @@
   align-items:center;
   justify-content:center;
   gap:10px;
-  width:660px;
+  width:100%;
+  max-width:660px;
   padding:44px 32px 48px 36px;
   border:1px solid transparent;
   background:var(--border-subtle);
@@ -666,7 +667,8 @@
   flex-direction:row;
   align-items:center;
   gap:12px;
-  width:660px;
+  width:100%;
+  max-width:660px;
   height:56px;
   padding:0 16px 0 22px;
   --of:var(--surface-page);
@@ -706,7 +708,8 @@
 .ac {
   display:flex;
   flex-direction:column;
-  width:660px;
+  width:100%;
+  max-width:660px;
   background:var(--surface-page);
   border:1px solid var(--border-default);
 }
@@ -998,7 +1001,8 @@
 .tbl {
   display:flex;
   flex-direction:column;
-  width:1400px;
+  width:100%;
+  max-width:1440px;
 }
 .tbl-fill {
   width:100%;
@@ -1060,7 +1064,8 @@
 .acm {
   display:flex;
   flex-direction:column;
-  width:660px;
+  width:100%;
+  max-width:660px;
   --of:var(--surface-page);
   border:1px solid transparent;
   background:var(--border-default);
@@ -1892,7 +1897,8 @@
   flex-direction:row;
   align-items:flex-start;
   gap:14px;
-  width:1440px;
+  width:100%;
+  max-width:1440px;
   padding:16px 18px 18px 22px;
   background:var(--surface-sunken);
 }
@@ -2012,11 +2018,13 @@
   color:var(--text-disabled);
 }
 .ad-billboard {
-  width:970px;
+  width:100%;
+  max-width:970px;
   height:250px;
 }
 .ad-leaderboard {
-  width:728px;
+  width:100%;
+  max-width:728px;
   height:90px;
 }
 .ad-halfpage {
@@ -2193,7 +2201,8 @@
   width:100%;
 }
 .ad-full {
-  width:1440px;
+  width:100%;
+  max-width:1440px;
   height:160px;
 }
 .bs-demo {

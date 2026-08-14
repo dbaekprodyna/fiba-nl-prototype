@@ -345,3 +345,21 @@
 /* S-05 Pools — the column headers explain themselves on click */
 .s05-th { display: inline-flex; align-items: center; gap: 4px; }
 .live .s05-th .tip-anchor { padding: 2px; }
+
+/* ============================================================
+   Review round 9 — fluid containers
+   Fixed container widths were rewritten at source by
+   tools/fluidify.py (width:Npx → width:100%; max-width:Npx).
+   What is left here is the handful of inner pieces that still
+   need to give way.
+   ============================================================ */
+.el-purpose, .el-note, .fn-note, .m-family-desc, .doc-sub {
+  max-width: 100%;
+  width: auto;
+}
+.el-states, .m-states, .el-states-col, .fn-row, .stroke-row, .elev-row, .bs-demo {
+  flex-wrap: wrap;
+  min-width: 0;
+}
+.tpl, .tpl-content, .tpl-sub, .tpl-split { width: 100%; max-width: 100%; min-width: 0; }
+.tpl-colL, .tpl-colR { min-width: 0; }
