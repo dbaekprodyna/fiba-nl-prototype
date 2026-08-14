@@ -137,17 +137,25 @@
 
    A pixel floor on the stage was what let the *page* scroll
    sideways, which dragged the sticky sidebar off screen.        */
-html, body { overflow-x: hidden; }
-.doc { flex: 1 1 0; min-width: 0; overflow-x: hidden; }
+/* overflow-x:hidden on <body> silently turns it into a scroll container,
+   and window.scrollTo() then moves nothing — that is what broke the anchor
+   menu. `clip` does the same visual job with no scroll container. */
+html, body { overflow-x: clip; }
+.doc { flex: 1 1 0; min-width: 0; }
 .stage { display: flex; flex-direction: column; min-width: 0; }
 
+/* A block wider than the pane scrolls inside its own section rather than
+   being cut off at the right edge. Padding is symmetric. */
 .anchor {
   scroll-margin-top: 64px;
-  padding: clamp(24px, 3vw, 48px);
+  padding: clamp(24px, 2.5vw, 48px);
   border-bottom: 1px solid var(--border-subtle);
   min-width: 0;
-  overflow-x: clip;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
 }
+.anchor::-webkit-scrollbar { height: 10px; }
+.anchor::-webkit-scrollbar-thumb { background: var(--border-default); }
 .anchor:last-child { border-bottom: 0; }
 
 /* the sheets carry their own page furniture; the shell supplies it */

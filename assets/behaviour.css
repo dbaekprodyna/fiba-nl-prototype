@@ -314,7 +314,8 @@
 .f03m-stage {
   position: relative;
   width: 390px;
-  height: 848px;
+  aspect-ratio: 402 / 874;   /* iPhone 17 */
+  height: auto;
   display: flex;
   flex-direction: column;
   overflow: hidden;

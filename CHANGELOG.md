@@ -1,5 +1,40 @@
 # Changelog
 
+## 2026-08-14 — Review round 8
+
+### Why the anchor menu stopped working
+
+`html, body { overflow-x: hidden }` — added last round to stop the page sliding
+sideways — silently turns `<body>` into a **scroll container**. `window.scrollTo()`
+then moves nothing, so every anchor click did nothing. Replaced with
+`overflow-x: clip`, which does the same visual job and creates no scroll
+container.
+
+### Why the right side was cut off
+
+`.anchor { overflow-x: clip }` clipped anything wider than the pane instead of
+letting it scroll. It is `overflow-x: auto` now, with symmetric padding and a
+visible scrollbar, so a 1440-wide module can be scrolled to on a smaller laptop
+rather than disappearing.
+
+### What was already fixed but not yet live
+
+Verified against the deployed site: `motion.css` and `app.js` were being served
+from cache, so el-11's focus ring, el-22's fill animation, R-01's width and
+E-08's shadow were all fixed in the repo and old in the browser. The version
+stamps from round 7 land with this push and end that.
+
+el-11's focus ring was checked directly in the browser and draws a single
+cut-cornered stroke — correct.
+
+### Fixes
+
+- F-03m — the frame is `aspect-ratio: 402/874` (iPhone 17), so its height
+  follows its width. Every state's header search opens the same overlay as
+  "header only". "bottom bar — Conferences current" and "more — expanded menu"
+  removed.
+- S-05 — tooltips removed, original layout restored.
+
 ## 2026-08-14 — Review round 7 + Figma handover
 
 ### Why fixes kept "not landing"
