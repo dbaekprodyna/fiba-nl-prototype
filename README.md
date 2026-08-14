@@ -19,18 +19,21 @@ assets/
   behaviour.css     hand-written interaction: cursors, open/close, clipping
   app.js            accordions, carousels, menus, selection, tooltips
 system/
-  index.html        guideline site — sidebar, search, deep links
+  index.html        guideline site — sidebar, search, anchor navigation
   nav.json          menu structure (order and names live here)
-  blocks/           98 component fragments, one file each
+  pages/            one long page per group, every block an anchor target
   _check/           the six specimen sheets — source of truth
   assets/           docs.css (specimen chrome), shell.css (site chrome)
 tools/              scripts that derive blocks/ and interactions.css
 ```
 
-**Guideline site:** `system/index.html` — every component gets a hash URL such
-as `#01-elements/ctl-01-button`, so a single component can be linked to
-directly. Search filters by name and purpose; the width buttons preview a block
-at 1920 / 1280 / 768 / 390.
+**Guideline site:** `system/index.html`. Four groups — Foundations, Elements,
+Modules I, Modules II — each one long page with the sidebar acting as an anchor
+menu. A component still has its own URL (`#elements/ctl-01-button`), so a single
+component can be linked to directly. Layout is fluid down to 1280.
+
+Templates are not in the menu: they are the prototype, linked from the sidebar
+footer.
 
 The site and the prototype load the *same* CSS. A change to a token or a
 component appears in the documentation and in the screens at once.

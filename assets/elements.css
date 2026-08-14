@@ -2276,3 +2276,19 @@
 .tabbar-dark .ntab-dis {
   color:var(--chrome-line);
 }
+
+/* ---- el-08 TableHeaderRow — sortable columns are controls --- */
+.cell-sortable-hover {
+  color:var(--text-primary);
+  background:var(--surface-sunken-2);
+}
+.cell-sortable-focus {
+  color:var(--text-primary);
+  outline:2px solid var(--action-default);
+  outline-offset:-2px;
+}
+
+/* ---- el-22 CarouselIndicator -------------------------------
+   A 4px bar with an 8px cut leaves hairlines at the corners;
+   the cut is scaled to the bar.                               */
+.ind-d, .ind-prog { --c:2px; }

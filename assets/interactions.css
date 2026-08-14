@@ -376,6 +376,24 @@
   background:var(--action-hover);
 }
 
+/* from .wl-live.wl-hover */
+.live .wl-live:hover {
+  background:#B80511;
+}
+
+/* from .cell-sortable-hover */
+.live .cell-sortable:hover {
+  color:var(--text-primary);
+  background:var(--surface-sunken-2);
+}
+
+/* from .cell-sortable-focus */
+.live .cell-sortable:focus-visible {
+  color:var(--text-primary);
+  outline:2px solid var(--action-default);
+  outline-offset:-2px;
+}
+
 /* from .wl-focus-live */
 .live .wl-live:focus-visible {
   --of:var(--status-live);

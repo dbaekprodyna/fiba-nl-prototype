@@ -1,613 +1,445 @@
 [
  {
-  "id": "00-foundations",
+  "id": "foundations",
   "name": "Foundations",
   "items": [
    {
     "slug": "desktop-the-frame-everything-in-02-and-03-is-drawn-at",
     "title": "Desktop — the frame everything in 02 and 03 is drawn at",
-    "desc": "12 × 98 + 11 × 24 = 1440. There is no outer margin inside the content frame — the 240px on each side is viewport space, not a grid margin.",
-    "source": "01-foundations.html"
+    "desc": "12 × 98 + 11 × 24 = 1440. There is no outer margin inside the content frame — the 240px on each side is viewport space, not a grid margin."
    },
    {
     "slug": "three-breakpoints",
     "title": "Three breakpoints",
-    "desc": "Column counts follow the current mainstream convention — four on a handset, eight on a portrait tablet, twelve from laptop width up. Breakpoint boundaries at 600 and 1024 match the",
-    "source": "01-foundations.html"
+    "desc": "Column counts follow the current mainstream convention — four on a handset, eight on a portrait tablet, twelve from laptop width up. Breakpoint boundaries at 600 and 1024 match the"
    },
    {
     "slug": "surface",
     "title": "Surface",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "border",
     "title": "Border",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "text",
     "title": "Text",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "interactive",
     "title": "Interactive",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "nl-brand",
     "title": "NL Brand",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "status",
     "title": "Status",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "rules",
     "title": "Rules",
-    "desc": "",
-    "source": "01-foundations.html"
+    "desc": ""
    },
    {
     "slug": "anatomy-outlined-variant",
     "title": "Anatomy — outlined variant",
-    "desc": "The signature shape of the system: a 45° cut on the top-left and bottom-right corner of every surface. All other corners stay square. Border radius is 0 everywhere except flags and",
-    "source": "01-foundations.html"
+    "desc": "The signature shape of the system: a 45° cut on the top-left and bottom-right corner of every surface. All other corners stay square. Border radius is 0 everywhere except flags and"
    },
    {
     "slug": "stroke",
     "title": "Stroke",
-    "desc": "The four brand colours drawn as a single angular gradient around the edge of a surface. It is the one place all four appear at once, so it is reserved for a single hero container p",
-    "source": "01-foundations.html"
+    "desc": "The four brand colours drawn as a single angular gradient around the edge of a surface. It is the one place all four appear at once, so it is reserved for a single hero container p"
    }
   ]
  },
  {
-  "id": "01-elements",
+  "id": "elements",
   "name": "Elements",
   "items": [
    {
     "slug": "ctl-01-button",
     "title": "ctl-01 Button",
-    "desc": "Primary is a solid black surface — there is no coloured brand button in this system. All three variants share one geometry so they swap by property alone. Focus is a 2px black ring",
-    "source": "02-elements.html"
+    "desc": "Primary is a solid black surface — there is no coloured brand button in this system. All three variants share one geometry so they swap by property alone. Focus is a 2px black ring"
    },
    {
     "slug": "ctl-02-link",
     "title": "ctl-02 Link",
-    "desc": "Uppercase and black, with no underline at rest — the arrow carries the affordance. The rule only appears on hover and focus, so a page full of links stays quiet.",
-    "source": "02-elements.html"
+    "desc": "Uppercase and black, with no underline at rest — the arrow carries the affordance. The rule only appears on hover and focus, so a page full of links stays quiet."
    },
    {
     "slug": "ctl-03-tab",
     "title": "ctl-03 Tab",
-    "desc": "Underline tabs. The 2px black rule is the only active affordance — no fills, no pills.",
-    "source": "02-elements.html"
+    "desc": "Underline tabs. The 2px black rule is the only active affordance — no fills, no pills."
    },
    {
     "slug": "ctl-07-watchlive",
     "title": "ctl-07 WatchLive",
-    "desc": "The link out to the YouTube stream. There is no video module in this system — the league streams on YouTube and the site sends people there, so the only thing to design is the butt",
-    "source": "02-elements.html"
+    "desc": "The link out to the YouTube stream. There is no video module in this system — the league streams on YouTube and the site sends people there, so the only thing to design is the butt"
    },
    {
     "slug": "ctl-04-input-select",
     "title": "ctl-04 Input & Select",
-    "desc": "Focus is a 2px ring outside the field rather than a thicker border, so the field never shifts by a pixel when focused.",
-    "source": "02-elements.html"
+    "desc": "Focus is a 2px ring outside the field rather than a thicker border, so the field never shifts by a pixel when focused."
    },
    {
     "slug": "ctl-05-checkbox",
     "title": "ctl-05 Checkbox",
-    "desc": "Used for the region and category filters where several values can be active at once.",
-    "source": "02-elements.html"
+    "desc": "Used for the region and category filters where several values can be active at once."
    },
    {
     "slug": "ctl-06-pagination",
     "title": "ctl-06 Pagination",
-    "desc": "Only on the full standings view. Everything else uses Load more.",
-    "source": "02-elements.html"
+    "desc": "Only on the full standings view. Everything else uses Load more."
    },
    {
     "slug": "el-16-card",
     "title": "el-16 Card",
-    "desc": "The generic content container. News, photos, conferences and team entries are all this component with a different body — one geometry, one set of states, one shadow scale.",
-    "source": "02-elements.html"
+    "desc": "The generic content container. News, photos, conferences and team entries are all this component with a different body — one geometry, one set of states, one shadow scale."
    },
    {
     "slug": "el-01-sectionheader",
     "title": "el-01 SectionHeader",
-    "desc": "Title plus an optional action link. No mark, no rule — secondary branding is carried by the wording itself (\"Nations League + section\") rather than by a graphic device, so the head",
-    "source": "02-elements.html"
+    "desc": "Title plus an optional action link. No mark, no rule — secondary branding is carried by the wording itself (\"Nations League + section\") rather than by a graphic device, so the head"
    },
    {
     "slug": "el-02-genderswitch",
     "title": "el-02 GenderSwitch",
-    "desc": "Rebuilt without a grey track. Two outlined segments sit directly on the page and share a 1px border; the active one fills black. That removes a nesting level and lets the control d",
-    "source": "02-elements.html"
+    "desc": "Rebuilt without a grey track. Two outlined segments sit directly on the page and share a 1px border; the active one fills black. That removes a nesting level and lets the control d"
    },
    {
     "slug": "el-14-chip",
     "title": "el-14 Chip",
-    "desc": "The text-only sibling of el-13. One component covers the region filter bar, the applied-filter tokens and any inline tag, so there is only ever one chip geometry in the system.",
-    "source": "02-elements.html"
+    "desc": "The text-only sibling of el-13. One component covers the region filter bar, the applied-filter tokens and any inline tag, so there is only ever one chip geometry in the system."
    },
    {
     "slug": "el-03-filterchips",
     "title": "el-03 FilterChips",
-    "desc": "Region filter — a row of el-14 Chip at size M. \"AsiaPacific\" is one word: that is the agreed naming rule, not a typo.",
-    "source": "02-elements.html"
+    "desc": "Region filter — a row of el-14 Chip at size M. \"AsiaPacific\" is one word: that is the agreed naming rule, not a typo."
    },
    {
     "slug": "el-05-statusbadge",
     "title": "el-05 StatusBadge",
-    "desc": "Four states, one geometry. Red is reserved for LIVE and appears nowhere else in the system. Not interactive, so it has no hover or focus.",
-    "source": "02-elements.html"
+    "desc": "Four states, one geometry. Red is reserved for LIVE and appears nowhere else in the system. Not interactive, so it has no hover or focus."
    },
    {
     "slug": "el-13-federationtag",
     "title": "el-13 FederationTag",
-    "desc": "The flag and the federation name are one element, not two cells that happen to sit next to each other. Everywhere a federation appears — table row, autocomplete, filter token, team",
-    "source": "02-elements.html"
+    "desc": "The flag and the federation name are one element, not two cells that happen to sit next to each other. Everywhere a federation appears — table row, autocomplete, filter token, team"
    },
    {
     "slug": "el-06-stopdots",
     "title": "el-06 StopDots",
-    "desc": "Replaces the sentence \"4 out of 6 stops played\". Six or eight items are recognised at a glance without counting, so the dots alone carry it. Two types — a read-only indicator, and ",
-    "source": "02-elements.html"
+    "desc": "Replaces the sentence \"4 out of 6 stops played\". Six or eight items are recognised at a glance without counting, so the dots alone carry it. Two types — a read-only indicator, and "
    },
    {
     "slug": "el-08-tableheaderrow",
     "title": "el-08 TableHeaderRow",
-    "desc": "The header half of the table pair. Every cell width here must equal the matching cell width in el-04 TeamRow — that single rule is what keeps the table aligned, and it is what the ",
-    "source": "02-elements.html"
+    "desc": "The header half of the table pair. Every cell width here must equal the matching cell width in el-04 TeamRow — that single rule is what keeps the table aligned, and it is what the "
    },
    {
     "slug": "el-04-teamrow",
     "title": "el-04 TeamRow",
-    "desc": "One row of any standings table. Rows sit directly on the page — there is no card around the table. In Figma this becomes a component with one boolean property per column, so a colu",
-    "source": "02-elements.html"
+    "desc": "One row of any standings table. Rows sit directly on the page — there is no card around the table. In Figma this becomes a component with one boolean property per column, so a colu"
    },
    {
     "slug": "el-07-accordionshell",
     "title": "el-07 AccordionShell",
-    "desc": "The World Tour drill-down pattern: start at 20,000 feet, expand in place, never leave the page. The expanded body has no fill of its own, so the table sits one level deep, not two.",
-    "source": "02-elements.html"
+    "desc": "The World Tour drill-down pattern: start at 20,000 feet, expand in place, never leave the page. The expanded body has no fill of its own, so the table sits one level deep, not two."
    },
    {
     "slug": "el-09-legend",
     "title": "el-09 Legend",
-    "desc": "Every abbreviated column in the system needs a one-line explainer — the same principle already applied to page copy, extended to tables. Rules top and bottom instead of a grey fill",
-    "source": "02-elements.html"
+    "desc": "Every abbreviated column in the system needs a one-line explainer — the same principle already applied to page copy, extended to tables. Rules top and bottom instead of a grey fill"
    },
    {
     "slug": "el-10-emptystate",
     "title": "el-10 EmptyState",
-    "desc": "Not optional. Qualification data is entered by hand and editorial supply is not guaranteed, so every module has to hold its shape with nothing in it. Outlined rather than filled, s",
-    "source": "02-elements.html"
+    "desc": "Not optional. Qualification data is entered by hand and editorial supply is not guaranteed, so every module has to hold its shape with nothing in it. Outlined rather than filled, s"
    },
    {
     "slug": "el-11-searchinput",
     "title": "el-11 SearchInput",
-    "desc": "The gateway built on the assumption that fans look for their own federation and little else. Accepts a name or an IOC code. The suggestion list is a separate component (el-15) so a",
-    "source": "02-elements.html"
+    "desc": "The gateway built on the assumption that fans look for their own federation and little else. Accepts a name or an IOC code. The suggestion list is a separate component (el-15) so a"
    },
    {
     "slug": "el-15-autocompletemenu",
     "title": "el-15 AutocompleteMenu",
-    "desc": "The suggestion list that drops out of el-11. It is its own component because the same list appears under the header search, the Find a team module and the conference filter.",
-    "source": "02-elements.html"
+    "desc": "The suggestion list that drops out of el-11. It is its own component because the same list appears under the header search, the Find a team module and the conference filter."
    },
    {
     "slug": "el-18-navtab",
     "title": "el-18 NavTab",
-    "desc": "One item of the mobile bottom bar. Icon over an uppercase label, with a 2px rule under the active item so the marker matches the desktop navigation exactly.",
-    "source": "02-elements.html"
+    "desc": "One item of the mobile bottom bar. Icon over an uppercase label, with a 2px rule under the active item so the marker matches the desktop navigation exactly."
    },
    {
     "slug": "el-19-disclosurerow",
     "title": "el-19 DisclosureRow",
-    "desc": "A compact single-line accordion row. It is what turns the five-column desktop footer into something usable on a phone, and it is reused anywhere a list needs to collapse without th",
-    "source": "02-elements.html"
+    "desc": "A compact single-line accordion row. It is what turns the five-column desktop footer into something usable on a phone, and it is reused anywhere a list needs to collapse without th"
    },
    {
     "slug": "el-20-toast",
     "title": "el-20 Toast",
-    "desc": "A transient message. It carries the follow reminder, the \"a conference just went live\" alert, and confirmation after an action.",
-    "source": "02-elements.html"
+    "desc": "A transient message. It carries the follow reminder, the \"a conference just went live\" alert, and confirmation after an action."
    },
    {
     "slug": "el-21-tooltip",
     "title": "el-21 Tooltip",
-    "desc": "The one-line explainer that every abbreviated column in the system is required to carry. Anchored to the header cell, opening below it.",
-    "source": "02-elements.html"
+    "desc": "The one-line explainer that every abbreviated column in the system is required to carry. Anchored to the header cell, opening below it."
    },
    {
     "slug": "el-22-carouselindicator",
     "title": "el-22 CarouselIndicator",
-    "desc": "Position and progress for any carousel. Bars are the default because they double as a progress track; round dots are the compact variant for tight placements.",
-    "source": "02-elements.html"
+    "desc": "Position and progress for any carousel. Bars are the default because they double as a progress track; round dots are the compact variant for tight placements."
    },
    {
     "slug": "el-23-breadcrumb",
     "title": "el-23 Breadcrumb",
-    "desc": "The path back up. It was living inside F-04 SubHeader; pulling it out means search results, articles and stop pages can all use the same one.",
-    "source": "02-elements.html"
+    "desc": "The path back up. It was living inside F-04 SubHeader; pulling it out means search results, articles and stop pages can all use the same one."
    },
    {
     "slug": "el-24-avatar",
     "title": "el-24 Avatar",
-    "desc": "A player thumbnail for rosters, stat leaderboards, search results and page headers. Two fallbacks, because portraits will not exist for most of the field in year one. XL is 116, wh",
-    "source": "02-elements.html"
+    "desc": "A player thumbnail for rosters, stat leaderboards, search results and page headers. Two fallbacks, because portraits will not exist for most of the field in year one. XL is 116, wh"
    },
    {
     "slug": "el-25-alphaindex",
     "title": "el-25 AlphaIndex",
-    "desc": "The A to Z jump bar above the federation directory. Letters with no federation behind them are disabled rather than hidden, so the bar never changes width.",
-    "source": "02-elements.html"
+    "desc": "The A to Z jump bar above the federation directory. Letters with no federation behind them are disabled rather than hidden, so the bar never changes width."
    },
    {
     "slug": "el-26-skeleton",
     "title": "el-26 Skeleton",
-    "desc": "The loading state. Every table, card rail and article on this site is populated from an API, and until now none of them had anything to show while that request is in flight.",
-    "source": "02-elements.html"
+    "desc": "The loading state. Every table, card rail and article on this site is populated from an API, and until now none of them had anything to show while that request is in flight."
    },
    {
     "slug": "el-27-inlinebanner",
     "title": "el-27 InlineBanner",
-    "desc": "A notice that belongs to the page rather than to a moment. Where el-20 Toast appears and disappears, this stays until the condition it describes is over.",
-    "source": "02-elements.html"
+    "desc": "A notice that belongs to the page rather than to a moment. Where el-20 Toast appears and disappears, this stays until the condition it describes is over."
    },
    {
     "slug": "el-28-sharemenu",
     "title": "el-28 ShareMenu",
-    "desc": "Sharing for articles, photos and player pages. The trigger is a ghost button; the menu drops beneath it on e2.",
-    "source": "02-elements.html"
+    "desc": "Sharing for articles, photos and player pages. The trigger is a ghost button; the menu drops beneath it on e2."
    },
    {
     "slug": "el-29-adspace",
     "title": "el-29 AdSpace",
-    "desc": "A reserved advertising slot. It sits mid-page or above the footer, never in the header, and it is drawn as an explicit placeholder so a page never looks broken while a slot is unso",
-    "source": "02-elements.html"
+    "desc": "A reserved advertising slot. It sits mid-page or above the footer, never in the header, and it is drawn as an explicit placeholder so a page never looks broken while a slot is unso"
    },
    {
     "slug": "el-30-calendarstrip",
     "title": "el-30 CalendarStrip",
-    "desc": "Eight equal days with previous and next at either end. It fills whatever column it is dropped into, so the same component serves the landing page and the calendar page.",
-    "source": "02-elements.html"
+    "desc": "Eight equal days with previous and next at either end. It fills whatever column it is dropped into, so the same component serves the landing page and the calendar page."
    }
   ]
  },
  {
-  "id": "02-modules",
-  "name": "Modules",
+  "id": "modules-1",
+  "name": "Modules · Frame & Schedule",
   "items": [
    {
     "slug": "f-02-globalheader",
     "title": "F-02 GlobalHeader",
-    "desc": "The FIBA corporate strip above the competition bar. 1920 wide, 34px tall, 8/16 padding, wordmark at 12/18 uppercase, matching the agreed header frame.",
-    "source": "03a-modules-frame.html"
+    "desc": "The FIBA corporate strip above the competition bar. 1920 wide, 34px tall, 8/16 padding, wordmark at 12/18 uppercase, matching the agreed header frame."
    },
    {
     "slug": "f-03-competitionnav",
     "title": "F-03 CompetitionNav",
-    "desc": "The competition bar, following the World Tour pattern: full-bleed black, the mark in a slanted white lozenge on the left, the wordmark beside it, navigation right-aligned, and the ",
-    "source": "03a-modules-frame.html"
+    "desc": "The competition bar, following the World Tour pattern: full-bleed black, the mark in a slanted white lozenge on the left, the wordmark beside it, navigation right-aligned, and the "
    },
    {
     "slug": "f-03m-competitionnav-mobile",
     "title": "F-03m CompetitionNav — mobile",
-    "desc": "Two pieces at 390px: a 56px header that carries only the wordmark and search, and a sticky bottom bar with the five destinations that matter. Everything else lives behind More.",
-    "source": "03a-modules-frame.html"
+    "desc": "Two pieces at 390px: a 56px header that carries only the wordmark and search, and a sticky bottom bar with the five destinations that matter. Everything else lives behind More."
    },
    {
     "slug": "f-04-subheader",
     "title": "F-04 SubHeader",
-    "desc": "The page identity block: breadcrumb, H1, and context. It is the most contested module in the system — one side of the review reads it as redundant with the navigation, the other de",
-    "source": "03a-modules-frame.html"
+    "desc": "The page identity block: breadcrumb, H1, and context. It is the most contested module in the system — one side of the review reads it as redundant with the navigation, the other de"
    },
    {
     "slug": "f-05-megamenu",
     "title": "F-05 MegaMenu",
-    "desc": "What opens under More. Three columns of destinations plus one featured story, on the same black chrome as the navigation bar so the panel reads as an extension of it rather than as",
-    "source": "03a-modules-frame.html"
+    "desc": "What opens under More. Three columns of destinations plus one featured story, on the same black chrome as the navigation bar so the panel reads as an extension of it rather than as"
    },
    {
     "slug": "f-06-sitefooter",
     "title": "F-06 SiteFooter",
-    "desc": "Five columns, the supplier band, the season selector and the legal row. Official ball sits left, official suppliers right, so the two tiers read as separate groups rather than one ",
-    "source": "03a-modules-frame.html"
+    "desc": "Five columns, the supplier band, the season selector and the legal row. Official ball sits left, official suppliers right, so the two tiers read as separate groups rather than one "
    },
    {
     "slug": "f-06m-sitefooter-mobile",
     "title": "F-06m SiteFooter — mobile",
-    "desc": "The five desktop columns become five el-19 DisclosureRow accordions, one open at a time. The lockup, season selector and social row stay visible at the top; the supplier band wraps",
-    "source": "03a-modules-frame.html"
+    "desc": "The five desktop columns become five el-19 DisclosureRow accordions, one open at a time. The lockup, season selector and social row stay visible at the top; the supplier band wraps"
    },
    {
     "slug": "s-01-liveconferenceaccordion",
     "title": "S-01 LiveConferenceAccordion",
-    "desc": "The landing page answer to \"what is happening right now\", and to \"what happened on the day I just picked\". Only live conferences appear by default (LP-14), there is no game list (L",
-    "source": "03a-modules-frame.html"
+    "desc": "The landing page answer to \"what is happening right now\", and to \"what happened on the day I just picked\". Only live conferences appear by default (LP-14), there is no game list (L"
    },
    {
     "slug": "s-02-stoptimeline",
     "title": "S-02 StopTimeline",
-    "desc": "A conference as six sequential stops. The rule above each stop carries the state — black for played and live, grey for upcoming — and the live stop is marked by the red dot and the",
-    "source": "03a-modules-frame.html"
+    "desc": "A conference as six sequential stops. The rule above each stop carries the state — black for played and live, grey for upcoming — and the live stop is marked by the red dot and the"
    },
    {
     "slug": "s-03-calendarstrip",
     "title": "S-03 CalendarStrip",
-    "desc": "Eight equal days with previous and next controls at either end, sized to fill whatever column it is dropped into. The date leads at 40px, the weekday and month stack beside it, and",
-    "source": "03a-modules-frame.html"
+    "desc": "Eight equal days with previous and next controls at either end, sized to fill whatever column it is dropped into. The date leads at 40px, the weekday and month stack beside it, and"
    },
    {
     "slug": "s-04-gamelist",
     "title": "S-04 GameList",
-    "desc": "Games grouped by day, built on exactly the same table as the standings. Federation names open the team page and Box score opens the player-level detail for that game: a header row ",
-    "source": "03a-modules-frame.html"
+    "desc": "Games grouped by day, built on exactly the same table as the standings. Federation names open the team page and Box score opens the player-level detail for that game: a header row "
    },
    {
     "slug": "s-05-pools",
     "title": "S-05 Pools",
-    "desc": "The pool stage of a stop. A black rule on the left marks the teams that advance, so the cut line is visible without a legend.",
-    "source": "03a-modules-frame.html"
+    "desc": "The pool stage of a stop. A black rule on the left marks the teams that advance, so the cut line is visible without a legend."
    },
    {
     "slug": "s-06-bracket",
     "title": "S-06 Bracket",
-    "desc": "The knockout stage. Three formats are in use across the league depending on how many federations enter a stop, so the module is one component with a format property rather than thr",
-    "source": "03a-modules-frame.html"
+    "desc": "The knockout stage. Three formats are in use across the league depending on how many federations enter a stop, so the module is one component with a format property rather than thr"
    },
    {
     "slug": "s-07-seasoncalendar",
     "title": "S-07 SeasonCalendar",
-    "desc": "The Calendar page: the whole season by month, one row per stop. S-03 CalendarStrip is the eight-day window on the landing page; this is the full list behind it.",
-    "source": "03a-modules-frame.html"
+    "desc": "The Calendar page: the whole season by month, one row per stop. S-03 CalendarStrip is the eight-day window on the landing page; this is the full list behind it."
    },
    {
     "slug": "s-08-podium",
     "title": "S-08 Podium",
-    "desc": "How a stop closes. Three federations, the winner raised and filled black, shown above the pool tables once the final is played.",
-    "source": "03a-modules-frame.html"
+    "desc": "How a stop closes. Three federations, the winner raised and filled black, shown above the pool tables once the final is played."
    },
    {
     "slug": "s-09-seasonstatus",
     "title": "S-09 SeasonStatus",
-    "desc": "The first block on the landing page. Two lines, each written as total then breakdown: 18 Conferences — 7 finished — 11 to go , 108 Stops worldwide — 64 finished — 2 live — 42 to go",
-    "source": "03a-modules-frame.html"
-   },
-   {
-    "slug": "r-01-qualificationboard",
-    "title": "R-01 QualificationBoard",
-    "desc": "The landing page centrepiece and the module the whole redesign turns on. Twenty rows: position, federation, conference, status. Nothing else — this replaced the old Standings block",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "r-02-standingstable",
-    "title": "R-02 StandingsTable",
-    "desc": "The Standings page table, in two views. Built from el-08 TableHeaderRow and el-04 TeamRow with matched cell widths, and every column is a boolean property on the row so a column ch",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "r-03-conferencestandings",
-    "title": "R-03 ConferenceStandings",
-    "desc": "The same column logic scoped to one conference, with the winner visually distinguished. The winner highlight was requested specifically, because a conference winner qualifies the m",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "r-04-statleaders",
-    "title": "R-04 StatLeaders",
-    "desc": "Removed from the landing page (LP-10) and re-homed here. Games played and points per game were both requested, as was a link from every player name to a profile.",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "r-05-statleaderboard",
-    "title": "R-05 StatLeaderboard",
-    "desc": "The Stats page: the full field ranked on one metric, with the category chosen above the table. R-04 StatLeaders is the three-column summary that lives on other pages; this is the p",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-01-teamfinder",
-    "title": "E-01 TeamFinder",
-    "desc": "The gateway built on a simple assumption: fans look for their own federation and little else. Accepts a name or an IOC code.",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-02-conferenceheader",
-    "title": "E-02 ConferenceHeader",
-    "desc": "Identity and stop navigation for a conference page. The name carries the age category (Africa East U23), which is why no U23 or U21 column exists anywhere else in the system.",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-03-conferencegrid",
-    "title": "E-03 ConferenceGrid",
-    "desc": "Regional group cards instead of a world map. Review was sceptical that a map of 100+ stops helps anyone, so the geography is reduced to five groups with a progress track per confer",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-04-teamheader",
-    "title": "E-04 TeamHeader",
-    "desc": "Federation identity at the top of a team page: flag, name, category, conference, qualification state, and the six numbers that describe the season. The gender switch sits in the sa",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-05-playerheader",
-    "title": "E-05 PlayerHeader",
-    "desc": "The header of a single player page — the destination behind every player name in a roster, a box score or a stat leaderboard. Portrait, name, federation, category, the link out to ",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-06-playerseasonstats",
-    "title": "E-06 PlayerSeasonStats",
-    "desc": "The season summary and the per-stop breakdown. This is where the Stat Leaders panel removed from the landing page (LP-10) actually lives.",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-07-gamelog",
-    "title": "E-07 GameLog",
-    "desc": "Every game a player has appeared in, newest first: date, conference, opponent, result and the individual line, with links to the clip and the gallery when they exist.",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-08-playercard",
-    "title": "E-08 PlayerCard",
-    "desc": "The roster tile on a team page. Four stacked layers so the whole set reskins from one background swap: background, cut-out portrait, stat column, name plate. It follows the existin",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-09-federationdirectory",
-    "title": "E-09 FederationDirectory",
-    "desc": "The Teams index: every federation in the competition, jumpable by letter. The single most common task on the site is finding one federation, and this is the page that has to answer",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-10-rostergrid",
-    "title": "E-10 RosterGrid",
-    "desc": "The squad on a team page, in two views. Cards are the default because the roster is the emotional part of a team page; the list is for anyone comparing numbers.",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "e-11-searchresults",
-    "title": "E-11 SearchResults",
-    "desc": "The search overlay. It opens over the page rather than navigating to a result page, so a fan never loses where they were; results are grouped by what they are. Federations come fir",
-    "source": "03b-modules-ranking.html"
-   },
-   {
-    "slug": "c-01-aboutblock",
-    "title": "C-01 AboutBlock",
-    "desc": "What replaces the hero. The banner copy was to be removed and the explanation moved into a real About section (LP-02, LP-03), so that a visitor can understand how a team reaches th",
-    "source": "03c-modules-content.html"
-   },
-   {
-    "slug": "c-02-newsrail",
-    "title": "C-02 NewsRail",
-    "desc": "Three stories on the landing page: image, headline, date. One card type only, so a recap generated from results sits beside a written feature without announcing which is which.",
-    "source": "03c-modules-content.html"
-   },
-   {
-    "slug": "c-03-photogallery",
-    "title": "C-03 PhotoGallery",
-    "desc": "Two carousel types plus the viewer. Auto advances on its own with a progress indicator and a pause control, and belongs on the landing page. Manual has previous and next plus a pos",
-    "source": "03c-modules-content.html"
-   },
-   {
-    "slug": "c-04-newslist",
-    "title": "C-04 NewsList",
-    "desc": "The News index. C-02 NewsRail is the three-card row on the landing page; this is the paginated list behind it, filtered by the same category labels.",
-    "source": "03c-modules-content.html"
-   },
-   {
-    "slug": "c-05-article",
-    "title": "C-05 Article",
-    "desc": "The article page. A hero, a headline block, the byline with sharing, and a body constrained to 830px — seven columns — because that is where line length stays readable.",
-    "source": "03c-modules-content.html"
-   },
-   {
-    "slug": "c-06-contentpage",
-    "title": "C-06 ContentPage",
-    "desc": "The template behind About, How it works and FAQ: a sticky table of contents on the left, long-form body on the right, and el-19 DisclosureRow for anything question-shaped.",
-    "source": "03c-modules-content.html"
+    "desc": "The first block on the landing page. Two lines, each written as total then breakdown: 18 Conferences — 7 finished — 11 to go , 108 Stops worldwide — 64 finished — 2 live — 42 to go"
    }
   ]
  },
  {
-  "id": "03-templates",
-  "name": "Templates",
+  "id": "modules-2",
+  "name": "Modules · Ranking, Entity & Content",
   "items": [
    {
-    "slug": "t-home",
-    "title": "T · Home",
-    "desc": "Home page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "r-01-qualificationboard",
+    "title": "R-01 QualificationBoard",
+    "desc": "The landing page centrepiece and the module the whole redesign turns on. Twenty rows: position, federation, conference, status. Nothing else — this replaced the old Standings block"
    },
    {
-    "slug": "t-conferences",
-    "title": "T · Conferences",
-    "desc": "Conferences page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "r-02-standingstable",
+    "title": "R-02 StandingsTable",
+    "desc": "The Standings page table, in two views. Built from el-08 TableHeaderRow and el-04 TeamRow with matched cell widths, and every column is a boolean property on the row so a column ch"
    },
    {
-    "slug": "t-conference",
-    "title": "T · Conference",
-    "desc": "Conference page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "r-03-conferencestandings",
+    "title": "R-03 ConferenceStandings",
+    "desc": "The same column logic scoped to one conference, with the winner visually distinguished. The winner highlight was requested specifically, because a conference winner qualifies the m"
    },
    {
-    "slug": "t-stop",
-    "title": "T · Stop",
-    "desc": "Stop page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "r-04-statleaders",
+    "title": "R-04 StatLeaders",
+    "desc": "Removed from the landing page (LP-10) and re-homed here. Games played and points per game were both requested, as was a link from every player name to a profile."
    },
    {
-    "slug": "t-standings",
-    "title": "T · Standings",
-    "desc": "Standings page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "r-05-statleaderboard",
+    "title": "R-05 StatLeaderboard",
+    "desc": "The Stats page: the full field ranked on one metric, with the category chosen above the table. R-04 StatLeaders is the three-column summary that lives on other pages; this is the p"
    },
    {
-    "slug": "t-teams",
-    "title": "T · Teams",
-    "desc": "Teams page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-01-teamfinder",
+    "title": "E-01 TeamFinder",
+    "desc": "The gateway built on a simple assumption: fans look for their own federation and little else. Accepts a name or an IOC code."
    },
    {
-    "slug": "t-team",
-    "title": "T · Team",
-    "desc": "Team page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-02-conferenceheader",
+    "title": "E-02 ConferenceHeader",
+    "desc": "Identity and stop navigation for a conference page. The name carries the age category (Africa East U23), which is why no U23 or U21 column exists anywhere else in the system."
    },
    {
-    "slug": "t-player",
-    "title": "T · Player",
-    "desc": "Player page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-03-conferencegrid",
+    "title": "E-03 ConferenceGrid",
+    "desc": "Regional group cards instead of a world map. Review was sceptical that a map of 100+ stops helps anyone, so the geography is reduced to five groups with a progress track per confer"
    },
    {
-    "slug": "t-stats",
-    "title": "T · Stats",
-    "desc": "Stats page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-04-teamheader",
+    "title": "E-04 TeamHeader",
+    "desc": "Federation identity at the top of a team page: flag, name, category, conference, qualification state, and the six numbers that describe the season. The gender switch sits in the sa"
    },
    {
-    "slug": "t-calendar",
-    "title": "T · Calendar",
-    "desc": "Calendar page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-05-playerheader",
+    "title": "E-05 PlayerHeader",
+    "desc": "The header of a single player page — the destination behind every player name in a roster, a box score or a stat leaderboard. Portrait, name, federation, category, the link out to "
    },
    {
-    "slug": "t-news",
-    "title": "T · News",
-    "desc": "News page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-06-playerseasonstats",
+    "title": "E-06 PlayerSeasonStats",
+    "desc": "The season summary and the per-stop breakdown. This is where the Stat Leaders panel removed from the landing page (LP-10) actually lives."
    },
    {
-    "slug": "t-article",
-    "title": "T · Article",
-    "desc": "Article page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-07-gamelog",
+    "title": "E-07 GameLog",
+    "desc": "Every game a player has appeared in, newest first: date, conference, opponent, result and the individual line, with links to the clip and the gallery when they exist."
    },
    {
-    "slug": "t-about",
-    "title": "T · About",
-    "desc": "About page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-08-playercard",
+    "title": "E-08 PlayerCard",
+    "desc": "The roster tile on a team page. Four stacked layers so the whole set reskins from one background swap: background, cut-out portrait, stat column, name plate. It follows the existin"
    },
    {
-    "slug": "t-search",
-    "title": "T · Search",
-    "desc": "Search page, assembled only from modules in 03a–03c. Nothing here is drawn twice.",
-    "source": "04-templates.html"
+    "slug": "e-09-federationdirectory",
+    "title": "E-09 FederationDirectory",
+    "desc": "The Teams index: every federation in the competition, jumpable by letter. The single most common task on the site is finding one federation, and this is the page that has to answer"
+   },
+   {
+    "slug": "e-10-rostergrid",
+    "title": "E-10 RosterGrid",
+    "desc": "The squad on a team page, in two views. Cards are the default because the roster is the emotional part of a team page; the list is for anyone comparing numbers."
+   },
+   {
+    "slug": "e-11-searchresults",
+    "title": "E-11 SearchResults",
+    "desc": "The search overlay. It opens over the page rather than navigating to a result page, so a fan never loses where they were; results are grouped by what they are. Federations come fir"
+   },
+   {
+    "slug": "c-01-aboutblock",
+    "title": "C-01 AboutBlock",
+    "desc": "What replaces the hero. The banner copy was to be removed and the explanation moved into a real About section (LP-02, LP-03), so that a visitor can understand how a team reaches th"
+   },
+   {
+    "slug": "c-02-newsrail",
+    "title": "C-02 NewsRail",
+    "desc": "Three stories on the landing page: image, headline, date. One card type only, so a recap generated from results sits beside a written feature without announcing which is which."
+   },
+   {
+    "slug": "c-03-photogallery",
+    "title": "C-03 PhotoGallery",
+    "desc": "Two carousel types plus the viewer. Auto advances on its own with a progress indicator and a pause control, and belongs on the landing page. Manual has previous and next plus a pos"
+   },
+   {
+    "slug": "c-04-newslist",
+    "title": "C-04 NewsList",
+    "desc": "The News index. C-02 NewsRail is the three-card row on the landing page; this is the paginated list behind it, filtered by the same category labels."
+   },
+   {
+    "slug": "c-05-article",
+    "title": "C-05 Article",
+    "desc": "The article page. A hero, a headline block, the byline with sharing, and a body constrained to 830px — seven columns — because that is where line length stays readable."
+   },
+   {
+    "slug": "c-06-contentpage",
+    "title": "C-06 ContentPage",
+    "desc": "The template behind About, How it works and FAQ: a sticky table of contents on the left, long-form body on the right, and el-19 DisclosureRow for anything question-shaped."
    }
   ]
  }

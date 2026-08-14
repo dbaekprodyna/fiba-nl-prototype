@@ -22,14 +22,14 @@
 </head>
 <body class="shell">
 
-<aside class="nav" id="nav">
-  <a class="nav-brand" href="#">
-    <span class="nav-brand-mark">3x3</span>
-    <span class="nav-brand-txt">Nations League<br><b>Design System</b></span>
+<aside class="nav">
+  <a class="nav-brand" href="#foundations">
+    <img class="nav-logo" src="../assets/logo-nl.svg" alt="3x3 Nations League" width="81" height="18">
+    <span class="nav-brand-txt">Design System</span>
   </a>
 
   <div class="nav-search">
-    <input id="q" type="search" placeholder="Search components…" autocomplete="off" aria-label="Search components">
+    <input id="q" type="search" placeholder="Search…" autocomplete="off" aria-label="Search components">
   </div>
 
   <nav class="nav-tree" id="tree" aria-label="Components"></nav>
@@ -40,27 +40,18 @@
   </div>
 </aside>
 
-<main class="main">
+<main class="main" id="main">
   <header class="bar">
     <div class="bar-crumb" id="crumb"></div>
-    <div class="bar-tools">
-      <div class="seg" id="widths" role="group" aria-label="Viewport width">
-        <button data-w="1920" class="on">1920</button>
-        <button data-w="1280">1280</button>
-        <button data-w="768">768</button>
-        <button data-w="390">390</button>
-      </div>
-      <button class="ghost" id="copy">Copy link</button>
-    </div>
   </header>
 
   <section class="doc" id="doc" aria-live="polite">
     <div class="empty-state">
       <h1>Design system</h1>
-      <p>Foundations, elements, modules and page templates for the FIBA 3x3
-         Nations League. Pick a component on the left, or search.</p>
-      <p class="hint">Every block on this site is the same code the prototype
-         runs on — a change to a token or a component shows up in both.</p>
+      <p>Foundations, elements and modules for the FIBA 3x3 Nations League.
+         Pick a group on the left; the menu inside it jumps to a component.</p>
+      <p class="hint">Every block here runs on the same CSS as the prototype,
+         so a change to a token or a component shows up in both.</p>
     </div>
   </section>
 </main>
@@ -69,36 +60,40 @@
 <script>
 (function () {
   'use strict';
-  var tree = document.getElementById('tree');
-  var doc = document.getElementById('doc');
+  var tree  = document.getElementById('tree');
+  var doc   = document.getElementById('doc');
   var crumb = document.getElementById('crumb');
-  var q = document.getElementById('q');
-  var NAV = [];
-  var width = 1920;
+  var q     = document.getElementById('q');
+  var NAV = [], cache = {}, current = '', spy = null;
 
-  fetch('nav.json')
-    .then(function (r) { return r.json(); })
+  fetch('nav.json').then(function (r) { return r.json(); })
     .then(function (n) { NAV = n; render(); route(); })
     .catch(function () {
       doc.innerHTML = '<div class="empty-state"><h1>Could not load nav.json</h1>' +
-        '<p>Open this page through a web server rather than by double-clicking the file — ' +
-        '<code>python3 -m http.server</code> in the project folder, then visit localhost.</p></div>';
+        '<p>Open this through a web server, not by double-clicking the file.</p></div>';
     });
 
+  function esc(s) {
+    return s.replace(/[&<>]/g, function (c) {
+      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c];
+    });
+  }
+
   function render(filter) {
-    var f = (filter || '').trim().toLowerCase();
-    var total = 0, html = '';
+    var f = (filter || '').trim().toLowerCase(), total = 0, html = '';
     NAV.forEach(function (g) {
       var items = g.items.filter(function (i) {
         return !f || (i.title + ' ' + i.desc).toLowerCase().indexOf(f) > -1;
       });
       total += items.length;
       if (!items.length) return;
-      html += '<div class="grp"><div class="grp-h">' + g.name +
-              '<span>' + items.length + '</span></div>';
+      html += '<div class="grp" data-grp="' + g.id + '">' +
+              '<a class="grp-h" href="#' + g.id + '">' + esc(g.name) +
+              '<span>' + items.length + '</span></a>';
       items.forEach(function (i) {
         html += '<a class="grp-i" href="#' + g.id + '/' + i.slug + '" ' +
-                'data-key="' + g.id + '/' + i.slug + '">' + esc(i.title) + '</a>';
+                'data-grp="' + g.id + '" data-slug="' + i.slug + '">' +
+                esc(i.title) + '</a>';
       });
       html += '</div>';
     });
@@ -107,76 +102,71 @@
     mark();
   }
 
-  function esc(s) {
-    return s.replace(/[&<>]/g, function (c) {
-      return ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c];
-    });
+  function parse() {
+    var h = location.hash.slice(1).split('/');
+    return { grp: h[0] || '', slug: h[1] || '' };
   }
 
-  function mark() {
-    var key = location.hash.slice(1);
+  function group(id) {
+    return NAV.filter(function (g) { return g.id === id; })[0];
+  }
+
+  function mark(activeSlug) {
+    var p = parse(), slug = activeSlug || p.slug;
+    [].forEach.call(tree.querySelectorAll('.grp'), function (el) {
+      el.classList.toggle('open', el.dataset.grp === p.grp);
+    });
     [].forEach.call(tree.querySelectorAll('.grp-i'), function (a) {
-      a.classList.toggle('on', a.dataset.key === key);
+      a.classList.toggle('on', a.dataset.grp === p.grp && a.dataset.slug === slug);
     });
-  }
-
-  function find(key) {
-    var parts = key.split('/');
-    var g = NAV.filter(function (x) { return x.id === parts[0]; })[0];
-    if (!g) return null;
-    var i = g.items.filter(function (x) { return x.slug === parts[1]; })[0];
-    return i ? { group: g, item: i } : null;
   }
 
   function route() {
-    var key = location.hash.slice(1);
-    mark();
-    if (!key) return;
-    var hit = find(key);
-    if (!hit) { doc.innerHTML = '<div class="empty-state"><h1>Not found</h1></div>'; return; }
-    crumb.innerHTML = '<span>' + hit.group.name + '</span><b>' + esc(hit.item.title) + '</b>';
+    var p = parse();
+    if (!p.grp) { mark(); return; }
+    var g = group(p.grp);
+    if (!g) return;
+    crumb.textContent = g.name;
+
+    if (current === p.grp) { jump(p.slug); mark(); return; }
     doc.innerHTML = '<div class="loading">Loading…</div>';
-    fetch('blocks/' + key + '.html')
+    var done = function (html) {
+      current = p.grp;
+      doc.innerHTML = '<div class="stage" id="stage">' + html + '</div>';
+      if (window.FIBA) window.FIBA.init(doc);
+      observe();
+      jump(p.slug);
+      mark();
+    };
+    if (cache[p.grp]) { done(cache[p.grp]); return; }
+    fetch('pages/' + p.grp + '.html')
       .then(function (r) { return r.text(); })
-      .then(function (html) {
-        doc.innerHTML =
-          '<div class="stage-wrap"><div class="stage" id="stage">' + html + '</div></div>' +
-          '<footer class="src">Source: <code>system/_check/' + hit.item.source + '</code></footer>';
-        scale();
-        if (window.FIBA) window.FIBA.init(doc);
-      });
+      .then(function (html) { cache[p.grp] = html; done(html); });
   }
 
-  /* Sheets are drawn at 1920. Scale them to whatever room the pane has,
-     so a component is legible without a horizontal scrollbar. */
-  function scale() {
-    var stage = document.getElementById('stage');
-    if (!stage) return;
-    var pane = doc.clientWidth - 64;
-    var k = Math.min(1, pane / width);
-    stage.style.width = width + 'px';
-    stage.style.transform = 'scale(' + k + ')';
-    stage.parentElement.style.height = (stage.scrollHeight * k) + 'px';
+  function jump(slug) {
+    if (!slug) { doc.scrollTop = 0; window.scrollTo(0, 0); return; }
+    var el = document.getElementById(slug);
+    if (el) el.scrollIntoView({ block: 'start', behavior: 'auto' });
   }
 
-  document.getElementById('widths').addEventListener('click', function (e) {
-    var b = e.target.closest('button');
-    if (!b) return;
-    [].forEach.call(this.children, function (c) { c.classList.toggle('on', c === b); });
-    width = parseInt(b.dataset.w, 10);
-    scale();
-  });
-
-  document.getElementById('copy').addEventListener('click', function () {
-    navigator.clipboard.writeText(location.href);
-    this.textContent = 'Copied';
-    var b = this;
-    setTimeout(function () { b.textContent = 'Copy link'; }, 1400);
-  });
+  /* Highlight the menu entry for whatever is on screen. */
+  function observe() {
+    if (spy) spy.disconnect();
+    if (!('IntersectionObserver' in window)) return;
+    var visible = {};
+    spy = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { visible[e.target.id] = e.isIntersecting; });
+      var order = [].map.call(doc.querySelectorAll('.anchor'), function (a) { return a.id; });
+      for (var i = 0; i < order.length; i++) {
+        if (visible[order[i]]) { mark(order[i]); break; }
+      }
+    }, { rootMargin: '-72px 0px -70% 0px' });
+    [].forEach.call(doc.querySelectorAll('.anchor'), function (a) { spy.observe(a); });
+  }
 
   q.addEventListener('input', function () { render(this.value); });
   window.addEventListener('hashchange', route);
-  window.addEventListener('resize', scale);
 })();
 </script>
 </body>

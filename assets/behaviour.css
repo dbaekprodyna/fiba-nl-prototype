@@ -211,3 +211,50 @@
 .live .e11-dark :focus-visible, .live .f03m-sheet :focus-visible {
   outline-color: var(--chrome-text);
 }
+
+/* ============================================================
+   Review round 5
+   ============================================================ */
+
+/* The container carries the focus ring; the input inside it must
+   not draw a second one. */
+.live .fld-in:focus, .live .search-in:focus,
+.live .fld-in:focus-visible, .live .search-in:focus-visible { outline: none; }
+.live :focus-visible:not(.cut-out):not(.btn):not(.chip):not(.ftag):not(.card-int):not(.fld-in):not(.search-in) {
+  outline: 2px solid var(--action-default);
+  outline-offset: 2px;
+}
+
+/* ctl-04 on dark chrome — the ring has to read against #171717. */
+.live .darkbed .dsel:focus-visible,
+.live .dsel:focus-visible { --of: var(--chrome-bg-2); background: #FFFFFF; --n: 2px; border: 2px solid transparent; }
+
+/* el-08 sortable header cells are controls. */
+.live .cell-sortable { cursor: pointer; }
+
+/* el-11 — the trailing X clears the field. */
+.live .search-clear { cursor: pointer; color: var(--text-muted); }
+.live .search-clear:hover { color: var(--text-primary); }
+
+/* el-28 / C-05 share trigger. */
+.live .shm-trig:hover { --of: var(--surface-sunken); }
+
+/* E-08 PlayerCard — e1 at rest, e2 on hover. */
+.live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
+.live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
+
+/* S-04 GameList — the HOME side (left of the score) reads outward:
+   name, code, flag. The away side keeps flag, code, name. */
+.c-home { justify-content: flex-end; }
+.c-home .ftag, .c-home .ftag-txt { flex-direction: row-reverse; }
+.c-away { justify-content: flex-start; }
+.c-away .ftag, .c-away .ftag-txt { flex-direction: row; }
+
+/* el-30 CalendarStrip — selected is a filled black cell, matching
+   el-03 FilterChips. */
+.s03-on { background: var(--action-default); --of: var(--action-default); }
+.s03-on .s03-num, .s03-on .s03-dow { color: var(--text-inverse); }
+
+/* F-03m — the sheet is a panel, not a strip. */
+.f03m-sheet-top { height: 56px; padding: 0 20px; }
+.f03m-close { padding: 8px 4px; }

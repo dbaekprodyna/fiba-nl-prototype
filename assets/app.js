@@ -78,6 +78,14 @@
       if (sh) { sh.hidden = true; return; }
     }
 
+    /* -- el-11 clear the search field ------------------------- */
+    var clr = closestIn(ev.target, '.search-clear', scope);
+    if (clr) {
+      var inp = clr.closest('.search').querySelector('.search-in, input');
+      if (inp) { inp.value = ''; inp.focus(); }
+      return;
+    }
+
     /* -- checkbox --------------------------------------------- */
     var chk = closestIn(ev.target, '.chk', scope);
     if (chk && !chk.querySelector('.chk-box-off-dis, .chk-box-on-dis')) {
@@ -325,6 +333,14 @@
       if (sel._menu) return;
       var menu = sel.parentElement.querySelector('.dsel-menu');
       if (!menu) return;
+      /* the dark select's focus ring is drawn by the cut-aware border,
+         which needs the fill layer present in the markup */
+      if (sel.classList.contains('cut') && !sel.querySelector(':scope > .cutfill')) {
+        sel.classList.add('cut-out');
+        var f = document.createElement('div');
+        f.className = 'cutfill';
+        sel.insertBefore(f, sel.firstChild);
+      }
       sel._menu = menu; menu._trigger = sel;
       menu.hidden = !sel.classList.contains('dsel-open');
       sel.classList.remove('dsel-open');
@@ -373,10 +389,15 @@
           /* Once the playhead moves past the progress cell it must read as
              a completed bar, not snap back to empty. */
           fill.style.width = i > progAt ? '100%' : '0px';
-          if (i === progAt) requestAnimationFrame(function () {
-            fill.style.transition = 'width ' + SLIDE_MS + 'ms linear';
-            fill.style.width = '100%';
-          });
+          if (i === progAt) {
+            void fill.offsetWidth;               /* flush the reset before animating */
+            requestAnimationFrame(function () {
+              requestAnimationFrame(function () {
+                fill.style.transition = 'width ' + SLIDE_MS + 'ms linear';
+                fill.style.width = '100%';
+              });
+            });
+          }
         }
       }
       paint();

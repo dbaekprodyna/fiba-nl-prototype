@@ -1,5 +1,53 @@
 # Changelog
 
+## 2026-08-13 — Guideline site restructured
+
+**Anchor navigation.** Each group is now one long page and the sidebar is its
+table of contents: Foundations (11), Elements (35), Modules I · Frame &
+Schedule (16), Modules II · Ranking, Entity & Content (22). Modules were split
+in two to keep each page under ~470 KB. Scroll position drives the sidebar
+highlight. Templates left the menu entirely — they are the prototype, linked
+from the sidebar footer.
+
+**Layout is fluid, not scaled.** The transform-scale preview and the breakpoint
+buttons are gone. Fixed 1920 / 1440 widths are relaxed to percentages with a
+1280 floor, so the sheets genuinely reflow with the window.
+
+**Sidebar header** is the 3x3NL wordmark plus DESIGN SYSTEM on one line; the
+Copy link button is gone.
+
+### Fixes
+
+- ctl-07 — the red Watch live button hovers to `#B80511`. The specimen already
+  had `.wl-live.wl-hover`; the generator only mapped the generic `.wl-hover`.
+- ctl-04 / el-11 — the input inside the painted container was drawing its own
+  focus outline on top of the container's ring. On dark chrome the select had
+  no fill layer, so its white ring had nothing to sit on; the scaffold is now
+  added at init.
+- el-05 — the live dot pulses (badge, Watch live, calendar, nav).
+- el-08 — sortable header cells have hover and focus and are keyboard reachable.
+- el-07 / S-01 / R-02 / R-03 — legend carries Q, S **and R · In the race**.
+- el-11 — the trailing X clears the field.
+- el-22 — the 8px cut on a 4px bar left hairlines at the corners; the cut is
+  scaled to the bar. The fill reset is now flushed before the animation starts,
+  which was the cause of the occasional jump straight to black.
+- el-30 — day cells sit in their strip context at full size; selected is a
+  filled black cell like el-03.
+- Modules — `.m-block-full` pads its children by 240px for the 1920 bleed; the
+  shell drops that, which was the excessive left margin.
+- F-02 / F-05 / F-06 — full-bleed chrome fills the pane instead of being cut at
+  1920.
+- F-03m — sheet is 720 tall so the whole menu fits; the redundant heading is
+  gone and Close is spaced like the rows below it.
+- R-04 — flags were broken again: a markup script re-lowercased `viewBox` and
+  `fix_svg_case.py` had not been re-run after it. It runs after every markup
+  pass now.
+- S-04 — home side reads name, code, flag; away side flag, code, name.
+- E-08 — card sits on e1, lifts to e2 on hover.
+- C-05 — share trigger hover restored.
+- `gen_states.py` stripped no comments, so a rule directly after a comment block
+  was keyed with the comment text and silently skipped.
+
 ## 2026-08-13 — Review round 4 + guideline site
 
 ### Why the same bugs kept coming back

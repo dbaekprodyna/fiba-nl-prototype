@@ -11,6 +11,7 @@ Hand-written behaviour lives in assets/behaviour.css and is untouched.
 import os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 css = "".join(open(os.path.join(ROOT, "assets", f)).read() for f in ("elements.css", "modules.css"))
+css = re.sub(r"/\*.*?\*/", "", css, flags=re.S)   # a comment would otherwise glue onto the next selector
 RULES = {" ".join(s.split()): " ".join(b.split())
          for s, b in re.findall(r"(?m)^([^{}\n][^{}]*?)\{([^{}]*?)\}", css, re.S)}
 
@@ -42,7 +43,10 @@ MAP = [
  (".crumb-hover", ".crumb:not(.crumb-cur):hover"), (".shm-i-hover", ".shm-i:hover"),
  (".dotb-hover", ".dotb:not(.dotb-sel):hover"), (".dotb-focus", ".dotb:focus-visible"),
  (".dotb-active", ".dotb:active"),
- (".wl-hover", ".wl:hover"), (".wl-focus-live", ".wl-live:focus-visible"),
+ (".wl-hover", ".wl:hover"), (".wl-live.wl-hover", ".wl-live:hover"),
+ (".cell-sortable-hover", ".cell-sortable:hover"),
+ (".cell-sortable-focus", ".cell-sortable:focus-visible"),
+ (".wl-focus-live", ".wl-live:focus-visible"),
  (".wl-focus-dark", ".wl-dark:focus-visible"), (".wl-focus-ghost", ".wl-ghost:focus-visible"),
  (".f03-i.f03-hover", ".f03-i:not(.f03-dis):hover"), (".e09-cell-hover", ".e09-cell:hover"),
  (".mm-l-hover", ".mm-l:hover"),
