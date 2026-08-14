@@ -70,7 +70,7 @@
     var msearch = closestIn(ev.target, '.f03m-search', scope);
     if (msearch) {
       var mstage = msearch.closest('.f03m-stage') || msearch.parentElement.parentElement;
-      var panel = mstage && mstage.querySelector('.f03m-searchbar');
+      var panel = mstage && (mstage.querySelector('.f03m-overlay') || mstage.querySelector('.f03m-searchbar'));
       if (panel) {
         panel.hidden = !panel.hidden;
         if (!panel.hidden) { var mi = panel.querySelector('input'); if (mi) mi.focus(); }

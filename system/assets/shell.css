@@ -130,18 +130,23 @@
 }
 
 /* ---- stage ---------------------------------------------------
-   The sheets were drawn at a fixed 1920 / 1440. Inside the shell
-   the pane is whatever the window gives us, so fixed widths are
-   relaxed to a max-width and the page stays readable down to
-   1280 without a horizontal scrollbar.                          */
-.doc { flex: 1 1 0; min-width: 0; }
-.stage { display: flex; flex-direction: column; }
+   Fully fluid. The sheets were drawn at a fixed 1920 / 1440, but
+   nothing here keeps a pixel floor: every fixed width becomes a
+   percentage with a max-width, and the few frames that genuinely
+   cannot reflow scroll inside themselves.
+
+   A pixel floor on the stage was what let the *page* scroll
+   sideways, which dragged the sticky sidebar off screen.        */
+html, body { overflow-x: hidden; }
+.doc { flex: 1 1 0; min-width: 0; overflow-x: hidden; }
+.stage { display: flex; flex-direction: column; min-width: 0; }
 
 .anchor {
   scroll-margin-top: 64px;
-  padding: 40px 40px 48px 40px;
+  padding: clamp(24px, 3vw, 48px);
   border-bottom: 1px solid var(--border-subtle);
   min-width: 0;
+  overflow-x: clip;
 }
 .anchor:last-child { border-bottom: 0; }
 
@@ -149,29 +154,30 @@
 .stage .doc-header, .stage .doc-meta { display: none; }
 .stage .el-block, .stage .m-block, .stage .tpl-block, .stage .fn-block {
   width: 100%;
-  max-width: 1440px;
+  max-width: 100%;
   padding: 0;
   border-bottom: 0;
 }
 
-/* Fluid between 1280 and whatever the window gives us. Every fixed
-   1920 or 1440 width becomes a percentage; the stage keeps a 1280
-   floor and the pane scrolls below that rather than squeezing. */
-.doc { overflow-x: auto; }
-.stage { min-width: 1280px; }
-.stage .m-frame, .stage .tpl-frame { width: 100%; max-width: 100%; }
-.stage .m-frame > *, .stage .m-states, .stage .m-state { min-width: 0; }
-.stage .doc-content { width: 100%; padding: 0; }
+/* Every fixed 1920 / 1440 / 1400 container becomes fluid. */
+.stage [class] { max-width: 100%; }
+.stage .m-frame, .stage .tpl-frame,
 .stage .f02, .stage .f03, .stage .f06, .stage .mm, .stage .ovl,
 .stage .ovl-scrim, .stage .ovl-top, .stage .ovl-dim, .stage .f04,
-.stage .r01, .stage .r01-row, .stage .r01-cut, .stage .tbl, .stage .s05,
-.stage .s06, .stage .e03, .stage .e09, .stage .e10, .stage .e11,
-.stage .c02, .stage .c03, .stage .car, .stage .car-stage, .stage .lb,
-.stage .s07, .stage .s02, .stage .c04, .stage .r04, .stage .r02,
-.stage .s09, .stage .thead, .stage .trow {
+.stage .r01, .stage .r01-row, .stage .r01-cut, .stage .r02, .stage .r03,
+.stage .r04, .stage .r05, .stage .tbl, .stage .thead, .stage .trow,
+.stage .s02, .stage .s05, .stage .s06, .stage .s07, .stage .s09,
+.stage .e03, .stage .e09, .stage .e10, .stage .e11, .stage .e07,
+.stage .c02, .stage .c03, .stage .c04, .stage .car, .stage .car-stage,
+.stage .lb, .stage .lb-grid, .stage .lb-stage, .stage .acc, .stage .doc-content,
+.stage .m-family, .stage .m-states, .stage .m-state, .stage .el-states-col {
   width: 100%;
   min-width: 0;
 }
+
+/* Frames that cannot reflow below a certain width scroll inside
+   themselves rather than pushing the page sideways. */
+.stage .m-frame, .stage .tpl-frame { overflow-x: auto; }
 
 .empty-state { max-width: 620px; padding: 56px 40px; }
 .empty-state h1 {
@@ -210,11 +216,14 @@
 .stage .m-state:has(> .m-frame > .f03),
 .stage .m-state:has(> .m-frame > .f06),
 .stage .m-state:has(> .m-frame > .mm) { overflow-x: auto; }
-.stage .f02, .stage .f03, .stage .f06, .stage .mm,
 .stage .f06-cols, .stage .f06-bar, .stage .f06-spon, .stage .f06-brandrow,
-.stage .mm-inner, .stage .f02-corp, .stage .f03-nav {
+.stage .mm-in, .stage .mm-top, .stage .f02-corp, .stage .f03-nav,
+.stage .f03-list, .stage .tabbar, .stage .f03m {
   width: 100%;
   min-width: 0;
 }
+/* the nav bar has to be able to drop items rather than overflow */
+.stage .f03-list { flex-wrap: wrap; }
+.stage .f03-i { padding: 0 clamp(8px, 1vw, 16px); }
 .stage .f02 { padding-right: 16px; }
 

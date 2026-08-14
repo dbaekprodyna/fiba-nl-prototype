@@ -10,15 +10,15 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;700;800&family=Barlow+Condensed:wght@600;700;800&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../assets/tokens.css">
-<link rel="stylesheet" href="../assets/base.css">
-<link rel="stylesheet" href="../assets/elements.css">
-<link rel="stylesheet" href="../assets/modules.css">
-<link rel="stylesheet" href="../assets/motion.css">
-<link rel="stylesheet" href="../assets/interactions.css">
-<link rel="stylesheet" href="../assets/behaviour.css">
-<link rel="stylesheet" href="assets/docs.css">
-<link rel="stylesheet" href="assets/shell.css">
+<link rel="stylesheet" href="../assets/tokens.css?v=3c8e5775">
+<link rel="stylesheet" href="../assets/base.css?v=a770de7c">
+<link rel="stylesheet" href="../assets/elements.css?v=137d26d1">
+<link rel="stylesheet" href="../assets/modules.css?v=3890e670">
+<link rel="stylesheet" href="../assets/motion.css?v=9fb074bf">
+<link rel="stylesheet" href="../assets/interactions.css?v=ed39df85">
+<link rel="stylesheet" href="../assets/behaviour.css?v=0501a63a">
+<link rel="stylesheet" href="assets/docs.css?v=38daf2ca">
+<link rel="stylesheet" href="assets/shell.css?v=0bf86a40">
 </head>
 <body class="shell">
 
@@ -56,7 +56,7 @@
   </section>
 </main>
 
-<script src="../assets/app.js" defer></script>
+<script src="../assets/app.js?v=554fb3ce" defer></script>
 <script>
 (function () {
   'use strict';
@@ -144,10 +144,15 @@
       .then(function (html) { cache[p.grp] = html; done(html); });
   }
 
+  /* scrollIntoView also scrolls horizontally when the target is wider
+     than the viewport, which dragged the sidebar off screen. Move the
+     vertical axis only. */
   function jump(slug) {
-    if (!slug) { doc.scrollTop = 0; window.scrollTo(0, 0); return; }
+    if (!slug) { window.scrollTo(0, 0); return; }
     var el = document.getElementById(slug);
-    if (el) el.scrollIntoView({ block: 'start', behavior: 'auto' });
+    if (!el) return;
+    var top = el.getBoundingClientRect().top + window.pageYOffset - 64;
+    window.scrollTo({ top: top, left: 0, behavior: 'auto' });
   }
 
   /* Highlight the menu entry for whatever is on screen. */

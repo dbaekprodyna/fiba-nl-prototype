@@ -1,5 +1,56 @@
 # Changelog
 
+## 2026-08-14 — Review round 7 + Figma handover
+
+### Why fixes kept "not landing"
+
+The live site was serving a **cached** `motion.css` and `app.js` while
+`elements.css` was fresh — so el-11, el-22 and the dot animation showed the old
+behaviour after a push that contained the fix. `tools/bump_assets.py` now stamps
+every CSS and JS link with a content hash (`?v=1a2b3c4d`), so a changed file can
+never be served from cache again. Run it before committing.
+
+### Why the sidebar slid off screen
+
+Two causes, both fixed:
+
+1. `.stage` carried a 1280px floor. When a sheet was wider than the pane the
+   *page* scrolled sideways and took the sticky sidebar with it.
+2. `scrollIntoView` scrolls horizontally as well as vertically when the target
+   is wider than the viewport. Anchor jumps now move the vertical axis only.
+
+The stage is fully fluid: every fixed 1920 / 1440 / 1400 container is a
+percentage with a max-width, padding uses `clamp()`, the nav bar wraps rather
+than overflowing, and only `.m-frame` / `.tpl-frame` scroll internally.
+
+### Fixes
+
+- R-01 — same width as its neighbours (both fluid now).
+- E-08 — e1 at rest, e2 on hover, with room in the grid for the shadow.
+- S-05 — the existing W–L / PF / PA headers open tooltips; the extra tooltip
+  added by mistake last round is gone.
+- F-03m — the frame is 390 × 848, the iPhone 17 ratio. Search opens the E-11
+  result list as an overlay under the header. More opens the menu above the
+  bottom bar, which stays visible, and marks itself active. Close has double the
+  vertical padding.
+
+### Figma handover
+
+- `figma/tokens.json` — 48 tokens in W3C DTCG format, for Figma's native
+  variable import.
+- `figma/AGENT-PROMPTS.md` — P1–P6 in English: three variable passes, the
+  component-set prompt, a layer-rename pass, and the verification step.
+- `figma/README.md` — full procedure and html.to.design import settings.
+- `figma-export/` — 35 files, one element each, 2–45 KB, no page furniture.
+
+### Data
+
+`tools/snapshot.js` — paste into the console on the live Nations League site. It
+walks the site's own routes, harvests the Redux store (Immutable, so `toJS()`),
+merges the records and downloads one JSON. No API key needed. Verified against
+the live site: the store is populated per route, which is why the walk is
+necessary.
+
 ## 2026-08-13 — Review round 6
 
 **Root cause of the broken flags.** `.flag-ring` drew its ring with a `border`
