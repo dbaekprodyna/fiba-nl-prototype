@@ -115,3 +115,34 @@ write("standings.json", standings)
 write("events.json", events)
 print("\nstops enriched with venue detail:", enriched)
 print("stops with standings:", len({s['stop'] for s in standings if s['stop']}))
+
+# ---------- games (they were in the snapshot all along) ----------
+games = []
+for g in (snap.get("games", {}).get("summary") or {}).values():
+    # a game summary carries no eventId; the category does
+    c = cat.get(g.get("categoryId"), {})
+    ev = by_id.get(c.get("eventId"))
+    h, a = g.get("homeTeam") or {}, g.get("awayTeam") or {}
+    games.append({
+        "id": g.get("gameId"),
+        "name": g.get("gameName"),
+        "eventId": c.get("eventId"),
+        "stop": ev["slug"] if ev else None,
+        "conference": ev["conference"] if ev else None,
+        "gender": (g.get("categoryName") or c.get("gender") or "").lower(),
+        "pool": g.get("groupName"),
+        "poolCode": g.get("groupPoolCode"),
+        "round": g.get("roundCode"),
+        "court": g.get("courtName"),
+        "start": g.get("gameStartDatetime"),
+        "status": g.get("gameStatus") or g.get("status"),
+        "home": {"id": h.get("teamId"), "name": h.get("teamName"),
+                 "ioc": h.get("teamNationality") or h.get("nationality"),
+                 "score": h.get("score") if h.get("score") is not None else h.get("teamScore")},
+        "away": {"id": a.get("teamId"), "name": a.get("teamName"),
+                 "ioc": a.get("teamNationality") or a.get("nationality"),
+                 "score": a.get("score") if a.get("score") is not None else a.get("teamScore")},
+    })
+games.sort(key=lambda x: x.get("start") or "")
+write("games.json", games)
+print("stops with games:", len({g["stop"] for g in games if g["stop"]}))

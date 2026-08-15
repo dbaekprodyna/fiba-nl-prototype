@@ -1,5 +1,40 @@
 # Changelog
 
+## 2026-08-14 — The inner rectangle, and 226 games that were already here
+
+### The focus ring, root cause
+
+Safari paints a **native bezel** inside every `<input>`, and a rounded one on
+`type="search"`. `border: 0` and `outline: 0` do not remove it — only
+`appearance: none` does. That bezel is the inner rectangle that has been
+sitting next to the focus ring for four rounds. Chrome does not draw it, which
+is why it looked correct every time I checked.
+
+The clue was in my own diagnostics: the computed style reported
+`appearance: auto` and I read past it.
+
+Every input inside `.live` now has `appearance: none`, plus the WebKit search
+decoration pseudo-elements are suppressed. The `@property` registration of the
+cut lengths from the last round stays — it is a real robustness fix.
+
+### 226 games were in snapshot 2 all along
+
+`games.summary` held 226 games across 17 stops with pool, round, court,
+tip-off and both scores. My extractor tested the wrong key and reported the
+slice as empty, so two rounds of "we need another data pass" were unnecessary.
+
+`games.json` is now built and wired: the Stop page and the Conference page show
+real fixtures with real scores, winner and loser styled from the result.
+
+A game summary carries no `eventId` — the category does — so games are joined
+to their stop through `categoryId`.
+
+### Also
+
+- F-03m — the inline `style` on the stage was overriding the stylesheet, which
+  is why `height: 848px` never took. The inline value is 848px now.
+- S-09 — number-to-label spacing halved.
+
 ## 2026-08-14 — Focus ring root cause, flag and roster bugs
 
 ### The double stroke, finally

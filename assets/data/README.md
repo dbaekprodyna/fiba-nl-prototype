@@ -13,6 +13,7 @@ Real 2026 season data, pulled from the live Nations League site with
 | `players.json` | 711 | name, age, IOC, home city, ranking points |
 | `news.json` | 3 | headline, date, image at two sizes |
 | `photos.json` | 401 | gallery previews keyed to a stop |
+| `games.json` | 226 | 17 stops — pool, round, court, tip-off, both teams with scores |
 
 About 660 KB in total — small enough to load in one go.
 
@@ -35,10 +36,12 @@ card needs. Nothing is downloaded or committed.
 
 ## What is not here
 
-**Individual game results.** Scores live behind each stop's `/games` route and
-were not in either snapshot, so S-04 GameList and the bracket have no real
-fixtures yet. Everything else — standings, rosters, qualification, photos,
-news — is real.
+**Per-player game statistics.** Points and rebounds per player per game sit
+behind each game's box-score page, which neither pass visited. The player game
+log therefore has real opponents and results but no individual line.
+
+Game *results* are here: 226 games across 17 stops, with pool, round, court,
+tip-off time and both scores.
 
 18 of the 108 stops carry standings and rosters: `snapshot2.js` ran with
 `LIMIT = 18`, one stop per conference. Raise the limit and re-run to cover more.

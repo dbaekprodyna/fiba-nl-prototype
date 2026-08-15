@@ -115,6 +115,31 @@
     });
   }
   function player(id) { return D.playersById[id]; }
+  function gamesFor(slug, gender) {
+    return D.games.filter(function (g) {
+      return g.stop === slug && (!gender || g.gender === gender);
+    });
+  }
+
+  /* One game row: time, home, score, away, pool, status. */
+  function paintGame(row, g) {
+    var cells = $$('.cell', row);
+    text(row, '.cell-time .t-data-m', (g.start || '').slice(11, 16));
+    var home = $('.cell-home', row), away = $('.cell-away', row);
+    if (home) fed(home, g.home.ioc, g.home.name);
+    if (away) fed(away, g.away.ioc, g.away.name);
+    var pts = $$('.gpts', row);
+    if (pts[0]) pts[0].textContent = g.home.score != null ? g.home.score : '–';
+    if (pts[1]) pts[1].textContent = g.away.score != null ? g.away.score : '–';
+    if (pts.length === 2 && g.home.score != null && g.away.score != null) {
+      pts[g.home.score >= g.away.score ? 1 : 0].classList.add('gdim');
+      pts[g.home.score >= g.away.score ? 0 : 1].classList.remove('gdim');
+    }
+    text(row, '.cell-pool .t-body-s, .cell-pool .t-label', g.pool);
+    var st = $('.cell-gamestatus .badge .lbl, .cell-gamestatus .t-caption', row);
+    if (st) st.textContent = (g.home.score != null ? 'Final' : 'Upcoming');
+    row.classList.remove('is-placeholder');
+  }
 
   /* A season-wide federation table, built from every stop we have. */
   function federationTable() {
@@ -238,11 +263,13 @@
       link(node, 'stop.html?id=' + e.slug);
     });
 
-    if (s) {
-      repeat(document, '.trow', s.rows, function (row, r) {
+    /* The conference page carries two tables: standings, then games.
+       Fill them separately rather than treating every .trow the same. */
+    var tables = $$('.tbl');
+    var standTbl = tables[0], gameTbl = tables[1];
+    if (s && standTbl) {
+      repeat(standTbl, '.trow', s.rows, function (row, r) {
         fed(row, r.ioc, r.team);
-        var cells = $$('.cell', row);
-        if (cells[0]) cells[0].textContent = r.rank;
         var nums = $$('.t-data-m', row);
         if (nums[0]) nums[0].textContent = r.rank;
         if (nums.length > 2) {
@@ -253,6 +280,9 @@
         link(row, 'team.html?ioc=' + r.ioc);
       });
     }
+    var gl = played.length ? gamesFor(played[0].slug) : [];
+    if (gameTbl && gl.length) repeat(gameTbl, '.trow', gl, paintGame);
+    else if (gameTbl) $$('.trow', gameTbl).forEach(function (r) { r.classList.add('is-placeholder'); });
   };
 
   PAGES['stop.html'] = function () {
@@ -278,9 +308,9 @@
         link(row, 'team.html?ioc=' + r.ioc);
       });
     }
-    /* the game table has no real fixtures yet, so it is dimmed rather
-       than left showing invented scores */
-    $$('.trow').forEach(function (r) { r.classList.add('is-placeholder'); });
+    var gl = gamesFor(e.slug);
+    if (gl.length) repeat(document, '.trow', gl, paintGame);
+    else $$('.trow').forEach(function (r) { r.classList.add('is-placeholder'); });
   };
 
   PAGES['standings.html'] = function () {
@@ -444,7 +474,7 @@
   };
 
   /* ---------- boot ------------------------------------------ */
-  var FILES = ['conferences', 'events', 'standings', 'teams', 'players', 'news', 'photos'];
+  var FILES = ['conferences', 'events', 'standings', 'teams', 'players', 'news', 'photos', 'games'];
 
   Promise.all(FILES.map(function (f) {
     return fetch('assets/data/' + f + '.json').then(function (r) { return r.json(); });

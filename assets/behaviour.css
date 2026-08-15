@@ -78,11 +78,25 @@
                      calc(100% - var(--ic)) 100%, 0 100%);
 }
 
-/* ---- Live-demo form controls are real inputs ------------------ */
-.live .fld-in, .live .search-in {
-  flex: 1 1 0; min-width: 0; border: 0; outline: 0;
+/* ---- Live-demo form controls are real inputs ------------------
+   `appearance: none` is the important one. Safari paints a native
+   bezel inside every <input>, and a rounded one on type="search";
+   border:0 and outline:0 do not remove it. That bezel was the inner
+   rectangle that kept appearing next to the focus ring.           */
+.live input, .live .fld-in, .live .search-in, .live .f03m-searchbar input {
+  -webkit-appearance: none;
+  appearance: none;
+  flex: 1 1 0; min-width: 0;
+  border: 0; outline: 0; box-shadow: none;
+  border-radius: 0;
   background: transparent; color: inherit; font: inherit; letter-spacing: inherit;
 }
+.live input::-webkit-search-decoration,
+.live input::-webkit-search-cancel-button,
+.live input::-webkit-search-results-button,
+.live input::-webkit-search-results-decoration { -webkit-appearance: none; display: none; }
+.live input::-webkit-inner-spin-button,
+.live input::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
 .live .fld-in::placeholder, .live .search-in::placeholder { color: var(--text-muted); }
 .live .fld:focus-within .fld-in,
 .live .search:focus-within .search-in { color: var(--text-primary); }
@@ -128,6 +142,9 @@
 
 /* ---- S-09 SeasonStatus — the two segments meet ---------------- */
 .s09-live { margin-left: -8px; }
+.s09-k { gap: 7px; padding-left: 7px; }
+.s09-line { gap: 10px; }
+.s09-lab { width: 150px; }
 
 /* ---- E-11 SearchResults --------------------------------------- */
 .e11 > .search, .e11-dark > .search { width: 100%; }

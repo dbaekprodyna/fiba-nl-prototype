@@ -1,0 +1,5878 @@
+[
+ {
+  "id": "4d250ae1-3cab-4231-81b5-0f1b48db0436",
+  "name": "Pool A game 1",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T14:00+03:00",
+  "status": null,
+  "home": {
+   "id": "7476876c-65d0-486f-b211-0302300b8172",
+   "name": "Germany",
+   "ioc": "GER",
+   "score": 21
+  },
+  "away": {
+   "id": "03e0b1dc-45e0-4bb7-bcba-e2748729b5bf",
+   "name": "Croatia",
+   "ioc": "CRO",
+   "score": 16
+  }
+ },
+ {
+  "id": "bf015dff-f0b2-4c07-84fa-cff33aaee0b3",
+  "name": "Pool A game 1",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T14:25+03:00",
+  "status": null,
+  "home": {
+   "id": "b585f669-dbe1-4ed3-a78e-5039c78a39db",
+   "name": "Germany",
+   "ioc": "GER",
+   "score": 15
+  },
+  "away": {
+   "id": "3de3fff6-6622-4a84-a6fb-50b568b696de",
+   "name": "Slovenia",
+   "ioc": "SLO",
+   "score": 13
+  }
+ },
+ {
+  "id": "dfe402ed-73c7-4c13-a87a-f6aba42ffb37",
+  "name": "Pool B game 1",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T14:50+03:00",
+  "status": null,
+  "home": {
+   "id": "4d03ae6b-33b3-4a90-8190-7008c0576986",
+   "name": "Italy",
+   "ioc": "ITA",
+   "score": 21
+  },
+  "away": {
+   "id": "750f1e2b-aa93-4f37-ae7f-424956ea56a8",
+   "name": "Azerbaijan",
+   "ioc": "AZE",
+   "score": 8
+  }
+ },
+ {
+  "id": "84111677-6e44-47ac-a756-f570e6313838",
+  "name": "Pool B game 1",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T15:15+03:00",
+  "status": null,
+  "home": {
+   "id": "6c7881a5-df0f-469c-986a-cdb3432b4896",
+   "name": "Lithuania",
+   "ioc": "LTU",
+   "score": 21
+  },
+  "away": {
+   "id": "29a5313b-64b6-4600-8089-66bd59ea2109",
+   "name": "Azerbaijan",
+   "ioc": "AZE",
+   "score": 11
+  }
+ },
+ {
+  "id": "dce585e2-a738-4923-9432-363f2f815af2",
+  "name": "Pool A game 2",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T15:40+03:00",
+  "status": null,
+  "home": {
+   "id": "332a386f-383d-4c2a-805a-acc48fb7b6d7",
+   "name": "Slovenia",
+   "ioc": "SLO",
+   "score": 15
+  },
+  "away": {
+   "id": "03e0b1dc-45e0-4bb7-bcba-e2748729b5bf",
+   "name": "Croatia",
+   "ioc": "CRO",
+   "score": 10
+  }
+ },
+ {
+  "id": "bc029765-bf60-421b-b015-f430d26bc24d",
+  "name": "Pool A game 2",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T16:05+03:00",
+  "status": null,
+  "home": {
+   "id": "119421d6-c087-44e9-ae20-b5f88dadfb95",
+   "name": "Croatia",
+   "ioc": "CRO",
+   "score": 17
+  },
+  "away": {
+   "id": "3de3fff6-6622-4a84-a6fb-50b568b696de",
+   "name": "Slovenia",
+   "ioc": "SLO",
+   "score": 13
+  }
+ },
+ {
+  "id": "adb55c5a-55eb-498a-b38c-fe2ad4b95cf4",
+  "name": "Pool B game 2",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T16:40+03:00",
+  "status": null,
+  "home": {
+   "id": "ad99253b-cda6-420c-b855-877e5822f45d",
+   "name": "Lithuania",
+   "ioc": "LTU",
+   "score": 21
+  },
+  "away": {
+   "id": "750f1e2b-aa93-4f37-ae7f-424956ea56a8",
+   "name": "Azerbaijan",
+   "ioc": "AZE",
+   "score": 3
+  }
+ },
+ {
+  "id": "2e22b9dd-29ac-455e-bbba-c1e9dc50e96e",
+  "name": "Pool B game 2",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T17:05+03:00",
+  "status": null,
+  "home": {
+   "id": "9cfbcff6-2d23-4c92-a30f-6ebd550d9a27",
+   "name": "Italy",
+   "ioc": "ITA",
+   "score": 21
+  },
+  "away": {
+   "id": "29a5313b-64b6-4600-8089-66bd59ea2109",
+   "name": "Azerbaijan",
+   "ioc": "AZE",
+   "score": 11
+  }
+ },
+ {
+  "id": "8356631b-999d-4d53-9aec-d9449cef2a48",
+  "name": "Pool A game 3",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T17:30+03:00",
+  "status": null,
+  "home": {
+   "id": "7476876c-65d0-486f-b211-0302300b8172",
+   "name": "Germany",
+   "ioc": "GER",
+   "score": 17
+  },
+  "away": {
+   "id": "332a386f-383d-4c2a-805a-acc48fb7b6d7",
+   "name": "Slovenia",
+   "ioc": "SLO",
+   "score": 21
+  }
+ },
+ {
+  "id": "7f0058f5-cce0-4214-9b3c-3dc6a2f6cebb",
+  "name": "Pool A game 3",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T17:55+03:00",
+  "status": null,
+  "home": {
+   "id": "b585f669-dbe1-4ed3-a78e-5039c78a39db",
+   "name": "Germany",
+   "ioc": "GER",
+   "score": 12
+  },
+  "away": {
+   "id": "119421d6-c087-44e9-ae20-b5f88dadfb95",
+   "name": "Croatia",
+   "ioc": "CRO",
+   "score": 20
+  }
+ },
+ {
+  "id": "14e46063-0391-494a-9333-254fb425df97",
+  "name": "Pool B game 3",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T18:20+03:00",
+  "status": null,
+  "home": {
+   "id": "4d03ae6b-33b3-4a90-8190-7008c0576986",
+   "name": "Italy",
+   "ioc": "ITA",
+   "score": 19
+  },
+  "away": {
+   "id": "ad99253b-cda6-420c-b855-877e5822f45d",
+   "name": "Lithuania",
+   "ioc": "LTU",
+   "score": 18
+  }
+ },
+ {
+  "id": "cd4934aa-de67-4194-b55e-5a1c34baa3d8",
+  "name": "Pool B game 3",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-01T18:45+03:00",
+  "status": null,
+  "home": {
+   "id": "6c7881a5-df0f-469c-986a-cdb3432b4896",
+   "name": "Lithuania",
+   "ioc": "LTU",
+   "score": 21
+  },
+  "away": {
+   "id": "9cfbcff6-2d23-4c92-a30f-6ebd550d9a27",
+   "name": "Italy",
+   "ioc": "ITA",
+   "score": 12
+  }
+ },
+ {
+  "id": "d33e2f20-d98b-4cee-ad14-0140a74b31dd",
+  "name": "Final",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-06-01T19:20+03:00",
+  "status": null,
+  "home": {
+   "id": "332a386f-383d-4c2a-805a-acc48fb7b6d7",
+   "name": "Slovenia",
+   "ioc": "SLO",
+   "score": 20
+  },
+  "away": {
+   "id": "4d03ae6b-33b3-4a90-8190-7008c0576986",
+   "name": "Italy",
+   "ioc": "ITA",
+   "score": 13
+  }
+ },
+ {
+  "id": "35e25180-40e7-46ab-ab28-2e5f87d8fedd",
+  "name": "Final",
+  "eventId": "5be995d3-53f4-425c-ae96-b49abfd7e6cf",
+  "stop": "europe-1-stop-1",
+  "conference": "europe-1",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-06-01T19:45+03:00",
+  "status": null,
+  "home": {
+   "id": "119421d6-c087-44e9-ae20-b5f88dadfb95",
+   "name": "Croatia",
+   "ioc": "CRO",
+   "score": 19
+  },
+  "away": {
+   "id": "6c7881a5-df0f-469c-986a-cdb3432b4896",
+   "name": "Lithuania",
+   "ioc": "LTU",
+   "score": 16
+  }
+ },
+ {
+  "id": "5c93f054-638b-485c-bb88-42f8b8e1e937",
+  "name": "Pool A game 2",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T16:00+11:00",
+  "status": null,
+  "home": {
+   "id": "625f9c38-9312-4466-8379-1c5460b10717",
+   "name": "Fiji",
+   "ioc": "FIJ",
+   "score": 18
+  },
+  "away": {
+   "id": "84a02beb-a7d0-466e-af30-6a6824ac8d69",
+   "name": "Solomon Islands",
+   "ioc": "SOL",
+   "score": 6
+  }
+ },
+ {
+  "id": "dd533970-562a-4665-8121-8f854b116220",
+  "name": "Pool A game 1",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T16:25+11:00",
+  "status": null,
+  "home": {
+   "id": "0b364b0f-241c-4071-818c-9fba36068c11",
+   "name": "Tonga",
+   "ioc": "TGA",
+   "score": 17
+  },
+  "away": {
+   "id": "3a9d844d-a1d0-401a-81a4-d6769f030c17",
+   "name": "New Caledonia",
+   "ioc": "CAL",
+   "score": 5
+  }
+ },
+ {
+  "id": "cc69867c-b1fb-4079-9439-18d37e6ac2e1",
+  "name": "Pool A game 2",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T16:50+11:00",
+  "status": null,
+  "home": {
+   "id": "1d774cb0-79c8-46be-896c-ebbe4ed55064",
+   "name": "Solomon Islands",
+   "ioc": "SOL",
+   "score": 11
+  },
+  "away": {
+   "id": "3cd36591-21ae-42d8-ba63-e40090bc9dba",
+   "name": "Tonga",
+   "ioc": "TGA",
+   "score": 17
+  }
+ },
+ {
+  "id": "345c8724-2dde-4c9b-8b35-77ab03cc26b4",
+  "name": "Pool A game 1",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T17:15+11:00",
+  "status": null,
+  "home": {
+   "id": "136734be-67b5-40e2-933c-e6817ce2c2b5",
+   "name": "Fiji",
+   "ioc": "FIJ",
+   "score": 12
+  },
+  "away": {
+   "id": "eb79f7a4-6179-4b3f-9c11-8e462f9afb0c",
+   "name": "New Caledonia",
+   "ioc": "CAL",
+   "score": 20
+  }
+ },
+ {
+  "id": "759a238b-1af2-4d09-95b4-45241735b274",
+  "name": "Pool A game 3",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T17:50+11:00",
+  "status": null,
+  "home": {
+   "id": "3a9d844d-a1d0-401a-81a4-d6769f030c17",
+   "name": "New Caledonia",
+   "ioc": "CAL",
+   "score": 22
+  },
+  "away": {
+   "id": "84a02beb-a7d0-466e-af30-6a6824ac8d69",
+   "name": "Solomon Islands",
+   "ioc": "SOL",
+   "score": 8
+  }
+ },
+ {
+  "id": "a3b217b8-62f8-4f31-b277-3557f494f6b4",
+  "name": "Pool A game 4",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T18:15+11:00",
+  "status": null,
+  "home": {
+   "id": "0b364b0f-241c-4071-818c-9fba36068c11",
+   "name": "Tonga",
+   "ioc": "TGA",
+   "score": 18
+  },
+  "away": {
+   "id": "625f9c38-9312-4466-8379-1c5460b10717",
+   "name": "Fiji",
+   "ioc": "FIJ",
+   "score": 2
+  }
+ },
+ {
+  "id": "5975cc1d-39ab-4422-9f61-3bf5e7d23230",
+  "name": "Pool A game 3",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T18:40+11:00",
+  "status": null,
+  "home": {
+   "id": "eb79f7a4-6179-4b3f-9c11-8e462f9afb0c",
+   "name": "New Caledonia",
+   "ioc": "CAL",
+   "score": 13
+  },
+  "away": {
+   "id": "3cd36591-21ae-42d8-ba63-e40090bc9dba",
+   "name": "Tonga",
+   "ioc": "TGA",
+   "score": 22
+  }
+ },
+ {
+  "id": "6ea4d429-40d7-45c1-ae34-f66cc68167e5",
+  "name": "Pool A game 4",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T19:05+11:00",
+  "status": null,
+  "home": {
+   "id": "136734be-67b5-40e2-933c-e6817ce2c2b5",
+   "name": "Fiji",
+   "ioc": "FIJ",
+   "score": 18
+  },
+  "away": {
+   "id": "1d774cb0-79c8-46be-896c-ebbe4ed55064",
+   "name": "Solomon Islands",
+   "ioc": "SOL",
+   "score": 17
+  }
+ },
+ {
+  "id": "8510d345-31d5-4c5b-9ff4-0282b802d5ef",
+  "name": "Pool A game 5",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T20:00+11:00",
+  "status": null,
+  "home": {
+   "id": "625f9c38-9312-4466-8379-1c5460b10717",
+   "name": "Fiji",
+   "ioc": "FIJ",
+   "score": 10
+  },
+  "away": {
+   "id": "3a9d844d-a1d0-401a-81a4-d6769f030c17",
+   "name": "New Caledonia",
+   "ioc": "CAL",
+   "score": 11
+  }
+ },
+ {
+  "id": "bb1137aa-b9ff-4c04-ad0f-2d88ef5c305e",
+  "name": "Pool A game 6",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T20:25+11:00",
+  "status": null,
+  "home": {
+   "id": "84a02beb-a7d0-466e-af30-6a6824ac8d69",
+   "name": "Solomon Islands",
+   "ioc": "SOL",
+   "score": 9
+  },
+  "away": {
+   "id": "0b364b0f-241c-4071-818c-9fba36068c11",
+   "name": "Tonga",
+   "ioc": "TGA",
+   "score": 21
+  }
+ },
+ {
+  "id": "94e37255-4546-42f1-8f69-d04d5e63d58d",
+  "name": "Pool A game 5",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T20:50+11:00",
+  "status": null,
+  "home": {
+   "id": "1d774cb0-79c8-46be-896c-ebbe4ed55064",
+   "name": "Solomon Islands",
+   "ioc": "SOL",
+   "score": 15
+  },
+  "away": {
+   "id": "eb79f7a4-6179-4b3f-9c11-8e462f9afb0c",
+   "name": "New Caledonia",
+   "ioc": "CAL",
+   "score": 16
+  }
+ },
+ {
+  "id": "1bf5a6d3-7f68-4f25-870e-d030a62da6b2",
+  "name": "Pool A game 6",
+  "eventId": "1f3bdfe2-672c-4b7a-ab0a-9212466e6454",
+  "stop": "pacific-stop-1",
+  "conference": "pacific",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-11T21:15+11:00",
+  "status": null,
+  "home": {
+   "id": "3cd36591-21ae-42d8-ba63-e40090bc9dba",
+   "name": "Tonga",
+   "ioc": "TGA",
+   "score": 16
+  },
+  "away": {
+   "id": "136734be-67b5-40e2-933c-e6817ce2c2b5",
+   "name": "Fiji",
+   "ioc": "FIJ",
+   "score": 12
+  }
+ },
+ {
+  "id": "41c2e5c2-9961-4b41-b8c9-15b675fd0e0c",
+  "name": "Pool A game 3",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T09:15+02:00",
+  "status": null,
+  "home": {
+   "id": "959aa7c3-1f9e-49e7-a9ac-dfbea0062be1",
+   "name": "Netherlands",
+   "ioc": "NED",
+   "score": 14
+  },
+  "away": {
+   "id": "643766c7-04a3-4834-8b0f-e8c9a7bbfab8",
+   "name": "Hungary",
+   "ioc": "HUN",
+   "score": 13
+  }
+ },
+ {
+  "id": "a895def6-06cf-49db-b6f7-39c7f1bf7faa",
+  "name": "Pool A game 3",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T09:40+02:00",
+  "status": null,
+  "home": {
+   "id": "09e06293-17f9-450a-bd75-4ee55600a091",
+   "name": "France",
+   "ioc": "FRA",
+   "score": 14
+  },
+  "away": {
+   "id": "a8f7d426-27e7-4c29-9be0-3507cbd9b047",
+   "name": "Hungary",
+   "ioc": "HUN",
+   "score": 10
+  }
+ },
+ {
+  "id": "516b6e03-f215-40e4-b5a4-5a471fca79b1",
+  "name": "Pool B game 3",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T10:05+02:00",
+  "status": null,
+  "home": {
+   "id": "80dee46b-4906-4b05-86ae-ba7531817654",
+   "name": "France",
+   "ioc": "FRA",
+   "score": 20
+  },
+  "away": {
+   "id": "bff3e253-41eb-4a3b-a46b-d893a0b96781",
+   "name": "Türkiye",
+   "ioc": "TUR",
+   "score": 11
+  }
+ },
+ {
+  "id": "01e40448-e8a9-421a-8849-5c89f68f688b",
+  "name": "Pool B game 3",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T10:40+02:00",
+  "status": null,
+  "home": {
+   "id": "58199695-80b4-4363-90b0-ef08cbc714ef",
+   "name": "Netherlands",
+   "ioc": "NED",
+   "score": 17
+  },
+  "away": {
+   "id": "134968e0-31f8-4969-b057-95be6b2cbcaa",
+   "name": "Türkiye",
+   "ioc": "TUR",
+   "score": 12
+  }
+ },
+ {
+  "id": "91bd516e-4e8f-451e-a7e6-9cd6f30ec15c",
+  "name": "Pool A game 2",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T11:05+02:00",
+  "status": null,
+  "home": {
+   "id": "643766c7-04a3-4834-8b0f-e8c9a7bbfab8",
+   "name": "Hungary",
+   "ioc": "HUN",
+   "score": 10
+  },
+  "away": {
+   "id": "615c1d45-f0cc-43a4-a21a-8b29fe066453",
+   "name": "Austria",
+   "ioc": "AUT",
+   "score": 13
+  }
+ },
+ {
+  "id": "97cc46cf-eed1-44d8-800e-ba14b53997c9",
+  "name": "Pool A game 2",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T11:30+02:00",
+  "status": null,
+  "home": {
+   "id": "a8f7d426-27e7-4c29-9be0-3507cbd9b047",
+   "name": "Hungary",
+   "ioc": "HUN",
+   "score": 17
+  },
+  "away": {
+   "id": "0ed538a5-26c9-4884-89b0-9c3044e01976",
+   "name": "Austria",
+   "ioc": "AUT",
+   "score": 19
+  }
+ },
+ {
+  "id": "89c37d2a-e8df-4797-9abc-da85c82524ee",
+  "name": "Pool B game 2",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T13:35+02:00",
+  "status": null,
+  "home": {
+   "id": "bff3e253-41eb-4a3b-a46b-d893a0b96781",
+   "name": "Türkiye",
+   "ioc": "TUR",
+   "score": 15
+  },
+  "away": {
+   "id": "92cd41bf-3144-489a-9100-c5c8cf3357e3",
+   "name": "Ireland",
+   "ioc": "IRL",
+   "score": 14
+  }
+ },
+ {
+  "id": "5126d674-2bb5-4503-b873-c5f475d1b3ba",
+  "name": "Pool B game 2",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T14:00+02:00",
+  "status": null,
+  "home": {
+   "id": "134968e0-31f8-4969-b057-95be6b2cbcaa",
+   "name": "Türkiye",
+   "ioc": "TUR",
+   "score": 18
+  },
+  "away": {
+   "id": "53f90874-6f23-4df0-b8f5-b7e138df2c13",
+   "name": "Ireland",
+   "ioc": "IRL",
+   "score": 10
+  }
+ },
+ {
+  "id": "b3ce0e82-47e5-48d7-9a15-4466a025043f",
+  "name": "Pool A game 1",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T14:25+02:00",
+  "status": null,
+  "home": {
+   "id": "959aa7c3-1f9e-49e7-a9ac-dfbea0062be1",
+   "name": "Netherlands",
+   "ioc": "NED",
+   "score": 18
+  },
+  "away": {
+   "id": "615c1d45-f0cc-43a4-a21a-8b29fe066453",
+   "name": "Austria",
+   "ioc": "AUT",
+   "score": 8
+  }
+ },
+ {
+  "id": "cf96e302-d1ce-4fe0-8977-6be0f58a5d3f",
+  "name": "Pool A game 1",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T15:00+02:00",
+  "status": null,
+  "home": {
+   "id": "09e06293-17f9-450a-bd75-4ee55600a091",
+   "name": "France",
+   "ioc": "FRA",
+   "score": 20
+  },
+  "away": {
+   "id": "0ed538a5-26c9-4884-89b0-9c3044e01976",
+   "name": "Austria",
+   "ioc": "AUT",
+   "score": 17
+  }
+ },
+ {
+  "id": "3dbd1f63-ff8f-4037-b1ba-e9293fda232b",
+  "name": "Pool B game 1",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T15:25+02:00",
+  "status": null,
+  "home": {
+   "id": "80dee46b-4906-4b05-86ae-ba7531817654",
+   "name": "France",
+   "ioc": "FRA",
+   "score": 18
+  },
+  "away": {
+   "id": "92cd41bf-3144-489a-9100-c5c8cf3357e3",
+   "name": "Ireland",
+   "ioc": "IRL",
+   "score": 14
+  }
+ },
+ {
+  "id": "dc76c722-da59-4235-8145-aabb69494099",
+  "name": "Pool B game 1",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-12T15:50+02:00",
+  "status": null,
+  "home": {
+   "id": "58199695-80b4-4363-90b0-ef08cbc714ef",
+   "name": "Netherlands",
+   "ioc": "NED",
+   "score": 21
+  },
+  "away": {
+   "id": "53f90874-6f23-4df0-b8f5-b7e138df2c13",
+   "name": "Ireland",
+   "ioc": "IRL",
+   "score": 14
+  }
+ },
+ {
+  "id": "10db572a-6608-4f7b-9e5d-4446a221afe4",
+  "name": "Final",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-06-12T18:00+02:00",
+  "status": null,
+  "home": {
+   "id": "959aa7c3-1f9e-49e7-a9ac-dfbea0062be1",
+   "name": "Netherlands",
+   "ioc": "NED",
+   "score": 13
+  },
+  "away": {
+   "id": "80dee46b-4906-4b05-86ae-ba7531817654",
+   "name": "France",
+   "ioc": "FRA",
+   "score": 20
+  }
+ },
+ {
+  "id": "7872e7db-2541-46a2-884b-b3e39f20e263",
+  "name": "Final",
+  "eventId": "9a9d2325-399e-46a6-8571-8fb026be6d4f",
+  "stop": "europe-3-stop-1",
+  "conference": "europe-3",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-06-12T18:25+02:00",
+  "status": null,
+  "home": {
+   "id": "09e06293-17f9-450a-bd75-4ee55600a091",
+   "name": "France",
+   "ioc": "FRA",
+   "score": 19
+  },
+  "away": {
+   "id": "58199695-80b4-4363-90b0-ef08cbc714ef",
+   "name": "Netherlands",
+   "ioc": "NED",
+   "score": 15
+  }
+ },
+ {
+  "id": "2148a3d0-6efe-46c6-8b64-7a351b4ba803",
+  "name": "Pool A game 1",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T14:30-04:00",
+  "status": null,
+  "home": {
+   "id": "484dc7eb-5ca1-4388-b3cd-426b89145a02",
+   "name": "USA",
+   "ioc": "USA",
+   "score": 21
+  },
+  "away": {
+   "id": "d93dde3d-94c5-4adf-88b5-dc2f7372075e",
+   "name": "Cayman Islands",
+   "ioc": "CAY",
+   "score": 0
+  }
+ },
+ {
+  "id": "9dc5f2a7-58d8-40b5-9c81-43331a816a62",
+  "name": "Pool A game 1",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T14:55-04:00",
+  "status": null,
+  "home": {
+   "id": "9616fada-9408-401a-ae3e-1d05e7929000",
+   "name": "Chile",
+   "ioc": "CHI",
+   "score": 15
+  },
+  "away": {
+   "id": "89f987de-8968-464a-98b3-804f21bc096c",
+   "name": "Canada",
+   "ioc": "CAN",
+   "score": 21
+  }
+ },
+ {
+  "id": "c0def4dc-effb-4bbf-aec7-4c1b5164cc74",
+  "name": "Pool B game 1",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T15:20-04:00",
+  "status": null,
+  "home": {
+   "id": "2310bb8e-458c-436c-9399-a96a1a96bafe",
+   "name": "Chile",
+   "ioc": "CHI",
+   "score": 12
+  },
+  "away": {
+   "id": "fb35535e-eec5-41e1-be83-a0617434d027",
+   "name": "Canada",
+   "ioc": "CAN",
+   "score": 13
+  }
+ },
+ {
+  "id": "77e29656-d645-4377-b95d-95b437b8fdca",
+  "name": "Pool B game 1",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T15:45-04:00",
+  "status": null,
+  "home": {
+   "id": "4508fe52-6ff4-4d6a-96b1-7288f2cd8ce1",
+   "name": "USA",
+   "ioc": "USA",
+   "score": 21
+  },
+  "away": {
+   "id": "bbc811cf-cc35-4cac-94b2-d7bde8595bad",
+   "name": "Puerto Rico",
+   "ioc": "PUR",
+   "score": 9
+  }
+ },
+ {
+  "id": "ef293712-16ae-4218-a166-06f9fca137ce",
+  "name": "Pool A game 2",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T16:20-04:00",
+  "status": null,
+  "home": {
+   "id": "e2cd3f81-47ee-4360-81d1-3bca97cd7cb2",
+   "name": "Puerto Rico",
+   "ioc": "PUR",
+   "score": 22
+  },
+  "away": {
+   "id": "d93dde3d-94c5-4adf-88b5-dc2f7372075e",
+   "name": "Cayman Islands",
+   "ioc": "CAY",
+   "score": 2
+  }
+ },
+ {
+  "id": "ab5fd536-b169-4ff3-a96f-0bf9842d535b",
+  "name": "Pool A game 2",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T16:45-04:00",
+  "status": null,
+  "home": {
+   "id": "6883a220-4c51-46a5-8f33-c245f62edc3d",
+   "name": "Cayman Islands",
+   "ioc": "CAY",
+   "score": 8
+  },
+  "away": {
+   "id": "89f987de-8968-464a-98b3-804f21bc096c",
+   "name": "Canada",
+   "ioc": "CAN",
+   "score": 21
+  }
+ },
+ {
+  "id": "7f7483b4-aded-44ff-8bd3-680829a27288",
+  "name": "Pool B game 2",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T17:10-04:00",
+  "status": null,
+  "home": {
+   "id": "83085051-0f6d-4b93-8660-fd9bbfc3a53f",
+   "name": "Argentina U21",
+   "ioc": "ARG",
+   "score": 9
+  },
+  "away": {
+   "id": "fb35535e-eec5-41e1-be83-a0617434d027",
+   "name": "Canada",
+   "ioc": "CAN",
+   "score": 18
+  }
+ },
+ {
+  "id": "0522cd5d-0c35-477c-a82f-40066f9815fc",
+  "name": "Pool B game 2",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T17:35-04:00",
+  "status": null,
+  "home": {
+   "id": "c13d9a38-4297-4809-96dd-4a156ad553f6",
+   "name": "Argentina U21",
+   "ioc": "ARG",
+   "score": 21
+  },
+  "away": {
+   "id": "bbc811cf-cc35-4cac-94b2-d7bde8595bad",
+   "name": "Puerto Rico",
+   "ioc": "PUR",
+   "score": 15
+  }
+ },
+ {
+  "id": "a7114184-a407-4866-a0ce-2a746433f00b",
+  "name": "Pool A game 3",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T18:10-04:00",
+  "status": null,
+  "home": {
+   "id": "484dc7eb-5ca1-4388-b3cd-426b89145a02",
+   "name": "USA",
+   "ioc": "USA",
+   "score": 21
+  },
+  "away": {
+   "id": "e2cd3f81-47ee-4360-81d1-3bca97cd7cb2",
+   "name": "Puerto Rico",
+   "ioc": "PUR",
+   "score": 15
+  }
+ },
+ {
+  "id": "ed83d0de-a589-4c62-9284-fd45a5247ef6",
+  "name": "Pool A game 3",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T18:35-04:00",
+  "status": null,
+  "home": {
+   "id": "9616fada-9408-401a-ae3e-1d05e7929000",
+   "name": "Chile",
+   "ioc": "CHI",
+   "score": 21
+  },
+  "away": {
+   "id": "6883a220-4c51-46a5-8f33-c245f62edc3d",
+   "name": "Cayman Islands",
+   "ioc": "CAY",
+   "score": 12
+  }
+ },
+ {
+  "id": "758e95cb-0165-4083-a014-e93f8df3ae86",
+  "name": "Pool B game 3",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T19:00-04:00",
+  "status": null,
+  "home": {
+   "id": "2310bb8e-458c-436c-9399-a96a1a96bafe",
+   "name": "Chile",
+   "ioc": "CHI",
+   "score": 18
+  },
+  "away": {
+   "id": "83085051-0f6d-4b93-8660-fd9bbfc3a53f",
+   "name": "Argentina U21",
+   "ioc": "ARG",
+   "score": 19
+  }
+ },
+ {
+  "id": "6f15817b-811d-4a95-b4cd-1caf5099eefc",
+  "name": "Pool B game 3",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-06-27T19:25-04:00",
+  "status": null,
+  "home": {
+   "id": "4508fe52-6ff4-4d6a-96b1-7288f2cd8ce1",
+   "name": "USA",
+   "ioc": "USA",
+   "score": 17
+  },
+  "away": {
+   "id": "c13d9a38-4297-4809-96dd-4a156ad553f6",
+   "name": "Argentina U21",
+   "ioc": "ARG",
+   "score": 15
+  }
+ },
+ {
+  "id": "6bfe3f18-2082-4001-b184-caa6bfb5732c",
+  "name": "Final",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-06-27T20:00-04:00",
+  "status": null,
+  "home": {
+   "id": "484dc7eb-5ca1-4388-b3cd-426b89145a02",
+   "name": "USA",
+   "ioc": "USA",
+   "score": 19
+  },
+  "away": {
+   "id": "fb35535e-eec5-41e1-be83-a0617434d027",
+   "name": "Canada",
+   "ioc": "CAN",
+   "score": 7
+  }
+ },
+ {
+  "id": "06189d72-0a30-464b-bbdf-6d7e5cc86c13",
+  "name": "Final",
+  "eventId": "c3f8be2e-e4e4-4122-9388-4690a9a6b797",
+  "stop": "americas-north-stop-1",
+  "conference": "americas-north",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-06-27T20:25-04:00",
+  "status": null,
+  "home": {
+   "id": "89f987de-8968-464a-98b3-804f21bc096c",
+   "name": "Canada",
+   "ioc": "CAN",
+   "score": 15
+  },
+  "away": {
+   "id": "4508fe52-6ff4-4d6a-96b1-7288f2cd8ce1",
+   "name": "USA",
+   "ioc": "USA",
+   "score": 21
+  }
+ },
+ {
+  "id": "13e34c62-4ecb-49d8-96f7-1db429960f9a",
+  "name": "Pool A game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T11:00+03:00",
+  "status": null,
+  "home": {
+   "id": "ac67918e-d640-4c7e-9b70-f9e11be144e2",
+   "name": "Uganda",
+   "ioc": "UGA",
+   "score": 21
+  },
+  "away": {
+   "id": "abf8735f-35fd-4d97-91ad-d6bb2621a453",
+   "name": "Burundi",
+   "ioc": "BDI",
+   "score": 7
+  }
+ },
+ {
+  "id": "20f1dd5f-43c5-4d36-a5ca-215406d9e729",
+  "name": "Pool A game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T11:25+03:00",
+  "status": null,
+  "home": {
+   "id": "d4152033-ab44-48fb-b81e-389212e1c8c7",
+   "name": "Kenya",
+   "ioc": "KEN",
+   "score": 21
+  },
+  "away": {
+   "id": "8aeab758-bf9e-4d78-8528-da8bbce56c2a",
+   "name": "Burundi",
+   "ioc": "BDI",
+   "score": 18
+  }
+ },
+ {
+  "id": "60b66fde-a37e-4b30-aa8b-1b684c523db9",
+  "name": "Pool A game 2",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T11:50+03:00",
+  "status": null,
+  "home": {
+   "id": "bae200fa-52bc-4983-a586-b0dade376852",
+   "name": "Somalia",
+   "ioc": "SOM",
+   "score": 3
+  },
+  "away": {
+   "id": "abf8735f-35fd-4d97-91ad-d6bb2621a453",
+   "name": "Burundi",
+   "ioc": "BDI",
+   "score": 21
+  }
+ },
+ {
+  "id": "98b8f578-e3e6-42a4-903d-68cd7719a85b",
+  "name": "Pool A game 2",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T12:15+03:00",
+  "status": null,
+  "home": {
+   "id": "1bac4b6c-7afd-4ded-bab3-e1feeb936b70",
+   "name": "South Sudan",
+   "ioc": "SSD",
+   "score": 21
+  },
+  "away": {
+   "id": "8aeab758-bf9e-4d78-8528-da8bbce56c2a",
+   "name": "Burundi",
+   "ioc": "BDI",
+   "score": 5
+  }
+ },
+ {
+  "id": "735d35d0-1bf3-4304-a360-0e48136dcab4",
+  "name": "Pool B game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T12:50+03:00",
+  "status": null,
+  "home": {
+   "id": "685f8b7f-cfcf-4402-8301-8c45bb92f71f",
+   "name": "Kenya",
+   "ioc": "KEN",
+   "score": 12
+  },
+  "away": {
+   "id": "8047e713-1c2f-4f1d-aa04-3afa954ae38d",
+   "name": "South Sudan",
+   "ioc": "SSD",
+   "score": 13
+  }
+ },
+ {
+  "id": "3751b0f5-2439-45c2-878a-96f562f91f94",
+  "name": "Pool B game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T13:15+03:00",
+  "status": null,
+  "home": {
+   "id": "039e7091-43de-425a-b411-c3d32beab671",
+   "name": "Uganda",
+   "ioc": "UGA",
+   "score": 13
+  },
+  "away": {
+   "id": "3d834b7a-7801-4091-9da0-6b5a38be7581",
+   "name": "Somalia",
+   "ioc": "SOM",
+   "score": 9
+  }
+ },
+ {
+  "id": "88bb2030-a6ee-4683-9617-d7c1c49904ed",
+  "name": "Pool A game 3",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T13:40+03:00",
+  "status": null,
+  "home": {
+   "id": "ac67918e-d640-4c7e-9b70-f9e11be144e2",
+   "name": "Uganda",
+   "ioc": "UGA",
+   "score": 22
+  },
+  "away": {
+   "id": "bae200fa-52bc-4983-a586-b0dade376852",
+   "name": "Somalia",
+   "ioc": "SOM",
+   "score": 3
+  }
+ },
+ {
+  "id": "39bd81cb-1fb0-4fce-80c8-86b51422f52d",
+  "name": "Pool A game 3",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T14:05+03:00",
+  "status": null,
+  "home": {
+   "id": "d4152033-ab44-48fb-b81e-389212e1c8c7",
+   "name": "Kenya",
+   "ioc": "KEN",
+   "score": 19
+  },
+  "away": {
+   "id": "1bac4b6c-7afd-4ded-bab3-e1feeb936b70",
+   "name": "South Sudan",
+   "ioc": "SSD",
+   "score": 18
+  }
+ },
+ {
+  "id": "724d0b90-b45c-4588-9ff8-0c0d1d6d59d6",
+  "name": "Pool B game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T15:30+03:00",
+  "status": null,
+  "home": {
+   "id": "abf8735f-35fd-4d97-91ad-d6bb2621a453",
+   "name": "Burundi",
+   "ioc": "BDI",
+   "score": 7
+  },
+  "away": {
+   "id": "685f8b7f-cfcf-4402-8301-8c45bb92f71f",
+   "name": "Kenya",
+   "ioc": "KEN",
+   "score": 16
+  }
+ },
+ {
+  "id": "e7d7957d-edb6-4152-85a7-fe00ce5bb033",
+  "name": "Pool B game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T15:55+03:00",
+  "status": null,
+  "home": {
+   "id": "1bac4b6c-7afd-4ded-bab3-e1feeb936b70",
+   "name": "South Sudan",
+   "ioc": "SSD",
+   "score": 12
+  },
+  "away": {
+   "id": "3d834b7a-7801-4091-9da0-6b5a38be7581",
+   "name": "Somalia",
+   "ioc": "SOM",
+   "score": 6
+  }
+ },
+ {
+  "id": "f7aeb49b-b3ae-4ed1-b469-67639b093a79",
+  "name": "Pool A game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T16:20+03:00",
+  "status": null,
+  "home": {
+   "id": "ac67918e-d640-4c7e-9b70-f9e11be144e2",
+   "name": "Uganda",
+   "ioc": "UGA",
+   "score": 19
+  },
+  "away": {
+   "id": "8047e713-1c2f-4f1d-aa04-3afa954ae38d",
+   "name": "South Sudan",
+   "ioc": "SSD",
+   "score": 7
+  }
+ },
+ {
+  "id": "8d41f70c-20ea-4549-8dc9-276bd5c901cc",
+  "name": "Pool A game 1",
+  "eventId": "6b0948da-7bbd-4f9a-95b3-78c1d36842b4",
+  "stop": "africa-east-stop-1",
+  "conference": "africa-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-01T16:45+03:00",
+  "status": null,
+  "home": {
+   "id": "d4152033-ab44-48fb-b81e-389212e1c8c7",
+   "name": "Kenya",
+   "ioc": "KEN",
+   "score": 18
+  },
+  "away": {
+   "id": "039e7091-43de-425a-b411-c3d32beab671",
+   "name": "Uganda",
+   "ioc": "UGA",
+   "score": 16
+  }
+ },
+ {
+  "id": "f160c595-4ffe-4581-b0ff-2f37b3b736cc",
+  "name": "Pool A game 1",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T13:45+03:00",
+  "status": null,
+  "home": {
+   "id": "cdd160ab-4602-4504-a88b-65741489ed5b",
+   "name": "France (U21)",
+   "ioc": "FRA",
+   "score": 21
+  },
+  "away": {
+   "id": "e0eff488-5348-40e2-90d7-c33c59909283",
+   "name": "Great Britain (U21)",
+   "ioc": "GBR",
+   "score": 16
+  }
+ },
+ {
+  "id": "e19cd386-cf89-4205-b204-5efb86d6ce3c",
+  "name": "Pool A game 1",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T14:10+03:00",
+  "status": null,
+  "home": {
+   "id": "31556aad-cfa2-4c9c-bc44-ce7c6c369934",
+   "name": "Serbia (U21)",
+   "ioc": "SRB",
+   "score": 17
+  },
+  "away": {
+   "id": "bb477315-d61c-48ad-8da7-cbc8317793dc",
+   "name": "Greece (U21)",
+   "ioc": "GRE",
+   "score": 14
+  }
+ },
+ {
+  "id": "bca219d8-eefa-4a29-852e-e70993155310",
+  "name": "Pool B game 1",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T14:45+03:00",
+  "status": null,
+  "home": {
+   "id": "f9739387-35b8-4b9f-a24c-7b349ab6327b",
+   "name": "Spain (U21)",
+   "ioc": "ESP",
+   "score": 21
+  },
+  "away": {
+   "id": "53ab2f60-9ede-4e6f-b790-a5c4084ce15c",
+   "name": "Serbia (U21)",
+   "ioc": "SRB",
+   "score": 13
+  }
+ },
+ {
+  "id": "872f75cf-4cbf-47c1-accf-94990e440e91",
+  "name": "Pool B game 1",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T15:10+03:00",
+  "status": null,
+  "home": {
+   "id": "6bee5876-ccfe-4ea3-9960-2c556f8b9e51",
+   "name": "France (U21)",
+   "ioc": "FRA",
+   "score": 19
+  },
+  "away": {
+   "id": "2210bd62-9100-4b61-840f-e209438acdfb",
+   "name": "Great Britain (U21)",
+   "ioc": "GBR",
+   "score": 10
+  }
+ },
+ {
+  "id": "f70d6b4c-854c-43e7-8cd5-601a1102b591",
+  "name": "Pool A game 2",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T15:45+03:00",
+  "status": null,
+  "home": {
+   "id": "b5cf62b5-71c6-40b4-b073-78b0381b4af0",
+   "name": "Greece (U21)",
+   "ioc": "GRE",
+   "score": 10
+  },
+  "away": {
+   "id": "e0eff488-5348-40e2-90d7-c33c59909283",
+   "name": "Great Britain (U21)",
+   "ioc": "GBR",
+   "score": 17
+  }
+ },
+ {
+  "id": "3f6b3115-9e92-40e5-8008-91f9e4a9826f",
+  "name": "Pool A game 2",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T16:10+03:00",
+  "status": null,
+  "home": {
+   "id": "7b5dcacf-5893-4d91-8fd4-37ead18d8319",
+   "name": "Romania (U21)",
+   "ioc": "ROU",
+   "score": 18
+  },
+  "away": {
+   "id": "bb477315-d61c-48ad-8da7-cbc8317793dc",
+   "name": "Greece (U21)",
+   "ioc": "GRE",
+   "score": 19
+  }
+ },
+ {
+  "id": "4245e1be-8ecc-48fa-ab25-3d25408c6dd5",
+  "name": "Pool B game 2",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T16:45+03:00",
+  "status": null,
+  "home": {
+   "id": "ee974013-6f75-4f50-b664-d56160abb2da",
+   "name": "Romania (U21)",
+   "ioc": "ROU",
+   "score": 13
+  },
+  "away": {
+   "id": "53ab2f60-9ede-4e6f-b790-a5c4084ce15c",
+   "name": "Serbia (U21)",
+   "ioc": "SRB",
+   "score": 18
+  }
+ },
+ {
+  "id": "3d4945fd-e82a-4a96-a0a0-eb25bee44b68",
+  "name": "Pool B game 2",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T17:10+03:00",
+  "status": null,
+  "home": {
+   "id": "736ca38e-c5dd-4d1f-9e45-6388403facfd",
+   "name": "Spain (U21)",
+   "ioc": "ESP",
+   "score": 18
+  },
+  "away": {
+   "id": "2210bd62-9100-4b61-840f-e209438acdfb",
+   "name": "Great Britain (U21)",
+   "ioc": "GBR",
+   "score": 11
+  }
+ },
+ {
+  "id": "2ce91487-7f80-46cb-bfc4-66f6b913a55b",
+  "name": "Pool A game 3",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T17:45+03:00",
+  "status": null,
+  "home": {
+   "id": "cdd160ab-4602-4504-a88b-65741489ed5b",
+   "name": "France (U21)",
+   "ioc": "FRA",
+   "score": 21
+  },
+  "away": {
+   "id": "b5cf62b5-71c6-40b4-b073-78b0381b4af0",
+   "name": "Greece (U21)",
+   "ioc": "GRE",
+   "score": 10
+  }
+ },
+ {
+  "id": "352e3720-3d43-4ba7-aef9-136df2951db8",
+  "name": "Pool A game 3",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T18:10+03:00",
+  "status": null,
+  "home": {
+   "id": "31556aad-cfa2-4c9c-bc44-ce7c6c369934",
+   "name": "Serbia (U21)",
+   "ioc": "SRB",
+   "score": 16
+  },
+  "away": {
+   "id": "7b5dcacf-5893-4d91-8fd4-37ead18d8319",
+   "name": "Romania (U21)",
+   "ioc": "ROU",
+   "score": 20
+  }
+ },
+ {
+  "id": "7e9af407-3bfc-4332-aadc-0f84f31bb96f",
+  "name": "Pool B game 3",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T18:45+03:00",
+  "status": null,
+  "home": {
+   "id": "f9739387-35b8-4b9f-a24c-7b349ab6327b",
+   "name": "Spain (U21)",
+   "ioc": "ESP",
+   "score": 19
+  },
+  "away": {
+   "id": "ee974013-6f75-4f50-b664-d56160abb2da",
+   "name": "Romania (U21)",
+   "ioc": "ROU",
+   "score": 12
+  }
+ },
+ {
+  "id": "d63ff537-5949-49db-8048-a52743e145bb",
+  "name": "Pool B game 3",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-03T19:10+03:00",
+  "status": null,
+  "home": {
+   "id": "6bee5876-ccfe-4ea3-9960-2c556f8b9e51",
+   "name": "France (U21)",
+   "ioc": "FRA",
+   "score": 21
+  },
+  "away": {
+   "id": "736ca38e-c5dd-4d1f-9e45-6388403facfd",
+   "name": "Spain (U21)",
+   "ioc": "ESP",
+   "score": 19
+  }
+ },
+ {
+  "id": "53708e13-646c-44f6-bf1a-cb53c9caae75",
+  "name": "Final",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-03T20:00+03:00",
+  "status": null,
+  "home": {
+   "id": "cdd160ab-4602-4504-a88b-65741489ed5b",
+   "name": "France (U21)",
+   "ioc": "FRA",
+   "score": 22
+  },
+  "away": {
+   "id": "f9739387-35b8-4b9f-a24c-7b349ab6327b",
+   "name": "Spain (U21)",
+   "ioc": "ESP",
+   "score": 20
+  }
+ },
+ {
+  "id": "8bde8034-dafa-4735-aa05-86d0a771842e",
+  "name": "Final",
+  "eventId": "5f8e7275-8309-4483-a219-2a3abd28c4de",
+  "stop": "u21-europe-3-stop-1",
+  "conference": "u21-europe-3",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-03T20:25+03:00",
+  "status": null,
+  "home": {
+   "id": "7b5dcacf-5893-4d91-8fd4-37ead18d8319",
+   "name": "Romania (U21)",
+   "ioc": "ROU",
+   "score": 16
+  },
+  "away": {
+   "id": "6bee5876-ccfe-4ea3-9960-2c556f8b9e51",
+   "name": "France (U21)",
+   "ioc": "FRA",
+   "score": 21
+  }
+ },
+ {
+  "id": "066ea2fa-1207-4152-9cc1-5412c7019be0",
+  "name": "Pool A game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T14:50+08:00",
+  "status": null,
+  "home": {
+   "id": "37c76e73-0859-4a9c-b271-be71ec1578fb",
+   "name": "China (U21)",
+   "ioc": "CHN",
+   "score": 12
+  },
+  "away": {
+   "id": "64a8fc8b-a928-44ec-bb63-e73d2dc1f242",
+   "name": "Russia (U21)",
+   "ioc": "RUS",
+   "score": 16
+  }
+ },
+ {
+  "id": "5eddc60a-3dae-4299-92cd-b01bffab606a",
+  "name": "Pool A game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T15:15+08:00",
+  "status": null,
+  "home": {
+   "id": "3d513bda-58e2-477d-ba89-fd5518887c21",
+   "name": "Mongolia (U21)",
+   "ioc": "MGL",
+   "score": 6
+  },
+  "away": {
+   "id": "383a4311-ac23-4b99-bcbd-9ea548f2216b",
+   "name": "Russia (U21)",
+   "ioc": "RUS",
+   "score": 16
+  }
+ },
+ {
+  "id": "fd3f84ab-270d-4b8e-bf8b-11173ca58d88",
+  "name": "Pool A game 2",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T15:40+08:00",
+  "status": null,
+  "home": {
+   "id": "324a47b7-5d59-4c2e-8958-d4e14fe53465",
+   "name": "Qatar (U21)",
+   "ioc": "QAT",
+   "score": 1
+  },
+  "away": {
+   "id": "64a8fc8b-a928-44ec-bb63-e73d2dc1f242",
+   "name": "Russia (U21)",
+   "ioc": "RUS",
+   "score": 21
+  }
+ },
+ {
+  "id": "aa5bde24-97fe-4d40-9fe5-24b48a86372e",
+  "name": "Pool A game 2",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T16:05+08:00",
+  "status": null,
+  "home": {
+   "id": "93e408a0-7647-4980-86dc-eb3f874b4c32",
+   "name": "Kazakhstan (U21)",
+   "ioc": "KAZ",
+   "score": 6
+  },
+  "away": {
+   "id": "383a4311-ac23-4b99-bcbd-9ea548f2216b",
+   "name": "Russia (U21)",
+   "ioc": "RUS",
+   "score": 21
+  }
+ },
+ {
+  "id": "9f45724e-5c54-4165-9ed2-af97246d9b98",
+  "name": "Pool B game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T16:50+08:00",
+  "status": null,
+  "home": {
+   "id": "97735b4d-c50c-4cb8-8389-97d57a2a1096",
+   "name": "Mongolia (U21)",
+   "ioc": "MGL",
+   "score": 14
+  },
+  "away": {
+   "id": "3bacb56b-21b9-4d2d-a600-ef6f5e9cdd77",
+   "name": "Kazakhstan (U21)",
+   "ioc": "KAZ",
+   "score": 8
+  }
+ },
+ {
+  "id": "c5178317-2b45-4dbf-a72b-c558ca2ee9a0",
+  "name": "Pool B game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T17:15+08:00",
+  "status": null,
+  "home": {
+   "id": "70e44939-bb6d-4b5c-9c60-bf11fde61521",
+   "name": "China (U21)",
+   "ioc": "CHN",
+   "score": 21
+  },
+  "away": {
+   "id": "5f777804-1ac3-4e16-9590-c1a800ab8b33",
+   "name": "Qatar (U21)",
+   "ioc": "QAT",
+   "score": 9
+  }
+ },
+ {
+  "id": "411c6e02-3515-4e10-9d5f-3e2da10d239c",
+  "name": "Pool A game 3",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T17:40+08:00",
+  "status": null,
+  "home": {
+   "id": "37c76e73-0859-4a9c-b271-be71ec1578fb",
+   "name": "China (U21)",
+   "ioc": "CHN",
+   "score": 21
+  },
+  "away": {
+   "id": "324a47b7-5d59-4c2e-8958-d4e14fe53465",
+   "name": "Qatar (U21)",
+   "ioc": "QAT",
+   "score": 4
+  }
+ },
+ {
+  "id": "282e66cd-381d-4487-9f84-2ce7a6d0bd68",
+  "name": "Pool A game 3",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T18:05+08:00",
+  "status": null,
+  "home": {
+   "id": "3d513bda-58e2-477d-ba89-fd5518887c21",
+   "name": "Mongolia (U21)",
+   "ioc": "MGL",
+   "score": 20
+  },
+  "away": {
+   "id": "93e408a0-7647-4980-86dc-eb3f874b4c32",
+   "name": "Kazakhstan (U21)",
+   "ioc": "KAZ",
+   "score": 21
+  }
+ },
+ {
+  "id": "8303a4e1-ced6-4c6e-9daa-49673a7e816c",
+  "name": "Pool B game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T18:55+08:00",
+  "status": null,
+  "home": {
+   "id": "37c76e73-0859-4a9c-b271-be71ec1578fb",
+   "name": "China (U21)",
+   "ioc": "CHN",
+   "score": 20
+  },
+  "away": {
+   "id": "3bacb56b-21b9-4d2d-a600-ef6f5e9cdd77",
+   "name": "Kazakhstan (U21)",
+   "ioc": "KAZ",
+   "score": 13
+  }
+ },
+ {
+  "id": "641f3a4c-6d3f-4e34-9035-5cd5085492af",
+  "name": "Pool B game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T19:20+08:00",
+  "status": null,
+  "home": {
+   "id": "93e408a0-7647-4980-86dc-eb3f874b4c32",
+   "name": "Kazakhstan (U21)",
+   "ioc": "KAZ",
+   "score": 18
+  },
+  "away": {
+   "id": "5f777804-1ac3-4e16-9590-c1a800ab8b33",
+   "name": "Qatar (U21)",
+   "ioc": "QAT",
+   "score": 17
+  }
+ },
+ {
+  "id": "51da38b9-37f8-43bb-9e46-24d7b4093045",
+  "name": "Pool A game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T20:20+08:00",
+  "status": null,
+  "home": {
+   "id": "64a8fc8b-a928-44ec-bb63-e73d2dc1f242",
+   "name": "Russia (U21)",
+   "ioc": "RUS",
+   "score": 17
+  },
+  "away": {
+   "id": "97735b4d-c50c-4cb8-8389-97d57a2a1096",
+   "name": "Mongolia (U21)",
+   "ioc": "MGL",
+   "score": 7
+  }
+ },
+ {
+  "id": "9c869682-574e-43a9-8441-acec6fefc222",
+  "name": "Pool A game 1",
+  "eventId": "198041a1-956b-4eac-8aa0-ad72e771793f",
+  "stop": "u21-asia-1-stop-1",
+  "conference": "u21-asia-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-06T20:45+08:00",
+  "status": null,
+  "home": {
+   "id": "383a4311-ac23-4b99-bcbd-9ea548f2216b",
+   "name": "Russia (U21)",
+   "ioc": "RUS",
+   "score": 21
+  },
+  "away": {
+   "id": "70e44939-bb6d-4b5c-9c60-bf11fde61521",
+   "name": "China (U21)",
+   "ioc": "CHN",
+   "score": 8
+  }
+ },
+ {
+  "id": "d35f0762-8ee0-47d2-a297-3b36f303ad7a",
+  "name": "Pool A game 1",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T14:00+03:00",
+  "status": null,
+  "home": {
+   "id": "e11dfb99-6db5-4f50-9b2a-59c82da91ed4",
+   "name": "Latvia",
+   "ioc": "LAT",
+   "score": 21
+  },
+  "away": {
+   "id": "f45eb33a-0e52-4c83-ae7e-ea016d6e6162",
+   "name": "Serbia",
+   "ioc": "SRB",
+   "score": 12
+  }
+ },
+ {
+  "id": "d21de4de-7a05-4914-9822-715735d76c61",
+  "name": "Pool A game 1",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T14:25+03:00",
+  "status": null,
+  "home": {
+   "id": "046a498a-d7b6-4b82-af49-fde57fde3fed",
+   "name": "Latvia",
+   "ioc": "LAT",
+   "score": 21
+  },
+  "away": {
+   "id": "b499f04e-9d16-4f4b-a0da-aa2aeea73d2e",
+   "name": "Ukraine",
+   "ioc": "UKR",
+   "score": 10
+  }
+ },
+ {
+  "id": "7d1649ae-c1a4-46fb-a5e2-dcbfbeaf3cc0",
+  "name": "Pool B game 1",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T14:50+03:00",
+  "status": null,
+  "home": {
+   "id": "e5ed6f97-ca69-4a5a-a8e7-3b5a0294db63",
+   "name": "Poland",
+   "ioc": "POL",
+   "score": 21
+  },
+  "away": {
+   "id": "779c7654-9561-4cc2-a842-96e8c9f4d759",
+   "name": "Switzerland",
+   "ioc": "SUI",
+   "score": 9
+  }
+ },
+ {
+  "id": "99bed645-613a-45ed-8715-925236311b5c",
+  "name": "Pool B game 1",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T15:15+03:00",
+  "status": null,
+  "home": {
+   "id": "50713203-6dba-46fb-ab2b-f3833ff22992",
+   "name": "Serbia",
+   "ioc": "SRB",
+   "score": 21
+  },
+  "away": {
+   "id": "c72c6b9c-3583-4a3e-b5b3-b3c551d3ceb7",
+   "name": "Switzerland",
+   "ioc": "SUI",
+   "score": 10
+  }
+ },
+ {
+  "id": "1ee8ea91-7de1-449f-a2ad-5122aee8c6f0",
+  "name": "Pool A game 2",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T15:50+03:00",
+  "status": null,
+  "home": {
+   "id": "c1126b65-98d5-495b-898c-e17afae67250",
+   "name": "Ukraine",
+   "ioc": "UKR",
+   "score": 12
+  },
+  "away": {
+   "id": "f45eb33a-0e52-4c83-ae7e-ea016d6e6162",
+   "name": "Serbia",
+   "ioc": "SRB",
+   "score": 15
+  }
+ },
+ {
+  "id": "2b5984f6-35f8-4149-8453-50bf67d90b14",
+  "name": "Pool A game 2",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T16:15+03:00",
+  "status": null,
+  "home": {
+   "id": "e694f705-328e-41a6-8b03-48e42e419068",
+   "name": "Romania",
+   "ioc": "ROU",
+   "score": 14
+  },
+  "away": {
+   "id": "b499f04e-9d16-4f4b-a0da-aa2aeea73d2e",
+   "name": "Ukraine",
+   "ioc": "UKR",
+   "score": 21
+  }
+ },
+ {
+  "id": "035670bc-b3a1-4c01-b63f-63169f4830a3",
+  "name": "Pool B game 2",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T16:40+03:00",
+  "status": null,
+  "home": {
+   "id": "7cf2c4b0-bc1b-42fd-8dda-83d773c07bd5",
+   "name": "Romania",
+   "ioc": "ROU",
+   "score": 14
+  },
+  "away": {
+   "id": "779c7654-9561-4cc2-a842-96e8c9f4d759",
+   "name": "Switzerland",
+   "ioc": "SUI",
+   "score": 16
+  }
+ },
+ {
+  "id": "0d0d99ad-b03d-447d-9269-4b47d33c02a5",
+  "name": "Pool B game 2",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T17:05+03:00",
+  "status": null,
+  "home": {
+   "id": "3d7de2a6-8483-4238-96f9-80a86a031118",
+   "name": "Poland",
+   "ioc": "POL",
+   "score": 19
+  },
+  "away": {
+   "id": "c72c6b9c-3583-4a3e-b5b3-b3c551d3ceb7",
+   "name": "Switzerland",
+   "ioc": "SUI",
+   "score": 15
+  }
+ },
+ {
+  "id": "b5c19eb6-d244-4b6b-9fb8-0e75ddc68353",
+  "name": "Pool A game 3",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T17:40+03:00",
+  "status": null,
+  "home": {
+   "id": "e11dfb99-6db5-4f50-9b2a-59c82da91ed4",
+   "name": "Latvia",
+   "ioc": "LAT",
+   "score": 21
+  },
+  "away": {
+   "id": "c1126b65-98d5-495b-898c-e17afae67250",
+   "name": "Ukraine",
+   "ioc": "UKR",
+   "score": 16
+  }
+ },
+ {
+  "id": "99707d40-6b1a-44b9-9593-37232aa4af2d",
+  "name": "Pool A game 3",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T18:05+03:00",
+  "status": null,
+  "home": {
+   "id": "046a498a-d7b6-4b82-af49-fde57fde3fed",
+   "name": "Latvia",
+   "ioc": "LAT",
+   "score": 21
+  },
+  "away": {
+   "id": "e694f705-328e-41a6-8b03-48e42e419068",
+   "name": "Romania",
+   "ioc": "ROU",
+   "score": 18
+  }
+ },
+ {
+  "id": "49220692-e6a9-4e3f-9e71-3bd64b4288e5",
+  "name": "Pool B game 3",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T18:30+03:00",
+  "status": null,
+  "home": {
+   "id": "e5ed6f97-ca69-4a5a-a8e7-3b5a0294db63",
+   "name": "Poland",
+   "ioc": "POL",
+   "score": 21
+  },
+  "away": {
+   "id": "7cf2c4b0-bc1b-42fd-8dda-83d773c07bd5",
+   "name": "Romania",
+   "ioc": "ROU",
+   "score": 7
+  }
+ },
+ {
+  "id": "360e31f1-31af-4da1-a78a-e6d34c31071c",
+  "name": "Pool B game 3",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-07T18:55+03:00",
+  "status": null,
+  "home": {
+   "id": "50713203-6dba-46fb-ab2b-f3833ff22992",
+   "name": "Serbia",
+   "ioc": "SRB",
+   "score": 21
+  },
+  "away": {
+   "id": "3d7de2a6-8483-4238-96f9-80a86a031118",
+   "name": "Poland",
+   "ioc": "POL",
+   "score": 17
+  }
+ },
+ {
+  "id": "1b01fd38-58be-4fa6-a1b6-6181ed1b19cf",
+  "name": "Final",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-07T19:30+03:00",
+  "status": null,
+  "home": {
+   "id": "e11dfb99-6db5-4f50-9b2a-59c82da91ed4",
+   "name": "Latvia",
+   "ioc": "LAT",
+   "score": 21
+  },
+  "away": {
+   "id": "e5ed6f97-ca69-4a5a-a8e7-3b5a0294db63",
+   "name": "Poland",
+   "ioc": "POL",
+   "score": 13
+  }
+ },
+ {
+  "id": "096635af-b0bf-4896-8e22-e799e76b9b97",
+  "name": "Final",
+  "eventId": "d4c7c5c4-88e2-4e5d-9fdc-f47982701d9d",
+  "stop": "europe-2-stop-1",
+  "conference": "europe-2",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-07T19:55+03:00",
+  "status": null,
+  "home": {
+   "id": "046a498a-d7b6-4b82-af49-fde57fde3fed",
+   "name": "Latvia",
+   "ioc": "LAT",
+   "score": 16
+  },
+  "away": {
+   "id": "50713203-6dba-46fb-ab2b-f3833ff22992",
+   "name": "Serbia",
+   "ioc": "SRB",
+   "score": 17
+  }
+ },
+ {
+  "id": "cdaafb0f-8a19-4f79-a10a-6fa64d98ce7c",
+  "name": "Pool A game 1",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T13:00+08:00",
+  "status": null,
+  "home": {
+   "id": "8b7ae943-ee4c-4643-b1a4-3d864d6708f0",
+   "name": "Japan (U21)",
+   "ioc": "JPN",
+   "score": 21
+  },
+  "away": {
+   "id": "5b2e1a47-bec0-4c61-9bac-d0aa64a2827f",
+   "name": "Philippines (U21)",
+   "ioc": "PHI",
+   "score": 10
+  }
+ },
+ {
+  "id": "25ad24d4-0daf-41dd-a7f5-123c00285934",
+  "name": "Pool A game 1",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T13:25+08:00",
+  "status": null,
+  "home": {
+   "id": "d9ef71ef-7228-422f-8bd1-779f90a8365f",
+   "name": "New Zealand (U21)",
+   "ioc": "NZL",
+   "score": 17
+  },
+  "away": {
+   "id": "c6ed5a5e-92c6-445d-b981-312c0c0a7991",
+   "name": "Philippines (U21)",
+   "ioc": "PHI",
+   "score": 22
+  }
+ },
+ {
+  "id": "51beca38-2ad8-44e3-90d6-f216699339e3",
+  "name": "Pool B game 1",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T13:50+08:00",
+  "status": null,
+  "home": {
+   "id": "0c68bb09-8747-40ea-b355-f49bf4c83651",
+   "name": "New Zealand (U21)",
+   "ioc": "NZL",
+   "score": 11
+  },
+  "away": {
+   "id": "ca7d7ba9-9a6f-4d57-b915-00c755a93bda",
+   "name": "Belarus (U21)",
+   "ioc": "BLR",
+   "score": 15
+  }
+ },
+ {
+  "id": "d832bd5d-85f1-455f-aa4d-b1cf1f6efc26",
+  "name": "Pool B game 1",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T14:15+08:00",
+  "status": null,
+  "home": {
+   "id": "ac13bf0b-ca24-44ce-a010-be10ddca1558",
+   "name": "Japan (U21)",
+   "ioc": "JPN",
+   "score": 10
+  },
+  "away": {
+   "id": "9865dd85-1bbd-4c30-9496-e56390715b84",
+   "name": "Belarus (U21)",
+   "ioc": "BLR",
+   "score": 20
+  }
+ },
+ {
+  "id": "44d43aa9-a785-4e48-8b00-4c49a1164e55",
+  "name": "Pool A game 2",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T14:50+08:00",
+  "status": null,
+  "home": {
+   "id": "01bc9a77-6515-4975-8875-3f4fc6c1faf5",
+   "name": "Malaysia (U21)",
+   "ioc": "MAS",
+   "score": 20
+  },
+  "away": {
+   "id": "5b2e1a47-bec0-4c61-9bac-d0aa64a2827f",
+   "name": "Philippines (U21)",
+   "ioc": "PHI",
+   "score": 11
+  }
+ },
+ {
+  "id": "3677f0a6-e5e2-42d5-97d5-0c09d58456ab",
+  "name": "Pool A game 2",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T15:15+08:00",
+  "status": null,
+  "home": {
+   "id": "b1eae9f4-3be7-4a4d-b00d-9c03ce2c786a",
+   "name": "Malaysia (U21)",
+   "ioc": "MAS",
+   "score": 13
+  },
+  "away": {
+   "id": "c6ed5a5e-92c6-445d-b981-312c0c0a7991",
+   "name": "Philippines (U21)",
+   "ioc": "PHI",
+   "score": 21
+  }
+ },
+ {
+  "id": "a14d75b4-ad83-4d01-9060-addc95346598",
+  "name": "Pool B game 2",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T15:40+08:00",
+  "status": null,
+  "home": {
+   "id": "3d83cb90-069c-457d-be4e-094eb591e6cc",
+   "name": "Singapore (U21)",
+   "ioc": "SGP",
+   "score": 6
+  },
+  "away": {
+   "id": "ca7d7ba9-9a6f-4d57-b915-00c755a93bda",
+   "name": "Belarus (U21)",
+   "ioc": "BLR",
+   "score": 21
+  }
+ },
+ {
+  "id": "557de127-54d7-4689-95a2-e43bc7cb7671",
+  "name": "Pool B game 2",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T16:05+08:00",
+  "status": null,
+  "home": {
+   "id": "204131b7-fd3f-4504-a8e0-b88da8d75e68",
+   "name": "Singapore (U21)",
+   "ioc": "SGP",
+   "score": 9
+  },
+  "away": {
+   "id": "9865dd85-1bbd-4c30-9496-e56390715b84",
+   "name": "Belarus (U21)",
+   "ioc": "BLR",
+   "score": 14
+  }
+ },
+ {
+  "id": "a509f76a-38bd-426e-987a-62d9a672fba4",
+  "name": "Pool A game 3",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T16:40+08:00",
+  "status": null,
+  "home": {
+   "id": "8b7ae943-ee4c-4643-b1a4-3d864d6708f0",
+   "name": "Japan (U21)",
+   "ioc": "JPN",
+   "score": 22
+  },
+  "away": {
+   "id": "01bc9a77-6515-4975-8875-3f4fc6c1faf5",
+   "name": "Malaysia (U21)",
+   "ioc": "MAS",
+   "score": 12
+  }
+ },
+ {
+  "id": "6361a862-0eff-4187-abcf-106228e1e9f4",
+  "name": "Pool A game 3",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T17:05+08:00",
+  "status": null,
+  "home": {
+   "id": "d9ef71ef-7228-422f-8bd1-779f90a8365f",
+   "name": "New Zealand (U21)",
+   "ioc": "NZL",
+   "score": 21
+  },
+  "away": {
+   "id": "b1eae9f4-3be7-4a4d-b00d-9c03ce2c786a",
+   "name": "Malaysia (U21)",
+   "ioc": "MAS",
+   "score": 17
+  }
+ },
+ {
+  "id": "904dad42-d049-45d8-84fd-615cb6643494",
+  "name": "Pool B game 3",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T17:30+08:00",
+  "status": null,
+  "home": {
+   "id": "0c68bb09-8747-40ea-b355-f49bf4c83651",
+   "name": "New Zealand (U21)",
+   "ioc": "NZL",
+   "score": 21
+  },
+  "away": {
+   "id": "3d83cb90-069c-457d-be4e-094eb591e6cc",
+   "name": "Singapore (U21)",
+   "ioc": "SGP",
+   "score": 5
+  }
+ },
+ {
+  "id": "831168fd-38e3-454d-a3ff-eb3a56a91d6c",
+  "name": "Pool B game 3",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-13T17:55+08:00",
+  "status": null,
+  "home": {
+   "id": "ac13bf0b-ca24-44ce-a010-be10ddca1558",
+   "name": "Japan (U21)",
+   "ioc": "JPN",
+   "score": 17
+  },
+  "away": {
+   "id": "204131b7-fd3f-4504-a8e0-b88da8d75e68",
+   "name": "Singapore (U21)",
+   "ioc": "SGP",
+   "score": 13
+  }
+ },
+ {
+  "id": "ecfdc0a9-7c96-4a46-a9a5-bafe2585e2b3",
+  "name": "Final",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-13T18:30+08:00",
+  "status": null,
+  "home": {
+   "id": "8b7ae943-ee4c-4643-b1a4-3d864d6708f0",
+   "name": "Japan (U21)",
+   "ioc": "JPN",
+   "score": 17
+  },
+  "away": {
+   "id": "ca7d7ba9-9a6f-4d57-b915-00c755a93bda",
+   "name": "Belarus (U21)",
+   "ioc": "BLR",
+   "score": 19
+  }
+ },
+ {
+  "id": "70993d67-745a-456c-a3dc-a2efbdcdb8c8",
+  "name": "Final",
+  "eventId": "f8ef3729-0c0c-4214-a451-8e721ecd49ce",
+  "stop": "u21-asia-2-stop-1",
+  "conference": "u21-asia-2",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-13T18:55+08:00",
+  "status": null,
+  "home": {
+   "id": "c6ed5a5e-92c6-445d-b981-312c0c0a7991",
+   "name": "Philippines (U21)",
+   "ioc": "PHI",
+   "score": 19
+  },
+  "away": {
+   "id": "9865dd85-1bbd-4c30-9496-e56390715b84",
+   "name": "Belarus (U21)",
+   "ioc": "BLR",
+   "score": 20
+  }
+ },
+ {
+  "id": "faf7ee42-dc06-4c34-b2f8-e211a7db419d",
+  "name": "Pool A game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T14:00+02:00",
+  "status": null,
+  "home": {
+   "id": "523a0d81-6722-4d72-8ea1-d06c0046809d",
+   "name": "Algeria (U21)",
+   "ioc": "ALG",
+   "score": 21
+  },
+  "away": {
+   "id": "c7aca667-19a1-47ba-8383-0d65094a545c",
+   "name": "Angola",
+   "ioc": "ANG",
+   "score": 12
+  }
+ },
+ {
+  "id": "35fdfe43-7d21-4f1e-9948-167450a3dc82",
+  "name": "Pool A game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T14:00-03:00",
+  "status": null,
+  "home": {
+   "id": "ddda67af-3f92-465f-9c9e-d7465a3d3e7b",
+   "name": "Chile U21",
+   "ioc": "CHI",
+   "score": 16
+  },
+  "away": {
+   "id": "72f5bf8d-4507-40a5-911e-58c1ec4a9cb5",
+   "name": "Paraguay",
+   "ioc": "PAR",
+   "score": 18
+  }
+ },
+ {
+  "id": "c7c7e1aa-cc64-4a33-8fe5-66d37f5ee174",
+  "name": "Pool A game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T14:25+02:00",
+  "status": null,
+  "home": {
+   "id": "d63945e7-03a8-49f1-8efd-806bfdbf77c7",
+   "name": "Algeria (U21)",
+   "ioc": "ALG",
+   "score": 21
+  },
+  "away": {
+   "id": "4926394d-227f-4d35-8f98-cd3638750c30",
+   "name": "Angola",
+   "ioc": "ANG",
+   "score": 13
+  }
+ },
+ {
+  "id": "0713579a-a4b8-42cb-a7f7-3e0f31957d29",
+  "name": "Pool A game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T14:25-03:00",
+  "status": null,
+  "home": {
+   "id": "4bfcc0cd-7470-4040-8d32-37e599711692",
+   "name": "Chile U21",
+   "ioc": "CHI",
+   "score": 15
+  },
+  "away": {
+   "id": "4e9d8555-5b07-49b4-af04-412fa377bdf8",
+   "name": "Paraguay",
+   "ioc": "PAR",
+   "score": 11
+  }
+ },
+ {
+  "id": "36a9dfea-807f-473e-b1a2-73f1ef58372b",
+  "name": "Pool A game 2",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T14:50+02:00",
+  "status": null,
+  "home": {
+   "id": "ab0f7a6a-79d8-4c11-8ed8-5ec79f138155",
+   "name": "Botswana",
+   "ioc": "BOT",
+   "score": 13
+  },
+  "away": {
+   "id": "c7aca667-19a1-47ba-8383-0d65094a545c",
+   "name": "Angola",
+   "ioc": "ANG",
+   "score": 16
+  }
+ },
+ {
+  "id": "5e38c574-04d5-41f5-aeb0-3199cf4ff8cf",
+  "name": "Pool A game 2",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T14:50-03:00",
+  "status": null,
+  "home": {
+   "id": "64ff2318-684d-4a60-a1f5-ae1add0cf019",
+   "name": "Brazil",
+   "ioc": "BRA",
+   "score": 17
+  },
+  "away": {
+   "id": "72f5bf8d-4507-40a5-911e-58c1ec4a9cb5",
+   "name": "Paraguay",
+   "ioc": "PAR",
+   "score": 20
+  }
+ },
+ {
+  "id": "264a3019-82b2-4b55-bf64-1acf7ce684c2",
+  "name": "Pool A game 2",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T15:15+02:00",
+  "status": null,
+  "home": {
+   "id": "be92c9df-665a-4114-b5cb-bcf4212c2e6a",
+   "name": "Botswana",
+   "ioc": "BOT",
+   "score": 21
+  },
+  "away": {
+   "id": "4926394d-227f-4d35-8f98-cd3638750c30",
+   "name": "Angola",
+   "ioc": "ANG",
+   "score": 17
+  }
+ },
+ {
+  "id": "202808b0-e7f9-4673-8010-f7d9678f0611",
+  "name": "Pool A game 2",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T15:15-03:00",
+  "status": null,
+  "home": {
+   "id": "517fb9cd-bd76-4332-8b93-7dbb9d77e171",
+   "name": "Brazil",
+   "ioc": "BRA",
+   "score": 21
+  },
+  "away": {
+   "id": "4e9d8555-5b07-49b4-af04-412fa377bdf8",
+   "name": "Paraguay",
+   "ioc": "PAR",
+   "score": 10
+  }
+ },
+ {
+  "id": "eb8e2613-0778-456a-8e9f-49f171414bf8",
+  "name": "Pool B game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T15:50+02:00",
+  "status": null,
+  "home": {
+   "id": "60242db1-e738-43e2-8217-a7cde704a153",
+   "name": "Egypt (U21)",
+   "ioc": "EGY",
+   "score": 12
+  },
+  "away": {
+   "id": "50378bf0-356d-46a4-af6f-a370e362bf62",
+   "name": "Madagascar",
+   "ioc": "MAD",
+   "score": 11
+  }
+ },
+ {
+  "id": "d58edcfa-89f8-4650-876e-edf3ba92a43f",
+  "name": "Pool B game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T15:50-03:00",
+  "status": null,
+  "home": {
+   "id": "8ac05cdf-1e1e-45d8-98ef-295ab3753f6b",
+   "name": "Argentina",
+   "ioc": "ARG",
+   "score": 12
+  },
+  "away": {
+   "id": "c920c797-4dc0-4412-89e2-74ae4f29097a",
+   "name": "Canada U21",
+   "ioc": "CAN",
+   "score": 14
+  }
+ },
+ {
+  "id": "20d7acd3-b4db-4411-a35a-7920b86d3f35",
+  "name": "Pool B game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T16:15+02:00",
+  "status": null,
+  "home": {
+   "id": "a4e98995-80c6-4962-b112-a011e09a5f01",
+   "name": "Egypt (U21)",
+   "ioc": "EGY",
+   "score": 13
+  },
+  "away": {
+   "id": "d8fc1631-8b73-4edb-866a-50c439009071",
+   "name": "Madagascar",
+   "ioc": "MAD",
+   "score": 11
+  }
+ },
+ {
+  "id": "b5e7b42e-d9af-493c-b8ae-03d5a50e8f7b",
+  "name": "Pool B game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T16:15-03:00",
+  "status": null,
+  "home": {
+   "id": "c07bb463-2b65-4a62-8636-b72181c69573",
+   "name": "Argentina",
+   "ioc": "ARG",
+   "score": 16
+  },
+  "away": {
+   "id": "da01a04f-ec84-473d-9dcd-43265b61e743",
+   "name": "Canada U21",
+   "ioc": "CAN",
+   "score": 18
+  }
+ },
+ {
+  "id": "f7b82540-2378-4566-ac41-afed646f22d0",
+  "name": "Pool A game 3",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T16:40+02:00",
+  "status": null,
+  "home": {
+   "id": "523a0d81-6722-4d72-8ea1-d06c0046809d",
+   "name": "Algeria (U21)",
+   "ioc": "ALG",
+   "score": 20
+  },
+  "away": {
+   "id": "ab0f7a6a-79d8-4c11-8ed8-5ec79f138155",
+   "name": "Botswana",
+   "ioc": "BOT",
+   "score": 11
+  }
+ },
+ {
+  "id": "e1de5f85-b5a4-497a-82de-810ef8b1722a",
+  "name": "Pool A game 3",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T16:40-03:00",
+  "status": null,
+  "home": {
+   "id": "ddda67af-3f92-465f-9c9e-d7465a3d3e7b",
+   "name": "Chile U21",
+   "ioc": "CHI",
+   "score": 6
+  },
+  "away": {
+   "id": "64ff2318-684d-4a60-a1f5-ae1add0cf019",
+   "name": "Brazil",
+   "ioc": "BRA",
+   "score": 21
+  }
+ },
+ {
+  "id": "a3911669-34db-4303-ac50-321ad221bb01",
+  "name": "Pool A game 3",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T17:05+02:00",
+  "status": null,
+  "home": {
+   "id": "d63945e7-03a8-49f1-8efd-806bfdbf77c7",
+   "name": "Algeria (U21)",
+   "ioc": "ALG",
+   "score": 21
+  },
+  "away": {
+   "id": "be92c9df-665a-4114-b5cb-bcf4212c2e6a",
+   "name": "Botswana",
+   "ioc": "BOT",
+   "score": 14
+  }
+ },
+ {
+  "id": "7e3e20e7-e20c-4aa8-acab-51175e81c362",
+  "name": "Pool A game 3",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T17:05-03:00",
+  "status": null,
+  "home": {
+   "id": "4bfcc0cd-7470-4040-8d32-37e599711692",
+   "name": "Chile U21",
+   "ioc": "CHI",
+   "score": 11
+  },
+  "away": {
+   "id": "517fb9cd-bd76-4332-8b93-7dbb9d77e171",
+   "name": "Brazil",
+   "ioc": "BRA",
+   "score": 20
+  }
+ },
+ {
+  "id": "cadda1ae-5210-4ca4-b594-12b5791ea1d2",
+  "name": "Pool B game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T17:40+02:00",
+  "status": null,
+  "home": {
+   "id": "c7aca667-19a1-47ba-8383-0d65094a545c",
+   "name": "Angola",
+   "ioc": "ANG",
+   "score": null
+  },
+  "away": {
+   "id": "50378bf0-356d-46a4-af6f-a370e362bf62",
+   "name": "Madagascar",
+   "ioc": "MAD",
+   "score": null
+  }
+ },
+ {
+  "id": "9f147653-fc33-45b9-bbc2-8b940b5fa42b",
+  "name": "Pool B game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T17:40-03:00",
+  "status": null,
+  "home": {
+   "id": "64ff2318-684d-4a60-a1f5-ae1add0cf019",
+   "name": "Brazil",
+   "ioc": "BRA",
+   "score": 21
+  },
+  "away": {
+   "id": "8ac05cdf-1e1e-45d8-98ef-295ab3753f6b",
+   "name": "Argentina",
+   "ioc": "ARG",
+   "score": 15
+  }
+ },
+ {
+  "id": "b606ed98-b863-4b0a-a00c-c7d7eb255f63",
+  "name": "Pool B game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T18:05+02:00",
+  "status": null,
+  "home": {
+   "id": "be92c9df-665a-4114-b5cb-bcf4212c2e6a",
+   "name": "Botswana",
+   "ioc": "BOT",
+   "score": 8
+  },
+  "away": {
+   "id": "d8fc1631-8b73-4edb-866a-50c439009071",
+   "name": "Madagascar",
+   "ioc": "MAD",
+   "score": 15
+  }
+ },
+ {
+  "id": "483e3e31-e25f-40d4-b791-bdcd54e0fa87",
+  "name": "Pool B game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T18:05-03:00",
+  "status": null,
+  "home": {
+   "id": "4bfcc0cd-7470-4040-8d32-37e599711692",
+   "name": "Chile U21",
+   "ioc": "CHI",
+   "score": 12
+  },
+  "away": {
+   "id": "c07bb463-2b65-4a62-8636-b72181c69573",
+   "name": "Argentina",
+   "ioc": "ARG",
+   "score": 21
+  }
+ },
+ {
+  "id": "5d208cee-8ef1-4ba6-903f-1dd7971a1de9",
+  "name": "Pool A game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T18:30+02:00",
+  "status": null,
+  "home": {
+   "id": "523a0d81-6722-4d72-8ea1-d06c0046809d",
+   "name": "Algeria (U21)",
+   "ioc": "ALG",
+   "score": 9
+  },
+  "away": {
+   "id": "60242db1-e738-43e2-8217-a7cde704a153",
+   "name": "Egypt (U21)",
+   "ioc": "EGY",
+   "score": 21
+  }
+ },
+ {
+  "id": "0e4ee190-1e0b-4100-96e1-7d5a58de1dd5",
+  "name": "Pool A game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T18:30-03:00",
+  "status": null,
+  "home": {
+   "id": "72f5bf8d-4507-40a5-911e-58c1ec4a9cb5",
+   "name": "Paraguay",
+   "ioc": "PAR",
+   "score": 4
+  },
+  "away": {
+   "id": "c920c797-4dc0-4412-89e2-74ae4f29097a",
+   "name": "Canada U21",
+   "ioc": "CAN",
+   "score": 19
+  }
+ },
+ {
+  "id": "b8e35737-a6f3-4cbb-bbb8-adf450f1234a",
+  "name": "Pool A game 1",
+  "eventId": "0adad935-c507-48ce-be3a-aa7728ca762a",
+  "stop": "africa-south-stop-1",
+  "conference": "africa-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T18:55+02:00",
+  "status": null,
+  "home": {
+   "id": "d63945e7-03a8-49f1-8efd-806bfdbf77c7",
+   "name": "Algeria (U21)",
+   "ioc": "ALG",
+   "score": 11
+  },
+  "away": {
+   "id": "a4e98995-80c6-4962-b112-a011e09a5f01",
+   "name": "Egypt (U21)",
+   "ioc": "EGY",
+   "score": 21
+  }
+ },
+ {
+  "id": "a6a86b9c-2f2b-4947-9764-9dc8a4375f08",
+  "name": "Pool A game 1",
+  "eventId": "80d9208b-e1ab-42b8-86de-c01f5d9e52ad",
+  "stop": "americas-south-stop-1",
+  "conference": "americas-south",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-20T18:55-03:00",
+  "status": null,
+  "home": {
+   "id": "517fb9cd-bd76-4332-8b93-7dbb9d77e171",
+   "name": "Brazil",
+   "ioc": "BRA",
+   "score": 16
+  },
+  "away": {
+   "id": "da01a04f-ec84-473d-9dcd-43265b61e743",
+   "name": "Canada U21",
+   "ioc": "CAN",
+   "score": 20
+  }
+ },
+ {
+  "id": "53cf7e8b-2ca1-464d-aef1-bcda7f9089e0",
+  "name": "Pool A game 1",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T16:00+02:00",
+  "status": null,
+  "home": {
+   "id": "3083890a-ab2f-41ef-bb7e-6354083bdea3",
+   "name": "Netherlands (U21)",
+   "ioc": "NED",
+   "score": 15
+  },
+  "away": {
+   "id": "6b9f745f-8200-4638-839a-e5a97252bd02",
+   "name": "Austria (U21)",
+   "ioc": "AUT",
+   "score": 8
+  }
+ },
+ {
+  "id": "e4354b73-159c-4eef-a37e-56539edb75a0",
+  "name": "Pool A game 1",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T16:25+02:00",
+  "status": null,
+  "home": {
+   "id": "fd72c8a2-936b-46ca-a377-51684e4b839e",
+   "name": "Netherlands (U21)",
+   "ioc": "NED",
+   "score": 21
+  },
+  "away": {
+   "id": "759ee394-9b40-4ba6-8e82-d5d94c2c8deb",
+   "name": "Austria (U21)",
+   "ioc": "AUT",
+   "score": 14
+  }
+ },
+ {
+  "id": "b6dc9ce7-d231-48d4-b1ea-366f3d73ddbd",
+  "name": "Pool B game 1",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T16:50+02:00",
+  "status": null,
+  "home": {
+   "id": "9aa49cde-c3e8-4ef7-97d1-738fe08bd185",
+   "name": "Ukraine (U21)",
+   "ioc": "UKR",
+   "score": 19
+  },
+  "away": {
+   "id": "c82e5f59-e795-4a70-8ceb-bd0ecc88962f",
+   "name": "Ireland (U21)",
+   "ioc": "IRL",
+   "score": 8
+  }
+ },
+ {
+  "id": "42090e1a-3e76-4617-89ed-ada972e94b3a",
+  "name": "Pool B game 1",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T17:15+02:00",
+  "status": null,
+  "home": {
+   "id": "3ee64f32-31c0-482d-8db3-ff4714726114",
+   "name": "Poland (U21)",
+   "ioc": "POL",
+   "score": 14
+  },
+  "away": {
+   "id": "0ce17601-8d4d-415d-9201-a59d2c915684",
+   "name": "Ireland (U21)",
+   "ioc": "IRL",
+   "score": 12
+  }
+ },
+ {
+  "id": "50469424-52f8-4303-88aa-de28dc2c6e90",
+  "name": "Pool A game 2",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T17:50+02:00",
+  "status": null,
+  "home": {
+   "id": "bf39cc43-0a69-4788-86bc-1108f71d3453",
+   "name": "Hungary (U21)",
+   "ioc": "HUN",
+   "score": 16
+  },
+  "away": {
+   "id": "6b9f745f-8200-4638-839a-e5a97252bd02",
+   "name": "Austria (U21)",
+   "ioc": "AUT",
+   "score": 15
+  }
+ },
+ {
+  "id": "8deb1562-b16d-4a26-8cd6-9a44a2000159",
+  "name": "Pool A game 2",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T18:15+02:00",
+  "status": null,
+  "home": {
+   "id": "e006e23c-7ba7-43eb-a61f-4bb68809c670",
+   "name": "Hungary (U21)",
+   "ioc": "HUN",
+   "score": 21
+  },
+  "away": {
+   "id": "759ee394-9b40-4ba6-8e82-d5d94c2c8deb",
+   "name": "Austria (U21)",
+   "ioc": "AUT",
+   "score": 20
+  }
+ },
+ {
+  "id": "817da560-d9ac-4849-8875-e40b083936a6",
+  "name": "Pool B game 2",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T18:40+02:00",
+  "status": null,
+  "home": {
+   "id": "d3303126-1861-4a38-b37a-862a58e21c7d",
+   "name": "Poland (U21)",
+   "ioc": "POL",
+   "score": 13
+  },
+  "away": {
+   "id": "c82e5f59-e795-4a70-8ceb-bd0ecc88962f",
+   "name": "Ireland (U21)",
+   "ioc": "IRL",
+   "score": 12
+  }
+ },
+ {
+  "id": "81554d70-0951-4c72-8854-056d02894899",
+  "name": "Pool B game 2",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T19:05+02:00",
+  "status": null,
+  "home": {
+   "id": "bc1578c3-42f0-44ee-8143-fcf5a0689abc",
+   "name": "Ukraine (U21)",
+   "ioc": "UKR",
+   "score": 21
+  },
+  "away": {
+   "id": "0ce17601-8d4d-415d-9201-a59d2c915684",
+   "name": "Ireland (U21)",
+   "ioc": "IRL",
+   "score": 14
+  }
+ },
+ {
+  "id": "ac1e7ab6-41c5-4c1d-aae1-eb73007e0b0c",
+  "name": "Pool A game 3",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T19:40+02:00",
+  "status": null,
+  "home": {
+   "id": "3083890a-ab2f-41ef-bb7e-6354083bdea3",
+   "name": "Netherlands (U21)",
+   "ioc": "NED",
+   "score": 20
+  },
+  "away": {
+   "id": "bf39cc43-0a69-4788-86bc-1108f71d3453",
+   "name": "Hungary (U21)",
+   "ioc": "HUN",
+   "score": 12
+  }
+ },
+ {
+  "id": "476e5abc-dce3-48fc-8839-1edb3646a002",
+  "name": "Pool A game 3",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T20:05+02:00",
+  "status": null,
+  "home": {
+   "id": "fd72c8a2-936b-46ca-a377-51684e4b839e",
+   "name": "Netherlands (U21)",
+   "ioc": "NED",
+   "score": 21
+  },
+  "away": {
+   "id": "e006e23c-7ba7-43eb-a61f-4bb68809c670",
+   "name": "Hungary (U21)",
+   "ioc": "HUN",
+   "score": 14
+  }
+ },
+ {
+  "id": "6aef735b-d2bb-4b5f-aae7-d6cab6152885",
+  "name": "Pool B game 3",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T20:30+02:00",
+  "status": null,
+  "home": {
+   "id": "9aa49cde-c3e8-4ef7-97d1-738fe08bd185",
+   "name": "Ukraine (U21)",
+   "ioc": "UKR",
+   "score": 19
+  },
+  "away": {
+   "id": "d3303126-1861-4a38-b37a-862a58e21c7d",
+   "name": "Poland (U21)",
+   "ioc": "POL",
+   "score": 18
+  }
+ },
+ {
+  "id": "fb86a6ac-02f5-4806-8df0-083f2424dd0f",
+  "name": "Pool B game 3",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-07-31T20:55+02:00",
+  "status": null,
+  "home": {
+   "id": "3ee64f32-31c0-482d-8db3-ff4714726114",
+   "name": "Poland (U21)",
+   "ioc": "POL",
+   "score": 20
+  },
+  "away": {
+   "id": "bc1578c3-42f0-44ee-8143-fcf5a0689abc",
+   "name": "Ukraine (U21)",
+   "ioc": "UKR",
+   "score": 21
+  }
+ },
+ {
+  "id": "d1e80288-dd8e-495e-af94-905571ffeba8",
+  "name": "Final",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-31T21:30+02:00",
+  "status": null,
+  "home": {
+   "id": "3083890a-ab2f-41ef-bb7e-6354083bdea3",
+   "name": "Netherlands (U21)",
+   "ioc": "NED",
+   "score": 17
+  },
+  "away": {
+   "id": "9aa49cde-c3e8-4ef7-97d1-738fe08bd185",
+   "name": "Ukraine (U21)",
+   "ioc": "UKR",
+   "score": 14
+  }
+ },
+ {
+  "id": "d7a307fd-777f-47de-b8ed-b5a589e79d6b",
+  "name": "Final",
+  "eventId": "acbe6457-019a-49ee-96cd-ce6d06ad853e",
+  "stop": "u21-europe-2-stop-1",
+  "conference": "u21-europe-2",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-07-31T21:55+02:00",
+  "status": null,
+  "home": {
+   "id": "fd72c8a2-936b-46ca-a377-51684e4b839e",
+   "name": "Netherlands (U21)",
+   "ioc": "NED",
+   "score": 21
+  },
+  "away": {
+   "id": "bc1578c3-42f0-44ee-8143-fcf5a0689abc",
+   "name": "Ukraine (U21)",
+   "ioc": "UKR",
+   "score": 13
+  }
+ },
+ {
+  "id": "4ac6421c-46c5-48ae-83e3-35a7240a9862",
+  "name": "Pool A game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T13:00+02:00",
+  "status": null,
+  "home": {
+   "id": "3d346214-d5c6-41c1-8899-d5f7d526f099",
+   "name": "Italy (U21)",
+   "ioc": "ITA",
+   "score": 19
+  },
+  "away": {
+   "id": "a4e81352-2587-4b7d-95de-3479b958e41d",
+   "name": "Slovakia (U21)",
+   "ioc": "SVK",
+   "score": 12
+  }
+ },
+ {
+  "id": "c1fe4fc5-ee8a-4289-9597-a0d558ddff0c",
+  "name": "Pool A game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T13:25+02:00",
+  "status": null,
+  "home": {
+   "id": "a97b38f6-f5b3-454b-a2c6-1491c806ae38",
+   "name": "Germany (U21)",
+   "ioc": "GER",
+   "score": 21
+  },
+  "away": {
+   "id": "763cbb59-88e9-443e-98f8-e197135fbb4b",
+   "name": "Slovenia (U21)",
+   "ioc": "SLO",
+   "score": 9
+  }
+ },
+ {
+  "id": "1f38be32-acc4-4650-9fcc-0f31fcdbe61a",
+  "name": "Pool A game 2",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T13:50+02:00",
+  "status": null,
+  "home": {
+   "id": "e484a4d5-78dc-4943-afea-9c86fa797073",
+   "name": "Slovenia (U21)",
+   "ioc": "SLO",
+   "score": 11
+  },
+  "away": {
+   "id": "a4e81352-2587-4b7d-95de-3479b958e41d",
+   "name": "Slovakia (U21)",
+   "ioc": "SVK",
+   "score": 13
+  }
+ },
+ {
+  "id": "10ab1b1f-46ec-45bb-ab63-73731be53ec0",
+  "name": "Pool A game 2",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T14:15+02:00",
+  "status": null,
+  "home": {
+   "id": "fe37bd62-3a0f-4225-ade8-5513c4e3c6f2",
+   "name": "Slovakia (U21)",
+   "ioc": "SVK",
+   "score": 10
+  },
+  "away": {
+   "id": "763cbb59-88e9-443e-98f8-e197135fbb4b",
+   "name": "Slovenia (U21)",
+   "ioc": "SLO",
+   "score": 16
+  }
+ },
+ {
+  "id": "19b31926-23ca-4245-a424-77c173771218",
+  "name": "Pool B game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T14:50+02:00",
+  "status": null,
+  "home": {
+   "id": "049257fb-c79d-4d5f-8e42-76f1d5cf4f32",
+   "name": "Germany (U21)",
+   "ioc": "GER",
+   "score": 10
+  },
+  "away": {
+   "id": "e4e2d6ad-c812-4ca5-885e-c9f3fdd80729",
+   "name": "Czechia (U21)",
+   "ioc": "CZE",
+   "score": 17
+  }
+ },
+ {
+  "id": "845f4c34-7249-40b5-97b6-b5b9bd8bf4ed",
+  "name": "Pool B game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T15:15+02:00",
+  "status": null,
+  "home": {
+   "id": "6d9c1602-cb63-40ca-98b1-3d3a86904b98",
+   "name": "Italy (U21)",
+   "ioc": "ITA",
+   "score": 19
+  },
+  "away": {
+   "id": "297e09a6-d33c-4717-9104-98151a08393a",
+   "name": "Czechia (U21)",
+   "ioc": "CZE",
+   "score": 14
+  }
+ },
+ {
+  "id": "779db956-1109-4dce-8c37-c4a4d014cf06",
+  "name": "Pool A game 3",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T15:40+02:00",
+  "status": null,
+  "home": {
+   "id": "3d346214-d5c6-41c1-8899-d5f7d526f099",
+   "name": "Italy (U21)",
+   "ioc": "ITA",
+   "score": 21
+  },
+  "away": {
+   "id": "e484a4d5-78dc-4943-afea-9c86fa797073",
+   "name": "Slovenia (U21)",
+   "ioc": "SLO",
+   "score": 10
+  }
+ },
+ {
+  "id": "5581017d-68ee-43ca-af1a-d76b3b5ccadf",
+  "name": "Pool A game 3",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T16:05+02:00",
+  "status": null,
+  "home": {
+   "id": "a97b38f6-f5b3-454b-a2c6-1491c806ae38",
+   "name": "Germany (U21)",
+   "ioc": "GER",
+   "score": 20
+  },
+  "away": {
+   "id": "fe37bd62-3a0f-4225-ade8-5513c4e3c6f2",
+   "name": "Slovakia (U21)",
+   "ioc": "SVK",
+   "score": 17
+  }
+ },
+ {
+  "id": "66650541-7590-4e68-b4a6-a7137635325d",
+  "name": "Pool B game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T17:10+02:00",
+  "status": null,
+  "home": {
+   "id": "a4e81352-2587-4b7d-95de-3479b958e41d",
+   "name": "Slovakia (U21)",
+   "ioc": "SVK",
+   "score": 11
+  },
+  "away": {
+   "id": "049257fb-c79d-4d5f-8e42-76f1d5cf4f32",
+   "name": "Germany (U21)",
+   "ioc": "GER",
+   "score": 16
+  }
+ },
+ {
+  "id": "73fe4e50-63eb-462f-9459-4febafaa708b",
+  "name": "Pool B game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T17:35+02:00",
+  "status": null,
+  "home": {
+   "id": "763cbb59-88e9-443e-98f8-e197135fbb4b",
+   "name": "Slovenia (U21)",
+   "ioc": "SLO",
+   "score": 15
+  },
+  "away": {
+   "id": "297e09a6-d33c-4717-9104-98151a08393a",
+   "name": "Czechia (U21)",
+   "ioc": "CZE",
+   "score": 14
+  }
+ },
+ {
+  "id": "b5d6cb8e-373d-41f9-9893-4a06098dd0d9",
+  "name": "Pool A game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T18:00+02:00",
+  "status": null,
+  "home": {
+   "id": "3d346214-d5c6-41c1-8899-d5f7d526f099",
+   "name": "Italy (U21)",
+   "ioc": "ITA",
+   "score": 13
+  },
+  "away": {
+   "id": "e4e2d6ad-c812-4ca5-885e-c9f3fdd80729",
+   "name": "Czechia (U21)",
+   "ioc": "CZE",
+   "score": 21
+  }
+ },
+ {
+  "id": "9c8e97f6-f4bc-4d77-a84e-e362c17d8290",
+  "name": "Pool A game 1",
+  "eventId": "70319528-bed0-4b24-88ca-8326b76816b5",
+  "stop": "u21-europe-1-stop-1",
+  "conference": "u21-europe-1",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-02T18:25+02:00",
+  "status": null,
+  "home": {
+   "id": "a97b38f6-f5b3-454b-a2c6-1491c806ae38",
+   "name": "Germany (U21)",
+   "ioc": "GER",
+   "score": 21
+  },
+  "away": {
+   "id": "6d9c1602-cb63-40ca-98b1-3d3a86904b98",
+   "name": "Italy (U21)",
+   "ioc": "ITA",
+   "score": 13
+  }
+ },
+ {
+  "id": "dd825700-ca57-42d8-9a49-ad24afcc9971",
+  "name": "Pool A game 1",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T17:00+01:00",
+  "status": null,
+  "home": {
+   "id": "bdce61ac-e3bb-431f-9618-a8c3d0950038",
+   "name": "Algeria",
+   "ioc": "ALG",
+   "score": 13
+  },
+  "away": {
+   "id": "8de7d779-c710-4d40-aa74-fbfb750a8146",
+   "name": "Egypt",
+   "ioc": "EGY",
+   "score": 11
+  }
+ },
+ {
+  "id": "00dc20c9-ac7f-4103-a447-bdce53a878a3",
+  "name": "Pool A game 1",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T17:25+01:00",
+  "status": null,
+  "home": {
+   "id": "6f0f3ea9-2349-4ad5-b2a6-94bed0f44add",
+   "name": "Algeria",
+   "ioc": "ALG",
+   "score": 21
+  },
+  "away": {
+   "id": "6e0e86a5-b48d-4c92-b62d-868bec9030dd",
+   "name": "Uganda (U21)",
+   "ioc": "UGA",
+   "score": 6
+  }
+ },
+ {
+  "id": "8489993d-f4c4-45a7-be92-63a7da4c798f",
+  "name": "Pool B game 1",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T17:50+01:00",
+  "status": null,
+  "home": {
+   "id": "16c4a8b1-81c4-4870-94ef-a566150ab163",
+   "name": "Uganda (U21)",
+   "ioc": "UGA",
+   "score": 16
+  },
+  "away": {
+   "id": "51e91513-3e2a-427b-a7fc-e8de12610bc4",
+   "name": "Tunisia",
+   "ioc": "TUN",
+   "score": 9
+  }
+ },
+ {
+  "id": "82049b09-f3ec-4a5a-8b6e-302486a82c9c",
+  "name": "Pool B game 1",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T18:15+01:00",
+  "status": null,
+  "home": {
+   "id": "7248c10b-3374-42b8-9611-ef6ff76acf95",
+   "name": "Kenya (U21)",
+   "ioc": "KEN",
+   "score": 5
+  },
+  "away": {
+   "id": "2adc939f-66c6-4dc5-bdd8-1bce12c61805",
+   "name": "Tunisia",
+   "ioc": "TUN",
+   "score": 14
+  }
+ },
+ {
+  "id": "a3f8a184-1d36-4a45-b9e4-6f5f0ff91ddb",
+  "name": "Pool A game 2",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T18:50+01:00",
+  "status": null,
+  "home": {
+   "id": "7c6b85d8-f384-4915-b808-ad1cbebea82c",
+   "name": "Benin",
+   "ioc": "BEN",
+   "score": 5
+  },
+  "away": {
+   "id": "8de7d779-c710-4d40-aa74-fbfb750a8146",
+   "name": "Egypt",
+   "ioc": "EGY",
+   "score": 19
+  }
+ },
+ {
+  "id": "05efc356-41ee-43f2-a993-fb73c719b2ea",
+  "name": "Pool A game 2",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T19:15+01:00",
+  "status": null,
+  "home": {
+   "id": "f0b80d43-5b8c-40e4-8a22-1dca14d4b812",
+   "name": "Benin",
+   "ioc": "BEN",
+   "score": 18
+  },
+  "away": {
+   "id": "6e0e86a5-b48d-4c92-b62d-868bec9030dd",
+   "name": "Uganda (U21)",
+   "ioc": "UGA",
+   "score": 21
+  }
+ },
+ {
+  "id": "92b539b6-925a-4856-9532-0840e0d929a1",
+  "name": "Pool B game 2",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T19:40+01:00",
+  "status": null,
+  "home": {
+   "id": "a11fbe28-13a0-4c6a-aa94-c1e1e1ae1f07",
+   "name": "Kenya (U21)",
+   "ioc": "KEN",
+   "score": 8
+  },
+  "away": {
+   "id": "51e91513-3e2a-427b-a7fc-e8de12610bc4",
+   "name": "Tunisia",
+   "ioc": "TUN",
+   "score": 16
+  }
+ },
+ {
+  "id": "6f04cd53-d727-45e2-b1fd-5326ecc00986",
+  "name": "Pool B game 2",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T20:05+01:00",
+  "status": null,
+  "home": {
+   "id": "21545b3b-8d27-4abc-bf42-5b90368fc0fb",
+   "name": "Egypt",
+   "ioc": "EGY",
+   "score": 22
+  },
+  "away": {
+   "id": "2adc939f-66c6-4dc5-bdd8-1bce12c61805",
+   "name": "Tunisia",
+   "ioc": "TUN",
+   "score": 21
+  }
+ },
+ {
+  "id": "722092d4-4515-44a3-9a3d-e7e4e168e809",
+  "name": "Pool A game 3",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T21:00+01:00",
+  "status": null,
+  "home": {
+   "id": "bdce61ac-e3bb-431f-9618-a8c3d0950038",
+   "name": "Algeria",
+   "ioc": "ALG",
+   "score": 12
+  },
+  "away": {
+   "id": "7c6b85d8-f384-4915-b808-ad1cbebea82c",
+   "name": "Benin",
+   "ioc": "BEN",
+   "score": 10
+  }
+ },
+ {
+  "id": "f4d0ea0d-a26f-4c9e-b621-5dc03b0f8995",
+  "name": "Pool A game 3",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T21:25+01:00",
+  "status": null,
+  "home": {
+   "id": "6f0f3ea9-2349-4ad5-b2a6-94bed0f44add",
+   "name": "Algeria",
+   "ioc": "ALG",
+   "score": 14
+  },
+  "away": {
+   "id": "f0b80d43-5b8c-40e4-8a22-1dca14d4b812",
+   "name": "Benin",
+   "ioc": "BEN",
+   "score": 12
+  }
+ },
+ {
+  "id": "b42de65f-3351-4736-a6f8-31429b5ce924",
+  "name": "Pool B game 3",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T21:50+01:00",
+  "status": null,
+  "home": {
+   "id": "16c4a8b1-81c4-4870-94ef-a566150ab163",
+   "name": "Uganda (U21)",
+   "ioc": "UGA",
+   "score": 8
+  },
+  "away": {
+   "id": "a11fbe28-13a0-4c6a-aa94-c1e1e1ae1f07",
+   "name": "Kenya (U21)",
+   "ioc": "KEN",
+   "score": 7
+  }
+ },
+ {
+  "id": "e792f7e0-ee95-4b92-8b17-acda2e139558",
+  "name": "Pool B game 3",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-03T22:15+01:00",
+  "status": null,
+  "home": {
+   "id": "7248c10b-3374-42b8-9611-ef6ff76acf95",
+   "name": "Kenya (U21)",
+   "ioc": "KEN",
+   "score": 12
+  },
+  "away": {
+   "id": "21545b3b-8d27-4abc-bf42-5b90368fc0fb",
+   "name": "Egypt",
+   "ioc": "EGY",
+   "score": 18
+  }
+ },
+ {
+  "id": "1fc68d95-6105-400d-9cc1-ccfeebe62248",
+  "name": "Final",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-03T22:50+01:00",
+  "status": null,
+  "home": {
+   "id": "bdce61ac-e3bb-431f-9618-a8c3d0950038",
+   "name": "Algeria",
+   "ioc": "ALG",
+   "score": 7
+  },
+  "away": {
+   "id": "16c4a8b1-81c4-4870-94ef-a566150ab163",
+   "name": "Uganda (U21)",
+   "ioc": "UGA",
+   "score": 17
+  }
+ },
+ {
+  "id": "e63b7b81-3a96-4d53-866b-22e13442e916",
+  "name": "Final",
+  "eventId": "a6485f4c-685e-43b1-a44f-71aff3480d5c",
+  "stop": "africa-north-stop-1",
+  "conference": "africa-north",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-03T23:15+01:00",
+  "status": null,
+  "home": {
+   "id": "6f0f3ea9-2349-4ad5-b2a6-94bed0f44add",
+   "name": "Algeria",
+   "ioc": "ALG",
+   "score": 21
+  },
+  "away": {
+   "id": "21545b3b-8d27-4abc-bf42-5b90368fc0fb",
+   "name": "Egypt",
+   "ioc": "EGY",
+   "score": 19
+  }
+ },
+ {
+  "id": "4eb8a3f6-9eb8-42a3-b353-64f309b0d2a8",
+  "name": "Pool A game 1",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T13:00+02:00",
+  "status": null,
+  "home": {
+   "id": "d0612e32-9125-4f1c-a0c3-5e426525ad84",
+   "name": "Spain",
+   "ioc": "ESP",
+   "score": 18
+  },
+  "away": {
+   "id": "3e700f91-e76f-4774-b4f8-d5506540713f",
+   "name": "Great Britain",
+   "ioc": "GBR",
+   "score": 11
+  }
+ },
+ {
+  "id": "b834542e-6d7b-46f8-ac02-56b899b16dfe",
+  "name": "Pool A game 1",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T13:25+02:00",
+  "status": null,
+  "home": {
+   "id": "aa659f50-a3c1-44fd-880b-690e21756377",
+   "name": "Czechia",
+   "ioc": "CZE",
+   "score": 17
+  },
+  "away": {
+   "id": "7a18e0d9-62ea-44c9-aa0b-ef51d3b46982",
+   "name": "Great Britain",
+   "ioc": "GBR",
+   "score": 13
+  }
+ },
+ {
+  "id": "274b0e20-0900-4073-9195-94fb33a07c4b",
+  "name": "Pool B game 1",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T13:50+02:00",
+  "status": null,
+  "home": {
+   "id": "85a33765-b3e1-43a6-9cdf-913e6536c3c3",
+   "name": "Czechia",
+   "ioc": "CZE",
+   "score": 17
+  },
+  "away": {
+   "id": "022f6fb0-30b1-4d1d-b4e8-7a85d25f6412",
+   "name": "Portugal",
+   "ioc": "POR",
+   "score": 12
+  }
+ },
+ {
+  "id": "37d2a912-0fa0-47ab-8dd2-710f8a69ea1f",
+  "name": "Pool B game 1",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T14:15+02:00",
+  "status": null,
+  "home": {
+   "id": "e41e4a68-6bc4-430b-a312-0db962dd97b7",
+   "name": "Spain",
+   "ioc": "ESP",
+   "score": 21
+  },
+  "away": {
+   "id": "884f21c0-ddfd-47ea-8d34-cf2037dd59a7",
+   "name": "Portugal",
+   "ioc": "POR",
+   "score": 11
+  }
+ },
+ {
+  "id": "ae06a8c0-11c6-425f-9efd-e8c49f406bff",
+  "name": "Pool A game 2",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T14:50+02:00",
+  "status": null,
+  "home": {
+   "id": "6dc8f150-1762-4954-9ae4-18237d0bbe23",
+   "name": "Slovakia",
+   "ioc": "SVK",
+   "score": 16
+  },
+  "away": {
+   "id": "3e700f91-e76f-4774-b4f8-d5506540713f",
+   "name": "Great Britain",
+   "ioc": "GBR",
+   "score": 13
+  }
+ },
+ {
+  "id": "ce6c4deb-a738-4628-9ad5-303a5fed27e2",
+  "name": "Pool A game 2",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T15:15+02:00",
+  "status": null,
+  "home": {
+   "id": "e6755543-20c1-4e70-bb01-7925c81a7d69",
+   "name": "Slovakia",
+   "ioc": "SVK",
+   "score": 14
+  },
+  "away": {
+   "id": "7a18e0d9-62ea-44c9-aa0b-ef51d3b46982",
+   "name": "Great Britain",
+   "ioc": "GBR",
+   "score": 15
+  }
+ },
+ {
+  "id": "fa68bee4-2175-4a67-b69e-afce0dbc4abd",
+  "name": "Pool B game 2",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T15:40+02:00",
+  "status": null,
+  "home": {
+   "id": "35ff84a0-7362-46d4-bbbe-e217dd748faa",
+   "name": "Greece",
+   "ioc": "GRE",
+   "score": 4
+  },
+  "away": {
+   "id": "022f6fb0-30b1-4d1d-b4e8-7a85d25f6412",
+   "name": "Portugal",
+   "ioc": "POR",
+   "score": 16
+  }
+ },
+ {
+  "id": "5511f4fe-6ac4-4bd9-8008-586b8ee1db50",
+  "name": "Pool B game 2",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T16:05+02:00",
+  "status": null,
+  "home": {
+   "id": "24ea69b5-0459-4a54-90a1-2a0f91861e60",
+   "name": "Greece",
+   "ioc": "GRE",
+   "score": 19
+  },
+  "away": {
+   "id": "884f21c0-ddfd-47ea-8d34-cf2037dd59a7",
+   "name": "Portugal",
+   "ioc": "POR",
+   "score": 20
+  }
+ },
+ {
+  "id": "a23bad36-8004-42c5-ae66-33e6ddefb2f1",
+  "name": "Pool A game 3",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T17:10+02:00",
+  "status": null,
+  "home": {
+   "id": "d0612e32-9125-4f1c-a0c3-5e426525ad84",
+   "name": "Spain",
+   "ioc": "ESP",
+   "score": 11
+  },
+  "away": {
+   "id": "6dc8f150-1762-4954-9ae4-18237d0bbe23",
+   "name": "Slovakia",
+   "ioc": "SVK",
+   "score": 5
+  }
+ },
+ {
+  "id": "68a587e6-fa7d-458b-be25-2a4f242eac47",
+  "name": "Pool A game 3",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T17:35+02:00",
+  "status": null,
+  "home": {
+   "id": "aa659f50-a3c1-44fd-880b-690e21756377",
+   "name": "Czechia",
+   "ioc": "CZE",
+   "score": 21
+  },
+  "away": {
+   "id": "e6755543-20c1-4e70-bb01-7925c81a7d69",
+   "name": "Slovakia",
+   "ioc": "SVK",
+   "score": 6
+  }
+ },
+ {
+  "id": "42ae8839-8bef-4ca0-ba0c-acca48d2cb01",
+  "name": "Pool B game 3",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T18:00+02:00",
+  "status": null,
+  "home": {
+   "id": "85a33765-b3e1-43a6-9cdf-913e6536c3c3",
+   "name": "Czechia",
+   "ioc": "CZE",
+   "score": 15
+  },
+  "away": {
+   "id": "35ff84a0-7362-46d4-bbbe-e217dd748faa",
+   "name": "Greece",
+   "ioc": "GRE",
+   "score": 13
+  }
+ },
+ {
+  "id": "ffc74f56-c98e-4a26-99a4-697613e0e109",
+  "name": "Pool B game 3",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-06T18:25+02:00",
+  "status": null,
+  "home": {
+   "id": "e41e4a68-6bc4-430b-a312-0db962dd97b7",
+   "name": "Spain",
+   "ioc": "ESP",
+   "score": 21
+  },
+  "away": {
+   "id": "24ea69b5-0459-4a54-90a1-2a0f91861e60",
+   "name": "Greece",
+   "ioc": "GRE",
+   "score": 20
+  }
+ },
+ {
+  "id": "eb3f6d33-caac-405e-ba63-7e11b923e6db",
+  "name": "Final",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-06T19:00+02:00",
+  "status": null,
+  "home": {
+   "id": "d0612e32-9125-4f1c-a0c3-5e426525ad84",
+   "name": "Spain",
+   "ioc": "ESP",
+   "score": 17
+  },
+  "away": {
+   "id": "85a33765-b3e1-43a6-9cdf-913e6536c3c3",
+   "name": "Czechia",
+   "ioc": "CZE",
+   "score": 18
+  }
+ },
+ {
+  "id": "7c291692-7b4f-46f6-a60e-65ebd01ed47e",
+  "name": "Final",
+  "eventId": "aa34fdfe-63e5-490b-81d7-bde71512fa54",
+  "stop": "europe-4-stop-1",
+  "conference": "europe-4",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-06T19:25+02:00",
+  "status": null,
+  "home": {
+   "id": "aa659f50-a3c1-44fd-880b-690e21756377",
+   "name": "Czechia",
+   "ioc": "CZE",
+   "score": 8
+  },
+  "away": {
+   "id": "e41e4a68-6bc4-430b-a312-0db962dd97b7",
+   "name": "Spain",
+   "ioc": "ESP",
+   "score": 21
+  }
+ },
+ {
+  "id": "16718c71-893d-49d7-96f1-913084193987",
+  "name": "Pool A game 1",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T14:00+08:00",
+  "status": null,
+  "home": {
+   "id": "d620405c-8542-41de-b21b-92cf915bf5a5",
+   "name": "China",
+   "ioc": "CHN",
+   "score": 16
+  },
+  "away": {
+   "id": "0c36efda-25bb-420a-bea9-c2dc4f2dff04",
+   "name": "Iran",
+   "ioc": "IRI",
+   "score": 14
+  }
+ },
+ {
+  "id": "260eba04-3545-4645-9a0c-2a6d12307149",
+  "name": "Pool A game 1",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T14:25+08:00",
+  "status": null,
+  "home": {
+   "id": "33eecfb8-10da-4d30-a783-55e1a6c580f7",
+   "name": "Mongolia",
+   "ioc": "MGL",
+   "score": 15
+  },
+  "away": {
+   "id": "483f561b-238f-4650-acf7-bab4934bcc8f",
+   "name": "Iran",
+   "ioc": "IRI",
+   "score": 19
+  }
+ },
+ {
+  "id": "90183ead-3a13-4493-9ea8-a389b921c51c",
+  "name": "Pool B game 1",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T14:50+08:00",
+  "status": null,
+  "home": {
+   "id": "09c19e99-576a-4697-b3e9-b07be1f67364",
+   "name": "Japan",
+   "ioc": "JPN",
+   "score": 21
+  },
+  "away": {
+   "id": "80351c57-7c04-42b9-a1aa-9af52256ba59",
+   "name": "Republic of Korea",
+   "ioc": "KOR",
+   "score": 11
+  }
+ },
+ {
+  "id": "7dee2f52-bf2d-4e71-a3af-a68b1ac8d0b0",
+  "name": "Pool B game 1",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T15:15+08:00",
+  "status": null,
+  "home": {
+   "id": "1fe8828f-38ba-427b-b62d-9a9e16f2e414",
+   "name": "China",
+   "ioc": "CHN",
+   "score": 18
+  },
+  "away": {
+   "id": "ee794f89-1bce-4a5d-b725-2250142a0106",
+   "name": "Republic of Korea",
+   "ioc": "KOR",
+   "score": 21
+  }
+ },
+ {
+  "id": "7c7ff744-94b5-4ff9-b71c-e5c4df66e8f2",
+  "name": "Pool A game 2",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T15:40+08:00",
+  "status": null,
+  "home": {
+   "id": "9a51e148-564b-45ac-9229-3327f6f0bb97",
+   "name": "Kazakhstan",
+   "ioc": "KAZ",
+   "score": 9
+  },
+  "away": {
+   "id": "0c36efda-25bb-420a-bea9-c2dc4f2dff04",
+   "name": "Iran",
+   "ioc": "IRI",
+   "score": 22
+  }
+ },
+ {
+  "id": "80d87838-41fe-4f00-aa59-158abf82c974",
+  "name": "Pool A game 2",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T16:05+08:00",
+  "status": null,
+  "home": {
+   "id": "c2a7b806-e301-4478-9464-4c4727e7eaf0",
+   "name": "Kazakhstan",
+   "ioc": "KAZ",
+   "score": 6
+  },
+  "away": {
+   "id": "483f561b-238f-4650-acf7-bab4934bcc8f",
+   "name": "Iran",
+   "ioc": "IRI",
+   "score": 22
+  }
+ },
+ {
+  "id": "e9c931bc-509f-4258-8844-89687b056383",
+  "name": "Pool B game 2",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T16:30+08:00",
+  "status": null,
+  "home": {
+   "id": "54f3dd13-a78b-4323-b01c-ffc56c8dc161",
+   "name": "Mongolia",
+   "ioc": "MGL",
+   "score": 16
+  },
+  "away": {
+   "id": "80351c57-7c04-42b9-a1aa-9af52256ba59",
+   "name": "Republic of Korea",
+   "ioc": "KOR",
+   "score": 12
+  }
+ },
+ {
+  "id": "83bfb088-4b63-4915-bd1f-f6c26629bfd6",
+  "name": "Pool B game 2",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T16:55+08:00",
+  "status": null,
+  "home": {
+   "id": "a1de990b-0fd4-434d-a17a-76de69e7abce",
+   "name": "Japan",
+   "ioc": "JPN",
+   "score": 16
+  },
+  "away": {
+   "id": "ee794f89-1bce-4a5d-b725-2250142a0106",
+   "name": "Republic of Korea",
+   "ioc": "KOR",
+   "score": 21
+  }
+ },
+ {
+  "id": "45db69c7-7c74-43a0-b71b-2340c50bf812",
+  "name": "Pool B game 3",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T18:00+08:00",
+  "status": null,
+  "home": {
+   "id": "09c19e99-576a-4697-b3e9-b07be1f67364",
+   "name": "Japan",
+   "ioc": "JPN",
+   "score": 21
+  },
+  "away": {
+   "id": "54f3dd13-a78b-4323-b01c-ffc56c8dc161",
+   "name": "Mongolia",
+   "ioc": "MGL",
+   "score": 14
+  }
+ },
+ {
+  "id": "1c915979-af2f-434f-8b60-e979d4a10002",
+  "name": "Pool B game 3",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T18:25+08:00",
+  "status": null,
+  "home": {
+   "id": "1fe8828f-38ba-427b-b62d-9a9e16f2e414",
+   "name": "China",
+   "ioc": "CHN",
+   "score": 17
+  },
+  "away": {
+   "id": "a1de990b-0fd4-434d-a17a-76de69e7abce",
+   "name": "Japan",
+   "ioc": "JPN",
+   "score": 21
+  }
+ },
+ {
+  "id": "7f4ffbf2-a07d-451a-b4f9-956c80943533",
+  "name": "Pool A game 3",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T19:30+08:00",
+  "status": null,
+  "home": {
+   "id": "d620405c-8542-41de-b21b-92cf915bf5a5",
+   "name": "China",
+   "ioc": "CHN",
+   "score": 19
+  },
+  "away": {
+   "id": "9a51e148-564b-45ac-9229-3327f6f0bb97",
+   "name": "Kazakhstan",
+   "ioc": "KAZ",
+   "score": 8
+  }
+ },
+ {
+  "id": "f7280e34-8a78-4f82-b5b5-959551b93f19",
+  "name": "Pool A game 3",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-10T19:55+08:00",
+  "status": null,
+  "home": {
+   "id": "33eecfb8-10da-4d30-a783-55e1a6c580f7",
+   "name": "Mongolia",
+   "ioc": "MGL",
+   "score": 19
+  },
+  "away": {
+   "id": "c2a7b806-e301-4478-9464-4c4727e7eaf0",
+   "name": "Kazakhstan",
+   "ioc": "KAZ",
+   "score": 16
+  }
+ },
+ {
+  "id": "93153c91-c261-482e-94fc-630d11bda3fc",
+  "name": "Final",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-10T20:30+08:00",
+  "status": null,
+  "home": {
+   "id": "d620405c-8542-41de-b21b-92cf915bf5a5",
+   "name": "China",
+   "ioc": "CHN",
+   "score": 14
+  },
+  "away": {
+   "id": "09c19e99-576a-4697-b3e9-b07be1f67364",
+   "name": "Japan",
+   "ioc": "JPN",
+   "score": 18
+  }
+ },
+ {
+  "id": "09cce417-3b70-4d6b-a083-b0b742343a55",
+  "name": "Final",
+  "eventId": "5bb6d113-87e0-447e-8c5c-5b718d344fc3",
+  "stop": "asia-central-east-stop-1",
+  "conference": "asia-central-east",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-10T20:55+08:00",
+  "status": null,
+  "home": {
+   "id": "483f561b-238f-4650-acf7-bab4934bcc8f",
+   "name": "Iran",
+   "ioc": "IRI",
+   "score": 15
+  },
+  "away": {
+   "id": "ee794f89-1bce-4a5d-b725-2250142a0106",
+   "name": "Republic of Korea",
+   "ioc": "KOR",
+   "score": 21
+  }
+ },
+ {
+  "id": "ba714ab2-7d0e-42df-84f8-4c1e0770ba60",
+  "name": "Pool A game 1",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T13:00+08:00",
+  "status": null,
+  "home": {
+   "id": "ba38491d-c590-4faf-9a02-7a64069612de",
+   "name": "New Zealand",
+   "ioc": "NZL",
+   "score": null
+  },
+  "away": {
+   "id": "c0d3f550-ac23-4e8b-92ed-4b35d2fc19e5",
+   "name": "Thailand",
+   "ioc": "THA",
+   "score": null
+  }
+ },
+ {
+  "id": "99274cfa-dd70-422c-80b2-211123f78b84",
+  "name": "Pool A game 1",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T13:25+08:00",
+  "status": null,
+  "home": {
+   "id": "98e76212-4679-439a-8cea-e85883ab64a5",
+   "name": "New Zealand",
+   "ioc": "NZL",
+   "score": null
+  },
+  "away": {
+   "id": "dc1677d5-3694-4c75-a8d8-c6b725293beb",
+   "name": "Thailand",
+   "ioc": "THA",
+   "score": null
+  }
+ },
+ {
+  "id": "b41928d6-ddd3-42b9-8f81-3010a1bb7944",
+  "name": "Pool B game 1",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T13:50+08:00",
+  "status": null,
+  "home": {
+   "id": "03d966d2-0358-416d-963a-88a0d43dedf7",
+   "name": "Malaysia",
+   "ioc": "MAS",
+   "score": null
+  },
+  "away": {
+   "id": "f10b7658-8774-4c18-a86a-c26c7edd92ff",
+   "name": "Vietnam",
+   "ioc": "VIE",
+   "score": null
+  }
+ },
+ {
+  "id": "c4a6674a-28e4-40fe-9564-66775e7b5f28",
+  "name": "Pool B game 1",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T14:15+08:00",
+  "status": null,
+  "home": {
+   "id": "eae2112d-3376-4a2d-8f97-0fff8d4f8818",
+   "name": "Philippines",
+   "ioc": "PHI",
+   "score": null
+  },
+  "away": {
+   "id": "72fd2e7e-680a-4168-80d5-401221d6c0ec",
+   "name": "Vietnam",
+   "ioc": "VIE",
+   "score": null
+  }
+ },
+ {
+  "id": "1dbec583-e9bd-4994-9855-f8cf49fb61bb",
+  "name": "Pool A game 2",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T14:50+08:00",
+  "status": null,
+  "home": {
+   "id": "7788881d-e9dd-4d0d-9df5-82c81f365787",
+   "name": "Chinese Taipei",
+   "ioc": "TPE",
+   "score": null
+  },
+  "away": {
+   "id": "c0d3f550-ac23-4e8b-92ed-4b35d2fc19e5",
+   "name": "Thailand",
+   "ioc": "THA",
+   "score": null
+  }
+ },
+ {
+  "id": "0f5e92e1-fa72-4fc9-a244-addc8831db12",
+  "name": "Pool A game 2",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T15:15+08:00",
+  "status": null,
+  "home": {
+   "id": "87b6da8b-6676-417f-9d12-208b69b1a857",
+   "name": "Chinese Taipei",
+   "ioc": "TPE",
+   "score": null
+  },
+  "away": {
+   "id": "dc1677d5-3694-4c75-a8d8-c6b725293beb",
+   "name": "Thailand",
+   "ioc": "THA",
+   "score": null
+  }
+ },
+ {
+  "id": "2ccb8fae-60aa-40d1-8062-dc77cb3c079c",
+  "name": "Pool B game 2",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T15:40+08:00",
+  "status": null,
+  "home": {
+   "id": "85ca828e-8174-4828-92eb-1cc0a1220eab",
+   "name": "Philippines",
+   "ioc": "PHI",
+   "score": null
+  },
+  "away": {
+   "id": "f10b7658-8774-4c18-a86a-c26c7edd92ff",
+   "name": "Vietnam",
+   "ioc": "VIE",
+   "score": null
+  }
+ },
+ {
+  "id": "e628f7a6-02ba-4733-8a18-b740d2be754f",
+  "name": "Pool B game 2",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T16:05+08:00",
+  "status": null,
+  "home": {
+   "id": "49ef01f9-840b-4f3f-850f-43a33d52119d",
+   "name": "Malaysia",
+   "ioc": "MAS",
+   "score": null
+  },
+  "away": {
+   "id": "72fd2e7e-680a-4168-80d5-401221d6c0ec",
+   "name": "Vietnam",
+   "ioc": "VIE",
+   "score": null
+  }
+ },
+ {
+  "id": "aa7eca98-d154-4357-aae7-a8d4274ba5b7",
+  "name": "Pool A game 3",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T16:40+08:00",
+  "status": null,
+  "home": {
+   "id": "ba38491d-c590-4faf-9a02-7a64069612de",
+   "name": "New Zealand",
+   "ioc": "NZL",
+   "score": null
+  },
+  "away": {
+   "id": "7788881d-e9dd-4d0d-9df5-82c81f365787",
+   "name": "Chinese Taipei",
+   "ioc": "TPE",
+   "score": null
+  }
+ },
+ {
+  "id": "2a59ba37-f8be-4ca8-a68f-738ea49a5e48",
+  "name": "Pool A game 3",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Pool A",
+  "poolCode": "A",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T17:05+08:00",
+  "status": null,
+  "home": {
+   "id": "98e76212-4679-439a-8cea-e85883ab64a5",
+   "name": "New Zealand",
+   "ioc": "NZL",
+   "score": null
+  },
+  "away": {
+   "id": "87b6da8b-6676-417f-9d12-208b69b1a857",
+   "name": "Chinese Taipei",
+   "ioc": "TPE",
+   "score": null
+  }
+ },
+ {
+  "id": "414def83-3f11-4598-8a53-2ee4b64e600c",
+  "name": "Pool B game 3",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T17:30+08:00",
+  "status": null,
+  "home": {
+   "id": "03d966d2-0358-416d-963a-88a0d43dedf7",
+   "name": "Malaysia",
+   "ioc": "MAS",
+   "score": null
+  },
+  "away": {
+   "id": "85ca828e-8174-4828-92eb-1cc0a1220eab",
+   "name": "Philippines",
+   "ioc": "PHI",
+   "score": null
+  }
+ },
+ {
+  "id": "4c739a78-a00f-4271-bcaa-9a5f3815f056",
+  "name": "Pool B game 3",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Pool B",
+  "poolCode": "B",
+  "round": "RR",
+  "court": "Main",
+  "start": "2026-08-17T17:55+08:00",
+  "status": null,
+  "home": {
+   "id": "eae2112d-3376-4a2d-8f97-0fff8d4f8818",
+   "name": "Philippines",
+   "ioc": "PHI",
+   "score": null
+  },
+  "away": {
+   "id": "49ef01f9-840b-4f3f-850f-43a33d52119d",
+   "name": "Malaysia",
+   "ioc": "MAS",
+   "score": null
+  }
+ },
+ {
+  "id": "6b2af4ac-db85-4480-be49-75a983c539ba",
+  "name": "Final",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "women",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-17T18:30+08:00",
+  "status": null,
+  "home": {
+   "id": null,
+   "name": null,
+   "ioc": null,
+   "score": null
+  },
+  "away": {
+   "id": null,
+   "name": null,
+   "ioc": null,
+   "score": null
+  }
+ },
+ {
+  "id": "a8832d4b-7b70-4aca-b2fa-52300b1291e9",
+  "name": "Final",
+  "eventId": "d8a3b73d-a501-4599-bfd0-2e785790b458",
+  "stop": "asia-sea-stop-1",
+  "conference": "asia-sea",
+  "gender": "men",
+  "pool": "Final",
+  "poolCode": null,
+  "round": "F",
+  "court": "Main",
+  "start": "2026-08-17T18:55+08:00",
+  "status": null,
+  "home": {
+   "id": null,
+   "name": null,
+   "ioc": null,
+   "score": null
+  },
+  "away": {
+   "id": null,
+   "name": null,
+   "ioc": null,
+   "score": null
+  }
+ }
+]
