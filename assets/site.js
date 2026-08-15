@@ -277,14 +277,50 @@
       if (view) link(view, 'conference.html?id=' + rec.e.conference);
     });
 
-    /* Qualification board */
-    var fedTable = federationTable();
-    repeat(document, '.r01-row', fedTable.slice(0, 12), function (row, t) {
-      text(row, '.r01-pos .t-data-m', t.rank);
-      fed(row, t.ioc, t.team);
-      text(row, '.r01-conf', (conf(t.conference) || {}).name || '');
-      link(row, 'team.html?ioc=' + t.ioc);
-    });
+    /* Qualification — LP-12: only the twenty that reach the U23 World
+       Cup. Position, flag, country, and a Qualified or Shortlisted
+       label. The host federation takes one of the twenty places, so
+       nineteen come through the league.
+
+       The feed carries no qualification flag yet, so the split is
+       derived from tour points: the leading twelve read as Qualified,
+       the next eight as Shortlisted. Swap the two lines below for the
+       real field once the feed provides it. */
+    var QUALIFIED = 12, FIELD = 20;
+    (function () {
+      var board = $('.r01');
+      if (!board) return;
+      var gender = 'men';
+
+      function drawBoard() {
+        var list = federationTable(gender).slice(0, FIELD);
+        repeat(board, '.r01-row', list, function (row, t, i) {
+          text(row, '.r01-pos .t-data-m', i + 1);
+          fed(row, t.ioc, t.team);
+          var confCell = $('.r01-conf', row);
+          if (confCell) confCell.remove();          /* LP-12: no conference column */
+          var badge = $('.badge, .marker', row);
+          var qualified = i < QUALIFIED;
+          if (badge) {
+            badge.classList.remove('badge-q', 'badge-s', 'marker-q', 'marker-s');
+            badge.classList.add(qualified ? 'badge-q' : 'badge-s');
+            var lbl = $('.lbl', badge) || badge;
+            lbl.textContent = qualified ? 'Qualified' : 'Shortlisted';
+          }
+          link(row, 'team.html?ioc=' + t.ioc);
+        });
+        var cut = $('.r01-cut', board);
+        if (cut) {
+          var note = $('.t-caption, .t-body-s', cut);
+          if (note) note.textContent = 'Host federation + ' + (FIELD - 1) + ' qualifiers = ' + FIELD + ' teams';
+        }
+      }
+
+      var col = board.closest('.tpl-colR');
+      if (col) col.classList.add('col-3');          /* three of twelve */
+      gender = genderSwitch(function (g) { gender = g; drawBoard(); });
+      drawBoard();
+    })();
 
     /* News rail */
     repeat(document, '.c02-hcard, .c02-card', D.news, function (card, n) {
@@ -302,6 +338,78 @@
       var cap = $('.t-caption', slide);
       if (cap) { cap.style.display = ''; cap.textContent = g.title; cap.style.color = '#fff'; }
     });
+
+    /* Find a team — E-01 TeamFinder, live over every federation */
+    (function () {
+      var sub = $$('.tpl-sub').filter(function (s) {
+        return /find a team/i.test((s.querySelector('.t-h2') || {}).textContent || '');
+      })[0];
+      if (!sub) return;
+      var box = $('.search', sub);
+      if (!box) return;
+
+      var seen = {}, feds = [];
+      D.teams.forEach(function (t) {
+        if (!t.ioc || seen[t.ioc]) return;
+        seen[t.ioc] = 1;
+        feds.push(t);
+      });
+      feds.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
+
+      /* the menu and the quick chips are documented parts of E-01 */
+      var menu = document.createElement('div');
+      menu.className = 'acm cut cut-m cut-out finder-menu';
+      menu.innerHTML = '<div class="cutfill"></div>';
+      menu.hidden = true;
+      box.insertAdjacentElement('afterend', menu);
+
+      var chips = document.createElement('div');
+      chips.className = 'finder-chips';
+      feds.slice(0, 5).forEach(function (t) {
+        var c = document.createElement('div');
+        c.className = 'chip chip-s cut cut-s';
+        c.innerHTML = '<span class="lbl"></span>';
+        c.querySelector('.lbl').textContent = t.name;
+        c.addEventListener('click', function () { location.href = 'team.html?ioc=' + t.ioc; });
+        chips.appendChild(c);
+      });
+      menu.insertAdjacentElement('afterend', chips);
+
+      function render(q) {
+        q = (q || '').trim().toLowerCase();
+        if (!q) { menu.hidden = true; chips.hidden = false; return; }
+        chips.hidden = true;
+        var hits = feds.filter(function (t) {
+          return (t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1;
+        }).slice(0, 6);
+        menu.hidden = false;
+        [].slice.call(menu.querySelectorAll('.acm-row, .finder-empty')).forEach(function (r) { r.remove(); });
+        if (!hits.length) {
+          var none = document.createElement('div');
+          none.className = 'acm-row finder-empty';
+          none.innerHTML = '<span class="t-body-s">No federation matches “' + q + '”.</span>';
+          menu.appendChild(none);
+          return;
+        }
+        hits.forEach(function (t) {
+          var row = document.createElement('div');
+          row.className = 'acm-row';
+          row.innerHTML =
+            '<div class="ftag ftag-m cut cut-s ftag-plain">' +
+              '<div class="flag flag-ring"></div>' +
+              '<div class="ftag-txt"><span class="ftag-code"></span>' +
+              '<span class="ftag-name"></span></div></div>' +
+            '<div class="t-body-s acm-conf"></div>';
+          fed(row, t.ioc, t.name);
+          row.querySelector('.acm-conf').textContent = (conf(t.conference) || {}).name || '';
+          link(row, 'team.html?ioc=' + t.ioc);
+          menu.appendChild(row);
+        });
+      }
+
+      searchField(sub, 'Search for a federation or IOC code', render);
+      render('');
+    })();
 
     /* Season status */
     var total = D.events.length, done = playedStops().length;
@@ -739,6 +847,7 @@
 
       $$('.f03-i').forEach(function (i) {
         if (!/^more$/i.test(i.textContent.trim())) return;
+        i.classList.add('f03-more');
         trigger(i.closest('a') || i, mm);
       });
       $$('.mm-close', mm).forEach(function (c) {
@@ -749,12 +858,16 @@
       $$('.f03-search').forEach(function (sBtn) {
         var host2 = sBtn.closest('a') || sBtn;
         host2.style.cursor = 'pointer';
-        host2.addEventListener('click', function (e) {
-          e.preventDefault();
+        function show(e) {
+          if (e) e.preventDefault();
           open(ovl, true);
           var inp = ovl && ovl.querySelector('input');
           if (inp) setTimeout(function () { inp.focus(); }, 60);
-        });
+        }
+        host2.addEventListener('click', show);
+        /* With one panel already open, sliding across to the other
+           trigger swaps them straight away rather than closing first. */
+        if (fine) host2.addEventListener('mouseenter', function () { show(); });
       });
       $$('.ovl-close', ovl).forEach(function (c) {
         c.style.cursor = 'pointer';

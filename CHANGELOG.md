@@ -1,5 +1,45 @@
 # Changelog
 
+## 2026-08-15 — Chrome corrections, Find a team, Qualification
+
+### Navigation
+
+- The first block sat against the navigation bar; `.tpl-content` now has top
+  padding to match the rhythm below it. (The wordmark-to-nav 48px was already
+  in place — the gap the screenshot marked was this one.)
+- **More** changes colour on hover, not background, like the magnifier.
+- The **magnifier** starts at the same muted grey as the text items and turns
+  white on hover.
+- With one panel open, moving the pointer to the other trigger **swaps panels
+  immediately** rather than closing and reopening.
+- Mega menu and search content share the page's gutters, so both edges line up
+  with the rest of the site.
+
+### Find a team — E-01 TeamFinder
+
+Wired on the home page over all 68 federations: quick chips at rest, a live
+autocomplete as you type with flag, IOC code and conference, and a no-match
+message. In the design system the states are relabelled **default / filled in /
+result — no match**.
+
+### Qualification — LP-12
+
+Rebuilt to the specification: only the twenty that reach the U23 World Cup, one
+row each with position 1–20, flag, country and a **Qualified** or
+**Shortlisted** label. The conference column is gone. Men / women switch. The
+block is three columns of twelve, so the left column takes nine.
+
+The feed carries no qualification flag, so the split is derived from tour
+points — the leading twelve read as Qualified, the next eight as Shortlisted.
+Two constants at the top of that function change it when the real field
+arrives.
+
+### Design system
+
+- F-03m: the "header + bottom bar" state is gone, "header only" is now
+  **header**.
+- S-09: Season progress is wider.
+
 ## 2026-08-15 — B-1 corrections and B-2: filters
 
 ### Navigation panels

@@ -155,3 +155,58 @@ a.nav-a {
 
 /* An alphabet letter that is currently filtering. */
 .alpha-on { background: var(--action-default); color: var(--text-inverse); }
+
+/* ---- Space under the chrome ----------------------------------
+   The first block sat directly against the navigation bar. */
+.tpl-content { padding-top: clamp(32px, 3.5vw, 64px); }
+
+/* ---- Chrome navigation ---------------------------------------
+   More behaves like the search icon: it changes colour, not
+   background. The magnifier starts at the same muted grey as the
+   text items and goes white on hover. */
+.live .f03-i.f03-more:hover,
+.live .f03-more:hover { background: transparent; color: var(--chrome-text); }
+.f03-search { color: var(--chrome-text-muted); }
+.live .f03-search:hover { background: transparent; color: var(--chrome-text); }
+
+/* ---- Overlay content shares the page's gutters ---------------- */
+.site-mm .mm-in,
+.site-mm .mm-top,
+.site-ovl .ovl-top,
+.site-ovl .ovl-scrim {
+  padding-left: clamp(20px, 4vw, 120px);
+  padding-right: clamp(20px, 4vw, 120px);
+  width: 100%;
+  max-width: none;
+}
+.site-mm .mm-in { padding-top: 36px; padding-bottom: 44px; }
+.site-mm .mm-inner, .site-ovl .ovl-body {
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto;
+}
+/* one shared column: the menu columns and the results line up with
+   the page content on both edges */
+.site-mm .mm-in { display: flex; justify-content: center; }
+.site-mm .mm-in > * { flex: 1 1 0; min-width: 0; max-width: 342px; }
+
+/* ---- S-09 Season progress reads as the headline figure -------- */
+.s09-right { width: 60%; }
+
+/* ---- E-01 TeamFinder on the home page ------------------------- */
+.finder-menu { width: 100%; max-width: none; }
+.finder-menu[hidden] { display: none; }
+.finder-chips { display: flex; gap: 8px; flex-wrap: wrap; }
+.finder-chips[hidden] { display: none; }
+.finder-empty { padding: 0 22px; display: flex; align-items: center; }
+
+/* ---- Home split: Qualification is three columns of twelve ----- */
+.tpl-split .tpl-colR.col-3 { flex: 0 0 25%; max-width: 25%; }
+.tpl-split .tpl-colL { flex: 1 1 75%; }
+@media (max-width: 1100px) {
+  .tpl-split .tpl-colR.col-3 { flex: 1 1 auto; max-width: none; }
+}
+
+/* R-01 rows carry a status label rather than a conference name. */
+.r01-row .r01-st { width: auto; }
+.r01-row .r01-fed { flex: 1 1 0; min-width: 0; }
