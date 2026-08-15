@@ -240,6 +240,134 @@
     return e;
   }
 
+  /* ---------- E-01 TeamFinder --------------------------------
+     step 1 default · 2 filled in · 3 choose team site · 4 result   */
+  function initFinder(f) {
+    var seen = {}, feds = [];
+    D.teams.forEach(function (t) {
+      if (!t.ioc || seen[t.ioc]) return;
+      seen[t.ioc] = 1;
+      feds.push(t);
+    });
+    feds.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
+
+    text(f, '.finder-nations', feds.length);
+    text(f, '.finder-sites', D.teams.length);
+
+    var parts = {
+      search: $('[data-part="search"]', f),
+      choose: $('[data-part="choose"]', f),
+      result: $('[data-part="result"]', f)
+    };
+    function step(n) {
+      f.dataset.step = n;
+      parts.search.hidden = n !== 1 && n !== 2;
+      parts.choose.hidden = n !== 3;
+      parts.result.hidden = n !== 4;
+    }
+
+    /* ---- 2 · filled in ---- */
+    var menu = $('.finder-menu', f);
+    function list(q) {
+      q = (q || '').trim().toLowerCase();
+      [].slice.call(menu.querySelectorAll('.acm-row')).forEach(function (r) { r.remove(); });
+      if (!q) { menu.hidden = true; return; }
+      var hits = feds.filter(function (t) {
+        return (t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1;
+      }).slice(0, 6);
+      menu.hidden = false;
+      if (!hits.length) {
+        var none = document.createElement('div');
+        none.className = 'acm-row';
+        none.innerHTML = '<span class="t-body-s">No nation matches \u201c' + q + '\u201d.</span>';
+        menu.appendChild(none);
+        return;
+      }
+      hits.forEach(function (t) {
+        var row = document.createElement('div');
+        row.className = 'acm-row';
+        row.innerHTML =
+          '<div class="ftag ftag-m cut cut-s ftag-plain">' +
+            '<div class="flag flag-ring"></div>' +
+            '<div class="ftag-txt"><span class="ftag-name"></span></div></div>' +
+          '<div class="t-caption acm-conf"></div>';
+        flag(row, t.ioc);
+        row.querySelector('.ftag-name').textContent = t.name;
+        row.querySelector('.acm-conf').textContent = t.ioc;
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', function () { choose(t); });
+        menu.appendChild(row);
+      });
+    }
+    searchField(f, 'Search your country\u2026', list);
+
+    /* ---- 3 · choose a team site ---- */
+    var picked = null;
+    function choose(t) {
+      picked = t;
+      flag($('.finder-picked', f), t.ioc);
+      text(f, '.finder-country', t.name);
+      var sites = D.teams.filter(function (x) { return x.ioc === t.ioc; });
+      var byCat = {};
+      sites.forEach(function (x) {
+        var label = 'U23 ' + (x.gender === 'women' ? 'Women' : 'Men');
+        byCat[label] = byCat[label] || x;
+      });
+      var box = $('.finder-sites-list', f);
+      box.innerHTML = '';
+      Object.keys(byCat).forEach(function (label) {
+        var b = document.createElement('div');
+        b.className = 'btn btn-outline cut cut-s cut-out';
+        b.innerHTML = '<div class="cutfill"></div><span class="lbl"></span>';
+        b.querySelector('.lbl').textContent = label;
+        b.addEventListener('click', function () { result(byCat[label], label); });
+        box.appendChild(b);
+      });
+      step(3);
+    }
+    var change = $('.finder-change', f);
+    if (change) change.addEventListener('click', function () { step(1); list(''); });
+
+    /* ---- 4 · result ---- */
+    function result(team, label) {
+      var st = D.standings.filter(function (s) {
+        return s.stop === team.stop && s.gender === team.gender;
+      })[0];
+      var row = st && st.rows.filter(function (r) { return r.ioc === team.ioc; })[0];
+      var c = conf(team.conference) || {};
+      var played = D.events.filter(function (e) {
+        return e.conference === team.conference && e.teamsRegistered;
+      }).length;
+
+      flag($('.finder-card-head', f), team.ioc);
+      text(f, '.finder-cat', /women/i.test(label) ? 'Women' : 'Men');
+      text(f, '.finder-team', team.ioc + ' U23');
+      text(f, '.finder-seed', row ? '#' + row.seed : '\u2014');
+      text(f, '.finder-of', 'of ' + (st ? st.rows.length : '\u2014'));
+      text(f, '.finder-standing', row ? '#' + row.rank : '\u2014');
+      text(f, '.finder-of2', 'of ' + (st ? st.rows.length : '\u2014'));
+      text(f, '.finder-record', row ? row.won + '\u2013' + (row.played - row.won) : '\u2014');
+      text(f, '.finder-pts', row ? row.points : 0);
+      text(f, '.finder-stops', played + '/' + (c.stopCount || 0));
+      text(f, '.finder-state', played >= (c.stopCount || 0) ? 'Conference complete' : 'Conference in progress');
+
+      var dots = $('.finder-dots', f);
+      dots.innerHTML = '';
+      for (var i = 0; i < (c.stopCount || 0); i++) {
+        var d = document.createElement('div');
+        d.className = 'dot' + (i < played ? ' dot-done' : '');
+        dots.appendChild(d);
+      }
+      link($('.finder-goteam', f), 'team.html?ioc=' + team.ioc);
+      link($('.finder-goconf', f), 'conference.html?id=' + team.conference);
+      step(4);
+    }
+
+    var browse = $('.finder-browse', f);
+    if (browse) link(browse, 'teams.html');
+    step(1);
+  }
+
   /* ---------- page renderers -------------------------------- */
   var PAGES = {};
 
@@ -339,76 +467,24 @@
       if (cap) { cap.style.display = ''; cap.textContent = g.title; cap.style.color = '#fff'; }
     });
 
-    /* Find a team — E-01 TeamFinder, live over every federation */
+    /* Find a team — E-01 TeamFinder, four steps */
     (function () {
-      var sub = $$('.tpl-sub').filter(function (s) {
-        return /find a team/i.test((s.querySelector('.t-h2') || {}).textContent || '');
+      var sub = $$('.tpl-sub').filter(function (x) {
+        return /find a team/i.test((x.querySelector('.t-h2') || {}).textContent || '');
       })[0];
       if (!sub) return;
-      var box = $('.search', sub);
-      if (!box) return;
+      var old = $('.search', sub);
+      if (!old) return;
 
-      var seen = {}, feds = [];
-      D.teams.forEach(function (t) {
-        if (!t.ioc || seen[t.ioc]) return;
-        seen[t.ioc] = 1;
-        feds.push(t);
-      });
-      feds.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
-
-      /* the menu and the quick chips are documented parts of E-01 */
-      var menu = document.createElement('div');
-      menu.className = 'acm cut cut-m cut-out finder-menu';
-      menu.innerHTML = '<div class="cutfill"></div>';
-      menu.hidden = true;
-      box.insertAdjacentElement('afterend', menu);
-
-      var chips = document.createElement('div');
-      chips.className = 'finder-chips';
-      feds.slice(0, 5).forEach(function (t) {
-        var c = document.createElement('div');
-        c.className = 'chip chip-s cut cut-s';
-        c.innerHTML = '<span class="lbl"></span>';
-        c.querySelector('.lbl').textContent = t.name;
-        c.addEventListener('click', function () { location.href = 'team.html?ioc=' + t.ioc; });
-        chips.appendChild(c);
-      });
-      menu.insertAdjacentElement('afterend', chips);
-
-      function render(q) {
-        q = (q || '').trim().toLowerCase();
-        if (!q) { menu.hidden = true; chips.hidden = false; return; }
-        chips.hidden = true;
-        var hits = feds.filter(function (t) {
-          return (t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1;
-        }).slice(0, 6);
-        menu.hidden = false;
-        [].slice.call(menu.querySelectorAll('.acm-row, .finder-empty')).forEach(function (r) { r.remove(); });
-        if (!hits.length) {
-          var none = document.createElement('div');
-          none.className = 'acm-row finder-empty';
-          none.innerHTML = '<span class="t-body-s">No federation matches “' + q + '”.</span>';
-          menu.appendChild(none);
-          return;
-        }
-        hits.forEach(function (t) {
-          var row = document.createElement('div');
-          row.className = 'acm-row';
-          row.innerHTML =
-            '<div class="ftag ftag-m cut cut-s ftag-plain">' +
-              '<div class="flag flag-ring"></div>' +
-              '<div class="ftag-txt"><span class="ftag-code"></span>' +
-              '<span class="ftag-name"></span></div></div>' +
-            '<div class="t-body-s acm-conf"></div>';
-          fed(row, t.ioc, t.name);
-          row.querySelector('.acm-conf').textContent = (conf(t.conference) || {}).name || '';
-          link(row, 'team.html?ioc=' + t.ioc);
-          menu.appendChild(row);
+      fetch('partials/finder.html').then(function (r) { return r.text(); })
+        .then(function (html) {
+          var host = document.createElement('div');
+          host.innerHTML = html;
+          var f = host.querySelector('.finder');
+          old.replaceWith(f);
+          initFinder(f);
+          if (window.FIBA) window.FIBA.init(sub);
         });
-      }
-
-      searchField(sub, 'Search for a federation or IOC code', render);
-      render('');
     })();
 
     /* Season status */

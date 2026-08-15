@@ -2844,3 +2844,33 @@ code {
 
 /* ---- E-08 PlayerCard — sits on e1, lifts to e2 on hover ---- */
 .pcard { filter:drop-shadow(0 1px 2px rgba(0,0,0,.15)); }
+
+/* ---- E-01 TeamFinder ----------------------------------------
+   Four steps of one module: default, filled in, choose team site,
+   result. Built only from documented elements.                  */
+.finder { display:flex; flex-direction:column; gap:20px; width:100%; }
+.finder-head { display:flex; flex-direction:column; gap:8px; }
+.finder-note { color:var(--text-muted); }
+.finder-count { display:flex; align-items:baseline; gap:6px; flex-wrap:wrap; }
+.finder-count .t-h3 { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:28px; }
+.finder-dot { color:var(--text-muted); padding:0 6px; }
+.finder-search { display:flex; flex-direction:column; gap:12px; position:relative; }
+.finder-menu { width:100%; }
+.finder-browse { color:var(--text-muted); }
+.finder-choose { display:flex; flex-direction:column; gap:14px; }
+.finder-picked { display:flex; align-items:center; justify-content:space-between; gap:16px; }
+.finder-label { color:var(--text-muted); }
+.finder-sites-list { display:flex; flex-wrap:wrap; gap:10px; }
+.finder-card { width:100%; }
+.finder-card-head { display:flex; align-items:center; gap:16px; padding:20px 24px; border-bottom:1px solid var(--border-subtle); }
+.finder-card-id { display:flex; flex-direction:column; gap:2px; }
+.finder-stats { display:flex; border-bottom:1px solid var(--border-subtle); }
+.finder-stat { flex:1 1 0; display:flex; flex-direction:column; gap:4px; padding:16px 24px; border-right:1px solid var(--border-subtle); }
+.finder-stat:last-child { border-right:0; }
+.finder-v { font-family:'Barlow Condensed',sans-serif; font-weight:800; font-size:34px; line-height:34px; }
+.finder-progress { display:flex; align-items:center; justify-content:space-between; gap:16px; padding:16px 24px; border-bottom:1px solid var(--border-subtle); }
+.finder-state { padding:14px 24px; border-bottom:1px solid var(--border-subtle); color:var(--text-muted); }
+.finder-actions { display:flex; }
+.finder-actions .lnk { flex:1 1 0; justify-content:center; padding:18px 0; border-right:1px solid var(--border-subtle); }
+.finder-actions .lnk:last-child { border-right:0; }
+.finder [hidden] { display:none !important; }

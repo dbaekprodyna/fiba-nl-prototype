@@ -1,5 +1,34 @@
 # Changelog
 
+## 2026-08-15 — Find a Team, spacing, overlay alignment
+
+### E-01 TeamFinder — four steps
+
+Built from Johannes' wireframe and documented in the design system as four
+states of one module, not four modules: **default**, **filled in**, **choose
+team site**, **result**. Every part is an existing element — el-11 SearchInput,
+el-15 AutocompleteMenu, el-13 FederationTag, el-06 StopDots, ctl-02 Link — so
+nothing new entered the system.
+
+On the home page it runs on real data: nation and team-site counts, live search
+over all 68 federations, a team-site chooser per category, and a result card
+carrying that squad's seed, standing, record, conference points and stop
+progress, with links to the team and the conference. Change returns to step 1.
+
+### Spacing and alignment
+
+- **40px between every section**, top and bottom included.
+- Mega menu and search share the page's content column, so both edges line up
+  with the rest of the site and Close sits with the season selector.
+- The flag in a search result was clipped by the row's own edge.
+- Flags on a dark surface take a dark ring.
+
+### Player cards
+
+- e1 at rest everywhere, in the design system and the prototype; e2 on hover.
+- On a team page the four cards hold one row and **scale together** down to
+  1280 rather than wrapping.
+
 ## 2026-08-15 — Chrome corrections, Find a team, Qualification
 
 ### Navigation

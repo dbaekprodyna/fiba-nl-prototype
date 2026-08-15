@@ -1,0 +1,100 @@
+<!-- E-01 TeamFinder — four steps, from Johannes' wireframe.
+     Every part is a documented element: el-11 SearchInput, el-15
+     AutocompleteMenu, el-13 FederationTag, el-14 Chip, el-06 StopDots,
+     ctl-02 Link. The steps are states of one module, not four modules. -->
+<div class="finder" data-step="1">
+
+  <div class="finder-head">
+    <div class="t-caption finder-note">Follow reminders are a future feature</div>
+    <div class="finder-count">
+      <span class="t-h3 finder-nations">0</span><span class="t-body-s"> nations</span>
+      <span class="finder-dot">·</span>
+      <span class="t-h3 finder-sites">0</span><span class="t-body-s"> team sites this conference</span>
+    </div>
+  </div>
+
+  <!-- step 1 · default, and step 2 · filled in -->
+  <div class="finder-search" data-part="search">
+    <div class="el-11-SearchInput--default search cut cut-m cut-out">
+      <div class="cutfill"></div>
+      <svg width="24" height="24" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="M796-121 533-384q-30 26-70 40.5T378-329q-108 0-183-75t-75-181q0-106 75-181t182-75q106 0 180.5 75T632-585q0 43-14 83t-42 75l264 262-44 44Z"/></svg>
+      <div class="search-txt">Search your country…</div>
+    </div>
+    <div class="acm cut cut-m cut-out finder-menu" hidden><div class="cutfill"></div></div>
+    <div class="ctl-02-Link--default lnk finder-browse">
+      <span class="lbl">Or browse all nations</span>
+      <svg width="16" height="16" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m517-480-184-184 44-44 228 228-228 228-44-44 184-184Z"/></svg>
+    </div>
+  </div>
+
+  <!-- step 3 · choose a team site -->
+  <div class="finder-choose" data-part="choose" hidden>
+    <div class="finder-picked">
+      <div class="el-13-FederationTag--m-both-plain ftag ftag-m cut cut-s ftag-plain">
+        <div class="flag flag-l flag-ring"></div>
+        <div class="ftag-txt"><span class="ftag-name finder-country"></span></div>
+      </div>
+      <div class="ctl-02-Link--default lnk finder-change">
+        <svg width="16" height="16" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m443-160-282-282 282-282 44 44-207 207h503v62H280l207 207-44 44Z"/></svg>
+        <span class="lbl">Change</span>
+      </div>
+    </div>
+    <div class="t-caption finder-label">Choose team site</div>
+    <div class="finder-sites-list"></div>
+  </div>
+
+  <!-- step 4 · result -->
+  <div class="finder-result" data-part="result" hidden>
+    <div class="card cut cut-m cut-out finder-card">
+      <div class="cutfill"></div>
+
+      <div class="finder-card-head">
+        <div class="flag flag-l flag-ring"></div>
+        <div class="finder-card-id">
+          <div class="t-caption finder-cat">Men</div>
+          <div class="t-h3 finder-team"></div>
+        </div>
+      </div>
+
+      <div class="finder-stats">
+        <div class="finder-stat">
+          <div class="t-caption">Seed</div>
+          <div class="finder-v finder-seed">—</div>
+          <div class="t-caption finder-of">of —</div>
+        </div>
+        <div class="finder-stat">
+          <div class="t-caption">Standing</div>
+          <div class="finder-v finder-standing">—</div>
+          <div class="t-caption finder-of2">of —</div>
+        </div>
+        <div class="finder-stat">
+          <div class="t-caption">Record</div>
+          <div class="finder-v finder-record">—</div>
+          <div class="t-caption">won–lost</div>
+        </div>
+        <div class="finder-stat">
+          <div class="t-caption">Pts</div>
+          <div class="finder-v finder-pts">0</div>
+          <div class="t-caption">conf. pts</div>
+        </div>
+      </div>
+
+      <div class="finder-progress">
+        <div class="el-06-StopDots--display dots-wrap"><div class="dots finder-dots"></div></div>
+        <span class="t-caption finder-stops">0/0</span>
+      </div>
+      <div class="t-caption finder-state">—</div>
+
+      <div class="finder-actions">
+        <div class="ctl-02-Link--default lnk finder-goteam">
+          <span class="lbl">Team site</span>
+          <svg width="16" height="16" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m517-480-184-184 44-44 228 228-228 228-44-44 184-184Z"/></svg>
+        </div>
+        <div class="ctl-02-Link--default lnk finder-goconf">
+          <span class="lbl">Conference</span>
+          <svg width="16" height="16" viewBox="0 -960 960 960" fill="currentColor" aria-hidden="true"><path d="m517-480-184-184 44-44 228 228-228 228-44-44 184-184Z"/></svg>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
