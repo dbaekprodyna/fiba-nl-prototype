@@ -1,5 +1,25 @@
 # Changelog
 
+## 2026-08-15 — B-1: navigation
+
+**F-05 MegaMenu** opens from More on every page. **E-11 search** opens from the
+magnifier as a full-screen overlay whose field fills the content column, and it
+searches federations, players and news as you type. Escape or Close dismisses
+either.
+
+Both live in `partials/` — extracted from the specimen sheets, so they are the
+documented modules rather than a second copy — and are injected once per page
+instead of being duplicated into fourteen files. Editing the menu is one file.
+
+T · Search already *is* the overlay, so that page wires the one it has instead
+of stacking a second copy; its Close goes back.
+
+- Header — 48px between the wordmark and the navigation.
+- "How it works" links to About.
+- Section rhythm — `.tpl-content` now carries the same gap between every
+  section *and* below the last one, so the footer no longer butts against the
+  final block.
+
 ## 2026-08-14 — The inner rectangle, and 226 games that were already here
 
 ### The focus ring, root cause

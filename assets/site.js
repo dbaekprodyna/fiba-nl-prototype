@@ -473,6 +473,140 @@
     });
   };
 
+  /* ---------- site chrome: mega menu and search overlay -------
+     Both are documented modules (F-05 and E-11). They live in
+     partials/ so a change is one file, and they are injected into
+     every page rather than duplicated into fourteen.            */
+  function initChrome() {
+    var host = $('.tpl') || document.body;
+
+    function open(el, on) {
+      if (!el) return;
+      el.hidden = !on;
+      document.body.style.overflow = on ? 'hidden' : '';
+    }
+
+    Promise.all([
+      fetch('partials/megamenu.html').then(function (r) { return r.text(); }),
+      fetch('partials/search.html').then(function (r) { return r.text(); })
+    ]).then(function (parts) {
+      var wrap = document.createElement('div');
+      wrap.innerHTML = parts[0] + parts[1];
+      var mm = wrap.querySelector('.mm');
+      var ovl = wrap.querySelector('.ovl');
+      if (mm) { mm.classList.add('site-mm'); host.appendChild(mm); }
+
+      /* T · Search *is* the overlay, so use the one already on the page
+         rather than stacking a second copy on top of it. */
+      var onSearchPage = document.body.dataset.page === 'search.html';
+      if (onSearchPage) {
+        ovl = $('.ovl');
+        if (ovl) ovl.hidden = false;
+      } else if (ovl) {
+        ovl.classList.add('site-ovl');
+        host.appendChild(ovl);
+      }
+
+      /* More opens the mega menu */
+      $$('.f03-i').forEach(function (i) {
+        if (!/^more$/i.test(i.textContent.trim())) return;
+        i.style.cursor = 'pointer';
+        i.addEventListener('click', function (e) { e.preventDefault(); open(mm, true); });
+      });
+      $$('.mm-close', mm).forEach(function (c) {
+        c.addEventListener('click', function () { open(mm, false); });
+      });
+
+      /* the magnifier opens the search overlay */
+      $$('.f03-search').forEach(function (sBtn) {
+        var a = sBtn.closest('a');
+        (a || sBtn).addEventListener('click', function (e) {
+          e.preventDefault();
+          open(ovl, true);
+          var inp = ovl && ovl.querySelector('input');
+          if (inp) inp.focus();
+        });
+      });
+      $$('.ovl-close', ovl).forEach(function (c) {
+        c.style.cursor = 'pointer';
+        c.addEventListener('click', function () {
+          if (onSearchPage) { history.length > 1 ? history.back() : (location.href = 'index.html'); }
+          else open(ovl, false);
+        });
+      });
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') { open(mm, false); open(ovl, false); }
+      });
+
+      /* the overlay's field is a real input over real data */
+      if (ovl) {
+        var txt = ovl.querySelector('.search-txt, .search-txt-filled');
+        if (txt) {
+          var inp = document.createElement('input');
+          inp.className = 'search-in';
+          inp.placeholder = 'Search for a federation, player or article';
+          txt.replaceWith(inp);
+          inp.addEventListener('input', function () { searchOverlay(ovl, this.value); });
+        }
+        searchOverlay(ovl, '');
+      }
+      if (window.FIBA) window.FIBA.init(host);
+    });
+  }
+
+  /* Federations, players and news, filtered live. */
+  function searchOverlay(ovl, q) {
+    q = (q || '').trim().toLowerCase();
+    var feds = [], seen = {};
+    D.teams.forEach(function (t) {
+      if (!t.ioc || seen[t.ioc]) return;
+      seen[t.ioc] = 1;
+      if (!q || (t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1) feds.push(t);
+    });
+    var players = D.players.filter(function (p) {
+      return q && (p.name || '').toLowerCase().indexOf(q) > -1;
+    }).slice(0, 6);
+    var news = D.news.filter(function (n) {
+      return !q || (n.title || '').toLowerCase().indexOf(q) > -1;
+    });
+
+    var groups = $$('.e11-g', ovl);
+    var sets = [
+      { rows: feds.slice(0, 6), label: 'Federations',
+        paint: function (row, t) {
+          fed(row, t.ioc, t.name);
+          text(row, '.e11-t', t.name);
+          text(row, '.e11-m', (conf(t.conference) || {}).name || '');
+          link(row, 'team.html?ioc=' + t.ioc);
+        } },
+      { rows: players, label: 'Players',
+        paint: function (row, p) {
+          fed(row, p.ioc, p.country);
+          text(row, '.e11-t', p.name);
+          text(row, '.e11-m', p.country || '');
+          link(row, 'player.html?id=' + p.id);
+        } },
+      { rows: news, label: 'News',
+        paint: function (row, n) {
+          text(row, '.e11-t', n.title);
+          text(row, '.e11-m', fmtDate(n.date));
+          link(row, 'article.html?id=' + n.slug);
+        } }
+    ];
+    groups.forEach(function (g, i) {
+      var set = sets[i];
+      if (!set) return;
+      g.hidden = !set.rows.length;
+      var h = $('.e11-gh', g);
+      if (h) {
+        text(h, '.t-h3', set.label);
+        text(h, '.t-caption', set.rows.length + ' result' + (set.rows.length === 1 ? '' : 's'));
+      }
+      repeat(g, '.e11-row', set.rows, set.paint);
+    });
+  }
+
   /* ---------- boot ------------------------------------------ */
   var FILES = ['conferences', 'events', 'standings', 'teams', 'players', 'news', 'photos', 'games'];
 
@@ -489,6 +623,7 @@
     } catch (e) {
       console.error('render failed on', page, e);
     }
+    try { initChrome(); } catch (e) { console.error('chrome failed', e); }
     document.body.dataset.rendered = page;
     if (window.FIBA) window.FIBA.init(document);
   }).catch(function (e) {
