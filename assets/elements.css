@@ -1670,7 +1670,7 @@
 }
 .ind-d {
   width:36px;
-  height:4px;
+  height:8px;
   background:var(--surface-sunken-2);
 }
 .ind-d-on {
@@ -1679,11 +1679,11 @@
 .ind-prog {
   display:flex;
   width:36px;
-  height:4px;
+  height:8px;
   background:var(--surface-sunken-2);
 }
 .ind-fill {
-  height:4px;
+  height:8px;
   background:var(--action-default);
 }
 .ind-dot {

@@ -284,7 +284,6 @@
    own artwork, so the shadow has to come from a filter, and the
    grid needs room for it. */
 .e10, .pcard-row { padding: 6px; }
-.pcard { filter: drop-shadow(0 1px 2px rgba(0,0,0,.15)); }
 .live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
 .live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
 
@@ -322,7 +321,6 @@
 /* E-08 PlayerCard — e1 at rest, e2 on hover. The drop-shadow needs
    room inside the grid, and the card must not be clipped by it. */
 .e10, .pcard-row, .pcard-layers { padding: 8px; }
-.pcard { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .15)); overflow: visible; }
 .live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
 .live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
 

@@ -720,6 +720,9 @@
   border-top:1px solid var(--chrome-line);
 }
 .pcard {
+  /* e1 at rest. drop-shadow, not box-shadow: the card is clipped by
+     clip-path, which removes a box-shadow entirely. */
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.15));
   position:relative;
   display:flex;
   flex-direction:column;
@@ -2843,7 +2846,7 @@ code {
 }
 
 /* ---- E-08 PlayerCard — sits on e1, lifts to e2 on hover ---- */
-.pcard { filter:drop-shadow(0 1px 2px rgba(0,0,0,.15)); }
+
 
 /* ---- E-01 TeamFinder ----------------------------------------
    Four steps of one module: default, filled in, choose team site,
@@ -2874,3 +2877,10 @@ code {
 .finder-actions .lnk { flex:1 1 0; justify-content:center; padding:18px 0; border-right:1px solid var(--border-subtle); }
 .finder-actions .lnk:last-child { border-right:0; }
 .finder [hidden] { display:none !important; }
+.finder-card-head { justify-content:space-between; }
+.finder-card-id { flex:1 1 0; min-width:0; }
+.finder-stat { gap:2px; }
+.finder-actions .btn { flex:1 1 0; height:56px; border-right:1px solid var(--border-subtle); }
+.finder-actions .btn:last-child { border-right:0; }
+.finder-search .search { width:100%; max-width:none; }
+.finder-menu { width:100%; max-width:none; }

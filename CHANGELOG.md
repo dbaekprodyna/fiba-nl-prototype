@@ -1,5 +1,53 @@
 # Changelog
 
+## 2026-08-15 — E-01 revised, B-3 and B-4
+
+### Two that had not landed
+
+- **Overlay alignment.** Three overlapping blocks of CSS had accumulated, and
+  the last one centred the mega menu's columns instead of spreading them. One
+  block now, reusing the page's own column verbatim: a clamped gutter with a
+  centred 1440, so both edges line up and Close sits with the season selector.
+- **Player card shadow.** Four `.pcard` rules in three files disagreed — one of
+  them set `overflow: visible`, which unclipped the artwork. One rule now, in
+  modules.css, so the design system shows it too. The containers carry padding,
+  because an ancestor's overflow was clipping the shadow away.
+
+### E-01 TeamFinder
+
+Rebuilt to the wireframe: the three legacy states are gone, the future-feature
+note is gone, the search icon renders, the field and the autocomplete share one
+width, **Change** appears on the result as well as the chooser, and the result
+carries **Tour points · Win ratio · Record · Stops played** laid out like the
+team header's second row, with the two actions as ctl-01 ghost buttons.
+
+### Navigation
+
+- The panels are `position: absolute`, so they scroll away with the page — the
+  navigation is not sticky.
+- The prototype's mega menu drops the Featured column.
+- **More** no longer takes the current-page underline while its panel is open.
+
+### B-3 — Live now
+
+A week of dates around today with a live dot on days that have basketball;
+Prev and Next move a week; a day with nothing is muted and shows **el-10
+EmptyState**. Region chips filter the conferences. Because the season in the
+snapshot has finished, the strip opens on the last day that actually had play
+rather than an empty today.
+
+### B-4 — Conferences and Qualification
+
+- Each conference links to its own page, shows **stops played of total** rather
+  than all-black dots, and carries a **Live** badge only where a stop is
+  running. The branded stroke marks a region that is playing right now.
+- **qualification.html** — its own page, twenty teams, Qualified or Shortlisted,
+  men / women, linked from Standings and from the home board.
+
+### Also
+
+- el-22 CarouselIndicator is 8px tall.
+
 ## 2026-08-15 — Find a Team, spacing, overlay alignment
 
 ### E-01 TeamFinder — four steps

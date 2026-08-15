@@ -253,6 +253,10 @@
 
     text(f, '.finder-nations', feds.length);
     text(f, '.finder-sites', D.teams.length);
+    $$('.finder-change, .finder-change-2', f).forEach(function (c) {
+      c.style.cursor = 'pointer';
+      c.addEventListener('click', function () { step(1); list(''); });
+    });
 
     var parts = {
       search: $('[data-part="search"]', f),
@@ -325,8 +329,7 @@
       });
       step(3);
     }
-    var change = $('.finder-change', f);
-    if (change) change.addEventListener('click', function () { step(1); list(''); });
+
 
     /* ---- 4 · result ---- */
     function result(team, label) {
@@ -339,25 +342,27 @@
         return e.conference === team.conference && e.teamsRegistered;
       }).length;
 
+      /* Season totals for this federation, the same four figures the
+         team header carries. */
+      var tot = { played: 0, won: 0, points: 0, stops: 0 };
+      D.standings.forEach(function (s2) {
+        if (s2.gender !== team.gender) return;
+        s2.rows.forEach(function (r) {
+          if (r.ioc !== team.ioc) return;
+          tot.played += r.played || 0;
+          tot.won += r.won || 0;
+          tot.points += r.points || 0;
+          tot.stops += 1;
+        });
+      });
+
       flag($('.finder-card-head', f), team.ioc);
       text(f, '.finder-cat', /women/i.test(label) ? 'Women' : 'Men');
       text(f, '.finder-team', team.ioc + ' U23');
-      text(f, '.finder-seed', row ? '#' + row.seed : '\u2014');
-      text(f, '.finder-of', 'of ' + (st ? st.rows.length : '\u2014'));
-      text(f, '.finder-standing', row ? '#' + row.rank : '\u2014');
-      text(f, '.finder-of2', 'of ' + (st ? st.rows.length : '\u2014'));
-      text(f, '.finder-record', row ? row.won + '\u2013' + (row.played - row.won) : '\u2014');
-      text(f, '.finder-pts', row ? row.points : 0);
-      text(f, '.finder-stops', played + '/' + (c.stopCount || 0));
-      text(f, '.finder-state', played >= (c.stopCount || 0) ? 'Conference complete' : 'Conference in progress');
-
-      var dots = $('.finder-dots', f);
-      dots.innerHTML = '';
-      for (var i = 0; i < (c.stopCount || 0); i++) {
-        var d = document.createElement('div');
-        d.className = 'dot' + (i < played ? ' dot-done' : '');
-        dots.appendChild(d);
-      }
+      text(f, '.finder-pts', tot.points);
+      text(f, '.finder-ratio', tot.played ? (tot.won / tot.played).toFixed(2) : '\u2014');
+      text(f, '.finder-record', tot.played ? tot.won + '\u2013' + (tot.played - tot.won) : '\u2014');
+      text(f, '.finder-played', tot.stops + ' of ' + (c.stopCount || 0));
       link($('.finder-goteam', f), 'team.html?ioc=' + team.ioc);
       link($('.finder-goconf', f), 'conference.html?id=' + team.conference);
       step(4);
@@ -372,15 +377,89 @@
   var PAGES = {};
 
   PAGES['index.html'] = function () {
-    /* Live now — one accordion per conference that has played */
-    var byConf = {};
-    playedStops().forEach(function (e) { (byConf[e.conference] = byConf[e.conference] || []).push(e); });
-    var confs = Object.keys(byConf).slice(0, 6).map(function (id) {
-      var c = conf(id), e = byConf[id][0];
-      return { c: c, e: e, s: standingsFor(e.slug, 'men') };
-    });
-    $$('.acc').forEach(function (a) { a.dataset.keep = '1'; });
-    repeat(document, '.acc', confs, function (node, rec) {
+    /* ---- Live now -------------------------------------------
+       A week of dates around today, a region filter, and the
+       conferences playing on the selected day. Prev and Next move
+       the window a week at a time. */
+    var region = 'All';
+    var day = new Date();
+    day.setHours(0, 0, 0, 0);
+
+    function iso(d) { return d.toISOString().slice(0, 10); }
+    function stopsOn(dateISO) {
+      return D.events.filter(function (e) {
+        if (!e.start) return false;
+        if (region !== 'All') {
+          var c = conf(e.conference);
+          if (!c || c.name.toLowerCase().indexOf(region.toLowerCase().replace('asiapacific', 'asia')) !== 0) return false;
+        }
+        return e.start <= dateISO && (e.end || e.start) >= dateISO;
+      });
+    }
+    /* Nothing on today in a finished season, so open on the last day
+       that actually had basketball. */
+    (function () {
+      if (stopsOn(iso(day)).length) return;
+      var played = D.events.filter(function (e) { return e.teamsRegistered; })
+                           .map(function (e) { return e.start; }).sort();
+      if (played.length) day = new Date(played[played.length - 1] + 'T00:00:00');
+    })();
+
+    var strip = $('.s03, .s03wrap');
+    var accHost = ($('.acc') || {}).parentElement;
+
+    function drawStrip() {
+      if (!strip) return;
+      var days = [];
+      for (var i = -3; i <= 4; i++) {
+        var d = new Date(day); d.setDate(day.getDate() + i);
+        days.push(d);
+      }
+      repeat(strip, '.s03-d', days, function (cell, d) {
+        var on = iso(d) === iso(day);
+        cell.classList.toggle('s03-on', on);
+        cell.classList.remove('s03-off');
+        text(cell, '.s03-num', d.getDate());
+        text(cell, '.s03-dow', d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase());
+        text(cell, '.s03-mon', d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase());
+        var live = stopsOn(iso(d)).length;
+        cell.classList.toggle('s03-live', !!live);
+        if (!live) cell.classList.add('s03-off');
+        cell.addEventListener('click', function () { day = d; drawStrip(); drawLive(); });
+      });
+      var nav = $$('.s03nav', strip);
+      if (nav[0] && !nav[0]._wired) {
+        nav[0]._wired = 1;
+        nav[0].addEventListener('click', function () { day.setDate(day.getDate() - 7); drawStrip(); drawLive(); });
+      }
+      if (nav[1] && !nav[1]._wired) {
+        nav[1]._wired = 1;
+        nav[1].addEventListener('click', function () { day.setDate(day.getDate() + 7); drawStrip(); drawLive(); });
+      }
+    }
+
+    function drawLive() {
+      var evs = stopsOn(iso(day));
+      var e0 = accHost && accHost.querySelector(':scope > .site-empty');
+      if (e0) e0.remove();
+      if (!evs.length) {
+        $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
+        emptyState(accHost, 'Nothing on this day',
+                   'Pick another date, or see every conference.');
+        return;
+      }
+      $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
+      var confs = evs.slice(0, 6).map(function (e) {
+        return { c: conf(e.conference), e: e, s: standingsFor(e.slug, 'men') };
+      });
+      paintAccordions(confs);
+      if (window.FIBA) window.FIBA.init(accHost);
+    }
+
+    region = chipFilter(function (r) { region = r; drawStrip(); drawLive(); }) || 'All';
+
+    function paintAccordions(confs) {
+    repeat(accHost || document, '.acc', confs, function (node, rec) {
       text(node, '.t-h3', rec.c ? rec.c.name : '');
       var meta = $$('.acc-head .t-body-s', node)[0];
       if (meta) meta.textContent = rec.e.city + ' · Stop ' + rec.e.number + ' of ' + (conf(rec.e.conference) || {}).stopCount;
@@ -404,6 +483,10 @@
       })[0];
       if (view) link(view, 'conference.html?id=' + rec.e.conference);
     });
+    }
+
+    drawStrip();
+    drawLive();
 
     /* Qualification — LP-12: only the twenty that reach the U23 World
        Cup. Position, flag, country, and a Qualified or Shortlisted
@@ -446,6 +529,8 @@
 
       var col = board.closest('.tpl-colR');
       if (col) col.classList.add('col-3');          /* three of twelve */
+      var more = col && $$('.lnk', col)[0];
+      if (more) link(more, 'qualification.html');
       gender = genderSwitch(function (g) { gender = g; drawBoard(); });
       drawBoard();
     })();
@@ -497,15 +582,50 @@
   };
 
   PAGES['conferences.html'] = function () {
+    var today = new Date().toISOString().slice(0, 10);
+    function statusOf(c) {
+      var evs = D.events.filter(function (e) { return e.conference === c.id; });
+      var played = evs.filter(function (e) { return e.teamsRegistered; }).length;
+      var live = evs.some(function (e) {
+        return e.start && e.start <= today && (e.end || e.start) >= today;
+      });
+      return { evs: evs, played: played, live: live, done: played >= evs.length && evs.length > 0 };
+    }
+
     var regions = {};
     D.conferences.forEach(function (c) { (regions[c.region] = regions[c.region] || []).push(c); });
     var list = Object.keys(regions).map(function (r) { return { region: r, items: regions[r] }; });
+
     repeat(document, '.e03-card', list, function (card, g) {
       text(card, '.e03-region', g.region);
+
+      /* the branded stroke marks a region that is playing right now */
+      var anyLive = g.items.some(function (c) { return statusOf(c).live; });
+      card.classList.toggle('brandstroke', anyLive);
+      if (!anyLive) card.classList.remove('brandstroke-spin');
+
       repeat(card, '.e03-conf', g.items, function (row, c) {
+        var st = statusOf(c);
         text(row, '.e03-name', c.name);
         var n = $$('.t-caption, .t-body-s', row).pop();
-        if (n) n.textContent = c.stopCount + ' stops';
+        if (n) n.textContent = st.played + ' of ' + st.evs.length + ' stops';
+
+        /* a live badge only where a stop is actually running */
+        var badge = $('.badge', row);
+        if (badge) {
+          badge.hidden = !st.live;
+          badge.classList.add('badge-live');
+        } else if (st.live) {
+          var b = document.createElement('div');
+          b.className = 'badge badge-live cut cut-s';
+          b.innerHTML = '<span class="badge-dot"></span><span class="lbl">Live</span>';
+          row.insertBefore(b, row.firstChild);
+        }
+        /* stops that have not happened are not solid black */
+        $$('.dot', row).forEach(function (d, i) {
+          d.classList.toggle('dot-done', i < st.played);
+          d.classList.toggle('dot-live', st.live && i === st.played);
+        });
         link(row, 'conference.html?id=' + c.id);
       });
     });
@@ -831,6 +951,31 @@
 
     gender = genderSwitch(function (g) { gender = g; draw(); });
     metric = chipFilter(function (m) { metric = m; draw(); }) || metric;
+    draw();
+  };
+
+  PAGES['qualification.html'] = function () {
+    var QUALIFIED = 12, FIELD = 20;
+    var host = $('.r01') || $('.tbl');
+    var gender = 'men';
+    function draw() {
+      var list = federationTable(gender).slice(0, FIELD);
+      repeat(host, '.r01-row, .trow', list, function (row, t, i) {
+        text(row, '.r01-pos .t-data-m', i + 1);
+        fed(row, t.ioc, t.team);
+        var cc = $('.r01-conf', row);
+        if (cc) cc.textContent = (conf(t.conference) || {}).name || '';
+        var badge = $('.badge, .marker', row);
+        if (badge) {
+          var q = i < QUALIFIED;
+          badge.classList.remove('badge-q', 'badge-s', 'marker-q', 'marker-s');
+          badge.classList.add(q ? 'badge-q' : 'badge-s');
+          ($('.lbl', badge) || badge).textContent = q ? 'Qualified' : 'Shortlisted';
+        }
+        link(row, 'team.html?ioc=' + t.ioc);
+      });
+    }
+    gender = genderSwitch(function (g) { gender = g; draw(); });
     draw();
   };
 

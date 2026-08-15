@@ -78,17 +78,18 @@ a.nav-a {
 .tpl-sub { display: flex; flex-direction: column; gap: 16px; }
 
 /* ---- F-05 MegaMenu and E-11 search ---------------------------
-   Both hang from under the chrome and slide down, the way Apple's
-   navigation does. --chrome-h is measured at runtime, because the
-   corporate strip can wrap.                                       */
+   Both hang under the chrome and slide down. They scroll away with
+   the page — the navigation is not sticky.
+
+   Their inner column is exactly the page's: a clamped gutter with a
+   centred 1440 max-width, so both edges line up with the content and
+   Close sits with the season selector.                            */
 .site-mm, .site-ovl {
-  position: fixed;
+  position: absolute;
   left: 0;
   right: 0;
   top: var(--chrome-h, 98px);
-  max-height: calc(100vh - var(--chrome-h, 98px));
   z-index: 200;
-  overflow-y: auto;
   background: var(--chrome-bg);
   transform: translateY(-12px);
   opacity: 0;
@@ -107,32 +108,45 @@ a.nav-a {
 }
 .site-mm[hidden], .site-ovl[hidden] { display: none !important; }
 .site-ovl { display: flex; flex-direction: column; }
-.site-mm .mm-close, .site-ovl .ovl-close { cursor: pointer; }
-.site-mm .mm-in, .site-ovl .ovl-body {
-  max-width: var(--content-max);
-  margin: 0 auto;
-  width: 100%;
-}
-.site-mm .mm-top, .site-ovl .ovl-top { max-width: none; }
+.site-mm .mm-close, .site-ovl .ovl-close { cursor: pointer; flex: 0 0 auto; }
 .site-ovl .ovl-dim { display: none; }
+.site-mm .mm-feat { display: none; }          /* no Featured column on the site */
 
-/* The field fills the content column, as E-11 documents. */
-.site-ovl .ovl-top {
+/* the page's own column, reused verbatim */
+.site-mm .mm-top, .site-mm .mm-in,
+.site-ovl .ovl-top, .site-ovl .ovl-scrim {
   display: flex;
-  align-items: center;
-  gap: 32px;
-  padding: 20px clamp(20px, 4vw, 120px);
+  justify-content: center;
+  width: 100%;
+  max-width: none;
+  padding-left: clamp(20px, 4vw, 120px);
+  padding-right: clamp(20px, 4vw, 120px);
 }
+.site-mm .mm-top, .site-ovl .ovl-top { padding-top: 20px; padding-bottom: 20px; }
+.site-mm .mm-in { padding-top: 8px; padding-bottom: 44px; gap: clamp(24px, 3vw, 64px); }
+.site-ovl .ovl-scrim { padding-bottom: 64px; }
+.site-mm .mm-top > *, .site-ovl .ovl-top > * { }
+.site-mm .mm-top, .site-ovl .ovl-top { justify-content: space-between; }
+
+/* an inner rail keeps the 1440 column */
+.site-mm .mm-in > *, .site-ovl .ovl-body { min-width: 0; }
+.site-mm .mm-in { max-width: none; }
+.site-mm .mm-col { flex: 1 1 0; max-width: 342px; }
+.site-ovl .ovl-body { flex: 1 1 0; max-width: var(--content-max); width: 100%; }
 .site-ovl .ovl-search { flex: 1 1 0; max-width: none; min-width: 0; }
 .site-ovl .search { width: 100%; max-width: none; }
-.site-ovl .ovl-scrim { padding: 0 clamp(20px, 4vw, 120px) 64px; }
 .site-ovl .ovl-scrim[hidden] { display: none; }
 
-/* One focus ring, on the container. The input inside it must draw
-   nothing of its own — Safari's native bezel included. */
-.site-ovl input,
-.live .search input,
-.live .fld input {
+/* the flag was clipped by the row's own edge */
+.site-ovl .e11-row { padding-left: 4px; }
+.site-ovl .e11-row .flag, .site-ovl .e11-row .ftag { overflow: visible; }
+
+/* a flag on a dark surface takes a dark ring */
+.site-ovl .flag-ring, .e11-dark .flag-ring, .ovl .flag-ring,
+.site-mm .flag-ring { --ring: var(--chrome-bg-2); }
+
+/* One focus ring, on the container. */
+.site-ovl input, .live .search input, .live .fld input {
   -webkit-appearance: none !important;
   appearance: none !important;
   border: 0 !important;
@@ -142,117 +156,56 @@ a.nav-a {
   background: transparent !important;
 }
 
+/* More must not take the current-page underline while its panel is open. */
+.live .f03-i.f03-more, .live .f03-i.f03-more:hover { border-bottom-color: transparent; }
+.live .f03-i.f03-more:hover { background: transparent; color: var(--chrome-text); }
+.f03-search { color: var(--chrome-text-muted); }
+.live .f03-search:hover { background: transparent; color: var(--chrome-text); }
+
 @media (prefers-reduced-motion: reduce) {
   .site-mm, .site-ovl { transition: none; transform: none; }
 }
 
 /* ---- el-10 EmptyState, standing in for a filtered-out block ---- */
-.site-empty {
-  width: 100%;
-  max-width: none;
-  margin-top: 8px;
-}
-
-/* An alphabet letter that is currently filtering. */
+.site-empty { width: 100%; max-width: none; margin-top: 8px; }
 .alpha-on { background: var(--action-default); color: var(--text-inverse); }
-
-/* ---- Space under the chrome ----------------------------------
-   The first block sat directly against the navigation bar. */
-.tpl-content { padding-top: clamp(32px, 3.5vw, 64px); }
-
-/* ---- Chrome navigation ---------------------------------------
-   More behaves like the search icon: it changes colour, not
-   background. The magnifier starts at the same muted grey as the
-   text items and goes white on hover. */
-.live .f03-i.f03-more:hover,
-.live .f03-more:hover { background: transparent; color: var(--chrome-text); }
-.f03-search { color: var(--chrome-text-muted); }
-.live .f03-search:hover { background: transparent; color: var(--chrome-text); }
-
-/* ---- Overlay content shares the page's gutters ---------------- */
-.site-mm .mm-in,
-.site-mm .mm-top,
-.site-ovl .ovl-top,
-.site-ovl .ovl-scrim {
-  padding-left: clamp(20px, 4vw, 120px);
-  padding-right: clamp(20px, 4vw, 120px);
-  width: 100%;
-  max-width: none;
-}
-.site-mm .mm-in { padding-top: 36px; padding-bottom: 44px; }
-.site-mm .mm-inner, .site-ovl .ovl-body {
-  width: 100%;
-  max-width: var(--content-max);
-  margin: 0 auto;
-}
-/* one shared column: the menu columns and the results line up with
-   the page content on both edges */
-.site-mm .mm-in { display: flex; justify-content: center; }
-.site-mm .mm-in > * { flex: 1 1 0; min-width: 0; max-width: 342px; }
-
-/* ---- S-09 Season progress reads as the headline figure -------- */
-.s09-right { width: 60%; }
-
-/* ---- E-01 TeamFinder on the home page ------------------------- */
-.finder-menu { width: 100%; max-width: none; }
-.finder-menu[hidden] { display: none; }
-.finder-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-.finder-chips[hidden] { display: none; }
-.finder-empty { padding: 0 22px; display: flex; align-items: center; }
-
-/* ---- Home split: Qualification is three columns of twelve ----- */
-.tpl-split .tpl-colR.col-3 { flex: 0 0 25%; max-width: 25%; }
-.tpl-split .tpl-colL { flex: 1 1 75%; }
-@media (max-width: 1100px) {
-  .tpl-split .tpl-colR.col-3 { flex: 1 1 auto; max-width: none; }
-}
-
-/* R-01 rows carry a status label rather than a conference name. */
-.r01-row .r01-st { width: auto; }
-.r01-row .r01-fed { flex: 1 1 0; min-width: 0; }
 
 /* ---- 40px between every section ------------------------------- */
 .tpl-content { gap: 40px; padding-top: 40px; padding-bottom: 40px; }
 .tpl-sub { gap: 16px; }
 
-/* ---- Overlays share the page's content column ------------------
-   Left edge with the content, right edge with the season selector. */
-.site-mm .mm-in,
-.site-mm .mm-top,
-.site-ovl .ovl-top,
-.site-ovl .ovl-scrim {
-  padding-left: clamp(20px, 4vw, 120px);
-  padding-right: clamp(20px, 4vw, 120px);
-}
-.site-mm .mm-top, .site-ovl .ovl-top { justify-content: space-between; }
-.site-ovl .ovl-close, .site-mm .mm-close { flex: 0 0 auto; }
+/* ---- Home split: Qualification is three columns of twelve ----- */
+.tpl-split .tpl-colR.col-3 { flex: 0 0 25%; max-width: 25%; }
+.tpl-split .tpl-colL { flex: 1 1 75%; }
+.r01-row .r01-st { width: auto; }
+.r01-row .r01-fed { flex: 1 1 0; min-width: 0; }
 
-/* the flag was clipped by the row's own edge */
-.site-ovl .e11-row { padding-left: 4px; }
-.site-ovl .e11-row .flag, .site-ovl .e11-row .ftag { overflow: visible; }
-
-/* a flag on the dark surface takes a dark ring */
-.site-ovl .flag-ring, .e11-dark .flag-ring, .ovl .flag-ring,
-.site-mm .flag-ring { --ring: var(--chrome-bg-2); }
-
-/* ---- E-08 PlayerCard sits on e1 everywhere -------------------- */
-.pcard { filter: drop-shadow(0 1px 2px rgba(0, 0, 0, .15)); }
+/* ---- Player cards --------------------------------------------
+   e1 comes from modules.css so the design system shows it too.
+   The containers need room, or an ancestor's overflow clips it. */
 .live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
-
-/* Four cards stay on one row and scale together down to 1280. */
+.e10, .pcard-row, .e10-cards { padding: 6px; }
 .e10 {
   display: flex;
   flex-wrap: nowrap;
   gap: clamp(12px, 1.6vw, 24px);
   align-items: flex-start;
 }
-.e10 > .pcard {
-  flex: 1 1 0;
-  min-width: 0;
-  width: auto;
-  max-width: 342px;
-}
+.e10 > .pcard { flex: 1 1 0; min-width: 0; width: auto; max-width: 342px; }
+
+/* ---- E-01 TeamFinder ------------------------------------------ */
+.finder-menu[hidden] { display: none; }
+
 @media (max-width: 1100px) {
+  .tpl-split { flex-direction: column; }
+  .tpl-colR, .tpl-split .tpl-colR.col-3 { flex: 1 1 auto; max-width: none; }
   .e10 { flex-wrap: wrap; }
   .e10 > .pcard { flex: 1 1 45%; }
 }
+
+/* ---- Conferences: only a live region carries the branded stroke ---- */
+.e03-card.brandstroke { background: var(--brand-stroke); }
+.e03-conf .badge[hidden] { display: none; }
+
+/* ---- Live now: a day with no basketball is muted ------------------ */
+.s03-d.s03-off { opacity: .5; }
