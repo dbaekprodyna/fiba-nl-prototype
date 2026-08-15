@@ -77,29 +77,81 @@ a.nav-a {
 .tpl-content > * { margin: 0; }
 .tpl-sub { display: flex; flex-direction: column; gap: 16px; }
 
-/* ---- F-05 MegaMenu and E-11 search, overlaid on the page ------ */
+/* ---- F-05 MegaMenu and E-11 search ---------------------------
+   Both hang from under the chrome and slide down, the way Apple's
+   navigation does. --chrome-h is measured at runtime, because the
+   corporate strip can wrap.                                       */
 .site-mm, .site-ovl {
   position: fixed;
-  inset: 0;
+  left: 0;
+  right: 0;
+  top: var(--chrome-h, 98px);
+  max-height: calc(100vh - var(--chrome-h, 98px));
   z-index: 200;
   overflow-y: auto;
-}
-.site-mm { background: var(--chrome-bg); }
-.site-ovl { background: var(--chrome-bg); display: flex; flex-direction: column; }
-.site-ovl .ovl-top {
-  position: sticky;
-  top: 0;
-  z-index: 2;
   background: var(--chrome-bg);
-  gap: 24px;
+  transform: translateY(-12px);
+  opacity: 0;
+  visibility: hidden;
+  transition: transform var(--dur-slow) var(--ease-out),
+              opacity var(--dur-base) var(--ease-out),
+              visibility 0s linear var(--dur-slow);
 }
-/* the field fills the content column, as E-11 documents */
-.site-ovl .ovl-search { flex: 1 1 0; max-width: none; }
-.site-ovl .search { width: 100%; }
-.site-ovl .ovl-scrim { flex: 1 1 auto; }
-.site-mm .mm-close, .site-ovl .ovl-close { cursor: pointer; }
+.site-mm.is-open, .site-ovl.is-open {
+  transform: none;
+  opacity: 1;
+  visibility: visible;
+  transition: transform var(--dur-slow) var(--ease-out),
+              opacity var(--dur-base) var(--ease-out),
+              visibility 0s;
+}
 .site-mm[hidden], .site-ovl[hidden] { display: none !important; }
+.site-ovl { display: flex; flex-direction: column; }
+.site-mm .mm-close, .site-ovl .ovl-close { cursor: pointer; }
+.site-mm .mm-in, .site-ovl .ovl-body {
+  max-width: var(--content-max);
+  margin: 0 auto;
+  width: 100%;
+}
+.site-mm .mm-top, .site-ovl .ovl-top { max-width: none; }
+.site-ovl .ovl-dim { display: none; }
 
-/* the whole mega menu is one dark surface */
-.site-mm .mm-in { max-width: var(--content-max); margin: 0 auto; }
-.site-mm .mm-top { max-width: none; }
+/* The field fills the content column, as E-11 documents. */
+.site-ovl .ovl-top {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  padding: 20px clamp(20px, 4vw, 120px);
+}
+.site-ovl .ovl-search { flex: 1 1 0; max-width: none; min-width: 0; }
+.site-ovl .search { width: 100%; max-width: none; }
+.site-ovl .ovl-scrim { padding: 0 clamp(20px, 4vw, 120px) 64px; }
+.site-ovl .ovl-scrim[hidden] { display: none; }
+
+/* One focus ring, on the container. The input inside it must draw
+   nothing of its own — Safari's native bezel included. */
+.site-ovl input,
+.live .search input,
+.live .fld input {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .site-mm, .site-ovl { transition: none; transform: none; }
+}
+
+/* ---- el-10 EmptyState, standing in for a filtered-out block ---- */
+.site-empty {
+  width: 100%;
+  max-width: none;
+  margin-top: 8px;
+}
+
+/* An alphabet letter that is currently filtering. */
+.alpha-on { background: var(--action-default); color: var(--text-inverse); }

@@ -1,5 +1,49 @@
 # Changelog
 
+## 2026-08-15 — B-1 corrections and B-2: filters
+
+### Navigation panels
+
+Both the mega menu and the search overlay were covering the chrome. They now
+hang from **under** it — `--chrome-h` is measured at runtime rather than
+hard-coded, because the corporate strip can wrap — and slide down, the way
+Apple's navigation does: **hover opens on a mouse, tap opens on touch**, and on
+a mouse, leaving the panel closes it. Escape and Close still work.
+
+- The search field fills the content column.
+- **Nothing is listed until something is typed.** An empty field shows no
+  results at all; groups appear as the query matches.
+- One focus ring, on the container. The input inside is reset with
+  `appearance: none !important` — Safari's native bezel was drawing the second
+  rectangle inside the ring.
+
+### Live now
+
+The accordion header only expands and collapses. The link out is the **View
+conference** action inside the panel, and each standings row goes to that team.
+
+### B-2 — filters and search
+
+Four small controls in `site.js`, each returning its value and calling back on
+change, so a page renderer stays one `draw()`:
+
+| control | pages |
+|---|---|
+| el-02 GenderSwitch | Standings, Stats |
+| el-03 FilterChips | Stats (metric), Calendar (region) |
+| el-11 SearchInput | Standings, Teams, search overlay |
+| el-25 AlphaIndex | Teams — click a letter to filter, click again to clear |
+
+- **Standings** — search by name or IOC code, men / women switch.
+- **Teams** — alphabet and search together; letters with no federation are
+  disabled.
+- **Stats** — metric chips, men / women, and the federation is now the third
+  column, resolved from the squad a player appears in.
+- **Calendar** — region chips over the real 108 stops, grouped by month.
+
+When a filter empties a block, **el-10 EmptyState** takes its place at the same
+width, as agreed for LP-17.
+
 ## 2026-08-15 — B-1: navigation
 
 **F-05 MegaMenu** opens from More on every page. **E-11 search** opens from the

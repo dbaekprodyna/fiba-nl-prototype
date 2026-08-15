@@ -142,9 +142,9 @@
   }
 
   /* A season-wide federation table, built from every stop we have. */
-  function federationTable() {
+  function federationTable(gender) {
     var by = {};
-    D.standings.forEach(function (s) {
+    D.standings.filter(function (s) { return !gender || s.gender === gender; }).forEach(function (s) {
       s.rows.forEach(function (r) {
         var k = r.ioc;
         if (!k) return;
@@ -163,6 +163,81 @@
     list.sort(function (a, b) { return b.points - a.points || b.winRatio - a.winRatio; });
     list.forEach(function (t, i) { t.rank = i + 1; });
     return list;
+  }
+
+  /* ---------- controls ---------------------------------------
+     The design system supplies the controls; these give them the
+     behaviour. Each returns the current value and calls back when
+     it changes, so a page renderer stays a single render function. */
+
+  /* el-02 GenderSwitch → 'men' | 'women' */
+  function genderSwitch(onChange) {
+    var seg = $$('.el02-seg');
+    if (!seg.length) return 'men';
+    var value = 'men';
+    seg.forEach(function (s) {
+      if (s.classList.contains('el02-on')) value = /women/i.test(s.textContent) ? 'women' : 'men';
+      s.addEventListener('click', function () {
+        seg.forEach(function (x) { x.classList.remove('el02-on'); });
+        s.classList.add('el02-on');
+        value = /women/i.test(s.textContent) ? 'women' : 'men';
+        onChange(value);
+      });
+    });
+    return value;
+  }
+
+  /* el-03 FilterChips → the label of the selected chip */
+  function chipFilter(onChange) {
+    var chips = $$('.chip');
+    if (!chips.length) return null;
+    var value = (chips.filter(function (c) { return c.classList.contains('chip-on'); })[0] || chips[0]).textContent.trim();
+    chips.forEach(function (c) {
+      c.addEventListener('click', function () {
+        chips.forEach(function (x) { x.classList.remove('chip-on'); });
+        c.classList.add('chip-on');
+        value = c.textContent.trim();
+        onChange(value);
+      });
+    });
+    return value;
+  }
+
+  /* el-11 SearchInput → live text, debounced by nothing; the sets
+     here are small enough to filter on every keystroke. */
+  function searchField(root, placeholder, onChange) {
+    var box = $('.search', root || document);
+    if (!box) return function () { return ''; };
+    var txt = $('.search-txt, .search-txt-filled', box);
+    var inp = $('input', box);
+    if (!inp) {
+      inp = document.createElement('input');
+      inp.type = 'text';
+      inp.className = 'search-in';
+      inp.setAttribute('autocomplete', 'off');
+      inp.placeholder = placeholder || 'Search';
+      if (txt) txt.replaceWith(inp); else box.appendChild(inp);
+    }
+    inp.addEventListener('input', function () { onChange(this.value.trim().toLowerCase()); });
+    var clear = $('.search-clear', box);
+    if (clear) clear.addEventListener('click', function () { inp.value = ''; onChange(''); });
+    return function () { return inp.value.trim().toLowerCase(); };
+  }
+
+  /* el-10 EmptyState, at the width of the block it replaces. */
+  function emptyState(host, title, body) {
+    if (!host) return;
+    var e = host.querySelector(':scope > .site-empty');
+    if (!e) {
+      e = document.createElement('div');
+      e.className = 'site-empty empty cut cut-m';
+      e.innerHTML = '<div class="empty-icon"></div>' +
+                    '<div class="t-h3"></div><div class="t-body-s"></div>';
+      host.appendChild(e);
+    }
+    e.querySelector('.t-h3').textContent = title;
+    e.querySelector('.t-body-s').textContent = body || '';
+    return e;
   }
 
   /* ---------- page renderers -------------------------------- */
@@ -191,10 +266,15 @@
             nums[nums.length - 2].textContent = r.won + '–' + (r.played - r.won);
             nums[nums.length - 1].textContent = r.points;
           }
-          link(row, 'conference.html?id=' + rec.e.conference);
+          link(row, 'team.html?ioc=' + r.ioc);
         });
       }
-      link($('.acc-head', node), 'conference.html?id=' + rec.e.conference);
+      /* The header only expands and collapses — the link out is the
+         "View conference" action inside the panel. */
+      var view = $$('.lnk, .btn', node).filter(function (l) {
+        return /view conference|conference/i.test(l.textContent);
+      })[0];
+      if (view) link(view, 'conference.html?id=' + rec.e.conference);
     });
 
     /* Qualification board */
@@ -314,41 +394,91 @@
   };
 
   PAGES['standings.html'] = function () {
-    var list = federationTable();
-    repeat(document, '.trow', list, function (row, t) {
-      fed(row, t.ioc, t.team);
-      var nums = $$('.t-data-m', row);
-      if (nums[0]) nums[0].textContent = t.rank;
-      if (nums.length > 3) {
-        nums[nums.length - 4].textContent = (t.winRatio * 100).toFixed(0) + '%';
-        nums[nums.length - 3].textContent = t.points;
-        nums[nums.length - 2].textContent = t.avg;
-        nums[nums.length - 1].textContent = t.stops;
+    var tbl = $('.tbl');
+    var gender = 'men', query = '';
+
+    function draw() {
+      var list = federationTable(gender).filter(function (t) {
+        return !query || (t.team + ' ' + t.ioc).toLowerCase().indexOf(query) > -1;
+      });
+      if (!list.length) {
+        $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
+        emptyState(tbl.parentElement, 'No federation matches', 'Try a different name or IOC code.');
+        return;
       }
-      text(row, '.cell-conference .t-body-s', (conf(t.conference) || {}).name || '');
-      link(row, 'team.html?ioc=' + t.ioc);
-    });
+      var e = tbl.parentElement.querySelector(':scope > .site-empty');
+      if (e) e.remove();
+      repeat(tbl, '.trow', list, function (row, t) {
+        row.hidden = false;
+        fed(row, t.ioc, t.team);
+        var nums = $$('.t-data-m', row);
+        if (nums[0]) nums[0].textContent = t.rank;
+        if (nums.length > 3) {
+          nums[nums.length - 4].textContent = (t.winRatio * 100).toFixed(0) + '%';
+          nums[nums.length - 3].textContent = t.points;
+          nums[nums.length - 2].textContent = t.avg;
+          nums[nums.length - 1].textContent = t.stops;
+        }
+        text(row, '.cell-conference .t-body-s', (conf(t.conference) || {}).name || '');
+        link(row, 'team.html?ioc=' + t.ioc);
+      });
+    }
+
+    gender = genderSwitch(function (g) { gender = g; draw(); });
+    searchField(document, 'Search a federation or IOC code', function (q) { query = q; draw(); });
+    draw();
   };
 
   PAGES['teams.html'] = function () {
-    var seen = {}, list = [];
+    var seen = {}, all = [];
     D.teams.forEach(function (t) {
       if (!t.ioc || seen[t.ioc]) return;
       seen[t.ioc] = 1;
-      list.push(t);
+      all.push(t);
     });
-    list.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
-    repeat(document, '.e09-cell', list, function (cell, t) {
-      flag(cell, t.ioc);
-      text(cell, '.e09-n', t.name);
-      text(cell, '.e09-c', t.ioc);
-      link(cell, 'team.html?ioc=' + t.ioc);
-    });
+    all.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
+
+    var grid = $('.e09-grid') || $('.e09');
+    var letter = '', query = '';
+
     var letters = {};
-    list.forEach(function (t) { letters[(t.name || '?')[0].toUpperCase()] = 1; });
+    all.forEach(function (t) { letters[(t.name || '?')[0].toUpperCase()] = 1; });
     $$('.alpha-i').forEach(function (a) {
-      if (!letters[a.textContent.trim().toUpperCase()]) a.classList.add('alpha-dis');
+      var ch = a.textContent.trim().toUpperCase();
+      if (!letters[ch]) { a.classList.add('alpha-dis'); return; }
+      a.addEventListener('click', function () {
+        letter = (letter === ch) ? '' : ch;      /* click again to clear */
+        $$('.alpha-i').forEach(function (x) { x.classList.remove('alpha-on'); });
+        if (letter) a.classList.add('alpha-on');
+        draw();
+      });
     });
+
+    function draw() {
+      var list = all.filter(function (t) {
+        var n = (t.name || '').toUpperCase();
+        return (!letter || n[0] === letter) &&
+               (!query || (t.name + ' ' + t.ioc).toLowerCase().indexOf(query) > -1);
+      });
+      var e = grid.parentElement.querySelector(':scope > .site-empty');
+      if (e) e.remove();
+      if (!list.length) {
+        grid.hidden = true;
+        emptyState(grid.parentElement, 'No federation matches',
+                   'Try another letter, or clear the search.');
+        return;
+      }
+      grid.hidden = false;
+      repeat(grid, '.e09-cell', list, function (cell, t) {
+        flag(cell, t.ioc);
+        text(cell, '.e09-n', t.name);
+        text(cell, '.e09-c', t.ioc);
+        link(cell, 'team.html?ioc=' + t.ioc);
+      });
+    }
+
+    searchField(document, 'Search for a federation or IOC code', function (q) { query = q; draw(); });
+    draw();
   };
 
   PAGES['team.html'] = function () {
@@ -430,35 +560,94 @@
   };
 
   PAGES['calendar.html'] = function () {
-    var byMonth = {};
-    D.events.forEach(function (e) {
-      var m = (e.start || '').slice(0, 7);
-      (byMonth[m] = byMonth[m] || []).push(e);
-    });
-    var months = Object.keys(byMonth).sort();
-    repeat(document, '.s07-month, .s07-row', months, function (node, m) {
-      text(node, '.t-label, .t-h3', fmtDate(m + '-01', { month: 'long', year: 'numeric' }));
-      repeat(node, '.trow, .s07-i', byMonth[m], function (row, e) {
-        text(row, '.t-label', e.city);
-        text(row, '.t-caption', fmtDate(e.start, { day: 'numeric', month: 'short' }));
-        link(row, 'stop.html?id=' + e.slug);
+    var host = $('.s07') || $('.tpl-content');
+    var region = 'All';
+
+    function draw() {
+      var evs = D.events.filter(function (e) {
+        if (region === 'All') return true;
+        var c = conf(e.conference);
+        return c && c.name.toLowerCase().indexOf(region.toLowerCase().replace('asiapacific', 'asia')) === 0;
       });
-    });
+      var byMonth = {};
+      evs.forEach(function (e) {
+        var m = (e.start || '').slice(0, 7);
+        if (m) (byMonth[m] = byMonth[m] || []).push(e);
+      });
+      var months = Object.keys(byMonth).sort();
+
+      var e0 = host.parentElement && host.parentElement.querySelector(':scope > .site-empty');
+      if (e0) e0.remove();
+      if (!months.length) {
+        emptyState(host.parentElement, 'No stops in this region',
+                   'Pick another region to see its schedule.');
+        return;
+      }
+      var made = repeat(host, '.s07-month, .s07-row, .trow', months, function (node, m) {
+        text(node, '.t-label, .t-h3', fmtDate(m + '-01', { month: 'long', year: 'numeric' }));
+        repeat(node, '.trow, .s07-i', byMonth[m], function (row, e) {
+          text(row, '.t-label', e.city + ' · Stop ' + e.number);
+          text(row, '.t-caption', fmtDate(e.start, { day: 'numeric', month: 'short' }));
+          text(row, '.t-body-s', (conf(e.conference) || {}).name || '');
+          link(row, 'stop.html?id=' + e.slug);
+        });
+      });
+      if (!made) {
+        /* the template has no month rows to clone — list the stops flat */
+        repeat(host, '.trow', evs, function (row, e) {
+          text(row, '.t-label', e.city + ' · Stop ' + e.number);
+          text(row, '.t-caption', fmtDate(e.start));
+          link(row, 'stop.html?id=' + e.slug);
+        });
+      }
+    }
+
+    region = chipFilter(function (r) { region = r; draw(); }) || 'All';
+    draw();
   };
 
   PAGES['stats.html'] = function () {
-    var top = D.players.slice().sort(function (a, b) {
-      return (b.rankingPoints || 0) - (a.rankingPoints || 0);
-    }).slice(0, 30);
-    repeat(document, '.trow', top, function (row, p, i) {
-      text(row, '.r05-rank', i + 1);
-      text(row, '.r05-pl', p.name);
-      fed(row, p.ioc, p.country);
-      var n = $$('.r05-num', row);
-      if (n[0]) n[0].textContent = p.age != null ? p.age : '';
-      if (n[1]) n[1].textContent = (p.rankingPoints || 0).toLocaleString();
-      link(row, 'player.html?id=' + p.id);
+    /* The squads tell us which federation a player belongs to. */
+    var teamOf = {};
+    D.teams.forEach(function (t) {
+      t.roster.forEach(function (m) { if (m.id) teamOf[m.id] = t; });
     });
+
+    var host = $('.r05') || $('.tbl') || document;
+    var gender = 'men', metric = 'Points';
+
+    function draw() {
+      var list = D.players.filter(function (p) {
+        return !gender || !p.gender || p.gender === (gender === 'women' ? 'female' : 'male');
+      });
+      list = list.slice().sort(function (a, b) {
+        if (metric === 'Games played') return (teamOf[b.id] ? 1 : 0) - (teamOf[a.id] ? 1 : 0);
+        return (b.rankingPoints || 0) - (a.rankingPoints || 0);
+      }).slice(0, 30);
+
+      var e = host.parentElement && host.parentElement.querySelector(':scope > .site-empty');
+      if (e) e.remove();
+      if (!list.length) {
+        emptyState(host.parentElement, 'Nothing to rank yet',
+                   'No player data for this category.');
+        return;
+      }
+      repeat(host, '.trow', list, function (row, p, i) {
+        text(row, '.r05-rank', i + 1);
+        text(row, '.r05-pl', p.name);
+        var t = teamOf[p.id];
+        /* team is the third column, per the review */
+        fed(row, p.ioc, (t && t.name) || p.country);
+        var n = $$('.r05-num', row);
+        if (n[0]) n[0].textContent = p.age != null ? p.age : '';
+        if (n[1]) n[1].textContent = (p.rankingPoints || 0).toLocaleString();
+        link(row, 'player.html?id=' + p.id);
+      });
+    }
+
+    gender = genderSwitch(function (g) { gender = g; draw(); });
+    metric = chipFilter(function (m) { metric = m; draw(); }) || metric;
+    draw();
   };
 
   PAGES['search.html'] = function () {
@@ -480,10 +669,34 @@
   function initChrome() {
     var host = $('.tpl') || document.body;
 
+    /* The panel hangs below the chrome, so measure it rather than
+       hard-coding 98px — the corporate strip can wrap. */
+    function chromeHeight() {
+      var f02 = $('.f02'), f03 = $('.f03');
+      return (f02 ? f02.offsetHeight : 0) + (f03 ? f03.offsetHeight : 0);
+    }
+    function place(el) {
+      if (el) el.style.setProperty('--chrome-h', chromeHeight() + 'px');
+    }
+    window.addEventListener('resize', function () { place(mm); place(ovl); });
+
+    var openPanel = null, closeTimer = null;
     function open(el, on) {
       if (!el) return;
-      el.hidden = !on;
-      document.body.style.overflow = on ? 'hidden' : '';
+      clearTimeout(closeTimer);
+      if (on) {
+        if (openPanel && openPanel !== el) open(openPanel, false);
+        place(el);
+        el.hidden = false;
+        /* one frame with the panel measured but still raised, so the
+           transition has somewhere to come from */
+        requestAnimationFrame(function () { el.classList.add('is-open'); });
+        openPanel = el;
+      } else {
+        el.classList.remove('is-open');
+        closeTimer = setTimeout(function () { el.hidden = true; }, 320);
+        if (openPanel === el) openPanel = null;
+      }
     }
 
     Promise.all([
@@ -507,11 +720,26 @@
         host.appendChild(ovl);
       }
 
-      /* More opens the mega menu */
+      /* Apple's pattern: hover opens on a mouse, tap opens on touch. */
+      var fine = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+      function trigger(el, panel) {
+        if (!el) return;
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', function (e) { e.preventDefault(); open(panel, true); });
+        if (!fine) return;
+        el.addEventListener('mouseenter', function () { open(panel, true); });
+      }
+      if (fine) {
+        /* leaving both the trigger and the panel closes it */
+        [mm, ovl].forEach(function (p) {
+          if (!p) return;
+          p.addEventListener('mouseleave', function () { open(p, false); });
+        });
+      }
+
       $$('.f03-i').forEach(function (i) {
         if (!/^more$/i.test(i.textContent.trim())) return;
-        i.style.cursor = 'pointer';
-        i.addEventListener('click', function (e) { e.preventDefault(); open(mm, true); });
+        trigger(i.closest('a') || i, mm);
       });
       $$('.mm-close', mm).forEach(function (c) {
         c.addEventListener('click', function () { open(mm, false); });
@@ -519,12 +747,13 @@
 
       /* the magnifier opens the search overlay */
       $$('.f03-search').forEach(function (sBtn) {
-        var a = sBtn.closest('a');
-        (a || sBtn).addEventListener('click', function (e) {
+        var host2 = sBtn.closest('a') || sBtn;
+        host2.style.cursor = 'pointer';
+        host2.addEventListener('click', function (e) {
           e.preventDefault();
           open(ovl, true);
           var inp = ovl && ovl.querySelector('input');
-          if (inp) inp.focus();
+          if (inp) setTimeout(function () { inp.focus(); }, 60);
         });
       });
       $$('.ovl-close', ovl).forEach(function (c) {
@@ -544,12 +773,14 @@
         var txt = ovl.querySelector('.search-txt, .search-txt-filled');
         if (txt) {
           var inp = document.createElement('input');
+          inp.type = 'text';
           inp.className = 'search-in';
+          inp.setAttribute('autocomplete', 'off');
           inp.placeholder = 'Search for a federation, player or article';
           txt.replaceWith(inp);
           inp.addEventListener('input', function () { searchOverlay(ovl, this.value); });
         }
-        searchOverlay(ovl, '');
+        searchOverlay(ovl, '');       /* empty: every group hidden */
       }
       if (window.FIBA) window.FIBA.init(host);
     });
@@ -558,17 +789,25 @@
   /* Federations, players and news, filtered live. */
   function searchOverlay(ovl, q) {
     q = (q || '').trim().toLowerCase();
+    var scrim = $('.ovl-scrim', ovl);
+    if (!q) {
+      /* An empty field lists nothing — results appear as you type. */
+      if (scrim) scrim.hidden = true;
+      return;
+    }
+    if (scrim) scrim.hidden = false;
+
     var feds = [], seen = {};
     D.teams.forEach(function (t) {
       if (!t.ioc || seen[t.ioc]) return;
       seen[t.ioc] = 1;
-      if (!q || (t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1) feds.push(t);
+      if ((t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1) feds.push(t);
     });
     var players = D.players.filter(function (p) {
-      return q && (p.name || '').toLowerCase().indexOf(q) > -1;
+      return (p.name || '').toLowerCase().indexOf(q) > -1;
     }).slice(0, 6);
     var news = D.news.filter(function (n) {
-      return !q || (n.title || '').toLowerCase().indexOf(q) > -1;
+      return (n.title || '').toLowerCase().indexOf(q) > -1;
     });
 
     var groups = $$('.e11-g', ovl);
