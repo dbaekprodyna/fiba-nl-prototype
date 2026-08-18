@@ -11,11 +11,7 @@ import os, re, copy
 from bs4 import BeautifulSoup
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-# system/pages/elements.html, not system/_check/02-elements.html: the _check
-# sheet stopped being regenerated and is four states behind (el-05 "not
-# qualified" / "marker N", el-22 fill model). The pages/ sheet is the one
-# the build keeps current, and it carries the same el-block structure.
-SRC  = os.path.join(ROOT, "system", "pages", "elements.html")
+SRC  = os.path.join(ROOT, "system", "_check", "02-elements.html")
 OUT  = os.path.join(ROOT, "figma-export")
 
 HEAD = """<!DOCTYPE html>
