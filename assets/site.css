@@ -119,14 +119,18 @@ a.nav-a {
   justify-content: center;
   width: 100%;
   max-width: none;
-  padding-left: clamp(20px, 4vw, 120px);
-  padding-right: clamp(20px, 4vw, 120px);
+  padding-left: var(--page-gutter);
+  padding-right: var(--page-gutter);
 }
+/* The mega menu is a band of page content, not a centred island: its
+   columns start on the page's left edge and the Close control sits on
+   the right one, exactly like every other section. */
+.site-mm .mm-in { justify-content: flex-start; }
+.site-mm .mm-top { justify-content: flex-end; }
 .site-mm .mm-top, .site-ovl .ovl-top { padding-top: 20px; padding-bottom: 20px; }
 .site-mm .mm-in { padding-top: 8px; padding-bottom: 44px; gap: clamp(24px, 3vw, 64px); }
 .site-ovl .ovl-scrim { padding-bottom: 64px; }
-.site-mm .mm-top > *, .site-ovl .ovl-top > * { }
-.site-mm .mm-top, .site-ovl .ovl-top { justify-content: space-between; }
+.site-ovl .ovl-top { justify-content: space-between; }
 
 /* an inner rail keeps the 1440 column */
 .site-mm .mm-in > *, .site-ovl .ovl-body { min-width: 0; }
@@ -205,7 +209,7 @@ a.nav-a {
 
 /* ---- Conferences: only a live region carries the branded stroke ---- */
 .e03-card.brandstroke { background: var(--brand-stroke); }
-.e03-conf .badge[hidden] { display: none; }
+.e03 .badge[hidden] { display: none; }
 
 /* ---- Live now: a day with no basketball is muted ------------------ */
 .s03-d.s03-off { opacity: .5; }

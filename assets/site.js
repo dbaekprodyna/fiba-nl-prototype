@@ -604,23 +604,23 @@
       card.classList.toggle('brandstroke', anyLive);
       if (!anyLive) card.classList.remove('brandstroke-spin');
 
+      /* ... and so does the region's own Live badge. It sits in the card
+         header, not in a conference row, so the per-row pass below never
+         reached it and every region read as live. */
+      var regionBadge = $('.e03-top .badge', card);
+      if (regionBadge) regionBadge.hidden = !anyLive;
+
       repeat(card, '.e03-conf', g.items, function (row, c) {
         var st = statusOf(c);
         text(row, '.e03-name', c.name);
         var n = $$('.t-caption, .t-body-s', row).pop();
         if (n) n.textContent = st.played + ' of ' + st.evs.length + ' stops';
 
-        /* a live badge only where a stop is actually running */
+        /* E-03 carries one live signal, on the region card. A second
+           badge inside the conference row is not in the spec — it was
+           also being injected ahead of the name and broke the row. */
         var badge = $('.badge', row);
-        if (badge) {
-          badge.hidden = !st.live;
-          badge.classList.add('badge-live');
-        } else if (st.live) {
-          var b = document.createElement('div');
-          b.className = 'badge badge-live cut cut-s';
-          b.innerHTML = '<span class="badge-dot"></span><span class="lbl">Live</span>';
-          row.insertBefore(b, row.firstChild);
-        }
+        if (badge) badge.hidden = !st.live;
         /* stops that have not happened are not solid black */
         $$('.dot', row).forEach(function (d, i) {
           d.classList.toggle('dot-done', i < st.played);

@@ -237,14 +237,17 @@
 <div class="rule cut cut-s"><div class="t-label">Red is LIVE only</div><div class="t-body-s">--status-live never appears as decoration, hover, or emphasis. If it is red, a game is happening now.</div></div>
 <div class="rule cut cut-s"><div class="t-label">Amber needs dark text</div><div class="t-body-s">--status-shortlisted fails contrast as a text colour. Use it as a fill with --text-primary on top.</div></div>
 </div></div></section>
-<section class="anchor" id="anatomy-outlined-variant" data-anchor="anatomy-outlined-variant"><div class="fn-block">
+<section class="anchor" id="corner-cut" data-anchor="corner-cut"><div class="fn-block">
+<h3 class="t-h3 fn-block-title">Corner cut</h3>
 <p class="t-body-s fn-note">The signature shape of the system: a 45° cut on the <b>top-left</b> and <b>bottom-right</b> corner of every surface. All other corners stay square. Border radius is 0 everywhere except flags and status dots, which are full circles.</p>
 <div class="cut-demo-row">
 <div class="cut-demo"><div class="el-00-CutSurface--s cut-box cut cut-s"><span class="t-label">cut-s</span></div><div class="t-caption cut-cap">8px · chips, badges, inputs, table cells</div></div>
 <div class="cut-demo"><div class="el-00-CutSurface--m cut-box cut cut-m"><span class="t-label">cut-m</span></div><div class="t-caption cut-cap">12px · cards, buttons, list rows</div></div>
 <div class="cut-demo"><div class="el-00-CutSurface--l cut-box cut cut-l"><span class="t-label">cut-l</span></div><div class="t-caption cut-cap">16px · modules, page-width surfaces</div></div>
 </div>
-<h3 class="t-h3 fn-block-title">Anatomy — outlined variant</h3>
+</div></section>
+<section class="anchor" id="anatomy-outlined-variant" data-anchor="anatomy-outlined-variant"><div class="fn-block">
+<h3 class="t-h3 fn-block-title">Outlined variant</h3>
 <p class="t-body-s fn-note">A CSS border is clipped away along the diagonal, so nothing is painted there and the cut disappears. Every outlined surface in this system is therefore built as two layers: the element itself is filled with the outline colour and clipped, and a single child inset by 1px carries the real surface colour. The 1px that shows around the edge — and along the diagonal — is the outline.</p>
 <div class="cut-demo-row">
 <div class="cut-demo">

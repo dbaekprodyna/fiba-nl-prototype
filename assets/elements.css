@@ -517,6 +517,10 @@
   background:var(--surface-sunken-2);
   color:var(--text-secondary);
 }
+.badge-nq {
+  background:var(--surface-sunken);
+  color:var(--status-neutral);
+}
 .badge-dot {
   width:8px;
   height:8px;
@@ -2300,9 +2304,9 @@
 }
 
 /* ---- el-22 CarouselIndicator -------------------------------
-   A 4px bar with an 8px cut leaves hairlines at the corners;
-   the cut is scaled to the bar.                               */
-.ind-d, .ind-prog { --c:2px; }
+   The bar carries the full cut-s (8px) on top-left and
+   bottom-right, same as every other surface in the system.    */
+.ind-d, .ind-prog { --c:var(--cut-s); }
 
 /* ---- ctl-03 Tab, ghost variant ------------------------------
    Placed inside a stop card, so the hover wash is lighter than

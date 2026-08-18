@@ -720,8 +720,16 @@
   border-top:1px solid var(--chrome-line);
 }
 .pcard {
-  /* e1 at rest. drop-shadow, not box-shadow: the card is clipped by
-     clip-path, which removes a box-shadow entirely. */
+  /* el-16 Card, verbatim: the 1px default outline and e1 at rest.
+     The outline is the two-layer cut surface — the card itself is
+     filled with --border-default and clipped, and the .cutfill child
+     inset by 1px carries the card's own surface, so the line follows
+     the 45 degree corner instead of being clipped away there.
+     --ic is set here rather than through .cut-out, because that class
+     also forces every child to position:relative and the card's four
+     layers are absolutely positioned.
+     e1 is drop-shadow, not box-shadow: clip-path removes a box-shadow
+     entirely. */
   filter:drop-shadow(0 1px 2px rgba(0,0,0,.15));
   position:relative;
   display:flex;
@@ -730,7 +738,12 @@
   width:342px;
   aspect-ratio:1/1.4;
   overflow:hidden;
-  background:#E5E5E5;
+  --of:#E5E5E5;
+  --n:1px;
+  --ic:calc(var(--c) - 0.586px);
+  border:1px solid transparent;
+  background:var(--border-default);
+  background-clip:border-box;
 }
 .pcard-union {
   position:absolute;
@@ -1724,7 +1737,7 @@
   flex-direction:row;
   justify-content:space-between;
   gap:48px;
-  padding:36px 240px 44px 240px;
+  padding:36px var(--page-gutter) 44px var(--page-gutter);
 }
 .mm-col {
   display:flex;
@@ -2310,7 +2323,7 @@
   justify-content:flex-end;
   width:100%;
   max-width:1920px;
-  padding:16px 40px 0 240px;
+  padding:16px var(--page-gutter) 0 var(--page-gutter);
 }
 .mm-close {
   display:flex;

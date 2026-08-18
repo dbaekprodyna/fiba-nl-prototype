@@ -49,9 +49,14 @@
     "desc": ""
    },
    {
-    "slug": "anatomy-outlined-variant",
-    "title": "Anatomy — outlined variant",
+    "slug": "corner-cut",
+    "title": "Corner cut",
     "desc": "The signature shape of the system: a 45° cut on the top-left and bottom-right corner of every surface. All other corners stay square. Border radius is 0 everywhere except flags and"
+   },
+   {
+    "slug": "anatomy-outlined-variant",
+    "title": "Outlined variant",
+    "desc": "A CSS border is clipped away along the diagonal, so nothing is painted there and the cut disappears. Every outlined surface is built as two layers."
    },
    {
     "slug": "stroke",
@@ -127,7 +132,7 @@
    {
     "slug": "el-05-statusbadge",
     "title": "el-05 StatusBadge",
-    "desc": "Four states, one geometry. Red is reserved for LIVE and appears nowhere else in the system. Not interactive, so it has no hover or focus."
+    "desc": "Five states, one geometry. Red is reserved for LIVE and appears nowhere else in the system. Not interactive, so it has no hover or focus."
    },
    {
     "slug": "el-13-federationtag",

@@ -71,5 +71,10 @@
 
   /* Layout */
   --content-max: 1440px;
+  /* The page's own side gutter. Below 1440 + 2 x 120 it is the clamped
+     viewport gutter; above it, the value that centres a 1440 column —
+     240px at 1920. Percentages resolve against the element it is used
+     on, so any full-bleed band padded with it lines up with .tpl-content. */
+  --page-gutter: max(clamp(20px, 4vw, 120px), calc((100% - 1440px) / 2));
   --gutter: 240px;
 }
