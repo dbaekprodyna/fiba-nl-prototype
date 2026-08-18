@@ -1,5 +1,58 @@
 # Changelog
 
+## 2026-08-18 — P0 before the 21 August review
+
+Four things the wireframe and the client feedback agree on, and the build
+did not do. Nothing here is a design proposal — each one is a written
+requirement we had missed.
+
+### Men / Women in one place
+
+Alex's deck, slide 12: *"Men/women — Here in all pages"*. The switch was in
+a different row on every screen — inside the live block on the home page,
+after the search field on Standings, next to the metric chips on Stats —
+and missing entirely on Teams, Conference and Stop.
+
+It is now **el-02 in a bar of its own, directly under the page title**, at
+the same coordinates on Standings, Qualification, Stats, Teams, Conference
+and Stop. The new `.pgbar` eats half the 40px section rhythm so the control
+reads as part of the title, not of the content below it.
+
+Two switches stay where they are, and deliberately: the one on the team
+header is a *team* switch, the same place Johannes' wireframe puts it, and
+the one on the home Qualification module is what LP-13 asks for by name.
+Calendar, Conferences and News carry no switch — nothing on those pages is
+scoped to one gender.
+
+### A real H1 on every page
+
+Mota defended the headline and the breadcrumb on 3 August with SEO, WCAG
+and deep-link entries from search and social; the agreement was to shrink
+them, not to remove them. The page titles were markup `div`s — the site had
+**no `h1` and no `h2` at all**.
+
+`.f04-h1-m` / `.f04-h1-s` are now `h1`, section titles `.t-h2` are now `h2`.
+The classes are untouched, so nothing moved by a pixel. On the home page the
+wordmark carries the title, so it became the `h1` with the text next to it
+for crawlers and screen readers (`.sr-only`).
+
+### Home in the navigation
+
+LP-01, and the first note on slide 1 of the deck: *"Missing Home for landing
+page"*. The wordmark did the job, which is a convention, not an entry. There
+is now an explicit **Home** item first in the bar, carrying the current-page
+state on the landing page.
+
+### Men / Women on the Conference page
+
+CF-01 asks for it in the conference header in so many words. It is there now,
+in the same bar as everywhere else.
+
+### Files
+
+`tools/p0_patch.py` is the script that made the change, kept so the edit is
+reviewable. New CSS lives at the end of `assets/site.css`.
+
 ## 2026-08-15 — E-01 revised, B-3 and B-4
 
 ### Two that had not landed
