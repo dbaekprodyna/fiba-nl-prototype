@@ -728,9 +728,11 @@
      --ic is set here rather than through .cut-out, because that class
      also forces every child to position:relative and the card's four
      layers are absolutely positioned.
-     e1 is drop-shadow, not box-shadow: clip-path removes a box-shadow
-     entirely. */
-  filter:drop-shadow(0 1px 2px rgba(0,0,0,.15));
+     Elevation is NOT on this element. clip-path is applied after
+     filter, so a drop-shadow set here is clipped away with the
+     corners — the shadow has to sit on an unclipped layer above,
+     which is what .sh / .sh-e1 is for (Foundations > Elevation).
+     The card ships wrapped in <div class="sh sh-e1 pcard-sh">. */
   position:relative;
   display:flex;
   flex-direction:column;
@@ -744,6 +746,21 @@
   border:1px solid transparent;
   background:var(--border-default);
   background-clip:border-box;
+}
+.pcard-sh {
+  /* The shadow layer for E-08. inline-flex so it hugs the card in a
+     block context and still behaves as a flex item inside E-10; the
+     card keeps its own width, the wrapper only carries the shadow. */
+  display:inline-flex;
+  vertical-align:top;
+  min-width:0;
+  /* An explicit cross size stops a column flex parent from stretching
+     the wrapper to full width; inside E-10 the flex-basis wins. */
+  width:fit-content;
+}
+.pcard-sh > .pcard {
+  flex:1 1 auto;
+  min-width:0;
 }
 .pcard-union {
   position:absolute;

@@ -251,11 +251,8 @@
       var gap = parseFloat(getComputedStyle(stage).gap) || 0;
       stage.style.transform = 'translateX(' + (-i * (slide.offsetWidth + gap)) + 'px)';
     }
-    [].forEach.call(dots, function (d, k) {
-      d.classList.toggle('ind-d-on', k === i && !d.classList.contains('ind-prog'));
-      var fill = d.querySelector('.ind-fill');
-      if (fill) fillBar(fill, k === i && car.dataset.playing === 'true', k < i);
-    });
+    var ind = car.querySelector('.ind');
+    if (ind) paintInd(ind, i, car.dataset.playing === 'true');
   }
   function step(car, d) { go(car, (parseInt(car.dataset.i, 10) || 0) + d); }
 
@@ -269,6 +266,10 @@
       btn.setAttribute('aria-label', playing ? 'Pause' : 'Play');
       btn.classList.toggle('car-playing', playing);
     }
+    /* Pause holds the running bar at whatever it has reached; repainting
+       would snap it back to empty, which reads as a glitch. */
+    var running = car.querySelector('.ind .ind-filling');
+    if (!playing && running) { running.classList.add('ind-hold'); return; }
     go(car, parseInt(car.dataset.i, 10) || 0);
   }
 
@@ -378,17 +379,68 @@
     });
   }
 
+  /* ---------- el-22 CarouselIndicator ------------------------
+     One bar fills at a time. The bar for the slide on screen runs
+     0 to 100% over that slide's own duration; every other bar sits
+     empty, including the ones already seen. A row of bars that
+     stays filled behind the playhead reads as a progress meter for
+     the whole set, which is not what it measures.
+
+     Every bar is a track with a fill layer, so the animation can
+     move from one to the next rather than living on a single
+     designated bar — which is what left the third bar permanently
+     black once the carousel had passed it.                       */
+  function indBars(ind) {
+    return [].filter.call(ind.children, function (c) {
+      return c.classList.contains('ind-d') || c.classList.contains('ind-prog');
+    });
+  }
+
+  function indDots(ind) {
+    return [].filter.call(ind.children, function (c) {
+      return c.classList.contains('ind-dot');
+    });
+  }
+
+  /* Give every bar a fill layer and clear the static states the
+     specimen markup carries, so the live indicator starts clean. */
+  function prepInd(ind) {
+    if (ind._prepped) return;
+    ind._prepped = true;
+    indBars(ind).forEach(function (b) {
+      b.classList.remove('ind-d-on');
+      if (!b.querySelector('.ind-fill')) {
+        var f = document.createElement('div');
+        f.className = 'ind-fill';
+        b.appendChild(f);
+      }
+      b.querySelector('.ind-fill').removeAttribute('style');
+    });
+  }
+
+  function paintInd(ind, i, playing) {
+    prepInd(ind);
+    indBars(ind).forEach(function (b, k) {
+      fillBar(b.querySelector('.ind-fill'), k === i, playing);
+    });
+    indDots(ind).forEach(function (d, k) {
+      d.classList.toggle('ind-dot-on', k === i);
+    });
+  }
+
   /* Restart the fill by removing the class and forcing a reflow —
      re-triggering a transition depends on a style flush landing
      between two frames, which is why it sometimes jumped to full. */
-  function fillBar(fill, running, done) {
-    fill.classList.remove('ind-filling');
-    fill.style.width = done ? '100%' : '0%';
-    if (!running) return;
+  function fillBar(fill, active, playing) {
+    if (!fill) return;
+    fill.classList.remove('ind-filling', 'ind-hold');
+    fill.style.width = '0%';
+    if (!active) return;
     void fill.offsetWidth;
     fill.style.removeProperty('width');
     fill.style.setProperty('--ind-dur', SLIDE_MS + 'ms');
     fill.classList.add('ind-filling');
+    if (!playing) fill.classList.add('ind-hold');
   }
 
   /* ---------- standalone indicator (el-22) -------------------
@@ -397,23 +449,14 @@
   function initIndicators(root) {
     [].forEach.call(root.querySelectorAll('.live .ind'), function (ind) {
       if (ind.closest('.car') || ind._t) return;
-      var cells = ind.children, n = cells.length;
+      var n = indBars(ind).length || indDots(ind).length;
       if (!n) return;
-      var progAt = [].findIndex.call(cells, function (c) { return c.classList.contains('ind-prog'); });
-      var i = [].findIndex.call(cells, function (c) {
-        return c.classList.contains('ind-prog') || c.classList.contains('ind-d-on') || c.classList.contains('ind-dot-on');
-      });
-      if (i < 0) i = 0;
-      function paint() {
-        [].forEach.call(cells, function (c, k) {
-          if (c.classList.contains('ind-d')) c.classList.toggle('ind-d-on', k <= i);
-          if (c.classList.contains('ind-dot')) c.classList.toggle('ind-dot-on', k === i);
-        });
-        var fill = ind.querySelector('.ind-fill');
-        if (fill && progAt >= 0) fillBar(fill, i === progAt, i > progAt);
-      }
-      paint();
-      ind._t = setInterval(function () { i = (i + 1) % n; paint(); }, SLIDE_MS);
+      var i = 0;
+      paintInd(ind, i, true);
+      ind._t = setInterval(function () {
+        i = (i + 1) % n;
+        paintInd(ind, i, true);
+      }, SLIDE_MS);
     });
   }
 

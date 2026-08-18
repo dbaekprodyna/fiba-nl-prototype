@@ -132,7 +132,7 @@
    {
     "slug": "el-05-statusbadge",
     "title": "el-05 StatusBadge",
-    "desc": "Five states, one geometry. Red is reserved for LIVE and appears nowhere else in the system. Not interactive, so it has no hover or focus."
+    "desc": "Six states, one geometry. Red is reserved for LIVE and appears nowhere else in the system. Not interactive, so it has no hover or focus."
    },
    {
     "slug": "el-13-federationtag",

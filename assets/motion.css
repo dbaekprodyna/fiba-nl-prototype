@@ -99,6 +99,10 @@
 .ind-filling {
   animation: ind-fill var(--ind-dur, 4000ms) linear forwards;
 }
+/* Pause freezes the bar where it stands rather than emptying it. */
+.ind-hold {
+  animation-play-state: paused;
+}
 @media (prefers-reduced-motion: reduce) {
   .badge-live .badge-dot, .wl-live .wl-dot, .s03-livedot, .f03-dot,
   .ind-filling { animation: none; }

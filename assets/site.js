@@ -801,7 +801,8 @@
     })[0] || t;
     var roster = squad.roster.map(function (m) { return player(m.id); })
                              .filter(Boolean);
-    repeat(document, '.pcard', roster, function (card, p) {
+    /* the wrapper is the repeated unit: it carries the card's shadow */
+    repeat(document, '.pcard-sh', roster, function (card, p) {
       text(card, '.pcard-first', p.first);
       text(card, '.pcard-last', p.last);
       text(card, '.pcard-ioc', p.ioc);

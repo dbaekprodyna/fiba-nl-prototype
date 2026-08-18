@@ -260,8 +260,8 @@
 .live .shm-trig:hover { --of: var(--surface-sunken); }
 
 /* E-08 PlayerCard — e1 at rest, e2 on hover. */
-.live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
-.live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
+.live .pcard-sh { transition: filter var(--dur-fast) var(--ease-out); }
+.live .pcard-sh:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
 
 /* S-04 GameList — the HOME side (left of the score) reads outward:
    name, code, flag. The away side keeps flag, code, name. */
@@ -287,8 +287,8 @@
    own artwork, so the shadow has to come from a filter, and the
    grid needs room for it. */
 .e10, .pcard-row { padding: 6px; }
-.live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
-.live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
+.live .pcard-sh { transition: filter var(--dur-fast) var(--ease-out); }
+.live .pcard-sh:hover { filter: drop-shadow(0 3px 6px rgba(0,0,0,.20)); }
 
 /* F-03m — search bar under the header. */
 .f03m-searchbar {
@@ -324,8 +324,8 @@
 /* E-08 PlayerCard — e1 at rest, e2 on hover. The drop-shadow needs
    room inside the grid, and the card must not be clipped by it. */
 .e10, .pcard-row, .pcard-layers { padding: 8px; }
-.live .pcard { transition: filter var(--dur-fast) var(--ease-out); }
-.live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
+.live .pcard-sh { transition: filter var(--dur-fast) var(--ease-out); }
+.live .pcard-sh:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
 
 /* F-03m — a phone frame at the iPhone 17 ratio (402 × 874 pt).
    At our 390 width that is 848 tall. */

@@ -187,15 +187,16 @@ a.nav-a {
 /* ---- Player cards --------------------------------------------
    e1 comes from modules.css so the design system shows it too.
    The containers need room, or an ancestor's overflow clips it. */
-.live .pcard:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
+.live .pcard-sh:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
 .e10, .pcard-row, .e10-cards { padding: 6px; }
+.e10 > .pcard-sh > .pcard { width: 100%; }
 .e10 {
   display: flex;
   flex-wrap: nowrap;
   gap: clamp(12px, 1.6vw, 24px);
   align-items: flex-start;
 }
-.e10 > .pcard { flex: 1 1 0; min-width: 0; width: auto; max-width: 342px; }
+.e10 > .pcard-sh { flex: 1 1 0; min-width: 0; width: auto; max-width: 342px; }
 
 /* ---- E-01 TeamFinder ------------------------------------------ */
 .finder-menu[hidden] { display: none; }
@@ -204,7 +205,7 @@ a.nav-a {
   .tpl-split { flex-direction: column; }
   .tpl-colR, .tpl-split .tpl-colR.col-3 { flex: 1 1 auto; max-width: none; }
   .e10 { flex-wrap: wrap; }
-  .e10 > .pcard { flex: 1 1 45%; }
+  .e10 > .pcard-sh { flex: 1 1 45%; }
 }
 
 /* ---- Conferences: only a live region carries the branded stroke ---- */

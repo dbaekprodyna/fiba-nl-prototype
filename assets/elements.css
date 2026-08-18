@@ -553,6 +553,10 @@
   background:var(--surface-sunken-2);
   color:var(--text-secondary);
 }
+.marker-n {
+  background:var(--surface-sunken);
+  color:var(--status-neutral);
+}
 .dots {
   display:flex;
   flex-direction:row;
@@ -1673,6 +1677,7 @@
   gap:4px;
 }
 .ind-d {
+  display:flex;
   width:36px;
   height:8px;
   background:var(--surface-sunken-2);
@@ -1687,7 +1692,8 @@
   background:var(--surface-sunken-2);
 }
 .ind-fill {
-  height:8px;
+  width:0;
+  align-self:stretch;
   background:var(--action-default);
 }
 .ind-dot {
@@ -2304,9 +2310,11 @@
 }
 
 /* ---- el-22 CarouselIndicator -------------------------------
-   The bar carries the full cut-s (8px) on top-left and
-   bottom-right, same as every other surface in the system.    */
-.ind-d, .ind-prog { --c:var(--cut-s); }
+   The one place the corner cut is not cut-s. The bar is 36 x 8,
+   so a full 8px cut consumes its whole height and turns the bar
+   into a parallelogram. Halved to 4px it reads as the notch the
+   rest of the system uses, at the only size the shape allows.  */
+.ind-d, .ind-prog { --c:4px; }
 
 /* ---- ctl-03 Tab, ghost variant ------------------------------
    Placed inside a stop card, so the hover wash is lighter than
