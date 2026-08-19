@@ -3217,3 +3217,109 @@ code {
   gap:16px;
 }
 .st-spot-flag { width:56px; height:56px; flex:0 0 auto; }
+
+/* ---- F-05: the current page wins ------------------------------------
+   The muted default was written after the selected state, so a rule of
+   the same weight took it back to grey. Stated last, and last wins. */
+.mm-l-on { color:var(--chrome-text); border-bottom-color:var(--chrome-text); }
+
+/* ---- E-08 PlayerCard -------------------------------------------------
+   The flag box is a 64px column holding the flag over the IOC code, so
+   the flag is drawn at its own size — a full-width image filled the
+   column and pushed the code out of the card. */
+.pcard-flagbox img,
+.pcard-flagbox svg {
+  width:22px !important;
+  height:22px !important;
+  flex:0 0 auto;
+}
+/* The reflection is a reflection: it belongs over the pattern, the key
+   visual, the cut-out and the plate, not under them. */
+.pcard-shine { z-index:5; }
+.pcard-union, .pcard-kv, .pcard-shot { z-index:1; }
+.pcard-plate { z-index:2; }
+
+/* ---- S-11 StopMatrix: the stop cells are centred ------------------- */
+.c-mstop {
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+}
+.thead .c-mstop { align-items:center; justify-content:center; }
+
+/* ---- C-06 ContentPage: one page, anchored -------------------------
+   About was five pages behind one table of contents, which meant a
+   deep link could only ever land on the first of them and nothing was
+   scrollable. It is one page now: the menu is anchors, it sticks while
+   the body scrolls, and it marks whichever section is in view. */
+.c06 { align-items:flex-start; }
+.c06-toc {
+  position:sticky;
+  top:24px;
+  align-self:flex-start;
+}
+.c06-toc-i {
+  display:block;
+  text-decoration:none;
+  transition:color var(--dur-fast) var(--ease-out),
+             border-color var(--dur-fast) var(--ease-out);
+}
+.live .c06-toc-i:hover { color:var(--text-primary); }
+.c06-sec {
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  scroll-margin-top:120px;
+  padding-bottom:8px;
+}
+
+/* ---- Conference page, Stops tab: the selected stop -----------------
+   Picking a stop has to say something. The matrix answers "how did
+   everyone do across the conference"; this answers "what happened at
+   this one" — who was on the podium, and the games — and hands over to
+   the stop page for pools and bracket. */
+.cnf-stop {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  width:100%;
+}
+.cnf-stop-head {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:16px;
+  width:100%;
+  padding-bottom:14px;
+  border-bottom:1px solid var(--border-subtle);
+}
+.cnf-stop-id { display:flex; flex-direction:column; gap:2px; }
+.cnf-stop-link { margin-left:auto; }
+.cnf-stop-podium {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:12px;
+}
+.cnf-pod {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+  padding:12px 18px 12px 14px;
+  --of:var(--surface-page);
+  border:1px solid transparent;
+  background:var(--border-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+.cnf-pod-1 { background:var(--action-default); }
+.cnf-pod-1 .cnf-pod-p, .cnf-pod-1 .ftag-code, .cnf-pod-1 .ftag-name { color:var(--surface-page); }
+.cnf-pod-p {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:28px;
+  line-height:28px;
+  color:var(--text-primary);
+}

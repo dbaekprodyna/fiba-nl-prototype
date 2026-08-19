@@ -1194,8 +1194,16 @@
     $$('.pcard-sh', root || document).forEach(function (sh) {
       if (sh._tilt) return;
       sh._tilt = 1;
-      var card = $('.pcard', sh), shine = $('.pcard-shine', sh);
+      var card = $('.pcard', sh);
       if (!card) return;
+      /* The layer is added here rather than in fourteen markup files,
+         so a card added anywhere later still reflects. */
+      var shine = $('.pcard-shine', card);
+      if (!shine) {
+        shine = document.createElement('div');
+        shine.className = 'pcard-shine';
+        card.appendChild(shine);
+      }
       sh.addEventListener('pointermove', function (ev) {
         var r = sh.getBoundingClientRect();
         var x = (ev.clientX - r.left) / r.width - 0.5;
@@ -1314,7 +1322,7 @@
         node.classList.toggle('stopnav-done', has);
         node.classList.toggle('stopnav-live', live);
         node.classList.toggle('stopnav-on', i === sel);
-        node.onclick = function () { sel = i; drawStopNav(); drawGames(); };
+        node.onclick = function () { sel = i; drawStopNav(); drawStop(); drawGames(); };
       });
       repeat($('.s02') || document, '.s02-stop, .s02-i', stops, function (node, e, i) {
         var has = !!standingsFor(e.slug);
@@ -1324,8 +1332,7 @@
         node.classList.toggle('s02-on', i === sel);
         text(node, '.s02-city, .t-label', cityOf(e));
         text(node, '.t-caption', fmtDate(e.start, { day: 'numeric', month: 'short' }));
-        node.onclick = function () { sel = i; drawStopNav(); drawGames(); };
-        link(node, 'stop.html?id=' + e.slug);
+        node.onclick = function () { sel = i; drawStopNav(); drawStop(); drawGames(); };
       });
     }
 
@@ -1374,6 +1381,49 @@
       });
     }
 
+    /* Picking a stop has to change something. The matrix answers how
+       everyone did across the conference; this answers what happened at
+       the one that is selected, and hands over to the stop page for the
+       pools and the bracket. */
+    function drawStop() {
+      var e = stops[sel] || stops[0];
+      if (!e) return;
+      var s = standingsFor(e.slug, gender);
+      var placed = (s ? s.rows : []).filter(function (r) { return r.rank; })
+                     .slice().sort(function (a, b) { return a.rank - b.rank; }).slice(0, 3);
+
+      text(document, '.cnf-stop-title', 'Stop ' + e.number + ' · ' + cityOf(e));
+      text(document, '.cnf-stop-sub', [e.venue, fmtDate(e.start)].filter(Boolean).join(' · '));
+      var live = e.start <= today && (e.end || e.start) >= today;
+      var badge = $('.cnf-stop-live');
+      if (badge) badge.hidden = !live;
+      var lnk = $('.cnf-stop-link');
+      if (lnk) lnk.setAttribute('href', 'stop.html?id=' + e.slug);
+
+      var pod = $('.cnf-stop-podium');
+      if (pod) {
+        pod.innerHTML = '';
+        if (!placed.length) {
+          emptyState(pod, 'This stop has not been played yet',
+                     'The podium and the games appear with the results.');
+        } else {
+          placed.forEach(function (r) {
+            var box = document.createElement('div');
+            box.className = 'cnf-pod cut cut-s cut-out cnf-pod-' + r.rank;
+            box.innerHTML = '<div class="cutfill"></div>' +
+              '<span class="cnf-pod-p">' + ordinal(r.rank) + '</span>' +
+              '<div class="el-13-FederationTag--m-both-plain ftag ftag-m cut cut-s ftag-plain">' +
+              '<div class="flag flag-ring"></div><div class="ftag-txt">' +
+              '<span class="ftag-code">' + r.ioc + '</span>' +
+              '<span class="ftag-name">' + r.team + '</span></div></div>';
+            pod.appendChild(box);
+            flag($('.flag', box), r.ioc);
+            link(box, 'team.html?ioc=' + r.ioc);
+          });
+        }
+      }
+    }
+
     function drawGames() {
       /* `sel` indexes the conference's stops, not the played ones —
          reading it out of `played` showed the wrong stop's games and
@@ -1385,14 +1435,19 @@
       var day = $('.games-day .t-caption', tbl);
       if (day) day.textContent = gl.length
         ? fmtDate(e.start, { weekday: 'long', day: 'numeric', month: 'long' })
-        : 'No games in the feed for this stop yet';
+        : '';
+      /* A stop with no games says so, rather than leaving ghost rows at
+         45% opacity that read as a disabled table. */
+      var host = tbl.parentElement;
+      var old = host.querySelector(':scope > .site-empty');
       if (gl.length) {
+        if (old) old.remove();
+        tbl.hidden = false;
         repeat(tbl, '.trow', gl, paintGame);
       } else {
-        $$('.trow', tbl).forEach(function (r, i) {
-          r.classList.add('is-placeholder');
-          r.hidden = i > 2;
-        });
+        tbl.hidden = true;
+        emptyState(host, 'No games for this stop yet',
+                   'The schedule and the results are published as the stop is played.');
       }
     }
 
@@ -1402,6 +1457,7 @@
       drawHighlights();
       drawStopNav();
       drawMatrix();
+      drawStop();
       drawGames();
       paintPhotos(photosFor(stops).slice(0, 12));
       if (window.FIBA) window.FIBA.init(document);
@@ -1843,41 +1899,50 @@
   /* C-06 ContentPage. The table of contents was a static list with the
      second item marked; it now drives the page and opens on the first
      section, which is the one that explains what the competition is. */
+  /* C-06 ContentPage. One page with an anchor menu: the sections are
+     all here, the menu scrolls to them and marks whichever one is in
+     view, so a deep link from search or social lands on the right part
+     of the page instead of on the top of a five-way switch. */
   PAGES['about.html'] = function () {
     var items = $$('.c06-toc-i');
-    var main = $('.c06-main');
-    if (!items.length || !main) return;
+    var secs = $$('.c06-sec');
+    if (!items.length || !secs.length) return;
 
-    /* Each h2 in the body starts a section; everything until the next
-       h2 belongs to it. */
-    var heads = $$('.c05-h2', main);
-    function show(i) {
-      items.forEach(function (t, k) { t.classList.toggle('c06-toc-on', k === i); });
-      var want = (items[i].textContent || '').trim().toLowerCase();
-      var on = false;
-      [].slice.call(main.children).forEach(function (node) {
-        if (node.classList.contains('c05-h2')) {
-          on = (node.textContent || '').trim().toLowerCase() === want;
-        }
-        node.hidden = !on;
+    function mark(id) {
+      items.forEach(function (a) {
+        a.classList.toggle('c06-toc-on', (a.getAttribute('href') || '') === '#' + id);
       });
-      /* a section the page does not carry yet still needs an answer */
-      var any = [].slice.call(main.children).some(function (n) { return !n.hidden; });
-      var stub = $('.c06-stub', main);
-      if (!any) {
-        if (!stub) {
-          stub = document.createElement('div');
-          stub.className = 'c06-stub';
-          main.appendChild(stub);
-        }
-        stub.hidden = false;
-        emptyState(stub, items[i].textContent.trim(), 'This section is still being written.');
-      } else if (stub) {
-        stub.hidden = true;
-      }
     }
-    items.forEach(function (t, i) { t.onclick = function () { show(i); }; });
-    show(0);
+    items.forEach(function (a) {
+      a.addEventListener('click', function (ev) {
+        var id = (a.getAttribute('href') || '').slice(1);
+        var el = document.getElementById(id);
+        if (!el) return;
+        ev.preventDefault();
+        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        history.replaceState(null, '', '#' + id);
+        mark(id);
+      });
+    });
+
+    /* The menu marks the highest section still inside the reading band,
+       in document order — taking whichever entry reported last marked
+       the section below the one that had just been jumped to. */
+    var inView = {};
+    var io = window.IntersectionObserver && new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) { inView[e.target.id] = e.isIntersecting; });
+      var first = secs.filter(function (s) { return inView[s.id]; })[0];
+      if (first) mark(first.id);
+    }, { rootMargin: '-120px 0px -65% 0px', threshold: 0 });
+    if (io) secs.forEach(function (s) { io.observe(s); });
+
+    var here = location.hash.slice(1);
+    if (here && document.getElementById(here)) {
+      document.getElementById(here).scrollIntoView();
+      mark(here);
+    } else {
+      mark(secs[0].id);
+    }
   };
 
   PAGES['news.html'] = function () {

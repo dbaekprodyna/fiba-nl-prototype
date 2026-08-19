@@ -1,5 +1,79 @@
 # Changelog
 
+## 2026-08-19 (5) — The selected stop, and About as one page
+
+### On whether a clickable stop is worth anything
+
+It was not, as built: the selector moved a highlight and nothing else,
+because the Stop-by-stop matrix already answers the question the whole
+tab was asking. Two readings of the brief settle it.
+
+Alex's navigation principle from 3 August — *start at 20,000 feet and go
+down a level at a time* — and Johannes' wireframe, where the STOPS tab is
+the **stop detail**, not a second view of the conference. So the two
+things on that tab now answer two different questions. **Stop by stop**
+is the conference: every federation, every stop, one grid. **The panel
+above it** is one stop: who was on the podium, that stop's games, and a
+link into the full stop page for the pools and the bracket. Picking a
+stop changes all of that, which is what makes picking one worth doing.
+
+A stop with no results says so, in both places.
+
+### Why the games looked disabled
+
+They were placeholder rows at 45% opacity — the state the system uses
+for anything the data layer has not filled — sitting under a caption
+that said there were no games. Two ways of saying the same thing, one of
+which reads as "disabled". The table hides now and an el-10 EmptyState
+says what is missing and when it arrives.
+
+### E-08 PlayerCard
+
+- **The flag was drawn at 64px.** `flag()` sizes its image to fill its
+  box; E-08's flag box is a 64px column holding the flag *over* the IOC
+  code, so the image filled the column and pushed the code out of the
+  card. The flag is drawn at its own 22px.
+- **The reflection is on top.** It was inserted before the pattern, the
+  key visual and the cut-out, so it was reflecting off the back of the
+  card. z-index puts it over all of them, including the name plate.
+- **Every card, everywhere.** The layer was added by a markup pass that
+  only matched some of the specimens. It is injected when a card is
+  wired instead, so a card added later still reflects.
+
+### Global and Home
+
+- **F-05** — the muted default was written after the selected state, so
+  a rule of the same weight took the current page back to grey. Stated
+  last.
+- **The nations / team-sites count** is a sibling of the title, not part
+  of it — it was inside the title group, where `margin-left:auto` has
+  nothing to push against. Flush right on the landing page, on
+  Conferences, and in the design system's E-01 specimen.
+
+### Conferences
+
+The count line under the headline is gone. Find a team and Overview are
+each one full-width block, stacked, rather than two columns. The card
+grid, its hover elevation and the size-S federation tags were already in
+— the page had a broken `tpl-split` wrapper around the head that was
+swallowing everything after it, so none of it rendered. The page is
+rebuilt from four balanced blocks.
+
+### S-11 StopMatrix
+
+The stop cells and their headers are centred, so *Stop 3* sits over
+*1st / 100 pts* rather than beside it.
+
+### About
+
+One page. It was five sections behind a switch, which meant a deep link
+could only ever land on the first of them and nothing scrolled. The menu
+is anchors now — it sticks, it scrolls to its section, it marks whichever
+section is in view, and the URL carries the section so a link into it
+works. The two sections the menu had always listed but the page never
+had — **Conferences and stops**, **Age categories** — are written, from
+FIBA's own competition description.
+
 ## 2026-08-19 (4) — Real dates, real cards, real photographs
 
 ### The strip was hiding the season
