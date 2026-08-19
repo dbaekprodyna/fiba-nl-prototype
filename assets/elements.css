@@ -2359,3 +2359,19 @@
 .c-route {
   width:180px;
 }
+
+/* ---- el-22 CarouselIndicator: hover -------------------------------
+   Both types are controls — a bar jumps to its slide — so both need to
+   say so before they are clicked. */
+.live .ind-d:hover, .live .ind-prog:hover { background:var(--border-strong); }
+.live .ind-d-on:hover { background:var(--action-hover, #333); }
+.live .ind-dot:hover { background:var(--border-strong); }
+.live .ind-d:focus-visible, .live .ind-prog:focus-visible, .live .ind-dot:focus-visible {
+  outline:2px solid var(--action-default);
+  outline-offset:2px;
+}
+
+/* ---- E-08 PlayerCard: a long surname drops a size -----------------
+   Two lines of 40px surname pushes the plate over the stats. The card
+   sets the smaller size itself rather than truncating a player's name. */
+.pcard-last-sm { font-size:22px; line-height:24px; }

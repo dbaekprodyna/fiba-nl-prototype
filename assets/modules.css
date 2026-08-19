@@ -3123,3 +3123,97 @@ code {
 }
 .st-conf { padding-top:4px; }
 .r05-team { width:132px; }
+
+/* ---- F-05 MegaMenu: category to first item -------------------------
+   The heading sat as close to its list as the list items sit to each
+   other, so the three columns read as one long list. Doubling that one
+   gap is what separates them. */
+.mm-h { margin-bottom:12px; }
+
+/* ---- E-01 TeamFinder / E-09: the count sits with the headline ------
+   It is a caption about the module, not a heading, so it is set at body
+   size with the figures in bold and pushed to the right edge of the
+   section header rather than stacked under it. */
+.el01 .finder-count, .el01 .e09-count { margin-left:auto; }
+.finder-count, .e09-count {
+  display:flex;
+  flex-direction:row;
+  align-items:baseline;
+  gap:4px;
+  font-family:'Barlow',sans-serif;
+  font-size:14px;
+  line-height:20px;
+  color:var(--text-secondary);
+  white-space:nowrap;
+}
+.finder-count .t-h3, .finder-nations, .finder-sites {
+  font-family:'Barlow',sans-serif;
+  font-weight:700;
+  font-size:14px;
+  line-height:20px;
+  color:var(--text-primary);
+}
+.finder-head { display:none; }        /* the count moved into the header */
+
+/* ---- E-03 card: elevation on hover -------------------------------- */
+.live .e03-card { transition:box-shadow var(--dur-base) var(--ease-out),
+                             transform var(--dur-base) var(--ease-out); }
+.live .e03-card:hover {
+  box-shadow:0 6px 16px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
+  transform:translateY(-2px);
+}
+
+/* ---- Conferences: the head is two equal columns ------------------- */
+.cnf-head .tpl-colL, .cnf-head .tpl-colR { flex:1 1 0; min-width:0; }
+
+/* ---- R-05: no podium rule on the players table --------------------
+   The black bar on the left of row one is the podium treatment from the
+   stat-leaders specimen. A ranked list already says who is first. */
+.r05 .r05-pod, [data-pane="players"] .r05-pod {
+  background:none;
+  border-left:0;
+}
+
+/* ---- C-06 ContentPage: the explainer video slot -------------------
+   About opens on "What the Nations League is", and that section leads
+   with a 16:9 slot for the explainer film. Placeholder, so the page
+   holds its shape before there is a film. */
+.c06-video {
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:100%;
+  aspect-ratio:16 / 9;
+  background:var(--surface-sunken);
+  color:var(--text-muted);
+}
+.c06-play {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:72px;
+  height:72px;
+  border:0;
+  border-radius:999px;
+  background:var(--action-default);
+  color:var(--surface-page);
+  cursor:pointer;
+  transition:transform var(--dur-base) var(--ease-out);
+}
+.live .c06-play:hover { transform:scale(1.06); }
+.live .c06-play:focus-visible { outline:2px solid var(--action-default); outline-offset:4px; }
+.c06-vcap {
+  position:absolute;
+  left:16px;
+  bottom:12px;
+}
+
+/* ---- Stats: Top scores names a federation -------------------------- */
+.st-spot-name {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:16px;
+}
+.st-spot-flag { width:56px; height:56px; flex:0 0 auto; }

@@ -47,17 +47,23 @@
     /* Never walk the whole document: a page-wide call would repaint every
        flag on the page with one country, which is what happened to the
        results table and the game log. */
-    var targets = node.classList && node.classList.contains('flag')
-      ? [node] : $$('.flag', node);
+    /* E-08 PlayerCard holds its flag in .pcard-flagbox rather than a
+       .flag box, so the card kept whichever federation the specimen was
+       built with. */
+    var targets = node.classList && (node.classList.contains('flag') ||
+                                     node.classList.contains('pcard-flagbox'))
+      ? [node] : $$('.flag, .pcard-flagbox', node);
     targets.forEach(function (f) {
-      f.innerHTML = '';
+      /* Replace the flag artwork only. E-08's flag box also holds the
+         IOC code, and clearing the box took the code with it. */
+      $$('svg, img', f).forEach(function (n) { n.remove(); });
       var img = document.createElement('img');
       img.src = 'assets/flags/' + ioc + '.svg';
       img.alt = ioc;
       img.width = 24; img.height = 24;
       img.style.width = '100%'; img.style.height = '100%';
       img.onerror = function () { f.style.background = 'var(--surface-sunken-2)'; img.remove(); };
-      f.appendChild(img);
+      f.insertBefore(img, f.firstChild);
     });
   }
 
@@ -438,7 +444,7 @@
       clear.className = 'search-clear';
       clear.setAttribute('aria-label', 'Clear search');
       clear.innerHTML = '<svg viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true">' +
-        '<path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>';
+        '<path d="m249-207-42-42 231-231-231-231 42-42 231 231 231-231 42 42-231 231 231 231-42 42-231-231-231 231Z"/></svg>';
       box.appendChild(clear);
     }
     function toggleClear() { clear.hidden = !inp.value.length; }
@@ -475,16 +481,56 @@
   /* C-03 PhotoGallery, wherever it appears. The landing page painted
      its own carousel inline; the team, conference and stop pages carry
      the same block, so the painter is shared. */
+  /* C-03 PhotoGallery. The feed keys a gallery on the event it was shot
+     at, not on a stop slug, so a page asking for "its" photographs was
+     getting the whole archive. `scope` is a list of events; the newest
+     shoot comes first. */
+  function photosFor(events) {
+    var want = {};
+    (events || []).forEach(function (e) { if (e && e.id) want[e.id] = e; });
+    var list = D.photos.filter(function (g) { return want[g.eventId]; });
+    list.sort(function (a, b) {
+      var ea = want[a.eventId] || {}, eb = want[b.eventId] || {};
+      return String(eb.start || '').localeCompare(String(ea.start || '')) ||
+             String(b.title || '').localeCompare(String(a.title || ''));
+    });
+    return list;
+  }
+
   function paintPhotos(list) {
+    var host = $('.car');
+    var block = host && host.closest('.tpl-sub');
     if (!list || !list.length) {
       $$('.car').forEach(function (c) { c.hidden = true; });
+      if (block) block.hidden = true;
       return;
     }
+    if (block) block.hidden = false;
+    $$('.car').forEach(function (c) { c.hidden = false; });
     repeat(document, '.car-slide', list, function (slide, g) {
       photo(slide, g.image);
       var cap = $('.t-caption', slide);
       if (cap) { cap.style.display = ''; cap.textContent = g.title; cap.style.color = '#fff'; }
     });
+  }
+
+  /* E-08 PlayerCard, painted from a player record. */
+  function paintPlayerCard(card, p, stats) {
+    text(card, '.pcard-first', p.first);
+    var last = $('.pcard-last', card);
+    if (last) {
+      last.textContent = p.last || '';
+      /* Two lines of 40px surname push the plate over the stats. */
+      last.classList.toggle('pcard-last-sm', (p.last || '').length > 11);
+    }
+    text(card, '.pcard-ioc', p.ioc);
+    flag(card, p.ioc);
+    var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
+    (stats || []).forEach(function (s, i) {
+      if (k[i]) k[i].textContent = s[0];
+      if (v[i]) v[i].textContent = s[1];
+    });
+    link(card, 'player.html?id=' + p.id);
   }
 
   /* el-02 GenderSwitch, built from the team sites a federation actually
@@ -547,8 +593,10 @@
     });
     feds.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
 
-    text(f, '.finder-nations', feds.length);
-    text(f, '.finder-sites', D.teams.length);
+    /* The count sits in the section header now, not inside the module,
+       so it is addressed from the document. */
+    text(document, '.finder-nations', feds.length);
+    text(document, '.finder-sites', D.teams.length);
     $$('.finder-change, .finder-change-2', f).forEach(function (c) {
       c.style.cursor = 'pointer';
       c.addEventListener('click', function () { step(1); list(''); });
@@ -694,16 +742,16 @@
     function inRegion(e) {
       return region === 'All' || regionOf(conf(e.conference)) === region;
     }
-    /* "Something under it" means results, not merely a row in the feed.
-       Two stops arrive with a full standings record in which every team
-       has played nothing — offering those days is exactly what the note
-       asked us to stop doing. */
-    function hasContent(e) {
+    /* A day has something under it when a stop is being played on it —
+       results if we hold them, the fixture if we do not. Filtering on
+       results alone dropped every stop the snapshot has not caught up
+       with, which is why the strip skipped from 17 to 20 August while
+       Asia SEA was mid-conference. */
+    function hasContent(e) { return !!e.slug; }
+    function hasResults(e) {
       var s = standingsFor(e.slug);
-      if (s && s.rows && s.rows.some(function (r) { return (r.played || 0) > 0; })) return true;
-      return gamesFor(e.slug).some(function (g) {
-        return g.home && g.home.score != null;
-      });
+      return !!(s && s.rows && s.rows.some(function (r) { return (r.played || 0) > 0; })) ||
+             gamesFor(e.slug).some(function (g) { return g.home && g.home.score != null; });
     }
     function stopsOn(dateISO) {
       return D.events.filter(function (e) {
@@ -711,18 +759,44 @@
                e.start <= dateISO && (e.end || e.start) >= dateISO;
       });
     }
-    function dayList() {
+    /* el-30 CalendarStrip is eight equal days. A region with fewer
+       playing days than that used to render a short strip — Oceania is
+       one conference, so it showed six — and the module changed shape
+       from filter to filter. The days a region plays come first; the
+       rest of the eight are the calendar days around them, marked off
+       so they read as empty rather than clickable. */
+    function playDays() {
       var seen = {};
       D.events.forEach(function (e) {
         if (e.start && inRegion(e) && hasContent(e)) seen[e.start] = 1;
       });
       return Object.keys(seen).sort();
     }
+    function pad(list, n) {
+      if (list.length >= n) return list;
+      var out = list.slice();
+      var day = function (iso, delta) {
+        var d = new Date(iso + 'T00:00:00');
+        d.setDate(d.getDate() + delta);
+        return d.toISOString().slice(0, 10);
+      };
+      var guard = 0;
+      while (out.length < n && guard++ < 200) {
+        out.push(day(out[out.length - 1], 1));
+        if (out.length < n) out.unshift(day(out[0], -1));
+      }
+      return out.sort();
+    }
+    function dayList() { return pad(playDays(), SLOTS); }
     /* Open on the most recent day that had basketball rather than on an
        empty today. */
+    /* Today when a stop is on today, otherwise the most recent day that
+       had one. */
     function nearest(list) {
-      var t = iso(new Date());
-      for (var i = list.length - 1; i >= 0; i--) if (list[i] <= t) return i;
+      var t = iso(new Date()), play = {};
+      playDays().forEach(function (d) { play[d] = 1; });
+      for (var i = list.length - 1; i >= 0; i--) if (list[i] <= t && play[list[i]]) return i;
+      for (var j = 0; j < list.length; j++) if (play[list[j]]) return j;
       return 0;
     }
     function clampWin() {
@@ -744,17 +818,25 @@
     function drawStrip() {
       if (!strip) return;
       var view = days.slice(win, win + SLOTS);
+      var play = {};
+      playDays().forEach(function (d) { play[d] = 1; });
       repeat(strip, '.s03-d', view, function (cell, dISO) {
         var d = new Date(dISO + 'T00:00:00');
         cell.classList.toggle('s03-on', dISO === days[sel]);
-        cell.classList.remove('s03-off');
+        /* padding days are shown so the strip keeps its eight, but they
+           are not offers */
+        cell.classList.toggle('s03-off', !play[dISO]);
         /* The red dot means live now. Every day in the strip has play,
            so marking them all made the whole season look live. */
-        cell.classList.toggle('s03-live', dISO === iso(new Date()));
+        cell.classList.toggle('s03-live', dISO === iso(new Date()) && !!play[dISO]);
         text(cell, '.s03-num', d.getDate());
         text(cell, '.s03-dow', d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase());
         text(cell, '.s03-mon', d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase());
-        cell.onclick = function () { sel = days.indexOf(dISO); drawStrip(); drawLive(); };
+        cell.onclick = function () {
+          if (!play[dISO]) return;
+          sel = days.indexOf(dISO);
+          drawStrip(); drawLive();
+        };
       });
       $$('.s03nav', strip).forEach(function (b, i) {
         var back = i === 0;
@@ -795,6 +877,19 @@
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
       paintAccordions(evs.slice(0, 6), dISO);
       if (window.FIBA) window.FIBA.init(accHost);
+      /* a stop that is on but has no results in the feed yet */
+      $$('.acc', accHost).forEach(function (a) {
+        var rows = $$('.trow', a).filter(function (r) { return !r.hidden; });
+        var note = $('.acc-note', a);
+        if (rows.length) { if (note) note.hidden = true; return; }
+        if (!note) {
+          note = document.createElement('div');
+          note.className = 'acc-note t-body-s';
+          ($('.acc-body', a) || a).appendChild(note);
+        }
+        note.hidden = false;
+        note.textContent = 'Results are published as the stop is played.';
+      });
     }
 
     function paintAccordions(evs, dISO) {
@@ -922,13 +1017,8 @@
       link(card, 'article.html?id=' + n.slug);
     });
 
-    /* Photos */
-    var gal = D.photos.slice(0, 12);
-    repeat(document, '.car-slide', gal, function (slide, g) {
-      photo(slide, g.image);
-      var cap = $('.t-caption', slide);
-      if (cap) { cap.style.display = ''; cap.textContent = g.title; cap.style.color = '#fff'; }
-    });
+    /* Photos — the most recent shoots of the season, newest first. */
+    paintPhotos(photosFor(D.events).slice(0, 12));
 
     /* Find a team — E-01 TeamFinder, four steps */
     mountFinder();
@@ -1189,20 +1279,11 @@
       if (!list.length) { host.hidden = true; return; }
       host.hidden = false;
       repeat(host, '.pcard-sh', list, function (card, rec) {
-        var p = rec.p;
-        text(card, '.pcard-first', p.first);
-        text(card, '.pcard-last', p.last);
-        text(card, '.pcard-ioc', p.ioc);
-        flag(card, p.ioc);
-        var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
-        [['PPG', '—'], ['GP', '—'],
-         ['AGE', p.age != null ? p.age : '—'],
-         ['RANK', p.rankingPoints ? Math.round(p.rankingPoints / 1000) + 'k' : '—']
-        ].forEach(function (s, i) {
-          if (k[i]) k[i].textContent = s[0];
-          if (v[i]) v[i].textContent = s[1];
-        });
-        link(card, 'player.html?id=' + p.id);
+        paintPlayerCard(card, rec.p, [
+          ['PPG', '—'], ['GP', '—'],
+          ['AGE', rec.p.age != null ? rec.p.age : '—'],
+          ['RANK', rec.p.rankingPoints ? Math.round(rec.p.rankingPoints / 1000) + 'k' : '—']
+        ]);
       });
       tiltCards(host);
     }
@@ -1294,7 +1375,10 @@
     }
 
     function drawGames() {
-      var e = played[sel] || stops[sel] || stops[0];
+      /* `sel` indexes the conference's stops, not the played ones —
+         reading it out of `played` showed the wrong stop's games and
+         made the tab look inert. */
+      var e = stops[sel] || stops[0];
       var tbl = $('.games-tbl');
       if (!tbl || !e) return;
       var gl = gamesFor(e.slug, gender);
@@ -1319,9 +1403,7 @@
       drawStopNav();
       drawMatrix();
       drawGames();
-      paintPhotos(D.photos.filter(function (g) {
-        return !g.stop || stops.some(function (e) { return e.slug === g.stop; });
-      }).slice(0, 12));
+      paintPhotos(photosFor(stops).slice(0, 12));
       if (window.FIBA) window.FIBA.init(document);
     }
 
@@ -1401,6 +1483,30 @@
         });
       }
 
+      /* A stop that has not been played yet has no pools, no bracket
+         and no podium — the draw is published with the results. Rather
+         than three empty modules, the page says what is missing. */
+      var hasResults = !!(pool && pool.rows && pool.rows.some(function (r) { return r.rank; }));
+      $$('.tpl-sub').forEach(function (sec) {
+        var t = (sec.querySelector('.t-h2') || {}).textContent || '';
+        if (/pools|bracket/i.test(t)) sec.hidden = !hasResults;
+      });
+      var stub = $('.stop-stub');
+      if (!hasResults) {
+        if (!stub) {
+          stub = document.createElement('div');
+          stub.className = 'stop-stub tpl-sub';
+          (podium ? podium.parentElement : document.querySelector('.tpl-content'))
+            .insertBefore(stub, podium ? podium.nextSibling : null);
+        }
+        stub.hidden = false;
+        emptyState(stub, 'This stop has not been played yet',
+                   'Pools, bracket and the podium are published with the results. ' +
+                   'The conference table above already counts every stop before it.');
+      } else if (stub) {
+        stub.hidden = true;
+      }
+
       /* S-05 Pools */
       if (pool) {
         repeat(document, '.s05-row', pool.rows, function (row, r) {
@@ -1460,7 +1566,7 @@
         }
       }
 
-      paintPhotos(D.photos.filter(function (g) { return !g.stop || g.stop === e.slug; }).slice(0, 12));
+      paintPhotos(photosFor([e]).slice(0, 12));
 
       var back = $('.cnf-back a');
       if (back) back.setAttribute('href', 'conference.html?id=' + c.id);
@@ -1679,27 +1785,18 @@
                         })[0] || site;
       var roster = (recent.roster || []).map(function (m) { return player(m.id); }).filter(Boolean);
       if (roster.length) {
+        /* The snapshot carries no per-game player statistics, so the
+           card states age and 3x3 ranking points — what we do hold —
+           rather than printing ranking points under a PPG label. */
         repeat(document, '.pcard-sh', roster, function (card, p) {
-          text(card, '.pcard-first', p.first);
-          text(card, '.pcard-last', p.last);
-          text(card, '.pcard-ioc', p.ioc);
-          flag(card, p.ioc);
-          /* The snapshot carries no per-game player statistics, so the
-             card states age and 3x3 ranking points — what we do hold —
-             rather than printing ranking points under a PPG label. */
-          var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
-          var stats = [
+          paintPlayerCard(card, p, [
             ['AGE', p.age != null ? p.age : '—'],
             ['RANK', p.rankingPoints ? Math.round(p.rankingPoints / 1000) + 'k' : '—'],
             ['PPG', '—'],
             ['GP', '—']
-          ];
-          stats.forEach(function (s, i) {
-            if (k[i]) k[i].textContent = s[0];
-            if (v[i]) v[i].textContent = s[1];
-          });
-          link(card, 'player.html?id=' + p.id);
+          ]);
         });
+        tiltCards(document);
       }
 
       /* results for the most recent stop of this team site */
@@ -1713,9 +1810,7 @@
         else $$('.trow', gtbl).forEach(function (r) { r.classList.add('is-placeholder'); });
       }
 
-      paintPhotos(D.photos.filter(function (g) {
-        return !g.stop || stops.some(function (e) { return e.slug === g.stop; });
-      }).slice(0, 12));
+      paintPhotos(photosFor(stops).slice(0, 12));
 
       if (window.FIBA) window.FIBA.init(document);
     }
@@ -1743,6 +1838,46 @@
     if (g[2]) g[2].textContent = p.city || p.country || '';
     /* no per-game statistics in the snapshot yet */
     $$('.e06-row, .e07-row').forEach(function (r) { r.classList.add('is-placeholder'); });
+  };
+
+  /* C-06 ContentPage. The table of contents was a static list with the
+     second item marked; it now drives the page and opens on the first
+     section, which is the one that explains what the competition is. */
+  PAGES['about.html'] = function () {
+    var items = $$('.c06-toc-i');
+    var main = $('.c06-main');
+    if (!items.length || !main) return;
+
+    /* Each h2 in the body starts a section; everything until the next
+       h2 belongs to it. */
+    var heads = $$('.c05-h2', main);
+    function show(i) {
+      items.forEach(function (t, k) { t.classList.toggle('c06-toc-on', k === i); });
+      var want = (items[i].textContent || '').trim().toLowerCase();
+      var on = false;
+      [].slice.call(main.children).forEach(function (node) {
+        if (node.classList.contains('c05-h2')) {
+          on = (node.textContent || '').trim().toLowerCase() === want;
+        }
+        node.hidden = !on;
+      });
+      /* a section the page does not carry yet still needs an answer */
+      var any = [].slice.call(main.children).some(function (n) { return !n.hidden; });
+      var stub = $('.c06-stub', main);
+      if (!any) {
+        if (!stub) {
+          stub = document.createElement('div');
+          stub.className = 'c06-stub';
+          main.appendChild(stub);
+        }
+        stub.hidden = false;
+        emptyState(stub, items[i].textContent.trim(), 'This section is still being written.');
+      } else if (stub) {
+        stub.hidden = true;
+      }
+    }
+    items.forEach(function (t, i) { t.onclick = function () { show(i); }; });
+    show(0);
   };
 
   PAGES['news.html'] = function () {
@@ -1780,20 +1915,33 @@
     function inRegion(e) {
       return region === 'All' || regionOf(conf(e.conference)) === region;
     }
-    function hasContent(e) {
-      var s = standingsFor(e.slug);
-      if (s && s.rows && s.rows.some(function (r) { return (r.played || 0) > 0; })) return true;
-      return gamesFor(e.slug).some(function (g) { return g.home && g.home.score != null; });
-    }
+    /* Same rule as the landing page: a stop that is scheduled counts,
+       whether or not the snapshot has caught up with its results. */
     function pool() {
-      return D.events.filter(function (e) { return e.start && inRegion(e) && hasContent(e); })
+      return D.events.filter(function (e) { return e.start && inRegion(e); })
                      .sort(function (a, b) { return a.start.localeCompare(b.start); });
     }
-    function dayList() {
+    function playDays() {
       var seen = {};
       pool().forEach(function (e) { seen[e.start] = 1; });
       return Object.keys(seen).sort();
     }
+    function pad(list, n) {
+      if (list.length >= n) return list;
+      var out = list.slice();
+      var day = function (i, delta) {
+        var d = new Date(i + 'T00:00:00');
+        d.setDate(d.getDate() + delta);
+        return d.toISOString().slice(0, 10);
+      };
+      var guard = 0;
+      while (out.length < n && guard++ < 200) {
+        out.push(day(out[out.length - 1], 1));
+        if (out.length < n) out.unshift(day(out[0], -1));
+      }
+      return out.sort();
+    }
+    function dayList() { return pad(playDays(), SLOTS); }
     function clampWin() {
       win = days.length <= SLOTS ? 0 : Math.max(0, Math.min(win, days.length - SLOTS));
     }
@@ -1804,15 +1952,18 @@
     function drawStrip() {
       if (!strip) return;
       var view = days.slice(win, win + SLOTS);
+      var play = {};
+      playDays().forEach(function (d) { play[d] = 1; });
       repeat(strip, '.s03-d', view, function (cell, dISO) {
         var d = new Date(dISO + 'T00:00:00');
         cell.classList.toggle('s03-on', sel >= 0 && dISO === days[sel]);
-        cell.classList.remove('s03-off');
-        cell.classList.toggle('s03-live', dISO === iso(new Date()));
+        cell.classList.toggle('s03-off', !play[dISO]);
+        cell.classList.toggle('s03-live', dISO === iso(new Date()) && !!play[dISO]);
         text(cell, '.s03-num', d.getDate());
         text(cell, '.s03-dow', d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase());
         text(cell, '.s03-mon', d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase());
         cell.onclick = function () {
+          if (!play[dISO]) return;
           var i = days.indexOf(dISO);
           sel = (sel === i) ? -1 : i;      /* click again to see the whole season */
           drawStrip(); drawList();
@@ -1896,6 +2047,26 @@
         if (view) link(view, 'conference.html?id=' + e.conference);
       });
       if (window.FIBA) window.FIBA.init(accHost);
+      /* One open at a time: the list is the whole season here, so
+         leaving them open turns the page into a wall of tables. */
+      var accs = $$('.acc', accHost);
+      accs.forEach(function (a) {
+        var head = $(':scope > .acc-head', a);
+        if (!head || head._solo) return;
+        head._solo = 1;
+        head.addEventListener('click', function () {
+          /* The shell toggles on a delegated document listener, which
+             runs after this one, so the decision is taken a tick later. */
+          setTimeout(function () {
+            if (a.getAttribute('data-open') !== 'true') return;
+            accs.forEach(function (x) {
+              if (x !== a && x.getAttribute('data-open') === 'true' && window.FIBA) {
+                window.FIBA.closeAccordion(x);
+              }
+            });
+          }, 0);
+        });
+      });
     }
 
     days = dayList();
@@ -1949,10 +2120,28 @@
       var list = scope();
 
       /* Top scores — the federation scoring most per game */
+      /* Top scores is the federation scoring most per game in scope —
+         a real figure, not a placeholder. It is named the way a team
+         page names one: flag, then federation. */
       var best = list.slice().sort(function (a, b) { return b.avg - a.avg; })[0];
-      text(document, '.st-spot-name', best ? best.team : '—');
+      var name = $('.st-spot-name');
+      if (name) {
+        name.textContent = '';
+        if (best) {
+          var fl = document.createElement('div');
+          fl.className = 'flag flag-ring st-spot-flag';
+          name.appendChild(fl);
+          var txt = document.createElement('span');
+          txt.textContent = best.team;
+          name.appendChild(txt);
+          flag(fl, best.ioc);
+        } else {
+          name.textContent = '—';
+        }
+      }
       text(document, '.st-spot-sub', best
-        ? best.confname + ' · ' + (gender === 'men' ? 'Men' : 'Women')
+        ? best.confname + ' · ' + (gender === 'men' ? 'Men' : 'Women') +
+          ' · ' + best.avg.toFixed(1) + ' points per game'
         : 'No results in scope');
 
       /* Team stats spotlight — the same six-figure row as a team page */

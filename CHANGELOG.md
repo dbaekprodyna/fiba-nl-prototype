@@ -1,5 +1,105 @@
 # Changelog
 
+## 2026-08-19 (4) — Real dates, real cards, real photographs
+
+### The strip was hiding the season
+
+The day list was built from stops we hold *results* for, so every stop
+the snapshot has not caught up with vanished — which is why 19, 20 and
+21 August were missing while Asia SEA was mid-conference. A day counts
+when a stop is **being played on it**, results or not. The landing page
+now opens on 19 August with Asia SEA · Stop 3 live, and a stop with no
+results yet says so inside its accordion instead of showing an empty
+table.
+
+**Eight days, always.** el-30 CalendarStrip is eight equal days, but a
+region with fewer playing days rendered a short strip — Oceania is one
+conference, so it drew six — and the module changed shape from filter to
+filter. The region's playing days come first; the rest of the eight are
+the calendar days around them, marked off so they read as empty rather
+than clickable. Same rule on the Calendar page.
+
+### Photographs are keyed on the event
+
+The feed keys a gallery on the event it was shot at, not on a stop slug,
+so `paintPhotos` was filtering on a field that does not exist and every
+page got the whole archive. A page now asks for its own events' galleries,
+newest shoot first — the landing page shows the season's latest, a
+conference shows its own, a stop shows that stop's.
+
+### E-08 PlayerCard
+
+- The conference page had been given an invented card — `pcard-bg`,
+  `pcard-nm`, a flag box that was not one — so none of the pattern, key
+  visual, silhouette or plate rendered. It uses the real card now.
+- **The flag never changed.** `flag()` looks for a `.flag` box; E-08
+  holds its flag in `.pcard-flagbox`, so every card kept the federation
+  the specimen was built with. It paints both now — and replaces only
+  the artwork, because clearing the box was taking the IOC code with it.
+- **A long surname drops a size.** Two lines of 40px pushed the plate
+  over the stats; over eleven characters the card sets 22px rather than
+  truncating a player's name.
+- The lift, tilt and specular band now apply everywhere a card appears —
+  team pages, the conference page and the design system.
+
+### Global
+
+- **F-05 MegaMenu** — the gap between a category heading and its first
+  item is doubled, so three columns stop reading as one long list.
+- **el-11 SearchInput** — the clear control uses the same plain X as the
+  search overlay.
+- **el-22 CarouselIndicator** — hover and focus states. Both types are
+  controls; a bar jumps to its slide, so it has to say so.
+- **el-note** — a note belonging to a full-bleed module sits outside
+  `.m-block`, so it started at the page's left edge while every other
+  note started at the column's. Same gutter now, at every width.
+
+### Conferences
+
+Five and five columns. Qualification tables is a ctl-02 Link, like *Or
+browse all nations*. Cards lift on hover. The federations in a card are
+el-13 at size S. The nations / team-sites count sits at the right of the
+section header, at body size with the figures in bold.
+
+### Conference page
+
+The Stops tab was inert: `sel` indexes the conference's stops but the
+games were read out of the *played* ones, so picking a stop showed the
+wrong games or none.
+
+### Stop page
+
+**What Pool B should show when it is empty: nothing, and a reason.** A
+stop that has not been played has no pools, no bracket and no podium —
+the draw is published with the results. Rather than three empty modules,
+those hide and the page says so, and points at the conference table,
+which already counts every stop before it.
+
+### Stats
+
+- **Top scores is real, not a placeholder.** It is the federation
+  scoring most per game in whatever is in scope — Republic of Korea at
+  21.0 with the All-conferences filter on. It is now named the way a
+  team page names one: flag, then federation, with the figure under it.
+- The player cell drops the flag that sat between the initials and the
+  name — the Team column carries the flag now, and two in one row read
+  as two different things.
+- **The black rule on the left of row one** was `.r05-pod`, the podium
+  treatment from the stat-leaders specimen. A ranked list already says
+  who is first. Removed.
+
+### Calendar
+
+Opening an accordion closes the one that was open. The list is the whole
+season here, so leaving them open turns the page into a wall of tables.
+
+### About
+
+Opens on *What the Nations League is*, which now leads with a 16:9 slot
+for the explainer film and a centred play control. The table of contents
+drives the page instead of being a static list with the second item
+marked.
+
 ## 2026-08-19 (3) — The live segment, the Stats page and the Calendar
 
 ### Home

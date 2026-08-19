@@ -350,3 +350,13 @@
   gap:24px;
   align-items:flex-start;
 }
+
+/* ---- Note: one left edge -------------------------------------------
+   A note that belongs to a full-bleed module sits as a direct child of
+   the page rather than inside .m-block, so it started at the page's
+   own left edge while every other note started at the 1440 column's.
+   Same box, same left edge. */
+.doc > .el-note {
+  margin-left:clamp(24px, 2.5vw, 48px);
+  margin-right:clamp(24px, 2.5vw, 48px);
+}

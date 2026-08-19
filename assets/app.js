@@ -540,5 +540,11 @@
     document.addEventListener('DOMContentLoaded', function () { init(); });
   } else { init(); }
 
-  window.FIBA = { init: init };
+  /* Pages that list many accordions want one open at a time; the shell
+     itself stays neutral about that, so it exposes the close. */
+  window.FIBA = {
+    init: init,
+    closeAccordion: function (acc) { toggle(acc, false); },
+    openAccordion: function (acc) { toggle(acc, true); }
+  };
 })();

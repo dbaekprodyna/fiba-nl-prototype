@@ -259,7 +259,7 @@ a.nav-a {
    bar wraps under the figures rather than pushing the page wide. */
 .cnf-head { align-items: flex-start; }
 .cnf-head .tpl-colL, .cnf-head .tpl-colR { min-width: 0; }
-.cnf-head .tpl-colR { flex: 0 1 620px; }
+.cnf-head .tpl-colL, .cnf-head .tpl-colR { flex: 1 1 0; }   /* five and five */
 .cnf-head .s09 { flex-wrap: wrap; row-gap: 16px; }
 .cnf-head .s09-lines { flex: 1 1 100%; }
 .cnf-head .s09-right { flex: 1 1 100%; }
