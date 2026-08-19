@@ -1983,7 +1983,7 @@
 .s09 {
   display:flex;
   flex-direction:row;
-  align-items:flex-start;
+  align-items:center;
   gap:12px;
   width:100%;
   padding:24px 28px;
@@ -2003,7 +2003,7 @@
 .s09-line {
   display:flex;
   flex-direction:row;
-  align-items:flex-start;
+  align-items:center;
   gap:20px;
 }
 .s09-lab {
@@ -2018,7 +2018,7 @@
 .s09-brk {
   display:flex;
   flex-direction:row;
-  align-items:baseline;
+  align-items:center;
   gap:0;
 }
 .s09-k {
@@ -2935,3 +2935,152 @@ code {
 .finder-actions .btn:last-child { border-right:0; }
 .finder-search .search { width:100%; max-width:none; }
 .finder-menu { width:100%; max-width:none; }
+
+/* ---- F-05 MegaMenu: the current page -------------------------------
+   Same treatment as F-03 CompetitionNav — the label goes to full white
+   and a 3px white rule sits under it. The gold accent is a hover
+   colour, not a selection: using it for "you are here" read as a
+   permanent highlight on Standings, because the panel is a partial and
+   the class was baked into the markup. */
+.mm-l {
+  width:fit-content;
+  border-bottom:3px solid transparent;
+}
+.mm-l-on {
+  color:var(--chrome-text);
+  border-bottom-color:var(--chrome-text);
+}
+
+/* ---- S-10 SeasonJourney -------------------------------------------
+   A federation's conference read stop by stop: where it finished, what
+   that was worth, and whether the stop has been played. It answers the
+   question the results list cannot — how the season went — and it is
+   built from the same el-08 / el-04 table pair as every other table in
+   the system, so it inherits their row height, hover and rules. */
+.s10 { width:100%; }
+.c-jstop   { width:64px;  justify-content:center; }
+.c-jhost   { flex:1 1 0;  min-width:0; padding-left:8px; }
+.c-jdate   { width:120px; }
+.c-jplace  { width:96px; }
+.c-jpts    { width:112px; }
+.c-jstatus { width:120px; }
+
+/* ---- E-03 ConferenceGrid: one card per conference -------------------
+   It used to be one card per region with the conferences listed inside
+   and a View region link that went nowhere the card did not already
+   go. A conference is the thing people look for, so it gets the card,
+   and the region becomes a caption over the group. The U21 conferences
+   sit inside their region with the rest — the feed files them all under
+   a "U21" region, which would otherwise collect them into a group of
+   their own. */
+.e03 {
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+}
+.e03-group {
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width:100%;
+}
+.e03-region {
+  font-family:'Barlow',sans-serif;
+  font-weight:600;
+  font-size:12px;
+  line-height:16px;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  color:var(--text-muted);
+}
+.e03-grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+  gap:16px;
+  width:100%;
+}
+.e03-card { width:auto; gap:14px; }
+.e03-top { align-items:flex-start; }
+.e03-name {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:24px;
+  line-height:26px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.e03-meta {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+}
+.e03-feds {
+  display:flex;
+  flex-direction:row;
+  flex-wrap:wrap;
+  gap:4px 10px;
+  padding-top:2px;
+  border-top:1px solid var(--border-subtle);
+}
+.e03-qual { display:flex; padding-top:8px; }
+
+/* ---- Conference page: Overview | Stops -----------------------------
+   ctl-03 Tab splits the page the way the wireframe did. Overview keeps
+   the standings agreed on 3 August; Stops carries the selector, the
+   stop-by-stop matrix and that stop's games. */
+.cnf-tabs { width:100%; }
+.cnf-stopnav {
+  display:flex;
+  flex-direction:column;
+  gap:24px;
+  width:100%;
+}
+.cnf-back { display:flex; padding-top:8px; }
+
+/* ---- S-11 StopMatrix -----------------------------------------------
+   Johannes' original: one row per federation, one column per stop, the
+   placement over what it was worth. Six stops fit; the column count
+   follows the conference, so it is built from the data rather than
+   drawn at a fixed six. */
+.s11 { width:100%; }
+.c-mstop { width:104px; flex-direction:column; align-items:flex-end; gap:0; }
+.c-mstop .s11-pts { color:var(--text-muted); }
+.s11-first { font-weight:700; }
+
+/* ---- Conference highlights -----------------------------------------
+   Four figures about the conference. Alex marked the equivalent tile
+   row "irrelevant / kill" on slide 10 of the written feedback — kept
+   here because it was asked for again, and placed at the foot of the
+   Overview tab rather than near the standings. */
+.cnf-kpis {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  width:100%;
+}
+.cnf-kpis .kpi {
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+  padding:18px 20px;
+  --of:var(--surface-page);
+  border:1px solid transparent;
+  background:var(--border-default);
+  background-clip:border-box;
+  position:relative;
+  --n:1px;
+}
+.kpi-v {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:40px;
+  line-height:40px;
+  color:var(--text-primary);
+}
+.e10-scorers {
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(280px,1fr));
+  gap:20px;
+}
+.ban-scorers { margin-bottom:4px; }

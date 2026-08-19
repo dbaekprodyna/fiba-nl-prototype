@@ -67,6 +67,26 @@
     text(node, '.ftag-name', name);
   }
 
+  /* el-23 Breadcrumb. Pages that carry an entity in the trail were
+     leaving the specimen's text in place, so a team page opened from any
+     federation still read "Home / Teams / Serbia" and a stop page kept
+     whichever conference the specimen was built with. Every page states
+     its own trail now. */
+  function crumbs(items) {
+    var host = $('.crumbs') || $('.f04-crumbs');
+    if (!host) return;
+    var sep = $('.crumb-sep', host);
+    var sepHTML = sep ? sep.outerHTML : ' / ';
+    host.innerHTML = items.map(function (it, i) {
+      var last = i === items.length - 1;
+      var span = '<span class="crumb' + (last ? ' crumb-cur' : '') + '">' +
+                 (it.label || '') + '</span>';
+      return (!last && it.href)
+        ? '<a class="nav-a" href="' + it.href + '">' + span + '</a>'
+        : span;
+    }).join(sepHTML);
+  }
+
   function link(node, href) {
     if (!href) return;
     node.setAttribute('data-href', href);
@@ -74,6 +94,24 @@
       if (e.target.closest('a')) return;
       location.href = href;
     });
+  }
+
+  /* The snapshot repeats the city when the feed's city and region are
+     the same string — "Riga, Riga". Collapse repeated segments once,
+     here, rather than in every place a city is printed. */
+  function cityOf(e) {
+    var out = [];
+    String((e && e.city) || '').split(',').forEach(function (s) {
+      s = s.trim();
+      if (s && out.indexOf(s) === -1) out.push(s);
+    });
+    return out.join(', ');
+  }
+
+  function ordinal(n) {
+    if (!n) return '—';
+    var s = ['th', 'st', 'nd', 'rd'], v = n % 100;
+    return n + (s[(v - 20) % 10] || s[v] || s[0]);
   }
 
   function fmtDate(iso, opts) {
@@ -146,28 +184,99 @@
     row.classList.remove('is-placeholder');
   }
 
-  /* A season-wide federation table, built from every stop we have. */
+  /* Twenty places at the U23 World Cup: the host takes one, nineteen
+     come through the league. The feed carries no qualification flag, so
+     the field is derived from tour points — the leading twelve read as
+     Qualified, the next eight as Shortlisted, everyone else as Not
+     qualified. Derived in one place so the landing page, the Standings
+     table and the Qualification view cannot disagree. */
+  var QUALIFIED = 12, FIELD = 20;
+
+  /* A season-wide federation table, built from every stop we have.
+     Tour points are the ranking measure — the column has always been
+     labelled Tour Points, but it was being filled with the basketball
+     points a team scored, which ranked the table by offence. */
   function federationTable(gender) {
     var by = {};
-    D.standings.filter(function (s) { return !gender || s.gender === gender; }).forEach(function (s) {
+    D.standings.filter(function (s) {
+      return !gender || !s.gender || s.gender === gender;
+    }).forEach(function (s) {
       s.rows.forEach(function (r) {
         var k = r.ioc;
         if (!k) return;
-        by[k] = by[k] || { ioc: k, team: r.team, played: 0, won: 0, points: 0, stops: 0, conference: s.conference };
+        by[k] = by[k] || { ioc: k, team: r.team, played: 0, won: 0, scored: 0,
+                           tour: 0, stops: 0, conference: s.conference };
         by[k].played += r.played || 0;
         by[k].won += r.won || 0;
-        by[k].points += r.points || 0;
+        by[k].scored += r.points || 0;
+        by[k].tour += tourPoints(r.rank);
         by[k].stops += 1;
       });
     });
     var list = Object.keys(by).map(function (k) { return by[k]; });
     list.forEach(function (t) {
       t.winRatio = t.played ? t.won / t.played : 0;
-      t.avg = t.played ? Math.round((t.points / t.played) * 10) / 10 : 0;
+      t.avg = t.played ? Math.round((t.scored / t.played) * 10) / 10 : 0;
+      t.confname = confName(conf(t.conference));
     });
-    list.sort(function (a, b) { return b.points - a.points || b.winRatio - a.winRatio; });
-    list.forEach(function (t, i) { t.rank = i + 1; });
+    list.sort(function (a, b) { return b.tour - a.tour || b.winRatio - a.winRatio; });
+    list.forEach(function (t, i) {
+      t.rank = i + 1;
+      t.status = i < QUALIFIED ? 'q' : (i < FIELD ? 's' : 'n');
+      t.statusRank = { q: 0, s: 1, n: 2 }[t.status];
+    });
     return list;
+  }
+
+  /* el-05 StatusBadge as a table marker. */
+  function marker(row, code) {
+    var mk = $('.cell-status .marker', row);
+    if (!mk) return;
+    ['q', 's', 'r', 'n'].forEach(function (c) {
+      mk.classList.remove('marker-' + c, 'el-05-StatusBadge--marker-' + c);
+    });
+    mk.classList.add('marker-' + code, 'el-05-StatusBadge--marker-' + code);
+    text(mk, '.lbl', code.toUpperCase());
+  }
+
+  /* el-08 TableHeaderRow: the sort arrow and the cell-sorted class were
+     painted into the specimen but nothing was wired, so the header
+     looked like a control and behaved like a label. */
+  function cmp(key, dir) {
+    return function (a, b) {
+      var x = a[key], y = b[key];
+      var r = (typeof x === 'string' || typeof y === 'string')
+        ? String(x || '').localeCompare(String(y || ''))
+        : (x || 0) - (y || 0);
+      return r * dir;
+    };
+  }
+  function sortable(tbl, cols, state, onSort) {
+    $$('.thead .cell-sortable', tbl).forEach(function (cell) {
+      var key = null, text0 = null;
+      Object.keys(cols).forEach(function (c) {
+        if (cell.classList.contains(c)) { key = cols[c].key; text0 = cols[c].text; }
+      });
+      if (!key) return;
+      function paint() {
+        $$('.thead .cell-sortable', tbl).forEach(function (c) {
+          c.classList.remove('cell-sorted');
+          var s = c.querySelector('svg');
+          if (s) s.style.transform = '';
+        });
+        cell.classList.add('cell-sorted');
+        var s = cell.querySelector('svg');
+        if (s) s.style.transform = state.dir > 0 ? 'rotate(180deg)' : '';
+      }
+      cell.onclick = function () {
+        var first = text0 ? 1 : -1;          /* names A→Z, numbers high first */
+        state.dir = (state.key === key) ? -state.dir : first;
+        state.key = key;
+        paint();
+        onSort();
+      };
+      if (state.key === key) paint();
+    });
   }
 
   /* ---------- conference standings ---------------------------
@@ -184,6 +293,23 @@
     if (!c) return '';
     var m = /^U(\d\d)\s+(.+)$/.exec(c.name || '');
     return m ? m[2] + ' U' + m[1] : (c.name || '') + ' U23';
+  }
+
+  /* The feed's region field is not a region: Europe arrives as four
+     separate values (Europe-1 … Europe-4) and every U21 conference
+     arrives as "U21", which would collect the U21 conferences into a
+     group of their own. Region is derived from the conference instead,
+     so U21 Europe-2 sits under Europe with the rest of Europe — the
+     way the wireframe grouped them. */
+  var REGIONS = ['Europe', 'Americas', 'Africa', 'Oceania', 'AsiaPacific'];
+  function regionOf(c) {
+    var id = (c && c.id) || '';
+    if (id.indexOf('africa') > -1) return 'Africa';
+    if (id.indexOf('americas') > -1) return 'Americas';
+    if (id.indexOf('europe') > -1) return 'Europe';
+    if (id.indexOf('asia') > -1) return 'AsiaPacific';
+    if (id.indexOf('pacific') > -1) return 'Oceania';
+    return 'Other';
   }
 
   /* The feed carries the finishing order at each stop but no tour
@@ -296,9 +422,32 @@
       inp.placeholder = placeholder || 'Search';
       if (txt) txt.replaceWith(inp); else box.appendChild(inp);
     }
-    inp.addEventListener('input', function () { onChange(this.value.trim().toLowerCase()); });
+    /* el-11 carries a clear control at the trailing edge. It was only
+       in the search overlay's markup, so the field on Teams and
+       Standings had no way back to the full list except selecting the
+       text by hand. */
     var clear = $('.search-clear', box);
-    if (clear) clear.addEventListener('click', function () { inp.value = ''; onChange(''); });
+    if (!clear) {
+      clear = document.createElement('button');
+      clear.type = 'button';
+      clear.className = 'search-clear';
+      clear.setAttribute('aria-label', 'Clear search');
+      clear.innerHTML = '<svg viewBox="0 -960 960 960" width="20" height="20" fill="currentColor" aria-hidden="true">' +
+        '<path d="m336-280 144-144 144 144 56-56-144-144 144-144-56-56-144 144-144-144-56 56 144 144-144 144 56 56ZM480-80q-83 0-156-31.5T197-197q-54-54-85.5-127T80-480q0-83 31.5-156T197-763q54-54 127-85.5T480-880q83 0 156 31.5T763-763q54 54 85.5 127T880-480q0 83-31.5 156T763-197q-54 54-127 85.5T480-80Z"/></svg>';
+      box.appendChild(clear);
+    }
+    function toggleClear() { clear.hidden = !inp.value.length; }
+    toggleClear();
+    inp.addEventListener('input', function () {
+      toggleClear();
+      onChange(this.value.trim().toLowerCase());
+    });
+    clear.addEventListener('click', function () {
+      inp.value = '';
+      toggleClear();
+      onChange('');
+      inp.focus();
+    });
     return function () { return inp.value.trim().toLowerCase(); };
   }
 
@@ -316,6 +465,70 @@
     e.querySelector('.t-h3').textContent = title;
     e.querySelector('.t-body-s').textContent = body || '';
     return e;
+  }
+
+  /* C-03 PhotoGallery, wherever it appears. The landing page painted
+     its own carousel inline; the team, conference and stop pages carry
+     the same block, so the painter is shared. */
+  function paintPhotos(list) {
+    if (!list || !list.length) {
+      $$('.car').forEach(function (c) { c.hidden = true; });
+      return;
+    }
+    repeat(document, '.car-slide', list, function (slide, g) {
+      photo(slide, g.image);
+      var cap = $('.t-caption', slide);
+      if (cap) { cap.style.display = ''; cap.textContent = g.title; cap.style.color = '#fff'; }
+    });
+  }
+
+  /* el-02 GenderSwitch, built from the team sites a federation actually
+     fields. A federation may enter U23 only, U21 only, or both, and the
+     switch has to say which — on a conference page the category is in
+     the conference name, but a team page holds both categories at once.
+     Two segments become four when it does. */
+  function categorySwitch(host, sites, onChange) {
+    var el = $('.el02', host || document);
+    if (!el) return null;
+    var have = {};
+    sites.forEach(function (t) {
+      var cat = /(^|-)u21(-|$)/.test(t.conference || '') ? 'U21' : 'U23';
+      have[cat + '|' + (t.gender || 'men')] = t;
+    });
+    var cats = ['U23', 'U21'].filter(function (c) {
+      return have[c + '|men'] || have[c + '|women'];
+    });
+    var both = cats.length > 1;
+    var opts = [];
+    cats.forEach(function (c) {
+      ['men', 'women'].forEach(function (g) {
+        if (!have[c + '|' + g]) return;
+        opts.push({
+          cat: c, gender: g,
+          label: (both ? c + ' ' : '') + (g === 'men' ? 'Men' : 'Women')
+        });
+      });
+    });
+    if (!opts.length) return null;
+
+    var proto = $('.el02-seg', el).cloneNode(true);
+    el.innerHTML = '';
+    var current = opts[0];
+    opts.forEach(function (o) {
+      var seg = proto.cloneNode(true);
+      seg.classList.remove('el02-on');
+      text(seg, '.lbl', o.label);
+      seg.onclick = function () {
+        current = o;
+        $$('.el02-seg', el).forEach(function (s) { s.classList.remove('el02-on'); });
+        seg.classList.add('el02-on');
+        onChange(o);
+      };
+      el.appendChild(seg);
+      if (o === current) seg.classList.add('el02-on');
+    });
+    el.classList.toggle('el02-quad', opts.length > 2);
+    return current;
   }
 
   /* ---------- E-01 TeamFinder --------------------------------
@@ -474,10 +687,7 @@
     function iso(d) { return d.toISOString().slice(0, 10); }
 
     function inRegion(e) {
-      if (region === 'All') return true;
-      var c = conf(e.conference);
-      var want = region.toLowerCase().replace('asiapacific', 'asia');
-      return !!c && c.name.toLowerCase().indexOf(want) === 0;
+      return region === 'All' || regionOf(conf(e.conference)) === region;
     }
     /* "Something under it" means results, not merely a row in the feed.
        Two stops arrive with a full standings record in which every team
@@ -533,7 +743,9 @@
         var d = new Date(dISO + 'T00:00:00');
         cell.classList.toggle('s03-on', dISO === days[sel]);
         cell.classList.remove('s03-off');
-        cell.classList.add('s03-live');     /* every day in the strip has play */
+        /* The red dot means live now. Every day in the strip has play,
+           so marking them all made the whole season look live. */
+        cell.classList.toggle('s03-live', dISO === iso(new Date()));
         text(cell, '.s03-num', d.getDate());
         text(cell, '.s03-dow', d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase());
         text(cell, '.s03-mon', d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase());
@@ -714,136 +926,202 @@
     });
 
     /* Find a team — E-01 TeamFinder, four steps */
-    (function () {
-      var sub = $$('.tpl-sub').filter(function (x) {
-        return /find a team/i.test((x.querySelector('.t-h2') || {}).textContent || '');
-      })[0];
-      if (!sub) return;
-      var old = $('.search', sub);
-      if (!old) return;
+    mountFinder();
 
-      fetch('partials/finder.html').then(function (r) { return r.text(); })
-        .then(function (html) {
-          var host = document.createElement('div');
-          host.innerHTML = html;
-          var f = host.querySelector('.finder');
-          old.replaceWith(f);
-          initFinder(f);
-          if (window.FIBA) window.FIBA.init(sub);
-        });
-    })();
+    paintOverview();
 
-    /* Overview — S-09, type = conferences. The landing page answers
-       "how far is the season" at conference level; Stops worldwide is
-       the second line of the other type and belongs on the Conferences
-       page. The figures were reading the event count into the
-       conference line, which is why it said 108 conferences. */
-    (function () {
-      var host = $('.s09');
-      if (!host) return;
-      var today = new Date().toISOString().slice(0, 10);
-      var stopsOfC = {};
-      D.events.forEach(function (e) {
-        (stopsOfC[e.conference] = stopsOfC[e.conference] || []).push(e);
-      });
-      var finished = 0, live = 0;
-      D.conferences.forEach(function (c) {
-        var evs = stopsOfC[c.id] || [];
-        if (evs.length && evs.every(function (e) { return e.teamsRegistered; })) finished++;
-        if (evs.some(function (e) {
-          return e.start && e.start <= today && (e.end || e.start) >= today;
-        })) live++;
-      });
-      var totalC = D.conferences.length;
-      var kv = $$('.s09-kv', host);
-      if (kv[0]) kv[0].textContent = totalC;
-      if (kv[1]) kv[1].textContent = finished;
-      if (kv[2]) kv[2].textContent = totalC - finished;
-      if (kv[3]) kv[3].textContent = live;
-      var lk = $('.s09-k-live', host);
-      if (lk) lk.hidden = !live;
-
-      /* The bar reads the season as stops played of stops scheduled —
-         the finest measure we hold, whichever line is shown above it. */
-      var stopsDone = playedStops().length, stopsAll = D.events.length;
-      var pct = stopsAll ? (stopsDone / stopsAll) * 100 : 0;
-      var fill = $('.s09-fill', host);
-      if (fill) fill.style.width = pct.toFixed(1) + '%';
-      var seg = $('.s09-done', host), segLive = $('.s09-live', host);
-      if (seg) seg.style.flex = '1';
-      if (segLive) segLive.hidden = true;
-    })();
   };
 
+  /* S-09 Overview, on whichever page carries it. The landing page shows
+     the conferences line alone; the Conferences page shows both. The
+     figures are the same either way, so the painter is one. */
+  function paintOverview() {
+    var host = $('.s09');
+    if (!host) return;
+    var today = new Date().toISOString().slice(0, 10);
+    var stopsOfC = {};
+    D.events.forEach(function (e) {
+      (stopsOfC[e.conference] = stopsOfC[e.conference] || []).push(e);
+    });
+    var finished = 0, live = 0;
+    D.conferences.forEach(function (c) {
+      var evs = stopsOfC[c.id] || [];
+      if (evs.length && evs.every(function (e) { return e.teamsRegistered; })) finished++;
+      if (evs.some(function (e) {
+        return e.start && e.start <= today && (e.end || e.start) >= today;
+      })) live++;
+    });
+    var totalC = D.conferences.length;
+    var stopsDone = playedStops().length, stopsAll = D.events.length;
+    var stopsLive = D.events.filter(function (e) {
+      return e.start && e.start <= today && (e.end || e.start) >= today;
+    }).length;
+
+    var lines = $$('.s09-line', host);
+    function fill(line, vals) {
+      if (!line) return;
+      var kv = $$('.s09-kv', line);
+      vals.forEach(function (v, i) { if (kv[i]) kv[i].textContent = v; });
+      var lk = $('.s09-k-live, .s09-k-live2', line);
+      if (lk) lk.hidden = !vals[3];
+    }
+    fill(lines[0], [totalC, finished, totalC - finished, live]);
+    fill(lines[1], [stopsAll, stopsDone, stopsAll - stopsDone, stopsLive]);
+
+    /* The bar reads the season as stops played of stops scheduled — the
+       finest measure we hold, whichever lines are shown above it. */
+    var pct = stopsAll ? (stopsDone / stopsAll) * 100 : 0;
+    var fillbar = $('.s09-fill', host);
+    if (fillbar) fillbar.style.width = pct.toFixed(1) + '%';
+    var seg = $('.s09-done', host), segLive = $('.s09-live', host);
+    if (seg) seg.style.flex = '1';
+    if (segLive) segLive.hidden = true;
+  }
+
+  /* E-01 TeamFinder replaces the plain search field in whichever block
+     asks for it. */
+  function mountFinder() {
+    var sub = $$('.tpl-sub').filter(function (x) {
+      return /find a team/i.test((x.querySelector('.t-h2') || {}).textContent || '');
+    })[0];
+    if (!sub) return;
+    var old = $('.search', sub);
+    if (!old) return;
+    fetch('partials/finder.html').then(function (r) { return r.text(); })
+      .then(function (html) {
+        var host = document.createElement('div');
+        host.innerHTML = html;
+        var f = host.querySelector('.finder');
+        old.replaceWith(f);
+        initFinder(f);
+        if (window.FIBA) window.FIBA.init(sub);
+      });
+  }
+
   PAGES['conferences.html'] = function () {
+    mountFinder();
+    paintOverview();
+
     var today = new Date().toISOString().slice(0, 10);
     function statusOf(c) {
       var evs = D.events.filter(function (e) { return e.conference === c.id; });
-      var played = evs.filter(function (e) { return e.teamsRegistered; }).length;
+      var played = evs.filter(function (e) { return standingsFor(e.slug); }).length;
       var live = evs.some(function (e) {
         return e.start && e.start <= today && (e.end || e.start) >= today;
       });
-      return { evs: evs, played: played, live: live, done: played >= evs.length && evs.length > 0 };
+      return { evs: evs, played: played, live: live,
+               done: played >= evs.length && evs.length > 0 };
     }
 
-    var regions = {};
-    D.conferences.forEach(function (c) { (regions[c.region] = regions[c.region] || []).push(c); });
-    var list = Object.keys(regions).map(function (r) { return { region: r, items: regions[r] }; });
+    /* Federations in a conference: the same set in both genders, so one
+       pass over the men's entries names them all. */
+    function fedsOf(c) {
+      var seen = {}, out = [];
+      D.teams.forEach(function (t) {
+        if (t.conference !== c.id || !t.ioc || seen[t.ioc]) return;
+        seen[t.ioc] = 1;
+        out.push(t);
+      });
+      out.sort(function (a, b) { return a.ioc.localeCompare(b.ioc); });
+      return out;
+    }
 
-    repeat(document, '.e03-card', list, function (card, g) {
-      text(card, '.e03-region', g.region);
+    var groups = REGIONS.map(function (r) {
+      return { region: r, items: D.conferences.filter(function (c) { return regionOf(c) === r; }) };
+    }).filter(function (g) { return g.items.length; });
 
-      /* the branded stroke marks a region that is playing right now */
-      var anyLive = g.items.some(function (c) { return statusOf(c).live; });
-      card.classList.toggle('brandstroke', anyLive);
-      if (!anyLive) card.classList.remove('brandstroke-spin');
-
-      /* ... and so does the region's own Live badge. It sits in the card
-         header, not in a conference row, so the per-row pass below never
-         reached it and every region read as live. */
-      var regionBadge = $('.e03-top .badge', card);
-      if (regionBadge) regionBadge.hidden = !anyLive;
-
-      repeat(card, '.e03-conf', g.items, function (row, c) {
+    repeat($('.e03'), '.e03-group', groups, function (grp, g) {
+      text(grp, '.e03-region', g.region);
+      repeat(grp, '.e03-card', g.items, function (card, c) {
         var st = statusOf(c);
-        text(row, '.e03-name', confName(c));
-        var n = $$('.t-caption, .t-body-s', row).pop();
-        if (n) n.textContent = st.played + ' of ' + st.evs.length + ' stops';
-
-        /* E-03 carries one live signal, on the region card. A second
-           badge inside the conference row is not in the spec — it was
-           also being injected ahead of the name and broke the row. */
-        var badge = $('.badge', row);
+        text(card, '.e03-name', confName(c));
+        var badge = $('.badge', card);
         if (badge) badge.hidden = !st.live;
-        /* stops that have not happened are not solid black */
-        $$('.dot', row).forEach(function (d, i) {
+        card.classList.toggle('brandstroke', st.live);
+        text(card, '.e03-prog', st.played + ' of ' + st.evs.length + ' stops');
+        $$('.dot', card).forEach(function (d, i) {
           d.classList.toggle('dot-done', i < st.played);
           d.classList.toggle('dot-live', st.live && i === st.played);
         });
-        link(row, 'conference.html?id=' + c.id);
+        var feds = fedsOf(c);
+        if (feds.length) {
+          repeat(card, '.ftag', feds, function (tag, t) {
+            flag(tag, t.ioc);
+            text(tag, '.ftag-code', t.ioc);
+            tag.title = t.name;
+          });
+        } else {
+          var box = $('.e03-feds', card);
+          if (box) box.hidden = true;
+        }
+        link(card, 'conference.html?id=' + c.id);
       });
     });
   };
 
+  /* ctl-03 Tab as a pane switch. Panes are marked in the markup with
+     data-pane, so adding a block to a tab is a markup change and not a
+     JavaScript one. */
+  function tabPanes(scope, tabsSel) {
+    var tabs = $$(tabsSel + ' .tab', scope || document);
+    if (!tabs.length) return;
+    function show(name) {
+      tabs.forEach(function (t) {
+        t.classList.toggle('tab-active', t.dataset.tab === name);
+      });
+      $$('[data-pane]', scope || document).forEach(function (p) {
+        p.hidden = p.dataset.pane !== name;
+      });
+    }
+    tabs.forEach(function (t) { t.onclick = function () { show(t.dataset.tab); }; });
+    show((tabs.filter(function (t) { return t.classList.contains('tab-active'); })[0] || tabs[0]).dataset.tab);
+  }
+
+  /* E-08 PlayerCard: tip towards the pointer. The angles are written as
+     custom properties so the transform itself stays in motion.css. */
+  function tiltCards(root) {
+    $$('.pcard-sh', root || document).forEach(function (sh) {
+      if (sh._tilt) return;
+      sh._tilt = 1;
+      var card = $('.pcard', sh), shine = $('.pcard-shine', sh);
+      if (!card) return;
+      sh.addEventListener('pointermove', function (ev) {
+        var r = sh.getBoundingClientRect();
+        var x = (ev.clientX - r.left) / r.width - 0.5;
+        var y = (ev.clientY - r.top) / r.height - 0.5;
+        card.style.setProperty('--tilt-y', (x * 12).toFixed(2) + 'deg');
+        card.style.setProperty('--tilt-x', (-y * 8).toFixed(2) + 'deg');
+        if (shine) {
+          shine.style.setProperty('--shine-p', (30 + (x + 0.5) * 40).toFixed(0) + '%');
+          shine.style.setProperty('--shine-a', (100 + y * 30).toFixed(0) + 'deg');
+        }
+      });
+      sh.addEventListener('pointerleave', function () {
+        card.style.setProperty('--tilt-y', '0deg');
+        card.style.setProperty('--tilt-x', '0deg');
+      });
+    });
+  }
+
   PAGES['conference.html'] = function () {
     var c = conf(qs.get('id')) || D.conferences[0];
-    var stops = D.events.filter(function (e) { return e.conference === c.id; });
-    var played = stops.filter(function (e) { return e.teamsRegistered; });
+    var stops = D.events.filter(function (e) { return e.conference === c.id; })
+                        .sort(function (a, b) { return (a.number || 0) - (b.number || 0); });
+    var played = stops.filter(function (e) { return standingsFor(e.slug); });
     var gender = 'men';
+    var sel = Math.max(0, played.length - 1);   /* the newest stop with results */
 
-    /* The H1 is .f04-h1-m — it was not in this list, so the conference
-       page kept whichever name the specimen was built with. */
     $$('.f04-h1-m, .f04-h1-s, .t-h1, .e02-name, .f04-title').forEach(function (n) {
       n.textContent = confName(c);
     });
-    var crumbs = $$('.crumb');
-    if (crumbs.length) crumbs[crumbs.length - 1].textContent = confName(c);
+    crumbs([{ label: 'Home', href: 'index.html' },
+            { label: 'Conferences', href: 'conferences.html' },
+            { label: confName(c) }]);
 
-    /* Host city or cities, and the span the conference runs over. */
     var sub = $('.f04-idl .t-body-s');
     if (sub && stops.length) {
       var cities = [];
-      stops.forEach(function (e) { if (cities.indexOf(e.city) === -1) cities.push(e.city); });
+      stops.forEach(function (e) { var n = cityOf(e); if (n && cities.indexOf(n) === -1) cities.push(n); });
       var first = stops[0].start, last = stops[stops.length - 1].end || stops[stops.length - 1].start;
       sub.textContent = cities.slice(0, 2).join(' · ') +
         (cities.length > 2 ? ' +' + (cities.length - 2) : '') +
@@ -851,143 +1129,425 @@
         ' – ' + fmtDate(last, { day: 'numeric', month: 'short' });
     }
 
-    repeat(document, '.s02-stop, .s02-i', stops, function (node, e) {
-      text(node, '.s02-city, .t-label', e.city);
-      text(node, '.t-caption', fmtDate(e.start, { day: 'numeric', month: 'short' }));
-      link(node, 'stop.html?id=' + e.slug);
-    });
-
-    /* The conference page carries two tables: standings, then games.
-       Fill them separately rather than treating every .trow the same. */
-    var tables = $$('.tbl');
-    var standTbl = tables[0], gameTbl = tables[1];
     var complete = stops.length && played.length >= stops.length;
+    var today = new Date().toISOString().slice(0, 10);
+
+    /* ---- Overview: the standings ---- */
     function drawStandings() {
-      if (!standTbl) return;
+      var tbl = $$('.tbl').filter(function (x) {
+        return !x.classList.contains('s11') && !x.classList.contains('games-tbl');
+      })[0];
+      if (!tbl) return;
       var rows = conferenceTable(c.id, gender);
       if (!rows.length) {
-        $$('.trow', standTbl).forEach(function (r) { r.hidden = true; });
+        $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
         return;
       }
-      repeat(standTbl, '.trow', rows, function (row, r) {
+      repeat(tbl, '.trow', rows, function (row, r) {
         paintStandingRow(row, r, complete);
         row.classList.toggle('trow-hi', complete && r.rank === 1);
       });
     }
-    genderSwitch(function (g) { gender = g; drawStandings(); });
-    drawStandings();
-    var gl = played.length ? gamesFor(played[0].slug) : [];
-    if (gameTbl && gl.length) repeat(gameTbl, '.trow', gl, paintGame);
-    else if (gameTbl) $$('.trow', gameTbl).forEach(function (r) { r.classList.add('is-placeholder'); });
+
+    /* ---- Overview: leading scorers ---- */
+    function drawScorers() {
+      var host = $('.e10-scorers');
+      if (!host) return;
+      var ids = {};
+      D.teams.filter(function (t) {
+        return t.conference === c.id && (!t.gender || t.gender === gender);
+      }).forEach(function (t) {
+        (t.roster || []).forEach(function (m) { ids[m.id] = t; });
+      });
+      var list = Object.keys(ids).map(function (id) {
+        var p = player(id);
+        return p ? { p: p, team: ids[id] } : null;
+      }).filter(Boolean);
+      list.sort(function (a, b) { return (b.p.rankingPoints || 0) - (a.p.rankingPoints || 0); });
+      list = list.slice(0, 4);
+      if (!list.length) { host.hidden = true; return; }
+      host.hidden = false;
+      repeat(host, '.pcard-sh', list, function (card, rec) {
+        var p = rec.p;
+        text(card, '.pcard-first', p.first);
+        text(card, '.pcard-last', p.last);
+        text(card, '.pcard-ioc', p.ioc);
+        flag(card, p.ioc);
+        var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
+        [['PPG', '—'], ['GP', '—'],
+         ['AGE', p.age != null ? p.age : '—'],
+         ['RANK', p.rankingPoints ? Math.round(p.rankingPoints / 1000) + 'k' : '—']
+        ].forEach(function (s, i) {
+          if (k[i]) k[i].textContent = s[0];
+          if (v[i]) v[i].textContent = s[1];
+        });
+        link(card, 'player.html?id=' + p.id);
+      });
+      tiltCards(host);
+    }
+
+    /* ---- Overview: highlights ---- */
+    function drawHighlights() {
+      var host = $('.cnf-kpis');
+      if (!host) return;
+      var games = [];
+      stops.forEach(function (e) { games = games.concat(gamesFor(e.slug, gender)); });
+      var scored = games.filter(function (g) { return g.home && g.home.score != null; });
+      var pts = scored.reduce(function (a, g) { return a + g.home.score + g.away.score; }, 0);
+      var table = conferenceTable(c.id, gender);
+      var best = table.slice().sort(function (a, b) { return b.winRatio - a.winRatio; })[0];
+      var v = $$('.kpi-v', host);
+      if (v[0]) v[0].textContent = scored.length || '—';
+      if (v[1]) v[1].textContent = best ? (best.winRatio * 100).toFixed(0) + '%' : '—';
+      if (v[2]) v[2].textContent = table.length || '—';
+      if (v[3]) v[3].textContent = scored.length ? (pts / scored.length).toFixed(1) : '—';
+    }
+
+    /* ---- Stops: the selector, the matrix, the games ---- */
+    function drawStopNav() {
+      repeat($('.stopnav') || document, '.stopnav-i', stops, function (node, e, i) {
+        node.textContent = e.number;
+        var has = !!standingsFor(e.slug);
+        var live = e.start <= today && (e.end || e.start) >= today;
+        node.classList.toggle('stopnav-done', has);
+        node.classList.toggle('stopnav-live', live);
+        node.classList.toggle('stopnav-on', i === sel);
+        node.onclick = function () { sel = i; drawStopNav(); drawGames(); };
+      });
+      repeat($('.s02') || document, '.s02-stop, .s02-i', stops, function (node, e, i) {
+        var has = !!standingsFor(e.slug);
+        var live = e.start <= today && (e.end || e.start) >= today;
+        node.classList.toggle('s02-done', has);
+        node.classList.toggle('s02-live', live);
+        node.classList.toggle('s02-on', i === sel);
+        text(node, '.s02-city, .t-label', cityOf(e));
+        text(node, '.t-caption', fmtDate(e.start, { day: 'numeric', month: 'short' }));
+        node.onclick = function () { sel = i; drawStopNav(); drawGames(); };
+        link(node, 'stop.html?id=' + e.slug);
+      });
+    }
+
+    /* One row per federation, one column per stop — the wireframe's
+       matrix, sized to however many stops this conference has. */
+    function drawMatrix() {
+      var host = $('.s11');
+      if (!host) return;
+      var rows = conferenceTable(c.id, gender);
+      if (!rows.length) { host.hidden = true; return; }
+      host.hidden = false;
+      var head = '<div class="el-08-TableHeaderRow cut cut-s thead">' +
+        '<div class="cell-federation cell c-fed"><span class="t-caption" style="color:inherit">Federation</span></div>' +
+        stops.map(function (e) {
+          return '<div class="cell-mstop cell c-mstop cell-num"><span class="t-caption" style="color:inherit">Stop ' +
+                 e.number + '</span></div>';
+        }).join('') +
+        '<div class="cell-points cell c-pts cell-num"><span class="t-caption" style="color:inherit">Tour Points</span></div>' +
+        '</div>';
+      var body = rows.map(function (r) {
+        var cells = stops.map(function (e) {
+          var s = standingsFor(e.slug, gender);
+          var mine = s && s.rows.filter(function (x) { return x.ioc === r.ioc; })[0];
+          if (!mine || !mine.rank) {
+            return '<div class="cell-mstop cell c-mstop cell-num"><span class="t-data-m">—</span></div>';
+          }
+          return '<div class="cell-mstop cell c-mstop cell-num">' +
+                 '<span class="t-data-m' + (mine.rank === 1 ? ' s11-first' : '') + '">' +
+                 ordinal(mine.rank) + '</span>' +
+                 '<span class="t-caption s11-pts">' + tourPoints(mine.rank) + ' pts</span></div>';
+        }).join('');
+        return '<div class="el-04-TeamRow trow s11-row" data-href="team.html?ioc=' + r.ioc + '">' +
+          '<div class="cell-federation cell c-fed">' +
+            '<div class="el-13-FederationTag--m-both-plain ftag ftag-m cut cut-s ftag-plain">' +
+            '<div class="flag flag-ring"></div><div class="ftag-txt">' +
+            '<span class="ftag-code">' + r.ioc + '</span>' +
+            '<span class="ftag-name">' + r.team + '</span></div></div></div>' +
+          cells +
+          '<div class="cell-points cell c-pts cell-num"><span class="t-data-m">' + r.tour + '</span></div>' +
+          '</div>';
+      }).join('');
+      host.innerHTML = head + body;
+      $$('.s11-row', host).forEach(function (row) {
+        flag($('.flag', row), row.dataset.href.split('ioc=')[1]);
+        link(row, row.dataset.href);
+      });
+    }
+
+    function drawGames() {
+      var e = played[sel] || stops[sel] || stops[0];
+      var tbl = $('.games-tbl');
+      if (!tbl || !e) return;
+      var gl = gamesFor(e.slug, gender);
+      var day = $('.games-day .t-caption', tbl);
+      if (day) day.textContent = gl.length
+        ? fmtDate(e.start, { weekday: 'long', day: 'numeric', month: 'long' })
+        : 'No games in the feed for this stop yet';
+      if (gl.length) {
+        repeat(tbl, '.trow', gl, paintGame);
+      } else {
+        $$('.trow', tbl).forEach(function (r, i) {
+          r.classList.add('is-placeholder');
+          r.hidden = i > 2;
+        });
+      }
+    }
+
+    function draw() {
+      drawStandings();
+      drawScorers();
+      drawHighlights();
+      drawStopNav();
+      drawMatrix();
+      drawGames();
+      paintPhotos(D.photos.filter(function (g) {
+        return !g.stop || stops.some(function (e) { return e.slug === g.stop; });
+      }).slice(0, 12));
+      if (window.FIBA) window.FIBA.init(document);
+    }
+
+    genderSwitch(function (g) { gender = g; draw(); });
+    tabPanes(document, '.cnf-tabs');
+    draw();
+
+    /* "See updated conference table" goes back to the standings, which
+       is on the other tab. */
+    var back = $$('.cnf-back .lnk')[0];
+    if (back) back.onclick = function () {
+      var t = $$('.cnf-tabs .tab').filter(function (x) { return x.dataset.tab === 'overview'; })[0];
+      if (t) t.click();
+      var tbl = $$('.tbl').filter(function (x) { return !x.classList.contains('s11'); })[0];
+      if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
   };
 
   PAGES['stop.html'] = function () {
-    var e = stop(qs.get('id')) || playedStops()[0];
-    var men = standingsFor(e.slug, 'men');
-    var women = standingsFor(e.slug, 'women');
-    $$('.f04-h1-m, .f04-h1-s, .t-h1, .f04-title').forEach(function (n) {
-      n.textContent = 'Stop ' + e.number + ' · ' + e.city;
-    });
-    var scr = $$('.crumb');
-    if (scr.length >= 2) {
-      scr[scr.length - 2].textContent = confName(conf(e.conference));
-      link(scr[scr.length - 2].parentElement || scr[scr.length - 2],
-           'conference.html?id=' + e.conference);
-      scr[scr.length - 1].textContent = 'Stop ' + e.number;
-    }
-    var sub = $('.f04-idl .t-body-s, .f04-sub, .el01-sub');
-    if (sub) sub.textContent = [e.venue, e.location, fmtDate(e.start)].filter(Boolean).join(' · ');
+    var first = stop(qs.get('id')) || playedStops()[0] || D.events[0];
+    var c = conf(first.conference) || {};
+    var stops = D.events.filter(function (e) { return e.conference === c.id; })
+                        .sort(function (x, y) { return (x.number || 0) - (y.number || 0); });
+    var sel = Math.max(0, stops.map(function (e) { return e.slug; }).indexOf(first.slug));
+    var today = new Date().toISOString().slice(0, 10);
 
-    var pool = men || women;
-    if (pool) {
-      repeat(document, '.s05-row', pool.rows, function (row, r) {
-        text(row, '.s05-seed', r.seed);
-        fed(row, r.ioc, r.team);
-        var n = $$('.s05-n', row);
-        if (n[0]) n[0].textContent = r.won + '–' + (r.played - r.won);
-        if (n[1]) n[1].textContent = r.points;
-        if (n[2]) n[2].textContent = r.avg;
-        link(row, 'team.html?ioc=' + r.ioc);
+    function draw() {
+      var e = stops[sel] || first;
+      var men = standingsFor(e.slug, 'men'), women = standingsFor(e.slug, 'women');
+      var pool = men || women;
+      var gl = gamesFor(e.slug);
+
+      $$('.f04-h1-m, .f04-h1-s, .t-h1, .f04-title').forEach(function (n) {
+        n.textContent = 'Stop ' + e.number + ' · ' + cityOf(e);
       });
+      crumbs([{ label: 'Home', href: 'index.html' },
+              { label: 'Conferences', href: 'conferences.html' },
+              { label: confName(c), href: 'conference.html?id=' + c.id },
+              { label: 'Stop ' + e.number }]);
+      var sub = $('.f04-idl .t-body-s, .f04-sub');
+      if (sub) sub.textContent = [e.venue, cityOf(e), e.country, fmtDate(e.start)]
+        .filter(Boolean).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(' · ');
+
+      /* the selector */
+      repeat($('.stopnav') || document, '.stopnav-i', stops, function (node, x, i) {
+        node.textContent = x.number;
+        node.classList.toggle('stopnav-done', !!standingsFor(x.slug));
+        node.classList.toggle('stopnav-live', x.start <= today && (x.end || x.start) >= today);
+        node.classList.toggle('stopnav-on', i === sel);
+        node.onclick = function () { sel = i; draw(); };
+      });
+      repeat($('.s02') || document, '.s02-stop, .s02-i', stops, function (node, x, i) {
+        node.classList.toggle('s02-done', !!standingsFor(x.slug));
+        node.classList.toggle('s02-live', x.start <= today && (x.end || x.start) >= today);
+        node.classList.toggle('s02-on', i === sel);
+        text(node, '.s02-city, .t-label', cityOf(x));
+        text(node, '.t-caption', fmtDate(x.start, { day: 'numeric', month: 'short' }));
+        node.onclick = function () { sel = i; draw(); };
+      });
+
+      /* S-08 Podium — the stop result, which is the first thing on the
+         page per Alex's slide 12 */
+      var podium = $('.s08');
+      if (podium) {
+        var placed = (pool ? pool.rows : []).filter(function (r) { return r.rank; })
+          .slice().sort(function (a, b) { return a.rank - b.rank; }).slice(0, 3);
+        podium.hidden = !placed.length;
+        /* The three plinths are in visual order — silver, gold, bronze —
+           so each one is painted by its own place rather than repeated
+           from the first, which put the same federation on all three. */
+        placed.forEach(function (r) {
+          var step = $('.s08-' + r.rank, podium);
+          if (!step) return;
+          flag(step, r.ioc);
+          text(step, '.team-name', r.team);
+          text(step, '.s08-pos', r.rank);
+        });
+      }
+
+      /* S-05 Pools */
+      if (pool) {
+        repeat(document, '.s05-row', pool.rows, function (row, r) {
+          text(row, '.s05-seed', r.seed);
+          fed(row, r.ioc, r.team);
+          var n = $$('.s05-n', row);
+          if (n[0]) n[0].textContent = r.won + '–' + (r.played - r.won);
+          if (n[1]) n[1].textContent = r.points;
+          if (n[2]) n[2].textContent = r.avg;
+          link(row, 'team.html?ioc=' + r.ioc);
+        });
+      }
+
+      /* S-06 Bracket — final on top, third place under it when it
+         exists. The snapshot carries pool games and finals only, so a
+         round with no games hides rather than showing specimen scores. */
+      var finals = gl.filter(function (g) { return g.round === 'F'; });
+      var rounds = $$('.s06-round');
+      rounds.forEach(function (rd, i) {
+        var label = ($('.s06-label', rd) || {}).textContent || '';
+        var game = /final/i.test(label) && !/third/i.test(label) ? finals[0]
+                 : /third/i.test(label) ? finals[1] : null;
+        if (!game) { rd.hidden = true; return; }
+        rd.hidden = false;
+        var sides = $$('.s06-side', rd);
+        [game.home, game.away].forEach(function (t, k) {
+          if (!sides[k]) return;
+          fed(sides[k], t.ioc, t.name);
+          text(sides[k], '.s06-sc', t.score != null ? t.score : '–');
+          sides[k].classList.toggle('s06-lose',
+            game.home.score != null && t.score < Math.max(game.home.score, game.away.score));
+        });
+      });
+      var s06 = $('.s06');
+      if (s06) {
+        var note = $('.t-body-s', s06);
+        if (note) note.textContent = pool
+          ? 'Two pools of three · top two from each pool cross into the semi-finals'
+          : '';
+        s06.hidden = !finals.length;
+      }
+
+      /* S-04 GameList */
+      var gtbl = $('.games-tbl');
+      if (gtbl) {
+        var day = $('.games-day .t-caption', gtbl);
+        if (day) day.textContent = gl.length
+          ? fmtDate(e.start, { weekday: 'long', day: 'numeric', month: 'long' })
+          : 'No games in the feed for this stop yet';
+        if (gl.length) {
+          repeat(gtbl, '.trow', gl, paintGame);
+        } else {
+          $$('.trow', gtbl).forEach(function (r, i) {
+            r.classList.add('is-placeholder');
+            r.hidden = i > 2;
+          });
+        }
+      }
+
+      paintPhotos(D.photos.filter(function (g) { return !g.stop || g.stop === e.slug; }).slice(0, 12));
+
+      var back = $('.cnf-back a');
+      if (back) back.setAttribute('href', 'conference.html?id=' + c.id);
+
+      if (window.FIBA) window.FIBA.init(document);
     }
-    var gl = gamesFor(e.slug);
-    if (gl.length) repeat(document, '.trow', gl, paintGame);
-    else $$('.trow').forEach(function (r) { r.classList.add('is-placeholder'); });
+
+    draw();
   };
 
+  /* Competition Standings — every registered federation, ranked on how
+     it has played, sortable on any column. This is the "how is my team
+     doing" table; the Qualification view next door answers "who is
+     going", and until now both tabs rendered the same rows. */
   PAGES['standings.html'] = function () {
     var tbl = $('.tbl');
     var gender = 'men', query = '';
+    var state = { key: 'tour', dir: -1 };
+    var COLS = {
+      'cell-position':   { key: 'rank' },
+      'cell-federation': { key: 'team', text: 1 },
+      'cell-conference': { key: 'confname', text: 1 },
+      'cell-winratio':   { key: 'winRatio' },
+      'cell-ptsavg':     { key: 'avg' },
+      'cell-ep':         { key: 'stops' },
+      'cell-points':     { key: 'tour' },
+      'cell-status':     { key: 'statusRank' }
+    };
 
     function draw() {
       var list = federationTable(gender).filter(function (t) {
         return !query || (t.team + ' ' + t.ioc).toLowerCase().indexOf(query) > -1;
       });
+      var e = tbl.parentElement.querySelector(':scope > .site-empty');
       if (!list.length) {
         $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
-        emptyState(tbl.parentElement, 'No federation matches', 'Try a different name or IOC code.');
+        emptyState(tbl.parentElement, 'No federation matches',
+                   'Try a different name or IOC code.');
         return;
       }
-      var e = tbl.parentElement.querySelector(':scope > .site-empty');
       if (e) e.remove();
+      list.sort(cmp(state.key, state.dir));
       repeat(tbl, '.trow', list, function (row, t) {
         row.hidden = false;
         fed(row, t.ioc, t.team);
-        var nums = $$('.t-data-m', row);
-        if (nums[0]) nums[0].textContent = t.rank;
-        if (nums.length > 3) {
-          nums[nums.length - 4].textContent = (t.winRatio * 100).toFixed(0) + '%';
-          nums[nums.length - 3].textContent = t.points;
-          nums[nums.length - 2].textContent = t.avg;
-          nums[nums.length - 1].textContent = t.stops;
-        }
-        text(row, '.cell-conference .t-body-s', confName(conf(t.conference)));
+        text(row, '.cell-position .t-data-m', t.rank);
+        text(row, '.cell-conference .t-body-s', t.confname);
+        text(row, '.cell-winratio .t-data-m', t.winRatio.toFixed(2));
+        text(row, '.cell-ptsavg .t-data-m', t.avg.toFixed(1));
+        text(row, '.cell-ep .t-data-m', t.stops);
+        text(row, '.cell-points .t-data-m', t.tour);
+        marker(row, t.status);
         link(row, 'team.html?ioc=' + t.ioc);
       });
     }
 
     gender = genderSwitch(function (g) { gender = g; draw(); });
     searchField(document, 'Search a federation or IOC code', function (q) { query = q; draw(); });
+    sortable(tbl, COLS, state, draw);
     draw();
   };
 
+  /* E-09 FederationDirectory. The A–Z jump bar came off: with 67
+     federations the letter was rarely the thing anyone knew, and the
+     region is — so the filter is a row of el-14 Chip under the search
+     field, the same five regions the landing page and the wireframe
+     use. The count sits under the chips because it describes what the
+     filter left, not what the page is called. */
   PAGES['teams.html'] = function () {
-    var seen = {}, all = [];
-    D.teams.forEach(function (t) {
-      if (!t.ioc || seen[t.ioc]) return;
-      seen[t.ioc] = 1;
-      all.push(t);
-    });
+    /* One entry per federation, but the de-duplication has to happen
+       after the gender filter: a federation fields a team in both, and
+       collapsing first meant whichever gender the feed listed first
+       decided whether the federation appeared at all — 33 of 67. */
+    var all = D.teams.filter(function (t) { return !!t.ioc; });
+    all.forEach(function (t) { t.region = regionOf(conf(t.conference)); });
     all.sort(function (a, b) { return (a.name || '').localeCompare(b.name || ''); });
 
     var grid = $('.e09-grid') || $('.e09');
-    var letter = '', query = '';
+    var region = 'All', query = '', gender = 'men';
 
-    var letters = {};
-    all.forEach(function (t) { letters[(t.name || '?')[0].toUpperCase()] = 1; });
-    $$('.alpha-i').forEach(function (a) {
-      var ch = a.textContent.trim().toUpperCase();
-      if (!letters[ch]) { a.classList.add('alpha-dis'); return; }
-      a.addEventListener('click', function () {
-        letter = (letter === ch) ? '' : ch;      /* click again to clear */
-        $$('.alpha-i').forEach(function (x) { x.classList.remove('alpha-on'); });
-        if (letter) a.classList.add('alpha-on');
-        draw();
+    function matches(t) {
+      return (region === 'All' || t.region === region) &&
+             (!query || (t.name + ' ' + t.ioc).toLowerCase().indexOf(query) > -1);
+    }
+    function pool() {
+      var seen = {}, out = [];
+      all.forEach(function (t) {
+        if (t.gender && gender && t.gender !== gender) return;
+        if (!matches(t) || seen[t.ioc]) return;
+        seen[t.ioc] = 1;
+        out.push(t);
       });
-    });
+      return out;
+    }
 
     function draw() {
-      var list = all.filter(function (t) {
-        var n = (t.name || '').toUpperCase();
-        return (!letter || n[0] === letter) &&
-               (!query || (t.name + ' ' + t.ioc).toLowerCase().indexOf(query) > -1);
-      });
+      var list = pool();
       var e = grid.parentElement.querySelector(':scope > .site-empty');
       if (e) e.remove();
+      var count = $('.e09-count');
+      if (count) {
+        count.textContent = list.length + (list.length === 1 ? ' federation' : ' federations') +
+          ' · ' + all.filter(matches).length + ' teams';
+      }
       if (!list.length) {
         grid.hidden = true;
         emptyState(grid.parentElement, 'No federation matches',
-                   'Try another letter, or clear the search.');
+                   'Try another region, or clear the search.');
         return;
       }
       grid.hidden = false;
@@ -999,58 +1559,161 @@
       });
     }
 
+    region = chipFilter(function (r) { region = r; draw(); }) || 'All';
+    gender = genderSwitch(function (g) { gender = g; draw(); });
     searchField(document, 'Search for a federation or IOC code', function (q) { query = q; draw(); });
     draw();
   };
 
   PAGES['team.html'] = function () {
     var ioc = qs.get('ioc');
-    var t = (ioc ? D.teams.filter(function (x) { return x.ioc === ioc; })[0] : null) || D.teams[0];
-    var all = D.teams.filter(function (x) { return x.ioc === t.ioc; });
-    $$('.t-h1, .e04-name, .f04-title').forEach(function (n) { n.textContent = t.name; });
+    var sites = D.teams.filter(function (x) { return x.ioc === (ioc || (D.teams[0] || {}).ioc); });
+    var t = sites[0] || D.teams[0];
+    if (!sites.length) sites = [t];
+
+    crumbs([{ label: 'Home', href: 'index.html' },
+            { label: 'Teams', href: 'teams.html' },
+            { label: t.name }]);
+
     var head = $('.e04-top') || $('.e04');
     if (head) { flag(head, t.ioc); text(head, '.ftag-code', t.ioc); text(head, '.ftag-name', t.name); }
+    $$('.e04-name, .t-h1, .f04-h1-m, .f04-h1-s').forEach(function (n) { n.textContent = t.name; });
 
-    /* A 3x3 squad is four players at one stop. Show the most recent squad
-       rather than everyone the federation has fielded all season. */
-    var squad = all.slice().sort(function (a, b) {
-      var ea = stop(a.stop) || {}, eb = stop(b.stop) || {};
-      return (eb.start || '').localeCompare(ea.start || '');
-    })[0] || t;
-    var roster = squad.roster.map(function (m) { return player(m.id); })
-                             .filter(Boolean);
-    /* the wrapper is the repeated unit: it carries the card's shadow */
-    repeat(document, '.pcard-sh', roster, function (card, p) {
-      text(card, '.pcard-first', p.first);
-      text(card, '.pcard-last', p.last);
-      text(card, '.pcard-ioc', p.ioc);
-      flag(card, p.ioc);
-      var v = $$('.pcard-v', card);
-      if (v[0]) v[0].textContent = p.age != null ? p.age : '';
-      if (v[1]) v[1].textContent = Math.round((p.rankingPoints || 0) / 1000) + 'k';
-      link(card, 'player.html?id=' + p.id);
-    });
+    /* One selection drives the whole page: which of this federation's
+       team sites is being read. */
+    function draw(sel) {
+      var site = sites.filter(function (x) {
+        var cat = /(^|-)u21(-|$)/.test(x.conference || '') ? 'U21' : 'U23';
+        return cat === sel.cat && (x.gender || 'men') === sel.gender;
+      })[0] || t;
+      var c = conf(site.conference) || {};
 
-    /* season totals across every stop this federation played */
-    var rows = [];
-    D.standings.forEach(function (s) {
-      s.rows.forEach(function (r) { if (r.ioc === t.ioc) rows.push(r); });
-    });
-    var tot = rows.reduce(function (a, r) {
-      a.played += r.played || 0; a.won += r.won || 0; a.points += r.points || 0; return a;
-    }, { played: 0, won: 0, points: 0 });
-    var ev = $$('.e04-v');
-    if (ev[0]) ev[0].textContent = tot.points;
-    if (ev[1]) ev[1].textContent = tot.played ? (tot.won / tot.played).toFixed(2) : '—';
-    if (ev[2]) ev[2].textContent = tot.won + '–' + (tot.played - tot.won);
-    if (ev[3]) ev[3].textContent = rows.length;
+      var sub = $('.e04-sub');
+      if (sub) {
+        var parts = $$('.t-body-m', sub);
+        if (parts[0]) parts[0].textContent = sel.cat + ' ' + (sel.gender === 'men' ? 'Men' : 'Women');
+        if (parts[1]) parts[1].textContent = confName(c);
+      }
+
+      /* season totals for this team site */
+      var table = conferenceTable(c.id, site.gender || sel.gender);
+      var me = table.filter(function (r) { return r.ioc === site.ioc; })[0];
+      var season = federationTable(site.gender || sel.gender)
+                     .filter(function (r) { return r.ioc === site.ioc; })[0];
+      var ev = $$('.e04-v');
+      if (me) {
+        if (ev[0]) ev[0].textContent = me.tour;
+        if (ev[1]) ev[1].textContent = me.winRatio.toFixed(2);
+        if (ev[2]) ev[2].textContent = me.won + '–' + (me.played - me.won);
+        if (ev[3]) ev[3].textContent = me.stops;
+        if (ev[4]) ev[4].textContent = me.rank;
+        if (ev[5]) ev[5].textContent = season ? season.rank : '—';
+      }
+      var badge = $('.e04-sub .badge');
+      if (badge && season) {
+        var lbl = { q: 'Qualified', s: 'Shortlisted', n: 'Not qualified' }[season.status];
+        ['q', 's', 'n'].forEach(function (x) { badge.classList.remove('badge-' + x); });
+        badge.classList.add('badge-' + season.status);
+        text(badge, '.lbl', lbl);
+      }
+      /* The stream is a conference-level thing (first review): only
+         offer it while this conference is actually playing. */
+      var wl = $('.e04-act .wl');
+      if (wl) {
+        var today = new Date().toISOString().slice(0, 10);
+        var live = D.events.some(function (e) {
+          return e.conference === c.id && e.start &&
+                 e.start <= today && (e.end || e.start) >= today;
+        });
+        wl.hidden = !live;
+      }
+
+      /* S-10 Season journey — this conference, stop by stop */
+      var stops = D.events.filter(function (e) { return e.conference === c.id; })
+                          .sort(function (x, y) { return (x.number || 0) - (y.number || 0); });
+      var host = $('.s10');
+      if (host) {
+        repeat(host, '.s10-row', stops, function (row, e) {
+          var s = standingsFor(e.slug, site.gender || sel.gender);
+          var mine = s && s.rows.filter(function (r) { return r.ioc === site.ioc; })[0];
+          var played = !!(mine && mine.rank);
+          text(row, '.cell-jstop .t-data-m', e.number);
+          text(row, '.cell-jhost .t-body-s', cityOf(e) + (e.country ? ', ' + e.country : ''));
+          text(row, '.cell-jdate .t-body-s', fmtDate(e.start, { day: 'numeric', month: 'short' }));
+          $('.cell-jplace .t-data-m', row).textContent = played ? ordinal(mine.rank) : '—';
+          $('.cell-jpts .t-data-m', row).textContent = played ? tourPoints(mine.rank) : '—';
+          $('.cell-jstatus .t-body-s', row).textContent = played ? 'Played' : 'Upcoming';
+          row.classList.toggle('is-placeholder', !played);
+          link(row, 'stop.html?id=' + e.slug);
+        });
+      }
+      var jlink = $$('.lnk').filter(function (l) { return /view conference/i.test(l.textContent); })[0];
+      if (jlink) link(jlink, 'conference.html?id=' + c.id);
+
+      /* roster: a 3x3 squad is four players at one stop, so show the
+         most recent one this team site fielded */
+      var recent = sites.filter(function (x) { return x.conference === site.conference && x.gender === site.gender; })
+                        .sort(function (x, y) {
+                          return ((stop(y.stop) || {}).start || '').localeCompare((stop(x.stop) || {}).start || '');
+                        })[0] || site;
+      var roster = (recent.roster || []).map(function (m) { return player(m.id); }).filter(Boolean);
+      if (roster.length) {
+        repeat(document, '.pcard-sh', roster, function (card, p) {
+          text(card, '.pcard-first', p.first);
+          text(card, '.pcard-last', p.last);
+          text(card, '.pcard-ioc', p.ioc);
+          flag(card, p.ioc);
+          /* The snapshot carries no per-game player statistics, so the
+             card states age and 3x3 ranking points — what we do hold —
+             rather than printing ranking points under a PPG label. */
+          var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
+          var stats = [
+            ['AGE', p.age != null ? p.age : '—'],
+            ['RANK', p.rankingPoints ? Math.round(p.rankingPoints / 1000) + 'k' : '—'],
+            ['PPG', '—'],
+            ['GP', '—']
+          ];
+          stats.forEach(function (s, i) {
+            if (k[i]) k[i].textContent = s[0];
+            if (v[i]) v[i].textContent = s[1];
+          });
+          link(card, 'player.html?id=' + p.id);
+        });
+      }
+
+      /* results for the most recent stop of this team site */
+      var mineStops = stops.filter(function (e) { return gamesFor(e.slug, site.gender).length; });
+      var last = mineStops[mineStops.length - 1];
+      var gl = last ? gamesFor(last.slug, site.gender) : [];
+      var gtbl = $('.games-tbl') ||
+                 $$('.tbl').filter(function (x) { return !x.classList.contains('s10'); })[0];
+      if (gtbl) {
+        if (gl.length) repeat(gtbl, '.trow', gl, paintGame);
+        else $$('.trow', gtbl).forEach(function (r) { r.classList.add('is-placeholder'); });
+      }
+
+      paintPhotos(D.photos.filter(function (g) {
+        return !g.stop || stops.some(function (e) { return e.slug === g.stop; });
+      }).slice(0, 12));
+
+      if (window.FIBA) window.FIBA.init(document);
+    }
+
+    var start = categorySwitch($('.f04-ctl') || document, sites, draw) ||
+                { cat: /(^|-)u21(-|$)/.test(t.conference || '') ? 'U21' : 'U23',
+                  gender: t.gender || 'men' };
+    draw(start);
   };
 
   PAGES['player.html'] = function () {
     var p = player(qs.get('id')) || D.players[0];
     text(document, '.e05-first', p.first);
     text(document, '.e05-last', p.last);
-    $$('.f04-title').forEach(function (n) { n.textContent = p.name; });
+    $$('.f04-h1-m, .f04-h1-s, .f04-title').forEach(function (n) { n.textContent = p.name; });
+    crumbs([{ label: 'Home', href: 'index.html' },
+            { label: 'Teams', href: 'teams.html' },
+            { label: p.country || '', href: 'team.html?ioc=' + p.ioc },
+            { label: p.name }]);
     var ph = $('.e05-id') || $('.e05');
     if (ph) { flag(ph, p.ioc); text(ph, '.ftag-code', p.ioc); text(ph, '.ftag-name', p.country); }
     var g = $$('.e05-gv');
@@ -1173,27 +1836,50 @@
     draw();
   };
 
+  /* Qualification — the twenty places at the U23 World Cup and nothing
+     else. One unified view, per ST-09: not a Winners column beside a
+     Race column, which the call ruled out, but a single ordered field
+     in which the route is a property of the row.
+
+     Route is provisional while a conference is still running: a
+     federation that leads its conference is on the conference-winner
+     route, and it becomes fact the day that conference closes. */
   PAGES['qualification.html'] = function () {
-    var QUALIFIED = 12, FIELD = 20;
-    var host = $('.r01') || $('.tbl');
+    var tbl = $('.tbl');
     var gender = 'men';
+
+    function routeOf(t) {
+      var table = conferenceTable(t.conference, gender);
+      var lead = table[0];
+      if (lead && lead.ioc === t.ioc) {
+        var all = D.events.filter(function (e) { return e.conference === t.conference; });
+        var played = all.filter(function (e) { return standingsFor(e.slug); }).length;
+        return (all.length && played >= all.length) ? 'Conference winner'
+                                                    : 'Conference leader';
+      }
+      return 'Standings';
+    }
+
     function draw() {
       var list = federationTable(gender).slice(0, FIELD);
-      repeat(host, '.r01-row, .trow', list, function (row, t, i) {
-        text(row, '.r01-pos .t-data-m', i + 1);
+      repeat(tbl, '.trow', list, function (row, t, i) {
+        row.hidden = false;
         fed(row, t.ioc, t.team);
-        var cc = $('.r01-conf', row);
-        if (cc) cc.textContent = (conf(t.conference) || {}).name || '';
-        var badge = $('.badge, .marker', row);
-        if (badge) {
-          var q = i < QUALIFIED;
-          badge.classList.remove('badge-q', 'badge-s', 'marker-q', 'marker-s');
-          badge.classList.add(q ? 'badge-q' : 'badge-s');
-          ($('.lbl', badge) || badge).textContent = q ? 'Qualified' : 'Shortlisted';
-        }
+        text(row, '.cell-position .t-data-m', i + 1);
+        text(row, '.cell-conference .t-body-s', t.confname);
+        text(row, '.cell-route .t-body-s', routeOf(t));
+        text(row, '.cell-winratio .t-data-m', t.winRatio.toFixed(2));
+        text(row, '.cell-points .t-data-m', t.tour);
+        marker(row, t.status);
         link(row, 'team.html?ioc=' + t.ioc);
       });
+      var note = $('.ban-t');
+      if (note) note.textContent = 'Twenty places — the host federation and nineteen through the league';
+      var body = $('.ban-d');
+      if (body) body.textContent = 'Routes are provisional until a conference closes. ' +
+        'Q qualified, S shortlisted, N not qualified.';
     }
+
     gender = genderSwitch(function (g) { gender = g; draw(); });
     draw();
   };
@@ -1255,7 +1941,19 @@
       wrap.innerHTML = parts[0] + parts[1];
       var mm = wrap.querySelector('.mm');
       var ovl = wrap.querySelector('.ovl');
-      if (mm) { mm.classList.add('site-mm'); host.appendChild(mm); }
+      if (mm) {
+        mm.classList.add('site-mm');
+        /* F-05 marks the current page the way F-03 does — white label
+           with a white rule under it. The specimen had Standings marked
+           with the gold accent, and being a partial it did that on
+           every page in the site. */
+        var here = (document.body.dataset.page || 'index.html').split('?')[0];
+        $$('a.nav-a', mm).forEach(function (a) {
+          if ((a.getAttribute('href') || '').split('?')[0] !== here) return;
+          $$('.mm-l', a).forEach(function (l) { l.classList.add('mm-l-on'); });
+        });
+        host.appendChild(mm);
+      }
 
       /* T · Search *is* the overlay, so use the one already on the page
          rather than stacking a second copy on top of it. */

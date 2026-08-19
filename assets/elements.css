@@ -2330,3 +2330,32 @@
   justify-content:flex-end;
   white-space:nowrap;
 }
+
+/* ---- el-11 SearchInput: clear ---------------------------------------
+   Appears at the trailing edge as soon as the field has text, and takes
+   the field back to the unfiltered list. */
+.search-clear {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:24px;
+  height:24px;
+  margin-left:auto;
+  padding:0;
+  border:0;
+  background:none;
+  color:var(--text-muted);
+  cursor:pointer;
+}
+.search-clear[hidden] { display:none; }
+.live .search-clear:hover { color:var(--text-primary); }
+.live .search-clear:focus-visible { outline:2px solid var(--text-primary); outline-offset:2px; }
+
+/* ---- R-02 StandingsTable: the Qualification view's Route column -----
+   How a federation reaches the U23 World Cup — as a conference winner
+   or through the global standings. It replaces Pts Average and EP in
+   that view, because the question there is who is going, not how well
+   they played. */
+.c-route {
+  width:180px;
+}

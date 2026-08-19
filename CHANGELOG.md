@@ -1,5 +1,158 @@
 # Changelog
 
+## 2026-08-19 (2) — Breadcrumbs, two real tabs, and the conference pages
+
+### Global
+
+**Every page states its own breadcrumb.** Pages that carry an entity in
+the trail were leaving the specimen's text in place, so a team page
+opened from any federation still read *Home / Teams / Serbia* and a stop
+page kept whichever conference the specimen was built with. There is one
+writer now, and team, player, conference and stop all use it. The same
+bug had the team and conference H1 stuck on the specimen's name — the H1
+is `.f04-h1-m`, which was not in the selector list.
+
+**The mega menu no longer highlights Standings on every page.** The gold
+accent was baked into the partial as a stand-in for "you are here", and
+being a partial it did that everywhere. Gold is a hover colour; the
+current page is now marked the way F-03 marks it — white label with a
+3px white rule under it — and the marking is derived from the page.
+
+### Home
+
+- **Overview** — the label and the figures now sit on one centre line.
+- **The red dot means live now.** Every day in the strip has play, so
+  marking them all made the whole season look live. Nothing is live
+  today, so no dot shows, which is the truth.
+- **The default day** is today when today has play, and otherwise the
+  most recent day that did. That was already the behaviour; it is now
+  stated in the code rather than implied.
+- **el-11 SearchInput has a clear control** at the trailing edge, which
+  appears as soon as there is text. It existed only in the search
+  overlay's markup, so the fields on Teams and Standings had no way back
+  to the full list.
+
+### Standings — the two tabs answer different questions
+
+They rendered the same rows, which is why splitting them read as
+arbitrary. ST-03 asked the page to answer two things:
+
+- **Competition Standings** — every registered federation ranked on how
+  it has played. Win ratio, points average, stops played, tour points,
+  sortable on any column.
+- **Qualification** — the twenty places at the U23 World Cup and nothing
+  else, in qualification order, with a **Route** column in place of Pts
+  Average and EP: conference winner, conference leader, or standings.
+  One unified view, per ST-09 — not a Winners column beside a Race
+  column, which the call ruled out.
+
+Also: **sorting works** (the arrow and the `cell-sorted` class were
+painted in but nothing was wired); **tour points are tour points** —
+the column was being filled with the basketball points a team scored,
+which ranked the table by offence; the **status marker** was being
+clipped off the right edge by a table pinned to 1440px inside a clamped
+column, which is what made it look broken; and the legend gained
+**N — not qualified**.
+
+### Teams
+
+el-25 AlphaIndex came off. With 67 federations the letter is rarely what
+anyone knows and the region is, so the filter is a row of el-14 Chip at
+size S under the search field — the same five regions the landing page
+uses. The count moved under the chips, because it describes what the
+filter left rather than what the page is called.
+
+One entry per federation, but the de-duplication now happens *after* the
+gender filter: a federation fields a team in both, and collapsing first
+meant whichever gender the feed listed first decided whether the
+federation appeared at all — 33 of 68.
+
+### Team page
+
+- **The switch says which category.** A federation may enter U23 only,
+  U21 only, or both. Two segments become four when it does — Johannes'
+  SWITCH TEAM, which was the only route to a U21 squad.
+- **One H1, on the thing that is actually the page title.** F-04 keeps
+  the breadcrumb and the switch; the federation name in E-04 is the H1.
+- **S-10 SeasonJourney** above the roster — the conference stop by stop:
+  where this federation finished, what it was worth, whether the stop has
+  been played.
+- **Squad → Roster.** FIBA's own term across its platform, and the
+  module has been called E-10 RosterGrid all along.
+- **Photos** under the results.
+- E-08's card stats state age and 3x3 ranking points — what the snapshot
+  holds — instead of printing ranking points under a PPG label.
+
+### Conferences page
+
+Find a team, then Overview with both lines, then a ghost **Qualification
+tables** button through to Stats, then the grid.
+
+**E-03 is one card per conference.** It was one card per region with the
+conferences listed inside and a *View region* link that went nowhere the
+card did not already go. The federations in each conference are named
+with el-13 FederationTag at size S, and the region is a caption over a
+group of cards. The U21 conferences sit inside their region with
+everything else — the feed files them all under a "U21" region, and
+region is now derived from the conference instead.
+
+### Conference page
+
+**Overview | Stops**, as ctl-03 Tab.
+
+- **Overview** — the standings columns agreed on 3 August, then leading
+  scorers as E-08 PlayerCard, then conference highlights, then photos.
+- **Stops** — the stop selector, **S-11 StopMatrix** (one row per
+  federation, one column per stop, placement over what it was worth —
+  Johannes' original, and what Alex asked for on slide 9: *"Good, but
+  show six stops"*), then that stop's games, then the link back to the
+  conference table.
+- **E-08 on hover** lifts, tips six degrees towards the pointer and
+  takes a specular band across it. Off under `prefers-reduced-motion`.
+
+Two things to flag rather than bury. **Conference highlights is the tile
+row Alex marked "irrelevant / kill"** on slide 10 of the written
+feedback — it is in because it was asked for again, and it sits at the
+foot of the Overview tab rather than near the standings. And **leading
+scorers has no box scores to rank**: the snapshot carries pool games and
+finals but no player lines, so the cards are ordered by FIBA 3x3 ranking
+points and say so in an el-27 banner, with points per game left empty
+rather than guessed.
+
+### Stop page
+
+The stops are selectable and the whole page follows the selection —
+title, breadcrumb, podium, pools, bracket, games, photographs.
+
+**On where the bracket goes:** it was already in the right place. Stop
+result, pools, bracket, games is the order Alex asked for on slide 14 —
+final on top, third place under it. It read as missing because nothing
+filled it. The snapshot holds pool games and finals only, so a round
+with no games now hides instead of showing specimen scores, and the
+podium is painted plinth by plinth rather than repeated from the first,
+which had put the same federation in all three places.
+
+### Also
+
+- `width:1440px` is gone from every table. Inside a clamped column it
+  pushed the last column past the viewport, which is what clipped the
+  status badge and gave Stats and Player a horizontal scrollbar.
+- The snapshot repeats the city when the feed's city and region match —
+  "Riga, Riga". Collapsed once, in one place.
+
+### Design system
+
+New: **S-10 SeasonJourney**, **S-11 StopMatrix**. Updated: F-04 (control
+slot), F-05 (current page), el-02 (category variants), el-09 (N marker),
+el-11 (clear), el-23 (per-page trail), el-25 (no longer on Teams), E-03
+(one card per conference), E-04 (the H1 lives here), E-08 (hover), E-09
+(region filter), R-02 (two views). `system/_check/` and `system/pages/`
+were both edited — the build scripts in `tools/` still point at an old
+session path.
+
+Scripts: `tools/p3_standings.py`, `p4_team.py`, `p5_conferences.py`,
+`p6_conference.py`, `p7_stop.py`, `p8_designsystem2.py`.
+
 ## 2026-08-19 — Overview, the calendar strip, and one place for the switch
 
 ### S-09 is now Overview, and it has a type

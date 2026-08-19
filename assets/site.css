@@ -246,3 +246,9 @@ a.nav-a {
    the title there instead of overlapping it. */
 .tpl-colR .el01 { flex-wrap: wrap; row-gap: 4px; }
 .tpl-colR .el01-left { min-width: 0; }
+
+/* ---- F-04: a control on its own still sits at the right edge ------
+   On the team page F-04 carries only the breadcrumb and the switch —
+   the page title moved into E-04 — so there is no identity column to
+   push the control across. */
+.f04-row > .f04-ctl:only-child { margin-left: auto; }

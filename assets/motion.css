@@ -129,3 +129,43 @@
   .s03-in-r, .s03-in-l { animation: none; }
   .live .acc-panel { transition: none; }
 }
+
+/* ---- E-08 PlayerCard: pick it up ------------------------------------
+   The card lifts, tips very slightly towards the pointer and a specular
+   band crosses it. The tilt is small on purpose — 6 degrees reads as a
+   card in the hand, more reads as a gimmick — and the whole thing is
+   off under prefers-reduced-motion. */
+.pcard-sh { perspective:900px; }
+.pcard {
+  position:relative;
+  transform-style:preserve-3d;
+  transition: transform var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+  will-change:transform;
+}
+.pcard-shine {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:0;
+  transition:opacity var(--dur-base) var(--ease-out);
+  background:linear-gradient(
+    var(--shine-a, 110deg),
+    transparent 35%,
+    rgba(255,255,255,0.55) var(--shine-p, 50%),
+    transparent 65%);
+  mix-blend-mode:screen;
+}
+.live .pcard-sh:hover .pcard {
+  transform: translateY(-6px)
+             rotateX(var(--tilt-x, 0deg))
+             rotateY(var(--tilt-y, 0deg));
+  box-shadow: 0 18px 40px rgba(0,0,0,0.22), 0 2px 6px rgba(0,0,0,0.12);
+}
+.live .pcard-sh:hover .pcard-shine { opacity:1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .pcard, .pcard-shine { transition:none; }
+  .live .pcard-sh:hover .pcard { transform:translateY(-2px); }
+  .live .pcard-sh:hover .pcard-shine { opacity:0; }
+}

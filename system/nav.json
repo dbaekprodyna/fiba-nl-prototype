@@ -172,7 +172,7 @@
    {
     "slug": "el-11-searchinput",
     "title": "el-11 SearchInput",
-    "desc": "The gateway built on the assumption that fans look for their own federation and little else. Accepts a name or an IOC code. The suggestion list is a separate component (el-15) so a"
+    "desc": "The gateway built on the assumption that fans look for their own federation and little else. Accepts a name or an IOC code. The suggestion list is a separate component (el-15) so a A clear control appears at the trailing edge as soon as the field has text."
    },
    {
     "slug": "el-15-autocompletemenu",
@@ -207,7 +207,7 @@
    {
     "slug": "el-23-breadcrumb",
     "title": "el-23 Breadcrumb",
-    "desc": "The path back up. It was living inside F-04 SubHeader; pulling it out means search results, articles and stop pages can all use the same one."
+    "desc": "The path back up. It was living inside F-04 SubHeader; pulling it out means search results, articles and stop pages can all use the same one. Every page states its own trail: pages carrying an entity were leaving the specimen’s text in place."
    },
    {
     "slug": "el-24-avatar",
@@ -217,7 +217,7 @@
    {
     "slug": "el-25-alphaindex",
     "title": "el-25 AlphaIndex",
-    "desc": "The A to Z jump bar above the federation directory. Letters with no federation behind them are disabled rather than hidden, so the bar never changes width."
+    "desc": "The A to Z jump bar. No longer used on the Teams page, where the region filter replaced it."
    },
    {
     "slug": "el-26-skeleton",
@@ -273,7 +273,7 @@
    {
     "slug": "f-05-megamenu",
     "title": "F-05 MegaMenu",
-    "desc": "What opens under More. Three columns of destinations plus one featured story, on the same black chrome as the navigation bar so the panel reads as an extension of it rather than as"
+    "desc": "What opens under More. Three columns of destinations plus one featured story, on the same black chrome as the navigation bar so the panel reads as an extension of it rather than as The current page is marked the way F-03 marks it — white label, white rule under it. The gold accent is a hover colour, not a selection."
    },
    {
     "slug": "f-06-sitefooter",
@@ -329,6 +329,16 @@
     "slug": "s-09-overview",
     "title": "S-09 Overview",
     "desc": "Where the season stands, as the first block of a page. Two types: conferences alone for the landing page, conferences and stops worldwide for the Conferences page. Named Season status until 18 August 2026."
+   },
+   {
+    "slug": "s-10-seasonjourney",
+    "title": "S-10 SeasonJourney",
+    "desc": "A federation's conference read stop by stop — where it finished, what it was worth, whether it has been played. Sits above the roster on a team page."
+   },
+   {
+    "slug": "s-11-stopmatrix",
+    "title": "S-11 StopMatrix",
+    "desc": "One row per federation, one column per stop. Johannes’ original, and what Alex asked for on slide 9 — \"Good, but show six stops\"."
    }
   ]
  },
@@ -344,7 +354,7 @@
    {
     "slug": "r-02-standingstable",
     "title": "R-02 StandingsTable",
-    "desc": "The Standings page table, in two views. Built from el-08 TableHeaderRow and el-04 TeamRow with matched cell widths, and every column is a boolean property on the row so a column ch"
+    "desc": "The Standings page table in two views. Competition Standings ranks every federation on performance and sorts on any column; Qualification shows the twenty places only, with a Route column in place of Pts Average and EP."
    },
    {
     "slug": "r-03-conferencestandings",
@@ -374,7 +384,7 @@
    {
     "slug": "e-03-conferencegrid",
     "title": "E-03 ConferenceGrid",
-    "desc": "Regional group cards instead of a world map. Review was sceptical that a map of 100+ stops helps anyone, so the geography is reduced to five groups with a progress track per confer"
+    "desc": "One card per conference, grouped under a region caption. Federations are named with el-13 FederationTag at size S; the U21 conferences sit inside their region."
    },
    {
     "slug": "e-04-teamheader",
@@ -399,12 +409,12 @@
    {
     "slug": "e-08-playercard",
     "title": "E-08 PlayerCard",
-    "desc": "The roster tile on a team page. Four stacked layers so the whole set reskins from one background swap: background, cut-out portrait, stat column, name plate. It follows the existin"
+    "desc": "The roster tile on a team page. Four stacked layers so the whole set reskins from one background swap: background, cut-out portrait, stat column, name plate. It follows the existin On hover the card lifts, tips slightly towards the pointer and a specular band crosses it."
    },
    {
     "slug": "e-09-federationdirectory",
     "title": "E-09 FederationDirectory",
-    "desc": "The Teams index: every federation in the competition, jumpable by letter. The single most common task on the site is finding one federation, and this is the page that has to answer"
+    "desc": "The Teams index, filtered by region. The A–Z jump bar gave way to a row of el-14 Chip — the region is what people know, not the letter."
    },
    {
     "slug": "e-10-rostergrid",
