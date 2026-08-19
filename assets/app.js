@@ -193,12 +193,51 @@
     ev.preventDefault(); t.click();
   });
 
-  /* ---------- accordion ------------------------------------- */
-  function toggle(acc, force) {
-    var open = force !== undefined ? force : acc.getAttribute('data-open') !== 'true';
+  /* ---------- accordion -------------------------------------
+     The panel's height is animated rather than switched, so it reads
+     as opening rather than appearing. Measure, animate to that
+     height, then release to auto — a table that reflows afterwards
+     must not end up clipped, and overflow goes back to visible so a
+     tooltip near the bottom edge still shows. */
+  function panelOf(acc) {
+    var head = acc.querySelector(':scope > .acc-head, :scope > .disc-head');
+    if (!head) return null;
+    var p = head.nextElementSibling;
+    while (p && p.classList.contains('cutfill')) p = p.nextElementSibling;
+    return p;
+  }
+
+  function toggle(acc, force, instant) {
+    var was = acc.getAttribute('data-open') === 'true';
+    var open = force !== undefined ? force : !was;
+    var p = panelOf(acc);
+    /* Measured while still open: a closed panel has its padding zeroed
+       by CSS, so measuring after the flip would lose 48px and the
+       collapse would start with a jump. */
+    var from = (p && was) ? p.getBoundingClientRect().height : 0;
+
     acc.setAttribute('data-open', open ? 'true' : 'false');
     var caret = acc.querySelector('.acc-head svg, .disc-head svg');
     if (caret) caret.style.transform = open ? 'rotate(180deg)' : '';
+
+    if (!p) return;
+    if (p._anim) { clearTimeout(p._anim); p._anim = null; }
+
+    if (instant || open === was) {
+      p.style.overflow = open ? '' : 'hidden';
+      p.style.height = open ? 'auto' : '';     /* '' lets the CSS collapse it */
+      return;
+    }
+    p.style.overflow = 'hidden';
+    p.style.height = (open ? 0 : from) + 'px';
+    void p.offsetHeight;                       /* commit the start value */
+    p.style.height = (open ? p.scrollHeight : 0) + 'px';
+    p._anim = setTimeout(function () {
+      p._anim = null;
+      if (acc.getAttribute('data-open') !== 'true') { p.style.height = ''; return; }
+      p.style.height = 'auto';
+      p.style.overflow = '';
+    }, 400);
   }
 
   /* The caret comes from whichever specimen state was cloned, so it
@@ -227,12 +266,12 @@
       head.setAttribute('tabindex', '0');
       head.setAttribute('role', 'button');
       if (groups.indexOf(acc.parentElement) === -1) groups.push(acc.parentElement);
-      toggle(acc, false);
+      toggle(acc, false, true);
     });
     /* First accordion of each group opens on load, the rest stay closed. */
     groups.forEach(function (g) {
       var first = g.querySelector(':scope > .acc, :scope > .disc');
-      if (first) toggle(first, true);
+      if (first) toggle(first, true, true);
     });
   }
 

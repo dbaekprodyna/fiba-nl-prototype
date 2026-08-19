@@ -104,10 +104,15 @@
   function playedStops() {
     return D.events.filter(function (e) { return e.teamsRegistered; });
   }
+  /* Two stops in the snapshot arrive without a gender label — the
+     feed's category name came through empty — so a gendered lookup
+     found nothing and the conference table rendered blank. Prefer the
+     labelled record, fall back to the unlabelled one. */
   function standingsFor(slug, gender) {
-    return D.standings.filter(function (s) {
-      return s.stop === slug && (!gender || s.gender === gender);
-    })[0];
+    var all = D.standings.filter(function (s) { return s.stop === slug; });
+    if (!gender) return all[0];
+    return all.filter(function (s) { return s.gender === gender; })[0] ||
+           all.filter(function (s) { return !s.gender; })[0];
   }
   function teamsFor(slug, gender) {
     return D.teams.filter(function (t) {
@@ -163,6 +168,79 @@
     list.sort(function (a, b) { return b.points - a.points || b.winRatio - a.winRatio; });
     list.forEach(function (t, i) { t.rank = i + 1; });
     return list;
+  }
+
+  /* ---------- conference standings ---------------------------
+     One implementation, used by the landing page accordion and by the
+     conference page. Both were painting by column index, which put the
+     win ratio under Pts Average and the points scored under Tour
+     Points; every cell is now addressed by its own class.             */
+
+  /* NM-01: the age category is part of the conference name and it goes
+     after it. U23 is the default, so the feed names only the U21
+     conferences and does it as a prefix — "U21 Europe-2" — which is
+     moved to the end here. */
+  function confName(c) {
+    if (!c) return '';
+    var m = /^U(\d\d)\s+(.+)$/.exec(c.name || '');
+    return m ? m[2] + ' U' + m[1] : (c.name || '') + ' U23';
+  }
+
+  /* The feed carries the finishing order at each stop but no tour
+     points, so the ladder is stated once, here, and nowhere else. */
+  var TOUR = [100, 80, 70, 60, 50, 40, 30, 20, 10];
+  function tourPoints(rank) {
+    if (!rank) return 0;                     /* stop not finished yet */
+    return TOUR[rank - 1] != null ? TOUR[rank - 1] : 10;
+  }
+
+  function conferenceTable(confId, gender, uptoISO) {
+    var by = {};
+    D.events.forEach(function (e) {
+      if (e.conference !== confId) return;
+      if (uptoISO && (!e.start || e.start > uptoISO)) return;
+      var s = standingsFor(e.slug, gender);
+      if (!s) return;
+      s.rows.forEach(function (r) {
+        if (!r.ioc) return;
+        var t = by[r.ioc] = by[r.ioc] ||
+          { ioc: r.ioc, team: r.team, played: 0, won: 0, pts: 0, tour: 0, stops: 0 };
+        t.played += r.played || 0;
+        t.won += r.won || 0;
+        t.pts += r.points || 0;
+        t.tour += tourPoints(r.rank);
+        t.stops += 1;
+      });
+    });
+    var list = Object.keys(by).map(function (k) { return by[k]; });
+    list.forEach(function (t) {
+      t.winRatio = t.played ? t.won / t.played : 0;
+      t.avg = t.played ? Math.round((t.pts / t.played) * 10) / 10 : 0;
+    });
+    list.sort(function (a, b) { return b.tour - a.tour || b.winRatio - a.winRatio; });
+    list.forEach(function (t, i) { t.rank = i + 1; });
+    return list;
+  }
+
+  /* Q once the conference is over and this row won it — a conference
+     winner qualifies. Everyone else is still in the race; S is a
+     season-wide judgement and is set on the Standings page, not here. */
+  function paintStandingRow(row, r, complete) {
+    row.hidden = false;
+    fed(row, r.ioc, r.team);
+    text(row, '.cell-position .t-data-m', r.rank);
+    text(row, '.cell-winratio .t-data-m', r.winRatio.toFixed(2));
+    text(row, '.cell-ptsavg .t-data-m', r.avg.toFixed(1));
+    text(row, '.cell-ep .t-data-m', r.stops);
+    text(row, '.cell-points .t-data-m', r.tour);
+    var mk = $('.cell-status .marker', row);
+    if (mk) {
+      var st = (complete && r.rank === 1) ? 'q' : 'r';
+      mk.classList.remove('marker-q', 'marker-s', 'marker-r');
+      mk.classList.add('marker-' + st);
+      text(mk, '.lbl', st.toUpperCase());
+    }
+    link(row, 'team.html?ioc=' + r.ioc);
   }
 
   /* ---------- controls ---------------------------------------
@@ -378,70 +456,119 @@
 
   PAGES['index.html'] = function () {
     /* ---- Live now -------------------------------------------
-       A week of dates around today, a region filter, and the
-       conferences playing on the selected day. Prev and Next move
-       the window a week at a time. */
+       LP-17, and Johannes' note on the strip: only offer days that have
+       something under them. The strip is built from the days that
+       actually carry play, not from consecutive dates, so there is no
+       empty day left to land on.
+
+       Two independent pieces of state. `sel` is the day whose
+       conferences are shown below; `win` is the first day visible in
+       the strip. Clicking a day changes `sel` and nothing else, so the
+       cell stays exactly where it was clicked. Prev and Next move
+       `win` and leave `sel` alone — the strip travels, the selection
+       does not. */
+    var SLOTS = 8;
     var region = 'All';
-    var day = new Date();
-    day.setHours(0, 0, 0, 0);
+    var days = [], sel = 0, win = 0, gender = {};
 
     function iso(d) { return d.toISOString().slice(0, 10); }
-    function stopsOn(dateISO) {
-      return D.events.filter(function (e) {
-        if (!e.start) return false;
-        if (region !== 'All') {
-          var c = conf(e.conference);
-          if (!c || c.name.toLowerCase().indexOf(region.toLowerCase().replace('asiapacific', 'asia')) !== 0) return false;
-        }
-        return e.start <= dateISO && (e.end || e.start) >= dateISO;
+
+    function inRegion(e) {
+      if (region === 'All') return true;
+      var c = conf(e.conference);
+      var want = region.toLowerCase().replace('asiapacific', 'asia');
+      return !!c && c.name.toLowerCase().indexOf(want) === 0;
+    }
+    /* "Something under it" means results, not merely a row in the feed.
+       Two stops arrive with a full standings record in which every team
+       has played nothing — offering those days is exactly what the note
+       asked us to stop doing. */
+    function hasContent(e) {
+      var s = standingsFor(e.slug);
+      if (s && s.rows && s.rows.some(function (r) { return (r.played || 0) > 0; })) return true;
+      return gamesFor(e.slug).some(function (g) {
+        return g.home && g.home.score != null;
       });
     }
-    /* Nothing on today in a finished season, so open on the last day
-       that actually had basketball. */
-    (function () {
-      if (stopsOn(iso(day)).length) return;
-      var played = D.events.filter(function (e) { return e.teamsRegistered; })
-                           .map(function (e) { return e.start; }).sort();
-      if (played.length) day = new Date(played[played.length - 1] + 'T00:00:00');
-    })();
+    function stopsOn(dateISO) {
+      return D.events.filter(function (e) {
+        return e.start && inRegion(e) && hasContent(e) &&
+               e.start <= dateISO && (e.end || e.start) >= dateISO;
+      });
+    }
+    function dayList() {
+      var seen = {};
+      D.events.forEach(function (e) {
+        if (e.start && inRegion(e) && hasContent(e)) seen[e.start] = 1;
+      });
+      return Object.keys(seen).sort();
+    }
+    /* Open on the most recent day that had basketball rather than on an
+       empty today. */
+    function nearest(list) {
+      var t = iso(new Date());
+      for (var i = list.length - 1; i >= 0; i--) if (list[i] <= t) return i;
+      return 0;
+    }
+    function clampWin() {
+      win = days.length <= SLOTS ? 0
+          : Math.max(0, Math.min(win, days.length - SLOTS));
+    }
+    function centre() {
+      win = sel - Math.floor(SLOTS / 2) + 1;
+      clampWin();
+    }
+
+    days = dayList();
+    sel = nearest(days);
+    centre();
 
     var strip = $('.s03, .s03wrap');
     var accHost = ($('.acc') || {}).parentElement;
 
     function drawStrip() {
       if (!strip) return;
-      var days = [];
-      for (var i = -3; i <= 4; i++) {
-        var d = new Date(day); d.setDate(day.getDate() + i);
-        days.push(d);
-      }
-      repeat(strip, '.s03-d', days, function (cell, d) {
-        var on = iso(d) === iso(day);
-        cell.classList.toggle('s03-on', on);
+      var view = days.slice(win, win + SLOTS);
+      repeat(strip, '.s03-d', view, function (cell, dISO) {
+        var d = new Date(dISO + 'T00:00:00');
+        cell.classList.toggle('s03-on', dISO === days[sel]);
         cell.classList.remove('s03-off');
+        cell.classList.add('s03-live');     /* every day in the strip has play */
         text(cell, '.s03-num', d.getDate());
         text(cell, '.s03-dow', d.toLocaleDateString('en-GB', { weekday: 'short' }).toUpperCase());
         text(cell, '.s03-mon', d.toLocaleDateString('en-GB', { month: 'short' }).toUpperCase());
-        var live = stopsOn(iso(d)).length;
-        cell.classList.toggle('s03-live', !!live);
-        if (!live) cell.classList.add('s03-off');
-        cell.addEventListener('click', function () { day = d; drawStrip(); drawLive(); });
+        cell.onclick = function () { sel = days.indexOf(dISO); drawStrip(); drawLive(); };
       });
-      var nav = $$('.s03nav', strip);
-      if (nav[0] && !nav[0]._wired) {
-        nav[0]._wired = 1;
-        nav[0].addEventListener('click', function () { day.setDate(day.getDate() - 7); drawStrip(); drawLive(); });
-      }
-      if (nav[1] && !nav[1]._wired) {
-        nav[1]._wired = 1;
-        nav[1].addEventListener('click', function () { day.setDate(day.getDate() + 7); drawStrip(); drawLive(); });
-      }
+      $$('.s03nav', strip).forEach(function (b, i) {
+        var back = i === 0;
+        b.classList.toggle('s03nav-off',
+          back ? win === 0 : win >= days.length - SLOTS);
+        if (b._wired) return;
+        b._wired = 1;
+        b.addEventListener('click', function () { page(back ? -1 : 1); });
+      });
+    }
+
+    /* The window slides a full page at a time and the movement is shown,
+       so it is clear the strip travelled rather than the data changed. */
+    function page(dir) {
+      var was = win;
+      win += dir * SLOTS;
+      clampWin();
+      if (win === was) return;
+      drawStrip();
+      var host = $('.s03', strip) || strip;
+      host.classList.remove('s03-in-l', 's03-in-r');
+      void host.offsetWidth;
+      host.classList.add(dir > 0 ? 's03-in-r' : 's03-in-l');
     }
 
     function drawLive() {
-      var evs = stopsOn(iso(day));
-      var e0 = accHost && accHost.querySelector(':scope > .site-empty');
-      if (e0) e0.remove();
+      if (!accHost) return;
+      var old = accHost.querySelector(':scope > .site-empty');
+      if (old) old.remove();
+      var dISO = days[sel];
+      var evs = dISO ? stopsOn(dISO) : [];
       if (!evs.length) {
         $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
         emptyState(accHost, 'Nothing on this day',
@@ -449,41 +576,73 @@
         return;
       }
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
-      var confs = evs.slice(0, 6).map(function (e) {
-        return { c: conf(e.conference), e: e, s: standingsFor(e.slug, 'men') };
-      });
-      paintAccordions(confs);
+      paintAccordions(evs.slice(0, 6), dISO);
       if (window.FIBA) window.FIBA.init(accHost);
     }
 
-    region = chipFilter(function (r) { region = r; drawStrip(); drawLive(); }) || 'All';
+    function paintAccordions(evs, dISO) {
+      var today = iso(new Date());
+      repeat(accHost, '.acc', evs, function (node, e) {
+        var c = conf(e.conference) || {};
+        var g = gender[e.slug] || 'men';
+        var all = D.events.filter(function (x) { return x.conference === c.id; });
+        var played = all.filter(function (x) {
+          return x.start && x.start <= dISO && standingsFor(x.slug);
+        }).length;
+        /* Live is a fact about today, not about the day being browsed. */
+        var live = e.start <= today && (e.end || e.start) >= today;
 
-    function paintAccordions(confs) {
-    repeat(accHost || document, '.acc', confs, function (node, rec) {
-      text(node, '.t-h3', rec.c ? rec.c.name : '');
-      var meta = $$('.acc-head .t-body-s', node)[0];
-      if (meta) meta.textContent = rec.e.city + ' · Stop ' + rec.e.number + ' of ' + (conf(rec.e.conference) || {}).stopCount;
-      if (rec.s) {
-        repeat(node, '.trow', rec.s.rows.slice(0, 4), function (row, r) {
-          fed(row, r.ioc, r.team);
-          var cells = $$('.cell', row);
-          if (cells[0]) cells[0].textContent = r.rank;
-          var nums = $$('.cell-num, .t-data-m', row);
-          if (nums.length >= 2) {
-            nums[nums.length - 2].textContent = r.won + '–' + (r.played - r.won);
-            nums[nums.length - 1].textContent = r.points;
-          }
-          link(row, 'team.html?ioc=' + r.ioc);
+        text(node, '.t-h3', confName(c));
+        var meta = $$('.acc-head .t-body-s', node)[0];
+        if (meta) meta.textContent = e.city + ' · Stop ' + e.number +
+                                     ' of ' + (c.stopCount || all.length);
+        var badge = $('.acc-head .badge', node);
+        if (badge) badge.hidden = !live;
+        text(node, '.acc-head .t-caption',
+             'Stop ' + e.number + ' of ' + (c.stopCount || all.length));
+        $$('.dot', node).forEach(function (d, i) {
+          d.classList.toggle('dot-done', i < played);
+          d.classList.toggle('dot-live', live && i === played - 1);
         });
-      }
-      /* The header only expands and collapses — the link out is the
-         "View conference" action inside the panel. */
-      var view = $$('.lnk, .btn', node).filter(function (l) {
-        return /view conference|conference/i.test(l.textContent);
-      })[0];
-      if (view) link(view, 'conference.html?id=' + rec.e.conference);
-    });
+
+        /* the switch inside the panel scopes this conference's table */
+        var sw = $('.el02', node);
+        if (sw) $$('.el02-seg', sw).forEach(function (seg) {
+          var val = /women/i.test(seg.textContent) ? 'women' : 'men';
+          seg.classList.toggle('el02-on', val === g);
+          seg.onclick = function (ev) {
+            ev.stopPropagation();
+            gender[e.slug] = val;
+            drawLive();
+          };
+        });
+
+        var rows = conferenceTable(c.id, g, dISO);
+        var complete = all.length && played >= all.length;
+        if (!rows.length) {
+          $$('.trow', node).forEach(function (r) { r.hidden = true; });
+        } else {
+          repeat(node, '.trow', rows.slice(0, 4), function (row, r) {
+            paintStandingRow(row, r, complete);
+          });
+        }
+        var view = $$('.lnk, .btn', node).filter(function (l) {
+          return /conference/i.test(l.textContent);
+        })[0];
+        if (view) link(view, 'conference.html?id=' + e.conference);
+      });
     }
+
+    region = chipFilter(function (r) {
+      region = r;
+      var keep = days[sel];
+      days = dayList();
+      sel = days.indexOf(keep);
+      if (sel < 0) sel = nearest(days);
+      centre();
+      drawStrip();
+      drawLive();
+    }) || 'All';
 
     drawStrip();
     drawLive();
@@ -535,8 +694,10 @@
       drawBoard();
     })();
 
-    /* News rail */
-    repeat(document, '.c02-hcard, .c02-card', D.news, function (card, n) {
+    /* News — C-02 NewsRail, layout = feature: two across, the image
+       over the headline and the date. Two is the layout, not a cap that
+       happens to match the feed. */
+    repeat(document, '.c02-hcard, .c02-card', D.news.slice(0, 2), function (card, n) {
       text(card, '.c02-title', n.title);
       var cap = $('.t-caption', card);
       if (cap) cap.textContent = fmtDate(n.date);
@@ -572,13 +733,46 @@
         });
     })();
 
-    /* Season status */
-    var total = D.events.length, done = playedStops().length;
-    $$('.s09-kv').forEach(function (kv, i) {
-      if (i === 0) kv.textContent = total;
-      if (i === 1) kv.textContent = done;
-      if (i === 2) kv.textContent = total - done;
-    });
+    /* Overview — S-09, type = conferences. The landing page answers
+       "how far is the season" at conference level; Stops worldwide is
+       the second line of the other type and belongs on the Conferences
+       page. The figures were reading the event count into the
+       conference line, which is why it said 108 conferences. */
+    (function () {
+      var host = $('.s09');
+      if (!host) return;
+      var today = new Date().toISOString().slice(0, 10);
+      var stopsOfC = {};
+      D.events.forEach(function (e) {
+        (stopsOfC[e.conference] = stopsOfC[e.conference] || []).push(e);
+      });
+      var finished = 0, live = 0;
+      D.conferences.forEach(function (c) {
+        var evs = stopsOfC[c.id] || [];
+        if (evs.length && evs.every(function (e) { return e.teamsRegistered; })) finished++;
+        if (evs.some(function (e) {
+          return e.start && e.start <= today && (e.end || e.start) >= today;
+        })) live++;
+      });
+      var totalC = D.conferences.length;
+      var kv = $$('.s09-kv', host);
+      if (kv[0]) kv[0].textContent = totalC;
+      if (kv[1]) kv[1].textContent = finished;
+      if (kv[2]) kv[2].textContent = totalC - finished;
+      if (kv[3]) kv[3].textContent = live;
+      var lk = $('.s09-k-live', host);
+      if (lk) lk.hidden = !live;
+
+      /* The bar reads the season as stops played of stops scheduled —
+         the finest measure we hold, whichever line is shown above it. */
+      var stopsDone = playedStops().length, stopsAll = D.events.length;
+      var pct = stopsAll ? (stopsDone / stopsAll) * 100 : 0;
+      var fill = $('.s09-fill', host);
+      if (fill) fill.style.width = pct.toFixed(1) + '%';
+      var seg = $('.s09-done', host), segLive = $('.s09-live', host);
+      if (seg) seg.style.flex = '1';
+      if (segLive) segLive.hidden = true;
+    })();
   };
 
   PAGES['conferences.html'] = function () {
@@ -612,7 +806,7 @@
 
       repeat(card, '.e03-conf', g.items, function (row, c) {
         var st = statusOf(c);
-        text(row, '.e03-name', c.name);
+        text(row, '.e03-name', confName(c));
         var n = $$('.t-caption, .t-body-s', row).pop();
         if (n) n.textContent = st.played + ' of ' + st.evs.length + ' stops';
 
@@ -635,11 +829,27 @@
     var c = conf(qs.get('id')) || D.conferences[0];
     var stops = D.events.filter(function (e) { return e.conference === c.id; });
     var played = stops.filter(function (e) { return e.teamsRegistered; });
-    var s = played.length ? standingsFor(played[0].slug, 'men') : null;
+    var gender = 'men';
 
-    $$('.t-h1, .e02-name, .f04-title').forEach(function (n) { n.textContent = c.name; });
+    /* The H1 is .f04-h1-m — it was not in this list, so the conference
+       page kept whichever name the specimen was built with. */
+    $$('.f04-h1-m, .f04-h1-s, .t-h1, .e02-name, .f04-title').forEach(function (n) {
+      n.textContent = confName(c);
+    });
     var crumbs = $$('.crumb');
-    if (crumbs.length) crumbs[crumbs.length - 1].textContent = c.name;
+    if (crumbs.length) crumbs[crumbs.length - 1].textContent = confName(c);
+
+    /* Host city or cities, and the span the conference runs over. */
+    var sub = $('.f04-idl .t-body-s');
+    if (sub && stops.length) {
+      var cities = [];
+      stops.forEach(function (e) { if (cities.indexOf(e.city) === -1) cities.push(e.city); });
+      var first = stops[0].start, last = stops[stops.length - 1].end || stops[stops.length - 1].start;
+      sub.textContent = cities.slice(0, 2).join(' · ') +
+        (cities.length > 2 ? ' +' + (cities.length - 2) : '') +
+        ' · ' + fmtDate(first, { day: 'numeric', month: 'short' }) +
+        ' – ' + fmtDate(last, { day: 'numeric', month: 'short' });
+    }
 
     repeat(document, '.s02-stop, .s02-i', stops, function (node, e) {
       text(node, '.s02-city, .t-label', e.city);
@@ -651,19 +861,21 @@
        Fill them separately rather than treating every .trow the same. */
     var tables = $$('.tbl');
     var standTbl = tables[0], gameTbl = tables[1];
-    if (s && standTbl) {
-      repeat(standTbl, '.trow', s.rows, function (row, r) {
-        fed(row, r.ioc, r.team);
-        var nums = $$('.t-data-m', row);
-        if (nums[0]) nums[0].textContent = r.rank;
-        if (nums.length > 2) {
-          nums[nums.length - 3].textContent = (r.winRatio * 100).toFixed(0) + '%';
-          nums[nums.length - 2].textContent = r.points;
-          nums[nums.length - 1].textContent = r.avg;
-        }
-        link(row, 'team.html?ioc=' + r.ioc);
+    var complete = stops.length && played.length >= stops.length;
+    function drawStandings() {
+      if (!standTbl) return;
+      var rows = conferenceTable(c.id, gender);
+      if (!rows.length) {
+        $$('.trow', standTbl).forEach(function (r) { r.hidden = true; });
+        return;
+      }
+      repeat(standTbl, '.trow', rows, function (row, r) {
+        paintStandingRow(row, r, complete);
+        row.classList.toggle('trow-hi', complete && r.rank === 1);
       });
     }
+    genderSwitch(function (g) { gender = g; drawStandings(); });
+    drawStandings();
     var gl = played.length ? gamesFor(played[0].slug) : [];
     if (gameTbl && gl.length) repeat(gameTbl, '.trow', gl, paintGame);
     else if (gameTbl) $$('.trow', gameTbl).forEach(function (r) { r.classList.add('is-placeholder'); });
@@ -673,11 +885,17 @@
     var e = stop(qs.get('id')) || playedStops()[0];
     var men = standingsFor(e.slug, 'men');
     var women = standingsFor(e.slug, 'women');
-    $$('.t-h1, .f04-title').forEach(function (n) { n.textContent = e.city + ' · Stop ' + e.number; });
-    $$('.f04-crumbs .crumb').forEach(function (c, i, all) {
-      if (i === all.length - 1) c.textContent = 'Stop ' + e.number;
+    $$('.f04-h1-m, .f04-h1-s, .t-h1, .f04-title').forEach(function (n) {
+      n.textContent = 'Stop ' + e.number + ' · ' + e.city;
     });
-    var sub = $('.f04-sub, .el01-sub');
+    var scr = $$('.crumb');
+    if (scr.length >= 2) {
+      scr[scr.length - 2].textContent = confName(conf(e.conference));
+      link(scr[scr.length - 2].parentElement || scr[scr.length - 2],
+           'conference.html?id=' + e.conference);
+      scr[scr.length - 1].textContent = 'Stop ' + e.number;
+    }
+    var sub = $('.f04-idl .t-body-s, .f04-sub, .el01-sub');
     if (sub) sub.textContent = [e.venue, e.location, fmtDate(e.start)].filter(Boolean).join(' · ');
 
     var pool = men || women;
@@ -723,7 +941,7 @@
           nums[nums.length - 2].textContent = t.avg;
           nums[nums.length - 1].textContent = t.stops;
         }
-        text(row, '.cell-conference .t-body-s', (conf(t.conference) || {}).name || '');
+        text(row, '.cell-conference .t-body-s', confName(conf(t.conference)));
         link(row, 'team.html?ioc=' + t.ioc);
       });
     }

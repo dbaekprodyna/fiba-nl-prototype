@@ -107,3 +107,25 @@
   .badge-live .badge-dot, .wl-live .wl-dot, .s03-livedot, .f03-dot,
   .ind-filling { animation: none; }
 }
+
+/* ---- S-03 CalendarStrip — paging -------------------------------
+   Prev and Next move the eight-day window, not the selected day, so
+   the movement itself has to say which way the strip travelled. The
+   wrapper clips only while the animation runs, so nothing pokes into
+   the navigation buttons. */
+@keyframes s03-in-r {
+  from { transform: translateX(28px); opacity: 0.3; }
+  to   { transform: none;             opacity: 1; }
+}
+@keyframes s03-in-l {
+  from { transform: translateX(-28px); opacity: 0.3; }
+  to   { transform: none;              opacity: 1; }
+}
+.s03-in-r { animation: s03-in-r var(--dur-slow) var(--ease-out) both; }
+.s03-in-l { animation: s03-in-l var(--dur-slow) var(--ease-out) both; }
+.s03wrap:has(.s03-in-r), .s03wrap:has(.s03-in-l) { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .s03-in-r, .s03-in-l { animation: none; }
+  .live .acc-panel { transition: none; }
+}

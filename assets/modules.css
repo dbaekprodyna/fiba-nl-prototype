@@ -156,10 +156,10 @@
   padding-bottom:32px;
 }
 .f04-96 {
-  height:96px;
+  min-height:96px;
 }
 .f04-56 {
-  height:56px;
+  min-height:56px;
   padding-bottom:12px;
 }
 .f04-crumbs {
@@ -196,6 +196,27 @@
   flex-direction:row;
   align-items:flex-end;
   justify-content:space-between;
+  gap:24px;
+}
+/* The identity column: H1 with the page's context line under it, both
+   left aligned. It used to be H1 left and context right, which left no
+   room for a control on the right edge. */
+.f04-idl {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+}
+/* The control slot. One control lives here on every page that needs it —
+   today that is el-02 GenderSwitch, which is why it no longer sits in a
+   filter row or inside E-04 TeamHeader. Right edge, bottom aligned with
+   the H1 baseline block. */
+.f04-ctl {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:16px;
+  flex:0 0 auto;
 }
 .f06 {
   display:flex;

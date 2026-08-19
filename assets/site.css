@@ -217,22 +217,9 @@ a.nav-a {
 
 /* ---- P0, review 2026-08-21 -----------------------------------
    Men / Women in one place on every page. Alex's deck, slide 12:
-   "Men/women — Here in all pages". The switch is no longer part of
-   a filter row; it is a bar of its own directly under the page
-   title, so the control never moves between screens.
-   The negative margin eats half the 40px section rhythm, which
-   binds the bar to the title above it rather than to the content
-   below it. */
-.pgbar {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 16px;
-  width: 100%;
-  margin-top: -24px;
-}
-.pgbar .el02 { align-self: auto; }
+   "Men/women — Here in all pages". The control now lives in F-04's
+   own slot (.f04-ctl in modules.css) at the right edge of the headline
+   block, so there is nothing page-specific left to style here. */
 
 /* ---- H1 for every page ----------------------------------------
    Mota, 2026-08-03: the headline and the breadcrumb stay — SEO,
@@ -252,3 +239,10 @@ a.nav-a {
   white-space: nowrap;
   border: 0;
 }
+
+/* ---- el-01 SectionHeader in the narrow column -------------------
+   "Qualification" plus "Full standings →" does not fit across a
+   quarter-width column, so the two collided. The action wraps under
+   the title there instead of overlapping it. */
+.tpl-colR .el01 { flex-wrap: wrap; row-gap: 4px; }
+.tpl-colR .el01-left { min-width: 0; }

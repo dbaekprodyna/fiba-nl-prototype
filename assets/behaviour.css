@@ -102,8 +102,19 @@
 .live .search:focus-within .search-in { color: var(--text-primary); }
 
 /* ---- Open / close --------------------------------------------- */
-.live .acc-panel { display: block; }
-.live [data-open="false"] > .acc-panel { display: none; }
+.live .acc-panel { display: block; transition: height var(--dur-slow) var(--ease-in-out); }
+/* A collapsed panel must lose its padding and rule as well — with
+   border-box, height:0 still leaves 24 + 24 + 1px standing. Padding is
+   not transitioned: it goes at the same instant the collapse starts,
+   which is invisible, and it keeps the measured height honest. */
+.live [data-open="false"] > .acc-panel {
+  height: 0;
+  overflow: hidden;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-top-width: 0;
+}
+.live .s03nav-off { opacity: 0.32; pointer-events: none; }
 .live .acc-head svg, .live .disc-head svg { transition: transform var(--dur-base) var(--ease-out); }
 .live [hidden] { display: none !important; }
 .live .shm-trig { user-select: none; }

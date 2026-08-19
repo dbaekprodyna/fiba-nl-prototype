@@ -268,7 +268,7 @@
    {
     "slug": "f-04-subheader",
     "title": "F-04 SubHeader",
-    "desc": "The page identity block: breadcrumb, H1, and context. It is the most contested module in the system — one side of the review reads it as redundant with the navigation, the other de"
+    "desc": "The page identity block: breadcrumb, H1, and context. It is the most contested module in the system — one side of the review reads it as redundant with the navigation, the other de An identity column on the left and a control slot on the right, which is where el-02 GenderSwitch lives on every page."
    },
    {
     "slug": "f-05-megamenu",
@@ -326,9 +326,9 @@
     "desc": "How a stop closes. Three federations, the winner raised and filled black, shown above the pool tables once the final is played."
    },
    {
-    "slug": "s-09-seasonstatus",
-    "title": "S-09 SeasonStatus",
-    "desc": "The first block on the landing page. Two lines, each written as total then breakdown: 18 Conferences — 7 finished — 11 to go , 108 Stops worldwide — 64 finished — 2 live — 42 to go"
+    "slug": "s-09-overview",
+    "title": "S-09 Overview",
+    "desc": "Where the season stands, as the first block of a page. Two types: conferences alone for the landing page, conferences and stops worldwide for the Conferences page. Named Season status until 18 August 2026."
    }
   ]
  },
@@ -379,7 +379,7 @@
    {
     "slug": "e-04-teamheader",
     "title": "E-04 TeamHeader",
-    "desc": "Federation identity at the top of a team page: flag, name, category, conference, qualification state, and the six numbers that describe the season. The gender switch sits in the sa"
+    "desc": "Federation identity at the top of a team page: flag, name, category, conference, qualification state, and the six numbers that describe the season. The gender switch is not part of this module — it lives in F-04’s control slot. Previously it sa"
    },
    {
     "slug": "e-05-playerheader",

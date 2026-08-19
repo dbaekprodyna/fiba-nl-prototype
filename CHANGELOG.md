@@ -1,5 +1,125 @@
 # Changelog
 
+## 2026-08-19 — Overview, the calendar strip, and one place for the switch
+
+### S-09 is now Overview, and it has a type
+
+Renamed everywhere — the module, the section header on the landing page,
+the design system entry and the anchor (`#modules-1/s-09-overview`).
+
+It also gained a **type** axis, which the four lifecycle states sit
+across rather than replace:
+
+- **conferences** — one line, and what the landing page carries.
+- **conferences and stops worldwide** — two lines, and where the
+  `108 Stops worldwide` counters Alex asked for on slide 8 belong.
+
+That split is deliberate. LP-10 asks for the block to come off the
+landing page; slide 8 asks for exactly those counters. Putting the
+conferences line on the landing page and the full pair on the
+Conferences page answers both instead of compromising between them.
+
+The figures were also wrong: the conference line was reading the *event*
+count, so it said 108 conferences. It now reads 18 conferences, how many
+have finished, how many are to go, and a live count that hides itself at
+zero. The bar reads stops played of stops scheduled — the finest measure
+we hold — whichever line is above it.
+
+### The strip only offers days that have something under them
+
+LP-17, and Johannes' note on the screenshot. The strip was eight
+consecutive calendar dates, most of them empty, with an EmptyState
+waiting underneath. It is now built from the days that actually carry
+results, so there is no empty day left to land on. "Carry results" means
+a team has played: two stops arrive with a full standings record in which
+everyone has played nothing, and offering those days is the thing the
+note asked us to stop doing.
+
+### The selected day stays where it was clicked
+
+Two independent pieces of state now, where there was one. `sel` is the
+day whose conferences are shown below; `win` is the first day visible in
+the strip.
+
+- Clicking a day changes `sel` and nothing else, so the cell stays in the
+  slot it was clicked in. It used to re-centre the window on the clicked
+  date, which threw the cell three places to the left.
+- **Prev** and **Next** move `win` and leave `sel` alone. The strip
+  travels, the selection does not — they used to move the selected date
+  by seven days, which silently changed what was shown below.
+- The movement is animated (`s03-in-l` / `s03-in-r` in motion.css), and
+  the buttons dim at either end of the season.
+
+### S-01 LiveConferenceAccordion shows real numbers
+
+It was painting by column index — `nums[length - 2]`, `nums[length - 1]`
+— so the win/loss record landed under **Pts Average** and the points
+scored under **Tour Points**, and Win Ratio was never filled at all. The
+conference page had the same defect one column over.
+
+There is now one implementation for both: `conferenceTable()` aggregates
+every stop of a conference played up to the selected day, and
+`paintStandingRow()` addresses every cell by its own class. Tour points
+are derived from the finishing order at each stop — 100 / 80 / 70 / 60 /
+50 / 40 — because the feed carries the order but not the points; the
+ladder is stated once, in one place. The gender switch inside the panel
+is wired and scopes that conference's table.
+
+Two stops in the snapshot arrive with no gender label, so a gendered
+lookup found nothing and the table rendered blank. `standingsFor()`
+prefers the labelled record and falls back to the unlabelled one.
+
+### The accordion opens rather than appears
+
+`display: none` became an animated height: measure, animate, release to
+`auto` so a table that reflows afterwards is not clipped, and put
+overflow back to visible so a tooltip near the bottom edge still shows. A
+collapsed panel also drops its padding and rule — with `border-box`,
+`height: 0` still left 24 + 24 + 1px standing.
+
+### News is the feature layout, and it is two
+
+C-02 `layout = feature` — two across, the image over the headline and the
+date. It was repeating over the whole feed, so a third card appeared
+whenever a third story existed.
+
+### One place for Men / Women
+
+Following on from yesterday: the switch is no longer a bar of its own
+under the title. **F-04 SubHeader** now has an identity column on the
+left — H1 with the page context under it — and a **control slot** on the
+right, and the switch lives there on every page that scopes by gender.
+Same coordinates on all of them.
+
+That moved the page context line out of the right slot and under the H1,
+which is what the conference page needed anyway: **Mombasa · 1 Jul – 7
+Jul** now sits under **AFRICA EAST U23** instead of floating at the
+opposite edge. E-04 TeamHeader gave its switch up to F-04, and its entry
+in the design system says so.
+
+### Also
+
+- **NM-01 was only true in the markup.** The live render was resetting
+  the conference H1 to the unqualified feed name — the H1 is
+  `.f04-h1-m`, which was not in the selector list — so the breadcrumb
+  read "Africa East" while the headline read "Africa East U23".
+  `confName()` now appends the category once, in one place: U23 by
+  default, and the feed's `U21 Europe-2` prefix moved to the end.
+- The conference page header prints its real host cities and date span
+  instead of a hardcoded Kigali.
+- Stop page: title is `Stop 1 · Mombasa`, and the breadcrumb's
+  conference crumb is named and linked.
+- `Qualification` and `Full standings →` were overlapping in the
+  quarter-width column; the action wraps under the title there.
+
+### Files
+
+`tools/p1_headline.py` and `tools/p2_designsystem.py` are the scripts
+that made the structural edits, kept so the change is reviewable. The
+design system was edited in both copies — `system/_check/` (specimen)
+and `system/pages/` (published) — because the build scripts in `tools/`
+still point at an old session path.
+
 ## 2026-08-18 — P0 before the 21 August review
 
 Four things the wireframe and the client feedback agree on, and the build
