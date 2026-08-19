@@ -460,3 +460,9 @@
   --n:2px;
   border:2px solid transparent;
 }
+
+/* from .mm-l-hover — white, matching F-03 CompetitionNav. It was the
+   gold corporate accent, which read as a selection rather than a hover. */
+.live .mm-l:hover {
+  color:var(--chrome-text);
+}

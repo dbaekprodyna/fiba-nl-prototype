@@ -1,5 +1,75 @@
 # Changelog
 
+## 2026-08-19 (3) — The live segment, the Stats page and the Calendar
+
+### Home
+
+- **The progress bar shows the live share in red.** Two things were
+  wrong: the `.s09-live` segment was not in the markup at all, and the
+  bar was measured in stops while the line above it counted conferences
+  — so the line said *1 live* and the bar had nothing red in it. The bar
+  is now read in the same unit as the line above it: conferences on the
+  landing page, stops on the Conferences page.
+- **The mega menu follows the navigation's colour logic** — muted at
+  rest, white on hover, white with a rule when it is the page you are
+  on. The gold accent belongs to the corporate strip.
+- **R-01 QualificationBoard has its own Men / Women switch again**, under
+  the title and left aligned. LP-13 asks for it by name, and the module
+  is a quarter of the page wide, so the title row has no room beside the
+  Full standings link. `genderSwitch()` is scoped now — the landing page
+  carries three switches and a document-wide binding moved them together.
+
+### Conferences
+
+Find a team and Overview sit side by side under the headline. S-09 is a
+full-width card on the landing page; in a 600px column its label,
+figures and bar do not fit on one line, so the bar wraps under the
+figures rather than pushing the page wide.
+
+### Standings
+
+The search field works on the Qualification tab. It narrows what is
+shown of the field of twenty and never changes who is in it, so the
+position column keeps the qualification place rather than the row number.
+
+### Stats
+
+**Teams | Players**, as ctl-03 Tab under the headline.
+
+Teams carries: **Top scores** (the federation scoring most per game),
+**Team stats spotlight** in the same six-figure row a team page uses,
+**Overview** (final games, teams in scope, teams with games, active
+conferences, average points per game), a **conference filter** with all
+eighteen conferences plus All, and then **Team performance** and **Team
+scoring** as two tables.
+
+Players lost the metric chips — the feed holds one measure per player, so
+four chips that all sorted the same list were a control that did nothing
+— and gained a **Team** column with the federation's flag and IOC code.
+Games and PPG stay empty because there are no box scores in the
+snapshot; the column that was labelled Points is now **Ranking pts**,
+which is the measure actually in it.
+
+### Calendar
+
+The landing page's Live now module, with the day selection released:
+**nothing is preselected**, so every stop that has something under it is
+listed as an S-01 accordion — sixteen of them. Picking a day narrows the
+list to that day; picking it again clears it. The month headings and
+dividers are gone, because the strip already is the calendar.
+
+### On the Route column
+
+Worth stating plainly, since it was asked: the two routes are official —
+`NL - about.docx`, FIBA's own competition description, says the host and
+each conference winner qualify and the rest of the field of twenty comes
+from the global standings. Alex raised the same split himself on slide 17
+(*"we can split between winners of conference and others"*). What is
+**ours, and not signed off**, is showing it as a column, and the
+provisional *Conference leader* wording for a federation that currently
+tops a conference that has not finished. It belongs on Friday's list as a
+proposal, not as something the client has already agreed.
+
 ## 2026-08-19 (2) — Breadcrumbs, two real tabs, and the conference pages
 
 ### Global

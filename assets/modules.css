@@ -3084,3 +3084,42 @@ code {
   gap:20px;
 }
 .ban-scorers { margin-bottom:4px; }
+
+/* ---- F-05 MegaMenu: the same colour logic as the navigation ---------
+   Muted at rest, white on hover, white with a rule when it is the page
+   you are on. The gold accent belongs to the corporate strip, not to a
+   menu item. */
+.mm-l { color:var(--chrome-text-muted); }
+
+/* ---- R-01 QualificationBoard: its own switch ------------------------
+   LP-13 asks for it by name — "Add Men / Women switch on top of the
+   Qualification module". It sits under the section title, left aligned,
+   because the module is a quarter of the page wide and the title row has
+   no room beside the Full standings link. */
+.r01-ctl {
+  display:flex;
+  justify-content:flex-start;
+  padding:0 0 4px 0;
+}
+
+/* ---- Conferences: the page head is two columns ---------------------- */
+.cnf-head { align-items:flex-start; }
+.cnf-head .tpl-colR { flex:0 1 560px; }
+
+/* ---- Stats page ---------------------------------------------------- */
+.st-tabs { width:100%; }
+.st-spot {
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.st-spot-name {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:700;
+  font-size:56px;
+  line-height:56px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.st-conf { padding-top:4px; }
+.r05-team { width:132px; }

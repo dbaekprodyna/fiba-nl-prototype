@@ -252,3 +252,17 @@ a.nav-a {
    the page title moved into E-04 — so there is no identity column to
    push the control across. */
 .f04-row > .f04-ctl:only-child { margin-left: auto; }
+
+/* ---- Conferences: the two-column head -----------------------------
+   S-09 is a full-width card on the landing page; in a 600px column its
+   label, four figures and progress bar do not fit on one line, so the
+   bar wraps under the figures rather than pushing the page wide. */
+.cnf-head { align-items: flex-start; }
+.cnf-head .tpl-colL, .cnf-head .tpl-colR { min-width: 0; }
+.cnf-head .tpl-colR { flex: 0 1 620px; }
+.cnf-head .s09 { flex-wrap: wrap; row-gap: 16px; }
+.cnf-head .s09-lines { flex: 1 1 100%; }
+.cnf-head .s09-right { flex: 1 1 100%; }
+.cnf-head .s09-lab { width: 132px; }
+.cnf-head .s09-brk { flex-wrap: wrap; row-gap: 4px; }
+.cnf-head .finder, .cnf-head .search { max-width: none; }
