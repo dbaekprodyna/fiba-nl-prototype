@@ -108,6 +108,19 @@
       return;
     }
 
+    /* -- ctl-08 toggle switch ---------------------------------- */
+    /* A switch that carries data-toggle belongs to the page: site.js
+       owns both its state and its class, and flipping it here as well
+       cancelled the page's own flip. */
+    var tgl = closestIn(ev.target, '.tgl', scope);
+    if (tgl && tgl.hasAttribute('data-toggle')) tgl = null;
+    if (tgl && !tgl.classList.contains('tgl-dis')) {
+      var on = !tgl.classList.contains('tgl-on');
+      tgl.classList.toggle('tgl-on', on);
+      tgl.setAttribute('aria-checked', on ? 'true' : 'false');
+      return;
+    }
+
     /* -- checkbox --------------------------------------------- */
     var chk = closestIn(ev.target, '.chk', scope);
     if (chk && !chk.querySelector('.chk-box-off-dis, .chk-box-on-dis')) {

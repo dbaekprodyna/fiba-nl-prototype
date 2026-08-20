@@ -44,6 +44,11 @@
     "desc": ""
    },
    {
+    "slug": "typography",
+    "title": "Typography",
+    "desc": "Two families and eleven styles. Barlow Condensed carries every page and section title, always uppercase; Barlow carries body copy, labels and figures."
+   },
+   {
     "slug": "rules",
     "title": "Rules",
     "desc": ""
@@ -82,7 +87,7 @@
    {
     "slug": "ctl-03-tab",
     "title": "ctl-03 Tab",
-    "desc": "Underline tabs. The 2px black rule is the only active affordance — no fills, no pills."
+    "desc": "The selected tab is a filled black block with a white label, notched on the top-left corner only so it sits flush on the rule beneath the strip. Same selection treatment as el-02 GenderSwitch."
    },
    {
     "slug": "ctl-07-watchlive",
@@ -98,6 +103,11 @@
     "slug": "ctl-05-checkbox",
     "title": "ctl-05 Checkbox",
     "desc": "Used for the region and category filters where several values can be active at once."
+   },
+   {
+    "slug": "ctl-08-toggleswitch",
+    "title": "ctl-08 ToggleSwitch",
+    "desc": "One switch for a view that filters itself. Not a checkbox — ctl-05 adds a value to a set, this changes what the table in front of you is. Outlined when off, solid black when on."
    },
    {
     "slug": "ctl-06-pagination",
@@ -162,7 +172,7 @@
    {
     "slug": "el-09-legend",
     "title": "el-09 Legend",
-    "desc": "Every abbreviated column in the system needs a one-line explainer — the same principle already applied to page copy, extended to tables. Rules top and bottom instead of a grey fill"
+    "desc": "Every abbreviated column needs a one-line explainer. It sits above its table and right-aligned, with a rule on top only — a second rule underneath would fight the table header."
    },
    {
     "slug": "el-10-emptystate",
@@ -242,7 +252,7 @@
    {
     "slug": "el-30-calendarstrip",
     "title": "el-30 CalendarStrip",
-    "desc": "Eight equal days with previous and next at either end. It fills whatever column it is dropped into, so the same component serves the landing page and the calendar page."
+    "desc": "Eight equal days with previous and next at either end. It fills whatever column it is dropped into, so the same component serves the landing page and the calendar page. The eight days are local calendar days; a region with fewer playing days is padded outward, never with a day it already shows."
    }
   ]
  },
@@ -278,17 +288,17 @@
    {
     "slug": "f-06-sitefooter",
     "title": "F-06 SiteFooter",
-    "desc": "Five columns, the supplier band, the season selector and the legal row. Official ball sits left, official suppliers right, so the two tiers read as separate groups rather than one "
+    "desc": "Five columns, the supplier band and the legal row. Official ball sits left, official suppliers right, so the two tiers read as separate groups rather than one "
    },
    {
     "slug": "f-06m-sitefooter-mobile",
     "title": "F-06m SiteFooter — mobile",
-    "desc": "The five desktop columns become five el-19 DisclosureRow accordions, one open at a time. The lockup, season selector and social row stay visible at the top; the supplier band wraps"
+    "desc": "The five desktop columns become five el-19 DisclosureRow accordions, one open at a time. The lockup and social row stay visible at the top; the supplier band wraps"
    },
    {
     "slug": "s-01-liveconferenceaccordion",
     "title": "S-01 LiveConferenceAccordion",
-    "desc": "The landing page answer to \"what is happening right now\", and to \"what happened on the day I just picked\". Only live conferences appear by default (LP-14), there is no game list (L"
+    "desc": "The landing page answer to \"what is happening right now\", and to \"what happened on the day I just picked\". Only live conferences appear by default (LP-14), there is no game list (L The gender switch has moved out of each panel to the filter bar above the strip — one control for the whole block."
    },
    {
     "slug": "s-02-stoptimeline",
@@ -304,6 +314,11 @@
     "slug": "s-04-gamelist",
     "title": "S-04 GameList",
     "desc": "Games grouped by day, built on exactly the same table as the standings. Federation names open the team page and Box score opens the player-level detail for that game: a header row "
+   },
+   {
+    "slug": "s-12-gamedetail",
+    "title": "S-12 GameDetail",
+    "desc": "The page behind every Box score link. Score lockup, two team plates, top scorer, box score, match stats and play-by-play. No video: the league streams on YouTube."
    },
    {
     "slug": "s-05-pools",
@@ -354,7 +369,7 @@
    {
     "slug": "r-02-standingstable",
     "title": "R-02 StandingsTable",
-    "desc": "The Standings page table in two views. Competition Standings ranks every federation on performance and sorts on any column; Qualification shows the twenty places only, with a Route column in place of Pts Average and EP."
+    "desc": "One table, not two. Competition Standings and Qualification are merged and ctl-08 ToggleSwitch cuts the table down to the twenty places that are going."
    },
    {
     "slug": "r-03-conferencestandings",

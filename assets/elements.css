@@ -142,8 +142,14 @@
   border-bottom:2px solid transparent;
 }
 .tab-active {
-  color:var(--text-primary);
+  /* Selected tab is a filled black block with a white label — the same
+     treatment as the active segment of el-02 GenderSwitch. The 45 degree
+     notch is on the top-left corner only: the bottom-right stays square
+     so the tab sits flush on the rule that runs under the strip. */
+  color:var(--text-inverse);
+  background:var(--action-default);
   border-bottom:2px solid var(--action-default);
+  clip-path:polygon(var(--cut-s) 0,100% 0,100% 100%,0 100%,0 var(--cut-s));
 }
 .tab-hover {
   color:var(--text-primary);
@@ -635,6 +641,17 @@
   border-bottom:1px solid var(--border-subtle);
   width:100%;
 }
+/* Positioned above its table and right-aligned, so the abbreviations
+   are read before the numbers rather than found afterwards. Only the
+   top rule survives — the bottom one would fight the table header. */
+.legend-top {
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:8px 28px;
+  border-bottom:0;
+  padding:12px 0 10px;
+  margin:0;
+}
 .legend-item {
   display:flex;
   flex-direction:row;
@@ -860,6 +877,13 @@
   color:var(--text-primary);
   outline:2px solid var(--action-default);
   outline-offset:-2px;
+}
+/* An outline would be clipped away by the active tab's notch, so the
+   selected tab carries its focus ring inside, in white. */
+.tab-active.tab-focus {
+  color:var(--text-inverse);
+  outline:none;
+  box-shadow:inset 0 0 0 2px var(--surface-page);
 }
 .el02-focus {
   --of:var(--surface-page);
@@ -2374,4 +2398,100 @@
 /* ---- E-08 PlayerCard: a long surname drops a size -----------------
    Two lines of 40px surname pushes the plate over the stats. The card
    sets the smaller size itself rather than truncating a player's name. */
-.pcard-last-sm { font-size:22px; line-height:24px; }
+/* superseded by the fit pass on .pcard-last — see modules.css */
+
+/* ---- ctl-08 ToggleSwitch -------------------------------------
+   A single on/off control for a view that filters itself — the
+   Qualification cut on the Standings table is the first use. It is
+   deliberately not a checkbox: a checkbox adds a value to a set,
+   this changes what the table in front of you is.
+   Geometry follows el-02 GenderSwitch — outlined when off, solid
+   black when on — so the two read as one family. The knob carries
+   a 4px notch, the smallest the cut survives at 20px.           */
+.tgl {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+}
+.tgl-track {
+  --of:var(--surface-page);
+  --n:1px;
+  position:relative;
+  display:flex;
+  align-items:center;
+  width:52px;
+  height:28px;
+  padding:3px;
+  flex:0 0 auto;
+  border:1px solid transparent;
+  background:var(--border-default);
+  background-clip:border-box;
+}
+.tgl-knob {
+  --c:4px;
+  width:20px;
+  height:20px;
+  background:var(--action-default);
+  margin-left:0;
+  margin-right:auto;
+}
+.tgl-lbl {
+  color:var(--text-primary);
+  user-select:none;
+}
+.tgl-sub {
+  color:var(--text-muted);
+}
+
+/* on */
+.tgl-on .tgl-track {
+  --of:var(--action-default);
+  background:var(--action-default);
+}
+.tgl-on .tgl-knob {
+  background:var(--surface-page);
+  margin-left:auto;
+  margin-right:0;
+}
+
+/* hover */
+.tgl-hover .tgl-track {
+  --of:var(--action-ghost-bg);
+  background:var(--border-strong);
+}
+.tgl-on.tgl-hover .tgl-track {
+  --of:var(--action-hover);
+  background:var(--action-hover);
+}
+
+/* focus — an outline would be clipped by the notch, so the ring is
+   drawn as the border itself, the way el-02 and ctl-05 do it. */
+.tgl-focus .tgl-track {
+  --n:2px;
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+}
+.tgl-on.tgl-focus .tgl-track {
+  --of:var(--action-default);
+}
+
+/* disabled */
+.tgl-dis .tgl-track {
+  --of:var(--surface-page);
+  background:var(--border-subtle);
+}
+.tgl-dis .tgl-knob {
+  background:var(--action-disabled);
+}
+.tgl-on.tgl-dis .tgl-track {
+  --of:var(--action-disabled);
+  background:var(--action-disabled);
+}
+.tgl-on.tgl-dis .tgl-knob {
+  background:var(--surface-page);
+}
+.tgl-dis .tgl-lbl {
+  color:var(--text-disabled);
+}

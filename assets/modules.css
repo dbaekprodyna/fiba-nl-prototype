@@ -902,26 +902,43 @@
   flex-direction:column;
   justify-content:center;
   gap:0;
+  flex:1 1 auto;
+  min-width:0;
+  overflow:hidden;
   padding:0 16px 0 18px;
 }
 .pcard-first {
   font-family:'Barlow',sans-serif;
   font-weight:600;
-  font-size:13px;
-  line-height:16px;
+  /* The plate is a fixed height, so a name that does not fit is scaled
+     down rather than wrapped. --pc-fit-f / --pc-fit-l are set by the
+     fit pass in site.js; the base sizes live on .pcard so the sm and xs
+     card sizes only have to restate the base, not every step. */
+  font-size:calc(var(--pc-first-fs, 13px) * var(--pc-fit-f, 1));
+  line-height:calc(var(--pc-first-lh, 16px) * var(--pc-fit-f, 1));
   letter-spacing:0.8px;
   text-transform:uppercase;
+  white-space:nowrap;
   color:var(--text-secondary);
 }
+.pcard-first.fit-1 { --pc-fit-f:0.86; letter-spacing:0.6px; }
+.pcard-first.fit-2 { --pc-fit-f:0.74; letter-spacing:0.4px; }
+.pcard-first.fit-3 { --pc-fit-f:0.64; letter-spacing:0.3px; }
 .pcard-last {
   font-family:'Barlow Condensed',sans-serif;
   font-weight:800;
-  font-size:30px;
-  line-height:32px;
+  font-size:calc(var(--pc-last-fs, 30px) * var(--pc-fit-l, 1));
+  line-height:calc(var(--pc-last-lh, 32px) * var(--pc-fit-l, 1));
   letter-spacing:-0.2px;
   text-transform:uppercase;
+  white-space:nowrap;
   color:var(--text-primary);
 }
+.pcard-last.fit-1 { --pc-fit-l:0.84; }
+.pcard-last.fit-2 { --pc-fit-l:0.71; }
+.pcard-last.fit-3 { --pc-fit-l:0.60; }
+.pcard-last.fit-4 { --pc-fit-l:0.51; }
+.pcard-last.fit-5 { --pc-fit-l:0.44; }
 .pcard-plain {
   background:var(--surface-sunken);
 }
@@ -1931,13 +1948,13 @@
   line-height:20px;
 }
 .pcard-sm .pcard-first {
-  font-size:10px;
-  line-height:12px;
+  --pc-first-fs:10px;
+  --pc-first-lh:12px;
   letter-spacing:0.5px;
 }
 .pcard-sm .pcard-last {
-  font-size:22px;
-  line-height:24px;
+  --pc-last-fs:22px;
+  --pc-last-lh:24px;
 }
 .pcard-sm .pcard-plate {
   height:48px;
@@ -1960,13 +1977,13 @@
   line-height:16px;
 }
 .pcard-xs .pcard-first {
-  font-size:8px;
-  line-height:10px;
+  --pc-first-fs:8px;
+  --pc-first-lh:10px;
   letter-spacing:0.4px;
 }
 .pcard-xs .pcard-last {
-  font-size:17px;
-  line-height:18px;
+  --pc-last-fs:17px;
+  --pc-last-lh:18px;
 }
 .pcard-xs .pcard-plate {
   height:38px;
@@ -2149,8 +2166,11 @@
   width:auto;
   flex:1 1 0;
 }
-.tpl-colL .s03,.tpl-colL .acc,.tpl-colL .el03 {
+.tpl-colL .s03,.tpl-colL .acc,.tpl-colL .el03,.tpl-colL .filterbar {
   width:100%;
+}
+.tpl-colL .filterbar > .el03 {
+  width:auto;
 }
 .tpl-sub {
   display:flex;
@@ -3097,9 +3117,19 @@ code {
    because the module is a quarter of the page wide and the title row has
    no room beside the Full standings link. */
 .r01-ctl {
+  /* The switch is the only control on this block, so it sits at the
+     right edge the way it does on every other page — the section title
+     keeps the left. */
+  display:flex;
+  justify-content:flex-end;
+  padding:0 0 4px 0;
+}
+/* Full standings moved out of the section header to the foot of the
+   board: the link is what you do after reading the twenty, not before. */
+.r01-foot {
   display:flex;
   justify-content:flex-start;
-  padding:0 0 4px 0;
+  padding-top:16px;
 }
 
 /* ---- Conferences: the page head is two columns ---------------------- */
@@ -3155,13 +3185,23 @@ code {
 }
 .finder-head { display:none; }        /* the count moved into the header */
 
-/* ---- E-03 card: elevation on hover -------------------------------- */
-.live .e03-card { transition:box-shadow var(--dur-base) var(--ease-out),
-                             transform var(--dur-base) var(--ease-out); }
-.live .e03-card:hover {
-  box-shadow:0 6px 16px rgba(0,0,0,0.12), 0 1px 3px rgba(0,0,0,0.08);
-  transform:translateY(-2px);
+/* ---- E-03 card: elevation e1 on hover ------------------------------
+   A shadow cannot be drawn on the card itself: clip-path is applied
+   after filter, so a drop-shadow is cut away with the corners, and
+   box-shadow is clipped for the same reason. The card ships wrapped in
+   a .sh layer that is not clipped — the mechanism E-08 PlayerCard
+   already uses — and the elevation goes there. */
+.e03-sh {
+  display:flex;
+  min-width:0;
+  transition:filter var(--dur-base) var(--ease-out);
 }
+.e03-sh > .e03-card { flex:1 1 auto; min-width:0; }
+.live .e03-sh:hover,
+.live .e03-sh:focus-visible {
+  filter:drop-shadow(0 1px 2px rgba(0,0,0,.15));
+}
+.live .e03-sh:focus-visible { outline:none; }
 
 /* ---- Conferences: the head is two equal columns ------------------- */
 .cnf-head .tpl-colL, .cnf-head .tpl-colR { flex:1 1 0; min-width:0; }
@@ -3314,7 +3354,11 @@ code {
   position:relative;
   --n:1px;
 }
-.cnf-pod-1 { background:var(--action-default); }
+/* The winner tile is filled, not just outlined. .cnf-pod is a cut-out
+   surface, so `background` is the border colour and --of is the fill —
+   setting only `background` left a white plate with white type on it,
+   which is why the 1st tile read as empty. */
+.cnf-pod-1 { --of:var(--action-default); background:var(--action-default); }
 .cnf-pod-1 .cnf-pod-p, .cnf-pod-1 .ftag-code, .cnf-pod-1 .ftag-name { color:var(--surface-page); }
 .cnf-pod-p {
   font-family:'Barlow Condensed',sans-serif;
@@ -3322,4 +3366,356 @@ code {
   font-size:28px;
   line-height:28px;
   color:var(--text-primary);
+}
+
+/* ---- Filter bar — el-03 FilterChips + el-02 GenderSwitch -----
+   The region filter and the gender switch are the same kind of thing —
+   both narrow what the block below shows — so they sit on one line,
+   chips from the left, switch hard right. It replaced the per-conference
+   switch that used to live inside every el-07 AccordionShell: one
+   control for the whole block rather than one per row. */
+.filterbar {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px 24px;
+  width:100%;
+  max-width:1440px;
+}
+.filterbar > .el03 {
+  /* Sizes to its chips and wraps inside itself; growing it would push
+     the switch onto a line of its own. */
+  flex:0 1 auto;
+  min-width:0;
+}
+.filterbar > .el02 {
+  flex:0 0 auto;
+  margin-left:auto;
+}
+
+/* ============================================================
+   S-12 GameDetail — one game
+   The destination behind every Box score link in S-04 GameList.
+   It is built out of parts that already exist — el-13 FederationTag,
+   el-08 TableHeaderRow, el-04 TeamRow, el-05 StatusBadge — plus the
+   score lockup, the two team plates, the stat comparison and the
+   play-by-play, which are the only shapes this page adds.
+   ============================================================ */
+
+/* ---- the result lockup ---- */
+.gm-meta {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+.gm-meta .t-caption { color:var(--text-muted); }
+.gm-meta-sp { flex:1 1 auto; }
+.gm-title {
+  display:flex;
+  flex-direction:row;
+  align-items:baseline;
+  flex-wrap:wrap;
+  gap:14px;
+}
+.gm-tname {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:44px;
+  line-height:46px;
+  letter-spacing:-0.4px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.gm-vs {
+  font-family:'Barlow',sans-serif;
+  font-weight:600;
+  font-size:16px;
+  line-height:20px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--text-muted);
+}
+.gm-lost { color:var(--text-disabled); }
+.gm-score {
+  display:flex;
+  flex-direction:row;
+  align-items:baseline;
+  gap:16px;
+  padding-top:2px;
+}
+.gm-pt {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:56px;
+  line-height:56px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text-primary);
+}
+.gm-dot { color:var(--text-disabled); font-size:40px; line-height:56px; }
+
+/* ---- the two team plates ---- */
+.gm-teams {
+  display:flex;
+  flex-direction:row;
+  gap:16px;
+  width:100%;
+  max-width:1440px;
+}
+.gm-team {
+  flex:1 1 0;
+  min-width:0;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  padding:16px 20px 18px 22px;
+  --of:var(--surface-page);
+  --n:1px;
+  border:1px solid transparent;
+  background:var(--border-subtle);
+  background-clip:border-box;
+  position:relative;
+}
+.gm-team-win {
+  --n:2px;
+  border:2px solid transparent;
+  background:var(--action-default);
+  background-clip:border-box;
+}
+.gm-team-k { color:var(--text-muted); }
+.gm-team-rec {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.gm-team-rec .t-body-s { color:var(--text-secondary); }
+
+/* ---- top scorer ---- */
+.gm-top {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:24px;
+  flex-wrap:wrap;
+  width:100%;
+  max-width:1440px;
+  padding:14px 0 16px 0;
+  border-top:1px solid var(--border-subtle);
+  border-bottom:1px solid var(--border-subtle);
+}
+.gm-top-who {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:14px;
+  min-width:0;
+}
+.gm-top-name {
+  display:flex;
+  flex-direction:column;
+  gap:2px;
+  min-width:0;
+}
+.gm-top-n {
+  font-family:'Barlow',sans-serif;
+  font-weight:700;
+  font-size:20px;
+  line-height:26px;
+  color:var(--text-primary);
+}
+.gm-top-sub { color:var(--text-muted); }
+.gm-top-v {
+  display:flex;
+  flex-direction:column;
+  align-items:flex-end;
+  gap:0;
+}
+.gm-top-pts {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:40px;
+  line-height:40px;
+  font-variant-numeric:tabular-nums;
+}
+
+/* ---- box score ---- */
+.gm-boxhead {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  padding:18px 0 10px 0;
+}
+.gm-boxhead-v {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:28px;
+  line-height:30px;
+  font-variant-numeric:tabular-nums;
+}
+.gm-box .cell-no    { flex:0 0 56px; }
+.gm-box .cell-pname { flex:1 1 auto; min-width:0; }
+.gm-box .cell-two,
+.gm-box .cell-ft,
+.gm-box .cell-pts   { flex:0 0 84px; justify-content:flex-end; }
+.gm-box .trow-out .t-label,
+.gm-box .trow-out .t-data-m { color:var(--text-disabled); }
+.gm-note { color:var(--text-muted); padding-top:10px; }
+
+/* ---- match stats: home value, label, away value ---- */
+.gm-stats {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  max-width:1440px;
+}
+.gm-stat {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:16px;
+  padding:12px 0;
+  border-bottom:1px solid var(--border-subtle);
+}
+.gm-stat:first-child { border-top:1px solid var(--border-subtle); }
+.gm-stat-v {
+  flex:0 0 90px;
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:26px;
+  line-height:28px;
+  font-variant-numeric:tabular-nums;
+}
+.gm-stat-v2 { text-align:right; }
+.gm-stat-k {
+  flex:1 1 auto;
+  text-align:center;
+  color:var(--text-muted);
+}
+.gm-stat-lead { color:var(--text-disabled); }
+.gm-stat-note { padding-top:12px; color:var(--text-muted); }
+
+/* ---- play-by-play ---- */
+.gm-pbp {
+  display:flex;
+  flex-direction:column;
+  width:100%;
+  max-width:1440px;
+}
+.gm-ev {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:16px;
+  height:40px;
+  padding:0 12px 0 14px;
+  border-bottom:1px solid var(--border-subtle);
+}
+.gm-ev:nth-child(odd) { background:var(--surface-raised); }
+.gm-ev-t {
+  flex:0 0 64px;
+  font-variant-numeric:tabular-nums;
+  color:var(--text-muted);
+}
+.gm-ev-k {
+  flex:0 0 56px;
+  font-family:'Barlow',sans-serif;
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.gm-ev-who {
+  flex:1 1 auto;
+  min-width:0;
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:10px;
+  overflow:hidden;
+}
+.gm-ev-who .flag { flex:0 0 auto; }
+.gm-ev-n {
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.gm-ev-s {
+  flex:0 0 90px;
+  text-align:right;
+  font-variant-numeric:tabular-nums;
+}
+.gm-ev-break .gm-ev-k,
+.gm-ev-break .gm-ev-n,
+.gm-ev-break .gm-ev-s { color:var(--text-muted); }
+.gm-ev-break .gm-ev-n { font-style:italic; }
+.gm-back { padding-top:8px; }
+
+@media (max-width: 760px) {
+  .gm-teams { flex-direction:column; }
+  .gm-tname { font-size:32px; line-height:34px; }
+  .gm-pt { font-size:40px; line-height:42px; }
+  .gm-box .cell-two, .gm-box .cell-ft, .gm-box .cell-pts { flex:0 0 56px; }
+  .gm-ev-t { flex:0 0 52px; }
+}
+/* A back link reads leading-arrow-first — the arrow is pointing at where
+   you came from, not at where the label goes. */
+.lnk-back { flex-direction:row; }
+.lnk-back svg { order:-1; }
+
+/* ---- Table toolbar: the switch on the left, the legend on the right --
+   One line above the table carrying both controls that describe it.
+   The rule that used to sit on el-09 Legend moves up here, so the strip
+   reads as one band rather than two stacked ones. */
+.tblbar {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px 24px;
+  width:100%;
+  max-width:1440px;
+  border-top:1px solid var(--border-subtle);
+}
+.tblbar > .legend-top {
+  flex:1 1 auto;
+  width:auto;
+  min-width:0;
+  border-top:0;
+}
+.tblbar > .tgl {
+  flex:0 0 auto;
+  padding:10px 0;
+}
+
+/* ---- Stats: Top score is the first column of the spotlight ---------
+   It used to be a section of its own, a flag beside a 40px country
+   name. As a column it sits with the six figures that describe the same
+   federation, stated as el-13 FederationTag at L. */
+.st-top {
+  flex:0 0 auto;
+  min-width:0;
+  justify-content:center;
+  padding-right:28px;
+}
+.st-topftag {
+  align-self:flex-start;
+  max-width:100%;
+}
+.st-topftag .ftag-name,
+.st-topftag .ftag-code {
+  white-space:nowrap;
+}
+@media (max-width:1100px) {
+  .e04-stats { flex-wrap:wrap; }
+  .st-top { flex:1 1 100%; }
 }

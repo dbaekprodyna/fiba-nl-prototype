@@ -1,5 +1,131 @@
 # Changelog
 
+## 2026-08-20 (1) — One selection treatment, one table, and the game page
+
+### The 17th of June, twice
+
+Picking Oceania on the landing page put 17 June in the strip twice. The
+cause was not the strip: `pad()` extends a region's playing days outward
+until it has eight, and the day-arithmetic helper formatted its result
+with `toISOString()`. That converts to UTC first, so east of Greenwich
+local midnight lands on the previous UTC day and every date comes back
+one short — "the day after 17 June" returned 17 June. In UTC the bug is
+invisible, which is why it survived. Dates in this app are calendar days,
+not instants; they are formatted from the local fields now, in one place
+(`isoDay`, `shiftDay`), and every `toISOString().slice(0, 10)` in the
+file went with it — the same slip was deciding what "today" was on six
+other pages.
+
+### Why every conference read "1 of 6 stops"
+
+Because *played* was being derived from the presence of a standings
+record, and the snapshot only walked each conference's **first** stop.
+The season is six deep almost everywhere: fifteen of the eighteen
+conferences have finished, ninety-six of the hundred and eight stops have
+been played. Whether a stop has happened is a fact about the calendar and
+the calendar is complete in the feed, so `stopPlayed()` reads the date
+and results fill in behind it. The Conferences cards, the stop dots, the
+S-02 timeline, S-09 Overview, the team page's season journey and the
+conference-winner test all move onto it. A stop that has been played but
+whose results have not been ingested now says *Played* with its figures
+still dashed, which is the honest reading of what we hold.
+
+### ctl-03 Tab
+
+The selected tab was a 2px rule under a grey label. It is a filled black
+block with a white label now, notched on the **top-left corner only** so
+it sits flush on the rule beneath the strip — the same selection
+treatment as el-02 GenderSwitch, so the system has one way of saying
+"this one" instead of two. An outline would be clipped away by the notch,
+so the selected tab carries its focus ring inside, in white.
+
+### ctl-08 ToggleSwitch — new
+
+One switch for a view that filters itself. It is deliberately not a
+checkbox: ctl-05 adds a value to a set, this changes what the table in
+front of you *is*, and it takes effect with no apply step. Geometry
+follows el-02 — outlined when off, solid black when on. Eight states.
+
+### R-02 StandingsTable is one table
+
+Competition Standings and Qualification were two tabs over the same rows:
+the same federations, ranked the same way, with one column swapped. They
+are merged, and ctl-08 cuts the table down to the twenty places that are
+going. The **Route** column went with the tab — it repeated what the
+Status marker already says. `qualification.html` redirects to
+`standings.html?view=qualification`, so old links still land.
+
+### el-09 Legend moved
+
+Above its table and right-aligned, so the abbreviations are read before
+the numbers rather than found afterwards, with a rule on **top only** — a
+second rule underneath was fighting the table header. On Standings it
+shares that rule with the new switch: one band above the table carrying
+both controls that describe it.
+
+### S-12 GameDetail — new
+
+The page behind every **Box score** link in S-04. Johannes' wireframe
+opens on a video player; there is no video module in this system, and the
+league streams on YouTube, so the page opens on the result instead.
+Score lockup, the two team plates with the stop record and the winner,
+top scorer, box score per team, the stat comparison and the play-by-play.
+
+The feed carries the result and the squads but no player statistics — the
+endpoints that hold them were not in the snapshot. Rather than ship an
+empty page, the box score, the match stats and the play-by-play are
+derived from the two things that *are* real: the final score and the four
+players each federation fielded. Every point is a two-pointer or a free
+throw; the interleave gives the team that is behind the better chance of
+scoring next, which is where the lead-change count comes from. It is
+seeded on the game id, so a game always reads the same way, and the page
+says so under the box score.
+
+### E-08 PlayerCard: the surname that did not fit
+
+`SAMBAUAIA MÁQUINA` wrapped to two lines of 30px and pushed the plate
+over the stat column; `LUKENI ELISANDRO MANUEL` did the same above it.
+There was a size step for this, but it lived in elements.css and lost to
+the base rule in modules.css, so it had never once applied. Both names
+are now measured and stepped down until they fit — five steps for the
+surname, three for the given names — with a character-count fallback for
+a card painted before it is in the document, and a re-measure on resize.
+
+### Foundations · Typography
+
+Two families and eleven styles, documented after colour: what each one
+is, what it is for, and the exact weight, size, line height and tracking.
+
+### Everything else
+
+- **F-06** — the season selector beside the lockup is gone, desktop and
+  mobile.
+- **E-03** — the hover elevation was a `box-shadow` on a clipped surface,
+  so it was being cut away and nothing happened. `drop-shadow` follows
+  the silhouette; the cards lift to e1. The federation tags were the
+  plain variant — a bare flag and code — and are now el-13 at size S.
+- **Stop podium** — `.cnf-pod` is a cut-out surface, so `background` is
+  the border colour. The winner tile was setting only that, leaving white
+  type on a white plate. The 1st tile is filled again.
+- **Home · Live now** — the per-conference gender switch inside every
+  el-07 AccordionShell is gone; one switch sits in the filter bar with the
+  region chips, hard right. **Qualification** — the switch moves right and
+  **Full standings** moves to the foot of the board, where it belongs.
+- **Stats** — Top score is the first column of the spotlight, stated as
+  el-13 at size L, instead of a section of its own with a 40px country
+  name. Overview is S-09, the block the other two hub pages open with.
+- **Calendar** — the gender switch is in the page head at headline
+  height, a search sits under it the way it does on Teams, and the
+  accordions have no switches of their own.
+- **Player** — C-03 PhotoGallery at the foot, from the stops the player's
+  squad was entered at.
+- **assets/flags/CAL.svg** — New Caledonia was 404ing on four pages.
+- **initChrome** — the resize handler read `mm` and `ovl` from the fetch
+  callback's scope, so every resize threw. Hoisted.
+- **tools/bump_assets.py** stamped index.html and the design system only,
+  which left thirteen pages serving whatever the browser had cached. It
+  covers every page now.
+
 ## 2026-08-19 (5) — The selected stop, and About as one page
 
 ### On whether a clickable stop is worth anything

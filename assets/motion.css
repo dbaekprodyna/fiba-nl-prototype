@@ -169,3 +169,9 @@
   .live .pcard-sh:hover .pcard { transform:translateY(-2px); }
   .live .pcard-sh:hover .pcard-shine { opacity:0; }
 }
+
+/* ctl-08 ToggleSwitch — the knob slides, the track fills. */
+@media (prefers-reduced-motion: no-preference) {
+  .tgl-track { transition:background var(--dur-base) var(--ease-out); }
+  .tgl-knob  { transition:margin var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out); }
+}

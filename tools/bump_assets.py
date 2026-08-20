@@ -10,7 +10,10 @@ Run after any edit to assets/, before committing.
 import os, re, hashlib
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TARGETS = ["index.html", "system/index.html"] + \
+# Every page links the same eight stylesheets, so stamping index.html alone
+# left thirteen pages serving whatever the browser had cached.
+TARGETS = sorted(f for f in os.listdir(ROOT) if f.endswith(".html")) + \
+          ["system/index.html"] + \
           ["system/_check/" + f for f in sorted(os.listdir(os.path.join(ROOT, "system", "_check")))
            if f.endswith(".html")]
 

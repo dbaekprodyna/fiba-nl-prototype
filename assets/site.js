@@ -16,6 +16,23 @@
   var qs = new URLSearchParams(location.search);
 
   /* ---------- small helpers -------------------------------- */
+  /* Dates in this app are calendar days, not instants. toISOString()
+     converts to UTC first, so east of Greenwich local midnight lands on
+     the previous UTC day and every date shifts back by one — which is
+     how the landing page's calendar strip ended up padding Oceania with
+     a second 17 June. Format from the local fields instead, and do day
+     arithmetic on those. */
+  function isoDay(d) {
+    return d.getFullYear() + '-' +
+           ('0' + (d.getMonth() + 1)).slice(-2) + '-' +
+           ('0' + d.getDate()).slice(-2);
+  }
+  function shiftDay(dayISO, delta) {
+    var d = new Date(dayISO + 'T00:00:00');
+    d.setDate(d.getDate() + delta);
+    return isoDay(d);
+  }
+
   function $(sel, root) { return (root || document).querySelector(sel); }
   function $$(sel, root) { return [].slice.call((root || document).querySelectorAll(sel)); }
 
@@ -145,8 +162,32 @@
   /* ---------- lookups -------------------------------------- */
   function conf(id) { return D.conferences.filter(function (c) { return c.id === id; })[0]; }
   function stop(slug) { return D.events.filter(function (e) { return e.slug === slug; })[0]; }
+  /* Whether a stop has been played is a fact about the calendar, not
+     about how far the snapshot got. Deriving it from the presence of a
+     standings record made every conference read "1 of 6 stops", because
+     the snapshot only walked each conference's first stop — the season
+     itself is six deep almost everywhere. Date is the single source of
+     truth; results fill in behind it. */
+  function stopEnd(e) { return e.end || e.start; }
+  function stopPlayed(e, today) {
+    return !!e.start && stopEnd(e) < (today || isoDay(new Date()));
+  }
+  function stopLive(e, today) {
+    var t = today || isoDay(new Date());
+    return !!e.start && e.start <= t && stopEnd(e) >= t;
+  }
   function playedStops() {
-    return D.events.filter(function (e) { return e.teamsRegistered; });
+    var t = isoDay(new Date());
+    return D.events.filter(function (e) { return stopPlayed(e, t); });
+  }
+  /* Stops of one conference, in order, and how many of them are done. */
+  function stopsOfConference(id) {
+    return D.events.filter(function (e) { return e.conference === id; })
+                   .sort(function (a, b) { return (a.number || 0) - (b.number || 0); });
+  }
+  function playedCount(id, uptoISO) {
+    var t = uptoISO || isoDay(new Date());
+    return stopsOfConference(id).filter(function (e) { return stopPlayed(e, t); }).length;
   }
   /* Two stops in the snapshot arrive without a gender label — the
      feed's category name came through empty — so a gendered lookup
@@ -187,6 +228,17 @@
     text(row, '.cell-pool .t-body-s, .cell-pool .t-label', g.pool);
     var st = $('.cell-gamestatus .badge .lbl, .cell-gamestatus .t-caption', row);
     if (st) st.textContent = (g.home.score != null ? 'Final' : 'Upcoming');
+    /* Box score opens the game page — the row itself too, so the whole
+       line is the target rather than six words at the end of it. */
+    var href = 'game.html?id=' + g.id;
+    var box = $('.cell-boxscore, .c-box', row);
+    if (box) {
+      var l = $('.lnk', box) || box;
+      l.setAttribute('role', 'link');
+      link(l, href);
+      text(box, '.lnk .lbl', g.home.score != null ? 'Box score' : 'Preview');
+    }
+    link(row, href);
     row.classList.remove('is-placeholder');
   }
 
@@ -300,6 +352,10 @@
     var m = /^U(\d\d)\s+(.+)$/.exec(c.name || '');
     return m ? m[2] + ' U' + m[1] : (c.name || '') + ' U23';
   }
+
+  /* U23 or U21 — the age category is carried in the conference name and
+     nowhere else, which is why no U23 column exists in the system. */
+  function shortCat(c) { return /^U21\b/.test((c && c.name) || '') ? 'U21' : 'U23'; }
 
   /* The feed's region field is not a region: Europe arrives as four
      separate values (Europe-1 … Europe-4) and every U21 conference
@@ -514,15 +570,59 @@
     });
   }
 
+  /* The name plate on E-08 PlayerCard is a fixed height, so a surname
+     that does not fit is scaled down rather than wrapped — two lines of
+     30px surname push the plate over the stat column. The steps are
+     declared in modules.css as .fit-1 … .fit-5; this walks down them
+     until the text fits the box it is in. Character counts are the
+     fallback for a card measured before layout (hidden tab, print). */
+  function fitName(el, steps, chars) {
+    if (!el) return;
+    for (var i = 1; i <= 5; i++) el.classList.remove('fit-' + i);
+    var room = el.clientWidth;
+    if (room <= 0) {
+      /* Painted while still detached from the document — fall back to a
+         character count, then let the deferred pass measure for real. */
+      var n = (el.textContent || '').length, s = 0;
+      for (var c = 0; c < chars.length; c++) if (n > chars[c]) s = c + 1;
+      if (s) el.classList.add('fit-' + Math.min(s, steps));
+      return;
+    }
+    room -= 2;
+    for (var k = 0; k <= steps && el.scrollWidth > room; k++) {
+      if (k) el.classList.remove('fit-' + k);
+      if (k < steps) el.classList.add('fit-' + (k + 1));
+    }
+  }
+
+  function fitPlayerCard(card) {
+
+    fitName($('.pcard-last', card), 5, [9, 12, 15, 19, 23]);
+    fitName($('.pcard-first', card), 3, [16, 21, 26]);
+  }
+
+  /* Re-run every card's fit pass — after fonts land and on resize, both
+     of which change the measurement the first pass was based on. */
+  function fitAllPlayerCards() {
+    $$('.pcard').forEach(fitPlayerCard);
+  }
+  function scheduleFit() {
+    clearTimeout(fitAllPlayerCards._t);
+    fitAllPlayerCards._t = setTimeout(function () {
+      requestAnimationFrame(fitAllPlayerCards);
+    }, 0);
+  }
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(scheduleFit);
+  window.addEventListener('resize', function () {
+    clearTimeout(fitAllPlayerCards._t);
+    fitAllPlayerCards._t = setTimeout(fitAllPlayerCards, 120);
+  });
+
   /* E-08 PlayerCard, painted from a player record. */
   function paintPlayerCard(card, p, stats) {
     text(card, '.pcard-first', p.first);
     var last = $('.pcard-last', card);
-    if (last) {
-      last.textContent = p.last || '';
-      /* Two lines of 40px surname push the plate over the stats. */
-      last.classList.toggle('pcard-last-sm', (p.last || '').length > 11);
-    }
+    if (last) { last.textContent = p.last || ''; }
     text(card, '.pcard-ioc', p.ioc);
     flag(card, p.ioc);
     var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
@@ -531,6 +631,11 @@
       if (v[i]) v[i].textContent = s[1];
     });
     link(card, 'player.html?id=' + p.id);
+    fitPlayerCard(card);
+    /* Cards are painted before they are put in the document, so the pass
+       above only ever sees the character count. Re-measure once the
+       fragment has landed. */
+    scheduleFit();
   }
 
   /* el-02 GenderSwitch, built from the team sites a federation actually
@@ -682,9 +787,7 @@
       })[0];
       var row = st && st.rows.filter(function (r) { return r.ioc === team.ioc; })[0];
       var c = conf(team.conference) || {};
-      var played = D.events.filter(function (e) {
-        return e.conference === team.conference && e.teamsRegistered;
-      }).length;
+      var played = playedCount(team.conference);
 
       /* Season totals for this federation, the same four figures the
          team header carries. */
@@ -735,9 +838,9 @@
        does not. */
     var SLOTS = 8;
     var region = 'All';
-    var days = [], sel = 0, win = 0, gender = {};
+    var days = [], sel = 0, win = 0, gender = 'men';
 
-    function iso(d) { return d.toISOString().slice(0, 10); }
+    function iso(d) { return isoDay(d); }
 
     function inRegion(e) {
       return region === 'All' || regionOf(conf(e.conference)) === region;
@@ -775,11 +878,7 @@
     function pad(list, n) {
       if (list.length >= n) return list;
       var out = list.slice();
-      var day = function (iso, delta) {
-        var d = new Date(iso + 'T00:00:00');
-        d.setDate(d.getDate() + delta);
-        return d.toISOString().slice(0, 10);
-      };
+      var day = shiftDay;
       var guard = 0;
       while (out.length < n && guard++ < 200) {
         out.push(day(out[out.length - 1], 1));
@@ -896,11 +995,12 @@
       var today = iso(new Date());
       repeat(accHost, '.acc', evs, function (node, e) {
         var c = conf(e.conference) || {};
-        var g = gender[e.slug] || 'men';
-        var all = D.events.filter(function (x) { return x.conference === c.id; });
-        var played = all.filter(function (x) {
-          return x.start && x.start <= dISO && standingsFor(x.slug);
-        }).length;
+        var g = gender;
+        var all = stopsOfConference(c.id);
+        /* Counted off the calendar, not off the snapshot: a stop that
+           has started belongs on the dots whether or not its results
+           have landed yet. */
+        var played = all.filter(function (x) { return x.start && x.start <= dISO; }).length;
         /* Live is a fact about today, not about the day being browsed. */
         var live = e.start <= today && (e.end || e.start) >= today;
 
@@ -915,18 +1015,6 @@
         $$('.dot', node).forEach(function (d, i) {
           d.classList.toggle('dot-done', i < played);
           d.classList.toggle('dot-live', live && i === played - 1);
-        });
-
-        /* the switch inside the panel scopes this conference's table */
-        var sw = $('.el02', node);
-        if (sw) $$('.el02-seg', sw).forEach(function (seg) {
-          var val = /women/i.test(seg.textContent) ? 'women' : 'men';
-          seg.classList.toggle('el02-on', val === g);
-          seg.onclick = function (ev) {
-            ev.stopPropagation();
-            gender[e.slug] = val;
-            drawLive();
-          };
         });
 
         var rows = conferenceTable(c.id, g, dISO);
@@ -944,6 +1032,11 @@
         if (view) link(view, 'conference.html?id=' + e.conference);
       });
     }
+
+    /* One switch for the whole block, in the filter bar beside the
+       region chips, rather than one inside every accordion. */
+    gender = genderSwitch(function (g) { gender = g; drawLive(); },
+                          $('.filterbar')) || 'men';
 
     region = chipFilter(function (r) {
       region = r;
@@ -1001,7 +1094,7 @@
       var col = board.closest('.tpl-colR');
       if (col) col.classList.add('col-3');          /* three of twelve */
       var more = col && $$('.lnk', col)[0];
-      if (more) link(more, 'qualification.html');
+      if (more) link(more, 'standings.html?view=qualification');
       gender = genderSwitch(function (g) { gender = g; drawBoard(); }, $('.r01-ctl'));
       drawBoard();
     })();
@@ -1033,7 +1126,7 @@
   function paintOverview() {
     var host = $('.s09');
     if (!host) return;
-    var today = new Date().toISOString().slice(0, 10);
+    var today = isoDay(new Date());
     var stopsOfC = {};
     D.events.forEach(function (e) {
       (stopsOfC[e.conference] = stopsOfC[e.conference] || []).push(e);
@@ -1041,16 +1134,12 @@
     var finished = 0, live = 0;
     D.conferences.forEach(function (c) {
       var evs = stopsOfC[c.id] || [];
-      if (evs.length && evs.every(function (e) { return e.teamsRegistered; })) finished++;
-      if (evs.some(function (e) {
-        return e.start && e.start <= today && (e.end || e.start) >= today;
-      })) live++;
+      if (evs.length && evs.every(function (e) { return stopPlayed(e, today); })) finished++;
+      if (evs.some(function (e) { return stopLive(e, today); })) live++;
     });
     var totalC = D.conferences.length;
     var stopsDone = playedStops().length, stopsAll = D.events.length;
-    var stopsLive = D.events.filter(function (e) {
-      return e.start && e.start <= today && (e.end || e.start) >= today;
-    }).length;
+    var stopsLive = D.events.filter(function (e) { return stopLive(e, today); }).length;
 
     var lines = $$('.s09-line', host);
     function fill(line, vals) {
@@ -1113,13 +1202,11 @@
     mountFinder();
     paintOverview();
 
-    var today = new Date().toISOString().slice(0, 10);
+    var today = isoDay(new Date());
     function statusOf(c) {
-      var evs = D.events.filter(function (e) { return e.conference === c.id; });
-      var played = evs.filter(function (e) { return standingsFor(e.slug); }).length;
-      var live = evs.some(function (e) {
-        return e.start && e.start <= today && (e.end || e.start) >= today;
-      });
+      var evs = stopsOfConference(c.id);
+      var played = playedCount(c.id, today);
+      var live = evs.some(function (e) { return stopLive(e, today); });
       return { evs: evs, played: played, live: live,
                done: played >= evs.length && evs.length > 0 };
     }
@@ -1143,7 +1230,12 @@
 
     repeat($('.e03'), '.e03-group', groups, function (grp, g) {
       text(grp, '.e03-region', g.region);
-      repeat(grp, '.e03-card', g.items, function (card, c) {
+      /* The card is wrapped in .sh: a drop-shadow on a clip-path surface
+         is clipped away with the corners, so elevation has to sit on an
+         unclipped layer above it. Same reason E-08 PlayerCard ships in
+         .sh sh-e1. The wrapper is what repeat() paints. */
+      repeat(grp, '.e03-sh', g.items, function (wrap, c) {
+        var card = $('.e03-card', wrap) || wrap;
         var st = statusOf(c);
         text(card, '.e03-name', confName(c));
         var badge = $('.badge', card);
@@ -1157,6 +1249,11 @@
         var feds = fedsOf(c);
         if (feds.length) {
           repeat(card, '.ftag', feds, function (tag, t) {
+            /* el-13 FederationTag at size S, the filled variant — the
+               plain one is a bare flag and code, which is what E-03 was
+               drawing and what the card was meant to replace. */
+            tag.classList.remove('ftag-plain');
+            tag.classList.add('ftag-s');
             flag(tag, t.ioc);
             text(tag, '.ftag-code', t.ioc);
             tag.title = t.name;
@@ -1165,7 +1262,7 @@
           var box = $('.e03-feds', card);
           if (box) box.hidden = true;
         }
-        link(card, 'conference.html?id=' + c.id);
+        link(wrap, 'conference.html?id=' + c.id);
       });
     });
   };
@@ -1248,8 +1345,10 @@
         ' – ' + fmtDate(last, { day: 'numeric', month: 'short' });
     }
 
-    var complete = stops.length && played.length >= stops.length;
-    var today = new Date().toISOString().slice(0, 10);
+    var today = isoDay(new Date());
+    /* The conference is over when its last stop has been played, not
+       when the snapshot has caught up with every stop's results. */
+    var complete = !!stops.length && stops.every(function (e) { return stopPlayed(e, today); });
 
     /* ---- Overview: the standings ---- */
     function drawStandings() {
@@ -1317,16 +1416,22 @@
     function drawStopNav() {
       repeat($('.stopnav') || document, '.stopnav-i', stops, function (node, e, i) {
         node.textContent = e.number;
-        var has = !!standingsFor(e.slug);
-        var live = e.start <= today && (e.end || e.start) >= today;
+        /* Played is a calendar fact, not a snapshot fact — see
+           stopPlayed(). A stop that has been played but whose results
+           have not been ingested is still a played stop. */
+        var has = stopPlayed(e, today);
+        var live = stopLive(e, today);
         node.classList.toggle('stopnav-done', has);
         node.classList.toggle('stopnav-live', live);
         node.classList.toggle('stopnav-on', i === sel);
         node.onclick = function () { sel = i; drawStopNav(); drawStop(); drawGames(); };
       });
       repeat($('.s02') || document, '.s02-stop, .s02-i', stops, function (node, e, i) {
-        var has = !!standingsFor(e.slug);
-        var live = e.start <= today && (e.end || e.start) >= today;
+        /* Played is a calendar fact, not a snapshot fact — see
+           stopPlayed(). A stop that has been played but whose results
+           have not been ingested is still a played stop. */
+        var has = stopPlayed(e, today);
+        var live = stopLive(e, today);
         node.classList.toggle('s02-done', has);
         node.classList.toggle('s02-live', live);
         node.classList.toggle('s02-on', i === sel);
@@ -1484,7 +1589,7 @@
     var stops = D.events.filter(function (e) { return e.conference === c.id; })
                         .sort(function (x, y) { return (x.number || 0) - (y.number || 0); });
     var sel = Math.max(0, stops.map(function (e) { return e.slug; }).indexOf(first.slug));
-    var today = new Date().toISOString().slice(0, 10);
+    var today = isoDay(new Date());
 
     function draw() {
       var e = stops[sel] || first;
@@ -1506,14 +1611,14 @@
       /* the selector */
       repeat($('.stopnav') || document, '.stopnav-i', stops, function (node, x, i) {
         node.textContent = x.number;
-        node.classList.toggle('stopnav-done', !!standingsFor(x.slug));
-        node.classList.toggle('stopnav-live', x.start <= today && (x.end || x.start) >= today);
+        node.classList.toggle('stopnav-done', stopPlayed(x, today));
+        node.classList.toggle('stopnav-live', stopLive(x, today));
         node.classList.toggle('stopnav-on', i === sel);
         node.onclick = function () { sel = i; draw(); };
       });
       repeat($('.s02') || document, '.s02-stop, .s02-i', stops, function (node, x, i) {
-        node.classList.toggle('s02-done', !!standingsFor(x.slug));
-        node.classList.toggle('s02-live', x.start <= today && (x.end || x.start) >= today);
+        node.classList.toggle('s02-done', stopPlayed(x, today));
+        node.classList.toggle('s02-live', stopLive(x, today));
         node.classList.toggle('s02-on', i === sel);
         text(node, '.s02-city, .t-label', cityOf(x));
         text(node, '.t-caption', fmtDate(x.start, { day: 'numeric', month: 'short' }));
@@ -1637,9 +1742,16 @@
      it has played, sortable on any column. This is the "how is my team
      doing" table; the Qualification view next door answers "who is
      going", and until now both tabs rendered the same rows. */
+  /* Competition Standings and Qualification were two tabs over the same
+     rows: the same federations, ranked the same way, with one column
+     swapped. They are one table now, and ctl-08 ToggleSwitch cuts it
+     down to the twenty places that are actually going to the World Cup.
+     The Route column went with the tab — it repeated what the Status
+     marker already says. */
   PAGES['standings.html'] = function () {
     var tbl = $('.tbl');
     var gender = 'men', query = '';
+    var qualOnly = new URLSearchParams(location.search).get('view') === 'qualification';
     var state = { key: 'tour', dir: -1 };
     var COLS = {
       'cell-position':   { key: 'rank' },
@@ -1653,14 +1765,26 @@
     };
 
     function draw() {
-      var list = federationTable(gender).filter(function (t) {
+      /* The field is the top twenty. Search narrows what is shown of it
+         and never changes who is in it. */
+      var pool = federationTable(gender);
+      if (qualOnly) pool = pool.slice(0, FIELD);
+      var list = pool.filter(function (t) {
         return !query || (t.team + ' ' + t.ioc).toLowerCase().indexOf(query) > -1;
       });
+      var note = $('.ban-t'), body = $('.ban-d');
+      if (note) note.textContent = qualOnly
+        ? 'Twenty places \u2014 the host federation and nineteen through the league'
+        : 'Places are recalculated after every conference closes';
+      if (body) body.textContent = qualOnly
+        ? 'Q qualified, S shortlisted, N not qualified. The field is provisional until every conference has closed.'
+        : 'Because conferences finish at different times, a federation can move without playing. Tour points are the ranking measure.';
       var e = tbl.parentElement.querySelector(':scope > .site-empty');
       if (!list.length) {
         $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
         emptyState(tbl.parentElement, 'No federation matches',
-                   'Try a different name or IOC code.');
+                   qualOnly ? 'That federation is not in the field of twenty.'
+                            : 'Try a different name or IOC code.');
         return;
       }
       if (e) e.remove();
@@ -1682,6 +1806,20 @@
     gender = genderSwitch(function (g) { gender = g; draw(); });
     searchField(document, 'Search a federation or IOC code', function (q) { query = q; draw(); });
     sortable(tbl, COLS, state, draw);
+
+    var tgl = $('.tgl[data-toggle="qualification"]');
+    if (tgl) {
+      function paintToggle() {
+        tgl.classList.toggle('tgl-on', qualOnly);
+        tgl.setAttribute('aria-checked', qualOnly ? 'true' : 'false');
+      }
+      function flip() { qualOnly = !qualOnly; paintToggle(); draw(); }
+      tgl.addEventListener('click', flip);
+      tgl.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); flip(); }
+      });
+      paintToggle();
+    }
     draw();
   };
 
@@ -1803,7 +1941,7 @@
          offer it while this conference is actually playing. */
       var wl = $('.e04-act .wl');
       if (wl) {
-        var today = new Date().toISOString().slice(0, 10);
+        var today = isoDay(new Date());
         var live = D.events.some(function (e) {
           return e.conference === c.id && e.start &&
                  e.start <= today && (e.end || e.start) >= today;
@@ -1819,14 +1957,20 @@
         repeat(host, '.s10-row', stops, function (row, e) {
           var s = standingsFor(e.slug, site.gender || sel.gender);
           var mine = s && s.rows.filter(function (r) { return r.ioc === site.ioc; })[0];
+          /* Two different questions: has this stop happened (calendar),
+             and do we hold its result (snapshot). A played stop with no
+             result yet says Played, with the figures still dashed. */
+          var done = stopPlayed(e);
+          var live = stopLive(e);
           var played = !!(mine && mine.rank);
           text(row, '.cell-jstop .t-data-m', e.number);
           text(row, '.cell-jhost .t-body-s', cityOf(e) + (e.country ? ', ' + e.country : ''));
           text(row, '.cell-jdate .t-body-s', fmtDate(e.start, { day: 'numeric', month: 'short' }));
           $('.cell-jplace .t-data-m', row).textContent = played ? ordinal(mine.rank) : '—';
           $('.cell-jpts .t-data-m', row).textContent = played ? tourPoints(mine.rank) : '—';
-          $('.cell-jstatus .t-body-s', row).textContent = played ? 'Played' : 'Upcoming';
-          row.classList.toggle('is-placeholder', !played);
+          $('.cell-jstatus .t-body-s', row).textContent =
+            live ? 'Live' : (done ? 'Played' : 'Upcoming');
+          row.classList.toggle('is-placeholder', !done && !live);
           link(row, 'stop.html?id=' + e.slug);
         });
       }
@@ -1894,6 +2038,19 @@
     if (g[2]) g[2].textContent = p.city || p.country || '';
     /* no per-game statistics in the snapshot yet */
     $$('.e06-row, .e07-row').forEach(function (r) { r.classList.add('is-placeholder'); });
+
+    /* C-03 PhotoGallery — the stops this player was actually entered at.
+       Galleries are held per event, not per player, so a player page
+       shows the galleries from the stops their squad appeared at, newest
+       first. The block hides itself when there are none. */
+    var mine = D.teams.filter(function (t) {
+      return (t.roster || []).some(function (m) { return m.id === p.id; });
+    });
+    var evs = mine.map(function (t) { return stop(t.stop); }).filter(Boolean);
+    var seen = {};
+    evs = evs.filter(function (e) { if (seen[e.id]) return false; seen[e.id] = 1; return true; });
+    paintPhotos(photosFor(evs).slice(0, 12));
+    if (window.FIBA) window.FIBA.init(document);
   };
 
   /* C-06 ContentPage. The table of contents was a static list with the
@@ -1974,9 +2131,12 @@
      calendar. */
   PAGES['calendar.html'] = function () {
     var SLOTS = 8;
-    var region = 'All', days = [], sel = -1, win = 0, gender = {};
+    /* One gender for the page, set from the switch in the page head, not
+       one per accordion — and a search that narrows the list the way the
+       Teams page does. */
+    var region = 'All', days = [], sel = -1, win = 0, gender = 'men', query = '';
 
-    function iso(d) { return d.toISOString().slice(0, 10); }
+    function iso(d) { return isoDay(d); }
     function inRegion(e) {
       return region === 'All' || regionOf(conf(e.conference)) === region;
     }
@@ -1994,11 +2154,7 @@
     function pad(list, n) {
       if (list.length >= n) return list;
       var out = list.slice();
-      var day = function (i, delta) {
-        var d = new Date(i + 'T00:00:00');
-        d.setDate(d.getDate() + delta);
-        return d.toISOString().slice(0, 10);
-      };
+      var day = shiftDay;
       var guard = 0;
       while (out.length < n && guard++ < 200) {
         out.push(day(out[out.length - 1], 1));
@@ -2058,24 +2214,29 @@
       var old = accHost.querySelector(':scope > .site-empty');
       if (old) old.remove();
       var evs = pool().filter(function (e) {
-        return sel < 0 || (e.start <= days[sel] && (e.end || e.start) >= days[sel]);
+        if (!(sel < 0 || (e.start <= days[sel] && (e.end || e.start) >= days[sel]))) return false;
+        if (!query) return true;
+        var c = conf(e.conference) || {};
+        var feds = D.teams.filter(function (t) { return t.stop === e.slug; })
+                          .map(function (t) { return t.ioc + ' ' + t.name; }).join(' ');
+        return (confName(c) + ' ' + cityOf(e) + ' ' + (e.country || '') + ' ' +
+                'stop ' + e.number + ' ' + feds).toLowerCase().indexOf(query) > -1;
       });
       if (!evs.length) {
         $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
-        emptyState(accHost, 'Nothing in this region yet',
-                   'Pick another region, or clear the day.');
+        emptyState(accHost, query ? 'Nothing matches that search' : 'Nothing in this region yet',
+                   query ? 'Try a city, a conference or an IOC code.'
+                         : 'Pick another region, or clear the day.');
         return;
       }
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
       var today = iso(new Date());
       repeat(accHost, '.acc', evs, function (node, e) {
         var c = conf(e.conference) || {};
-        var g = gender[e.slug] || 'men';
-        var all = D.events.filter(function (x) { return x.conference === c.id; });
-        var played = all.filter(function (x) {
-          return x.start && x.start <= e.start && standingsFor(x.slug);
-        }).length;
-        var live = e.start <= today && (e.end || e.start) >= today;
+        var g = gender;
+        var all = stopsOfConference(c.id);
+        var played = all.filter(function (x) { return x.start && x.start <= e.start; }).length;
+        var live = stopLive(e, today);
 
         text(node, '.t-h3', confName(c));
         var meta = $$('.acc-head .t-body-s', node)[0];
@@ -2088,13 +2249,6 @@
         $$('.dot', node).forEach(function (d, i) {
           d.classList.toggle('dot-done', i < played);
           d.classList.toggle('dot-live', live && i === played - 1);
-        });
-
-        var sw = $('.el02', node);
-        if (sw) $$('.el02-seg', sw).forEach(function (seg) {
-          var val = /women/i.test(seg.textContent) ? 'women' : 'men';
-          seg.classList.toggle('el02-on', val === g);
-          seg.onclick = function (ev) { ev.stopPropagation(); gender[e.slug] = val; drawList(); };
         });
 
         var rows = conferenceTable(c.id, g, e.start);
@@ -2140,6 +2294,9 @@
       region = r; days = dayList(); sel = -1; win = 0; clampWin();
       drawStrip(); drawList();
     }) || 'All';
+    gender = genderSwitch(function (g) { gender = g; drawList(); }, $('.f04-ctl')) || 'men';
+    searchField($('.cal-find') || document, 'Search a stop, city or federation',
+                function (q) { query = q; drawList(); });
     drawStrip();
     drawList();
   };
@@ -2184,33 +2341,26 @@
     function drawTeams() {
       var list = scope();
 
-      /* Top scores — the federation scoring most per game */
-      /* Top scores is the federation scoring most per game in scope —
-         a real figure, not a placeholder. It is named the way a team
-         page names one: flag, then federation. */
+      /* Top score is the federation scoring most per game in scope — a
+         real figure, not a placeholder. It used to be a section of its
+         own with a flag and a 40px country name; it is now the first
+         column of the spotlight, stated as el-13 FederationTag at L, so
+         the federation and the six figures that describe it read as one
+         row instead of two blocks. */
       var best = list.slice().sort(function (a, b) { return b.avg - a.avg; })[0];
-      var name = $('.st-spot-name');
-      if (name) {
-        name.textContent = '';
+      var tag = $('.st-topftag');
+      if (tag) {
         if (best) {
-          var fl = document.createElement('div');
-          fl.className = 'flag flag-ring st-spot-flag';
-          name.appendChild(fl);
-          var txt = document.createElement('span');
-          txt.textContent = best.team;
-          name.appendChild(txt);
-          flag(fl, best.ioc);
+          fed(tag, best.ioc, best.team);
+          tag.title = best.confname;
+          tag.hidden = false;
         } else {
-          name.textContent = '—';
+          tag.hidden = true;
         }
       }
-      text(document, '.st-spot-sub', best
-        ? best.confname + ' · ' + (gender === 'men' ? 'Men' : 'Women') +
-          ' · ' + best.avg.toFixed(1) + ' points per game'
-        : 'No results in scope');
 
       /* Team stats spotlight — the same six-figure row as a team page */
-      var v = $$('.e04-stats .e04-v'), k = $$('.e04-stats .t-caption');
+      var v = $$('.e04-stats .e04-v'), k = $$('.e04-stats .t-caption:not(.st-top .t-caption)');
       var stats = best ? [
         ['Score points', best.scored],
         ['Events', best.stops],
@@ -2224,7 +2374,11 @@
         if (v[i]) v[i].textContent = s[1];
       });
 
-      /* Overview */
+      /* Overview is S-09, the same block the landing and Conferences
+         pages open with, rather than a second set of tiles that said
+         something similar in a different shape. */
+      paintOverview();
+
       var games = [];
       D.events.forEach(function (e) {
         if (confId !== 'All' && e.conference !== confId) return;
@@ -2236,30 +2390,8 @@
       finalGames.forEach(function (g) { withGames[g.home.ioc] = withGames[g.away.ioc] = 1; });
       var activeConf = {};
       D.events.forEach(function (e) {
-        if (standingsFor(e.slug) && (confId === 'All' || e.conference === confId)) activeConf[e.conference] = 1;
+        if ((stopPlayed(e) || stopLive(e)) && (confId === 'All' || e.conference === confId)) activeConf[e.conference] = 1;
       });
-      var kv = $$('.cnf-kpis .kpi-v'), kk = $$('.cnf-kpis .t-caption');
-      [['Final games', finalGames.length],
-       ['Teams in scope', list.length],
-       ['Teams with games', Object.keys(withGames).length],
-       ['Active conferences', Object.keys(activeConf).length]
-      ].forEach(function (s, i) {
-        if (kk[i]) kk[i].textContent = s[0];
-        if (kv[i]) kv[i].textContent = s[1];
-      });
-      /* the fifth figure does not fit a four-tile row, so it rides with
-         the section rather than being dropped */
-      var sub = $('.st-avg');
-      if (!sub) {
-        var box = $('.cnf-kpis');
-        if (box) {
-          sub = document.createElement('div');
-          sub.className = 'st-avg t-body-s';
-          box.parentElement.appendChild(sub);
-        }
-      }
-      if (sub) sub.textContent = 'Avg pts / game · ' +
-        (finalGames.length ? (pts / finalGames.length).toFixed(1) : '—');
 
       function fillTable(sel, rows, paint) {
         var tbl = $(sel);
@@ -2355,61 +2487,8 @@
     draw();
   };
 
-  PAGES['qualification.html'] = function () {
-    var tbl = $('.tbl');
-    var gender = 'men', query = '';
-
-    function routeOf(t) {
-      var table = conferenceTable(t.conference, gender);
-      var lead = table[0];
-      if (lead && lead.ioc === t.ioc) {
-        var all = D.events.filter(function (e) { return e.conference === t.conference; });
-        var played = all.filter(function (e) { return standingsFor(e.slug); }).length;
-        return (all.length && played >= all.length) ? 'Conference winner'
-                                                    : 'Conference leader';
-      }
-      return 'Standings';
-    }
-
-    function draw() {
-      /* The field is the top twenty; the search narrows what is shown of
-         it and never changes who is in it, so the position column keeps
-         the qualification place rather than the row number. */
-      var field = federationTable(gender).slice(0, FIELD);
-      field.forEach(function (t, i) { t.place = i + 1; });
-      var list = field.filter(function (t) {
-        return !query || (t.team + ' ' + t.ioc).toLowerCase().indexOf(query) > -1;
-      });
-      var old = tbl.parentElement.querySelector(':scope > .site-empty');
-      if (!list.length) {
-        $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
-        emptyState(tbl.parentElement, 'No federation matches',
-                   'That federation is not in the field of twenty.');
-        return;
-      }
-      if (old) old.remove();
-      repeat(tbl, '.trow', list, function (row, t, i) {
-        row.hidden = false;
-        fed(row, t.ioc, t.team);
-        text(row, '.cell-position .t-data-m', t.place);
-        text(row, '.cell-conference .t-body-s', t.confname);
-        text(row, '.cell-route .t-body-s', routeOf(t));
-        text(row, '.cell-winratio .t-data-m', t.winRatio.toFixed(2));
-        text(row, '.cell-points .t-data-m', t.tour);
-        marker(row, t.status);
-        link(row, 'team.html?ioc=' + t.ioc);
-      });
-      var note = $('.ban-t');
-      if (note) note.textContent = 'Twenty places — the host federation and nineteen through the league';
-      var body = $('.ban-d');
-      if (body) body.textContent = 'Routes are provisional until a conference closes. ' +
-        'Q qualified, S shortlisted, N not qualified.';
-    }
-
-    gender = genderSwitch(function (g) { gender = g; draw(); });
-    searchField(document, 'Search for a federation or IOC code', function (q) { query = q; draw(); });
-    draw();
-  };
+  /* qualification.html is a redirect to standings.html?view=qualification
+     — the two tables were merged behind ctl-08 ToggleSwitch. */
 
   PAGES['search.html'] = function () {
     var pool = D.teams.filter(function (t, i, a) {
@@ -2439,6 +2518,10 @@
     function place(el) {
       if (el) el.style.setProperty('--chrome-h', chromeHeight() + 'px');
     }
+    /* Declared out here: the resize handler below runs long before the
+       partials resolve, and reading them from the fetch callback's scope
+       threw "mm is not defined" on every resize. */
+    var mm = null, ovl = null;
     window.addEventListener('resize', function () { place(mm); place(ovl); });
 
     var openPanel = null, closeTimer = null;
@@ -2466,8 +2549,8 @@
     ]).then(function (parts) {
       var wrap = document.createElement('div');
       wrap.innerHTML = parts[0] + parts[1];
-      var mm = wrap.querySelector('.mm');
-      var ovl = wrap.querySelector('.ovl');
+      mm = wrap.querySelector('.mm');
+      ovl = wrap.querySelector('.ovl');
       if (mm) {
         mm.classList.add('site-mm');
         /* F-05 marks the current page the way F-03 does — white label
@@ -2623,6 +2706,333 @@
       repeat(g, '.e11-row', set.rows, set.paint);
     });
   }
+
+
+  /* ============================================================
+     S-12 GameDetail — the page behind every Box score link.
+
+     The feed we hold carries the result of every game and the four
+     players each federation fielded, but no player statistics: the
+     endpoints that hold them were not in the snapshot. Rather than ship
+     an empty page, the box score, the match stats and the play-by-play
+     are derived from the two things that ARE real — the final score and
+     the squads — using the simplest model that can produce it: every
+     point is either a two-pointer or a free throw. The derivation is
+     seeded on the game id, so a game always reads the same way on every
+     load, and the page says so under the box score.
+     ============================================================ */
+
+  function seedOf(str) {
+    var h = 2166136261;
+    for (var i = 0; i < String(str).length; i++) {
+      h ^= String(str).charCodeAt(i);
+      h = (h * 16777619) >>> 0;
+    }
+    return h >>> 0 || 1;
+  }
+  function rngOf(seed) {
+    var s = seed >>> 0 || 1;
+    return function () {
+      s ^= s << 13; s >>>= 0;
+      s ^= s >> 17;
+      s ^= s << 5;  s >>>= 0;
+      return s / 4294967296;
+    };
+  }
+
+  var GAME_ROLES = ['Guard', 'Wing', 'Big'];
+
+  /* The four players a federation fielded at this stop, in the order the
+     feed lists them, with a shirt number and a role hung off the player
+     id so the same player always wears the same number. */
+  function gameSquad(g, side) {
+    var t = D.teams.filter(function (x) {
+      return x.stop === g.stop && x.gender === g.gender && x.ioc === g[side].ioc;
+    })[0];
+    if (!t) return [];
+    var used = {};
+    return (t.roster || []).map(function (m, i) {
+      var p = player(m.id);
+      if (!p) return null;
+      var n = 3 + (seedOf(m.id) % 21);
+      while (used[n]) n = 3 + ((n - 2) % 21);
+      used[n] = 1;
+      return {
+        id: m.id, first: p.first, last: p.last, name: p.name,
+        captain: !!m.captain, no: n,
+        role: GAME_ROLES[seedOf(m.id + 'r') % GAME_ROLES.length],
+        rank: p.rankingPoints || 0,
+        two: 0, ft: 0, pts: 0, order: i
+      };
+    }).filter(Boolean);
+  }
+
+  /* Split one team's final score into two-pointers and free throws, then
+     across the squad. Weighted by 3x3 ranking points so the federation's
+     best player usually leads, with a per-game wobble so it is not
+     always the same name. */
+  function splitScore(total, squad, rand) {
+    if (!squad.length || total == null) return { two: 0, ft: 0 };
+    var ft = Math.floor(rand() * Math.min(7, total + 1));
+    if ((total - ft) % 2 !== 0) ft = ft > 0 ? ft - 1 : ft + 1;
+    if (ft < 0) ft = 0;
+    if (ft > total) ft = total % 2;
+    var two = (total - ft) / 2;
+
+    var maxRank = squad.reduce(function (a, p) { return Math.max(a, p.rank); }, 1);
+    var w = squad.map(function (p) {
+      return 0.55 + (p.rank / maxRank) * 1.1 + rand() * 0.8;
+    });
+    var sum = w.reduce(function (a, b) { return a + b; }, 0);
+    function pick() {
+      var r = rand() * sum, acc = 0;
+      for (var i = 0; i < w.length; i++) { acc += w[i]; if (r <= acc) return i; }
+      return w.length - 1;
+    }
+    var i;
+    for (i = 0; i < two; i++) squad[pick()].two++;
+    for (i = 0; i < ft;  i++) squad[pick()].ft++;
+    squad.forEach(function (p) { p.pts = p.two * 2 + p.ft; });
+    return { two: two, ft: ft };
+  }
+
+  /* Interleave the two teams' scores into a sequence that ends on the
+     real final score. The team that is behind is likelier to score next,
+     which is what produces a game that reads as a contest rather than a
+     run — and it is where the lead-change count comes from. */
+  function buildPlayByPlay(g, H, A, rand) {
+    function bag(squad, side) {
+      var out = [];
+      squad.forEach(function (p) {
+        var i;
+        for (i = 0; i < p.two; i++) out.push({ side: side, kind: '2PT', p: p, v: 2 });
+        for (i = 0; i < p.ft;  i++) out.push({ side: side, kind: 'FT',  p: p, v: 1 });
+      });
+      for (var k = out.length - 1; k > 0; k--) {
+        var j = Math.floor(rand() * (k + 1)), t = out[k]; out[k] = out[j]; out[j] = t;
+      }
+      return out;
+    }
+    var hb = bag(H.squad, 'h'), ab = bag(A.squad, 'a');
+    var evs = [], hs = 0, as = 0, leads = 0, sign = 0;
+    while (hb.length || ab.length) {
+      var takeHome;
+      if (!ab.length) takeHome = true;
+      else if (!hb.length) takeHome = false;
+      else {
+        var behind = hs < as ? 'h' : (as < hs ? 'a' : null);
+        var pHome = behind === 'h' ? 0.62 : behind === 'a' ? 0.38 : 0.5;
+        takeHome = rand() < pHome;
+      }
+      var ev = takeHome ? hb.pop() : ab.pop();
+      if (ev.side === 'h') hs += ev.v; else as += ev.v;
+      ev.hs = hs; ev.as = as;
+      var ns = hs > as ? 1 : (as > hs ? -1 : 0);
+      if (ns !== 0 && sign !== 0 && ns !== sign) leads++;
+      if (ns !== 0) sign = ns;
+      evs.push(ev);
+    }
+    /* One timeout each, the way a 3x3 game is played, dropped somewhere
+       in the middle of the run rather than at either end. */
+    ['h', 'a'].forEach(function (side) {
+      if (evs.length < 6) return;
+      var at = 2 + Math.floor(rand() * (evs.length - 4));
+      var prev = evs[at - 1] || { hs: 0, as: 0 };
+      evs.splice(at, 0, { side: side, kind: 'TIMEOUT', hs: prev.hs, as: prev.as,
+                          team: side === 'h' ? g.home : g.away });
+    });
+    /* A 3x3 game runs ten minutes or to 21. Spread the events across the
+       clock, in order, and never past full time. */
+    var span = 9 * 60 + 40, t = 12;
+    evs.forEach(function (ev, i) {
+      var left = evs.length - i;
+      t += Math.max(6, Math.round(((span - t) / left) * (0.55 + rand() * 0.9)));
+      if (t > span) t = span;
+      ev.t = ('0' + Math.floor(t / 60)).slice(-2) + ':' + ('0' + (t % 60)).slice(-2);
+    });
+    return { events: evs, leadChanges: leads };
+  }
+
+  function deriveGame(g) {
+    var rand = rngOf(seedOf(g.id));
+    var H = { squad: gameSquad(g, 'home') }, A = { squad: gameSquad(g, 'away') };
+    var hs = g.home.score, as = g.away.score;
+    if (hs == null || as == null) return { home: H, away: A, events: [], leadChanges: 0, played: false };
+    var ht = splitScore(hs, H.squad, rand);
+    var at = splitScore(as, A.squad, rand);
+    H.two = ht.two; H.ft = ht.ft; A.two = at.two; A.ft = at.ft;
+    var pbp = buildPlayByPlay(g, H, A, rand);
+    return { home: H, away: A, events: pbp.events, leadChanges: pbp.leadChanges, played: true };
+  }
+
+  PAGES['game.html'] = function () {
+    var qs = new URLSearchParams(location.search);
+    var id = qs.get('id');
+    var g = D.games.filter(function (x) { return x.id === id; })[0] || D.games[0];
+    if (!g) return;
+
+    var e = stop(g.stop) || {};
+    var c = conf(g.conference) || {};
+    var played = g.home.score != null && g.away.score != null;
+    var live = stopLive(e);
+    var homeWon = played && g.home.score > g.away.score;
+    var d = deriveGame(g);
+
+    document.title = g.home.ioc + ' v ' + g.away.ioc + ' — ' + confName(c) +
+                     ' — FIBA 3x3 Nations League';
+
+    crumbs([{ label: 'Home', href: 'index.html' },
+            { label: 'Conferences', href: 'conferences.html' },
+            { label: confName(c), href: 'conference.html?id=' + c.id },
+            { label: 'Stop ' + (e.number || ''), href: 'stop.html?id=' + g.stop },
+            { label: g.pool || g.name || 'Game' }]);
+
+    /* ---- head ---- */
+    var cat = shortCat(c) + ' ' + (g.gender === 'women' ? 'Women' : 'Men');
+    text(document, '.gm-date', fmtDate((g.start || e.start || '').slice(0, 10),
+                                       { day: 'numeric', month: 'short', year: 'numeric' }));
+    text(document, '.gm-venue', [cityOf(e), cat, g.pool].filter(Boolean).join(' · '));
+    var badge = $('.gm-badge');
+    if (badge) {
+      var lbl = $('.lbl', badge);
+      badge.className = 'badge cut cut-s gm-badge ' +
+                        (live ? 'badge-live' : played ? 'badge-up' : 'badge-nq');
+      if (lbl) lbl.textContent = live ? 'Live' : played ? 'Final' : 'Upcoming';
+    }
+    text(document, '.gm-tname-h', g.home.ioc + ' ' + shortCat(c));
+    text(document, '.gm-tname-a', g.away.ioc + ' ' + shortCat(c));
+    text(document, '.gm-pt-h', played ? g.home.score : '–');
+    text(document, '.gm-pt-a', played ? g.away.score : '–');
+    if (played) {
+      $('.gm-tname-h').classList.toggle('gm-lost', !homeWon);
+      $('.gm-tname-a').classList.toggle('gm-lost', homeWon);
+      $('.gm-pt-h').classList.toggle('gm-lost', !homeWon);
+      $('.gm-pt-a').classList.toggle('gm-lost', homeWon);
+    }
+
+    /* ---- teams ---- */
+    var stopGames = gamesFor(g.stop, g.gender);
+    function record(ioc) {
+      var w = 0, l = 0;
+      stopGames.forEach(function (x) {
+        if (x.home.score == null) return;
+        var mine = x.home.ioc === ioc ? x.home : x.away.ioc === ioc ? x.away : null;
+        if (!mine) return;
+        var other = mine === x.home ? x.away : x.home;
+        if (mine.score > other.score) w++; else l++;
+      });
+      return w + 'W · ' + l + 'L';
+    }
+    [['h', g.home, homeWon], ['a', g.away, played && !homeWon]].forEach(function (t) {
+      var box = $('.gm-team-' + t[0]);
+      if (!box) return;
+      fed(box, t[1].ioc, t[1].name);
+      text(box, '.gm-team-w', record(t[1].ioc));
+      box.classList.toggle('gm-team-win', !!t[2]);
+      var win = $('.gm-win', box);
+      if (win) win.hidden = !t[2];
+      link(box, 'team.html?ioc=' + t[1].ioc);
+    });
+
+    /* ---- top scorer ---- */
+    var all = d.home.squad.concat(d.away.squad).slice().sort(function (a, b) {
+      return (b.pts - a.pts) || (b.rank - a.rank);
+    });
+    var topBlock = $('.gm-top');
+    var top = all[0];
+    if (topBlock) {
+      if (!played || !top || !top.pts) {
+        topBlock.closest('.tpl-sub').hidden = true;
+      } else {
+        var side = d.home.squad.indexOf(top) > -1 ? g.home : g.away;
+        flag($('.gm-top-who .flag'), side.ioc);
+        text(topBlock, '.gm-top-n', top.name);
+        text(topBlock, '.gm-top-sub', '#' + top.no + ' · ' + top.role + ' · ' + side.ioc);
+        text(topBlock, '.gm-top-pts', top.pts);
+        link(topBlock, 'player.html?id=' + top.id);
+      }
+    }
+
+    /* ---- box score ---- */
+    [['h', g.home, d.home], ['a', g.away, d.away]].forEach(function (t) {
+      var head = $('.gm-boxhead-' + t[0]), tbl = $('.gm-box-' + t[0]);
+      if (!head || !tbl) return;
+      fed(head, t[1].ioc, t[1].name);
+      text(head, '.gm-boxhead-v', played ? t[1].score : '–');
+      var squad = t[2].squad.slice().sort(function (a, b) {
+        return (b.pts - a.pts) || (a.order - b.order);
+      });
+      if (!squad.length) {
+        $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
+        return;
+      }
+      repeat(tbl, '.trow', squad, function (row, p) {
+        row.hidden = false;
+        text(row, '.cell-no .t-data-m', p.no);
+        text(row, '.cell-pname .t-label', p.name + (p.captain ? ' (C)' : ''));
+        text(row, '.cell-two .t-data-m', played ? p.two : '–');
+        text(row, '.cell-ft .t-data-m',  played ? p.ft  : '–');
+        text(row, '.cell-pts .t-data-m', played ? p.pts : '–');
+        row.classList.toggle('trow-out', played && !p.pts);
+        link(row, 'player.html?id=' + p.id);
+      });
+    });
+    var note = $('.gm-note');
+    if (note) note.textContent = played
+      ? '2PT two-pointers · FT free throws · shirt numbers and the split between them are derived from the final score'
+      : 'The box score appears once the game has been played.';
+
+    /* ---- match stats ---- */
+    var stats = [['Two-pointers', d.home.two, d.away.two],
+                 ['Free throws',  d.home.ft,  d.away.ft],
+                 ['Points',       g.home.score, g.away.score]];
+    $$('.gm-stat').forEach(function (row, i) {
+      var s2 = stats[i];
+      if (!s2) { row.hidden = true; return; }
+      text(row, '.gm-stat-k', s2[0]);
+      text(row, '.gm-stat-h', played ? s2[1] : '–');
+      text(row, '.gm-stat-a', played ? s2[2] : '–');
+      $('.gm-stat-h', row).classList.toggle('gm-stat-lead', played && s2[1] < s2[2]);
+      $('.gm-stat-a', row).classList.toggle('gm-stat-lead', played && s2[2] < s2[1]);
+    });
+    text(document, '.gm-stat-note', played
+      ? (d.leadChanges === 0 ? 'No lead change in this game'
+                             : d.leadChanges + ' lead change' + (d.leadChanges === 1 ? '' : 's') + ' in this game')
+      : 'Tip-off ' + ((g.start || '').slice(11, 16) || 'to be confirmed'));
+
+    /* ---- play-by-play ---- */
+    var pbp = $('.gm-pbp');
+    if (pbp) {
+      if (!d.events.length) {
+        $$('.gm-ev', pbp).forEach(function (r) { r.hidden = true; });
+        emptyState(pbp.parentElement, 'No play-by-play yet',
+                   'It is published with the result.');
+      } else {
+        repeat(pbp, '.gm-ev', d.events, function (row, ev) {
+          row.hidden = false;
+          text(row, '.gm-ev-t', ev.t);
+          var kind = $('.gm-ev-k', row);
+          if (kind) kind.textContent = ev.kind === 'TIMEOUT' ? '' : ev.kind;
+          var f = $('.flag', row);
+          if (ev.kind === 'TIMEOUT') {
+            if (f) f.hidden = true;
+            text(row, '.gm-ev-n', 'Timeout · ' + ev.team.name);
+          } else {
+            if (f) { f.hidden = false; flag(f, ev.side === 'h' ? g.home.ioc : g.away.ioc); }
+            text(row, '.gm-ev-n', ev.p.name);
+          }
+          row.classList.toggle('gm-ev-break', ev.kind === 'TIMEOUT');
+          text(row, '.gm-ev-s', ev.hs + '–' + ev.as);
+        });
+      }
+    }
+
+    var back = $('.gm-backlink');
+    if (back) {
+      back.setAttribute('href', 'stop.html?id=' + g.stop);
+      text(back, '.lbl', 'Back to Stop ' + (e.number || ''));
+    }
+  };
 
   /* ---------- boot ------------------------------------------ */
   var FILES = ['conferences', 'events', 'standings', 'teams', 'players', 'news', 'photos', 'games'];
