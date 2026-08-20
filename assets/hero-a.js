@@ -23,9 +23,9 @@
     pA:       0.07,   /* accent 1                                */
     pB:       0.02,   /* accent 2                                */
     drift:    10.0,   /* px of idle movement during the hold     */
-    spread:   3.00,   /* s                                       */
+    spread:   2.00,   /* s  — 3.00 / 1.5                         */
     hold:     6.00,   /* s                                       */
-    gather:   0.60,   /* s                                       */
+    gather:   0.40,   /* s  — 0.60 / 1.5                         */
     pause:    0.10,   /* s, fully gathered — the photo swaps here */
     speed:    1.15,
     tone:     true,   /* 2-step shade variation on the dominant  */
@@ -33,15 +33,25 @@
     seed:     7
   };
 
+  /* Cropped 2.238:1 — the photo window's ratio at a 1440 viewport,
+     the desktop reference width. ?v= is a cache-buster: the files are
+     re-cropped in place when the selection or the ratio changes. */
   var PHOTOS = [
-    'assets/hero-a/hero-a-1.jpg', 'assets/hero-a/hero-a-2.jpg',
-    'assets/hero-a/hero-a-3.jpg', 'assets/hero-a/hero-a-4.jpg',
-    'assets/hero-a/hero-a-5.jpg', 'assets/hero-a/hero-a-6.jpg',
-    'assets/hero-a/hero-a-7.jpg'
+    'assets/hero-a/hero-a-1.jpg?v=2', 'assets/hero-a/hero-a-2.jpg?v=2',
+    'assets/hero-a/hero-a-3.jpg?v=2', 'assets/hero-a/hero-a-4.jpg?v=2',
+    'assets/hero-a/hero-a-5.jpg?v=2', 'assets/hero-a/hero-a-6.jpg?v=2',
+    'assets/hero-a/hero-a-7.jpg?v=2'
   ];
 
   var STAG = 0.55;        /* how much of the spread the stagger eats   */
-  var COMPRESS = 0.40;    /* gathered pack width, share of the region  */
+  /* The two widest buckets are cut to 40% of their drawn width, so the
+     band reads as lines rather than planes. Raise to 0.60 for a heavier
+     composition — it is the only number that controls this. */
+  var BIG = 0.40;
+  /* Gathered pack width, as a share of the region. Tightened from 0.40
+     when the wide slats were cut to BIG — thinner bars spread over the
+     old width left the gathered moment reading as a blank band. */
+  var COMPRESS = 0.28;
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- helpers ------------------------------------------------ */
@@ -137,8 +147,8 @@
       var r = rnd(), w;
       if (r < 0.50)      w = 2 + rnd() * 10;
       else if (r < 0.82) w = 13 + rnd() * 16;
-      else if (r < 0.95) w = 30 + rnd() * 34;
-      else               w = 68 + rnd() * 58;
+      else if (r < 0.95) w = (30 + rnd() * 34) * BIG;
+      else               w = (68 + rnd() * 58) * BIG;
       var g = (4 + rnd() * 22) / CFG.density;
       if (over) { w *= 0.58; g *= 1.22; }
       if (x < geo.x0 + 180) g *= 0.68;
@@ -172,7 +182,7 @@
       x += w + g;
     }
     /* the solid block that closes the right edge */
-    slats.push({ x: geo.vw - 52, w: 120, y0: 0, y1: H,
+    slats.push({ x: geo.vw - 52, w: 120 * BIG, y0: 0, y1: H,
                  col: cssVar('--hero-a-blue', '#253AFF'), alpha: 1, rank: 0, ph: 0, amp: 0.2 });
   }
 
