@@ -1,0 +1,85 @@
+/* ============================================================
+   FIBA 3x3 Nations League — hero-a.css
+   Hero A: 76.5° slat band under the navigation, 256px tall,
+   full-bleed. Off by default; F-02 switches it on by adding
+   .hero-a to <body>. "No hero" leaves .hl exactly as it was.
+   ============================================================ */
+
+:root {
+  --hero-a-h: 256px;
+  --hero-a-blue:   #253AFF;   /* brand / electric blue — dominant */
+  --hero-a-yellow: #E8B33D;   /* brand / dark yellow  — accent 1 */
+  --hero-a-red:    #C32440;   /* brand / core red     — accent 2 */
+}
+
+/* ---- F-02 switch --------------------------------------------
+   Two text links in the family slot. The active one takes the
+   chrome's full-strength text, the other stays muted like the
+   rest of the top bar.                                         */
+a.f02-famlink { text-decoration:none; cursor:pointer; }
+.live a.f02-famlink:hover { color:var(--chrome-text); }
+a.f02-famlink.is-on { color:var(--chrome-text); }
+
+/* ---- The wrapper is inert until Hero A is on ----------------
+   display:contents keeps the logo and the link as direct flex
+   children of .hl, so the default headline is untouched.       */
+.hl-inner { display:contents; }
+.hl-canvas { display:none; }
+
+/* ---- Hero A -------------------------------------------------
+   The band breaks out of .tpl-content's gutter with a negative
+   margin rather than 100vw, so a visible scrollbar cannot push
+   a horizontal overflow.                                       */
+body.hero-a .hl {
+  position:relative;
+  align-self:stretch;
+  width:auto;          /* site.css sets width:100% on every .tpl-content
+                          child, which pins the band to the gutter box —
+                          auto lets align-self:stretch take the margins
+                          into account and reach both edges. */
+  max-width:none;
+  height:var(--hero-a-h);
+  margin-left:calc(-1 * clamp(20px, 4vw, 120px));
+  margin-right:calc(-1 * clamp(20px, 4vw, 120px));
+  padding:0;
+  background:var(--surface-page);
+  overflow:hidden;
+}
+body.hero-a .hl-canvas {
+  position:absolute;
+  inset:0;
+  display:block;
+  width:100%;
+  height:100%;
+}
+body.hero-a .hl-inner {
+  position:relative;
+  z-index:2;
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:center;
+  gap:18px;
+  /* Same content box the rest of the page uses: the gutter is
+     taken off the viewport, then capped at 1440 and centred — so
+     the headline sits on the page's left edge, not the band's. */
+  width:min(calc(100% - 2 * clamp(20px, 4vw, 120px)), var(--content-max));
+  height:100%;
+  margin:0 auto;
+  padding:0;
+  pointer-events:none;
+}
+body.hero-a .hl-inner > * { pointer-events:auto; }
+body.hero-a .hl-logo svg { height:28px; }
+
+/* The band sits flush under F-03 — the section rhythm below it
+   is unchanged. */
+body.hero-a .tpl-content { padding-top:0; }
+
+@media (max-width: 900px) {
+  body.hero-a .hl { height:200px; }
+  body.hero-a .hl-logo svg { height:22px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  /* hero-a.js holds a single frame — see REDUCED in the script. */
+}
