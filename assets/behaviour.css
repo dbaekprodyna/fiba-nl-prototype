@@ -182,6 +182,10 @@
 }
 .live .f06-link:hover { color: var(--chrome-text); }
 
+/* el-13 FederationTag inside a card that is itself the link. The tag
+   keeps its shape but stops behaving like a target of its own. */
+.live .ftag-static { cursor: inherit; }
+
 /* ---- F-03m mobile "More" sheet --------------------------------
    Full-screen panel on the chrome surface, matching the reference
    prototype's grouping: Nations League / Info / Competition Family. */

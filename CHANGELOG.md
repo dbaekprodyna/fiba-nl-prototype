@@ -1,5 +1,110 @@
 # Changelog
 
+## 2026-08-20 (2) — Stops 2 to 6, the 76.5° cut, and one empty state
+
+### The five stops that were not there
+
+The snapshot walked each conference's **first** stop only. The calendar
+was complete, so the Conferences page correctly said *6 of 6 stops* — and
+then five of every six stop pages opened onto nothing. `tools/fill_stops.py`
+now writes a deterministic fixture list for the stops the feed does not
+carry: pools, a final, scores for every stop already played, and the
+standings table computed from those scores. Stops still in the future get
+the schedule without scores, so they read as *Upcoming* rather than as
+missing. 1,164 games and 158 tables, all reproducible from the same
+input — re-running the script after a snapshot refresh produces the same
+season, and it never touches a stop the feed does supply.
+
+Three things followed from having results everywhere:
+
+- **Box scores work from stop 2 onwards.** `gameSquad()` matched a roster
+  on the exact stop, and the feed names a squad at the first stop only.
+  A federation fields the same four players across its conference, so the
+  lookup falls back to the conference's roster.
+- **E-08 PlayerCard states Games, Points and Win ratio**, summed from the
+  derived box scores. The brand template asked for GP / PPG / APG / RPG;
+  assists and rebounds are not recorded in this competition, and a
+  per-game average over four players at one stop says very little.
+- **E-06 PlayerSeasonStats and E-07 GameLog are filled.** Both were
+  sitting at 45% opacity holding the specimen's figures. E-05's glance row
+  was labelled Games / Points / PPG / Win ratio and was being filled with
+  age, ranking points and a city.
+
+### The stop page had a gender switch wired to nothing
+
+The podium, the pools, the bracket and the game list all read the men's
+records, and the list printed both genders end to end. Three more things
+were wrong in the same module: S-05 painted every federation at the stop
+into Pool A and left Pool B on its specimen row — which pool a team was
+in is in the fixtures, not in the standings — the pool position column
+was showing the stop rank, and `/final/i` matches *Semi-finals*, so the
+semi-final round was handed the final and printed it a second time.
+
+### 76.5°
+
+The white lozenge behind the mark in F-03 CompetitionNav was cut at 26px
+over 64px of height — 67.9° from the horizontal. Hero A tilts its slats at
+**76.5°**, and F-03 sits directly under it, so the two now share one
+figure: `--slant-run` in tokens.css is 1/tan(76.5°), and the clip path
+reads `calc(100% - 64px * var(--slant-run))`.
+
+### ctl-08 ToggleSwitch moves
+
+The knob was pushed across by `margin-left: auto`, and `auto` is not an
+interpolatable length, so it jumped. It is positioned now — `left` is a
+length in both states — and three things animate at deliberately
+different lengths: the knob travels in `dur-base`, the track fills, and
+the cut-out fill under it cross-fades over `dur-slow`, because that fill
+is what reads as *the value changed*.
+
+### el-10 EmptyState, everywhere
+
+The helper was building the block without the cut-out fill and without an
+icon, so it came out as a filled grey panel rather than the outlined
+element el-10 is specified as. It emits the element verbatim now, with
+four icons and an optional action button — and it is used wherever a
+module has nothing to show, instead of the three habits that were in the
+file: hiding the section (C-03 PhotoGallery, Top scorer, leading
+scorers), dimming the specimen rows to 45% (stop and team game lists,
+the player page), or leaving a table of hidden rows behind a heading
+(conference standings, the stop matrix, the two Stats tables, the box
+score).
+
+### The rest of the list
+
+- **S-12 GameDetail.** The headline states the round, the date, the venue
+  and the category on one line. The score lockup repeats S-04 GameList's
+  own arrangement at display size — IOC code, flag, score : score, flag,
+  IOC code — so a game reads the same way in the list and on its own page.
+  Teams and Top scorer share a row of two equal columns, and so do the two
+  halves of the box score. The top scorer carries an el-24 Avatar at M
+  beside the flag, matched to it at 48.
+- **F-06 SiteFooter lines up with the page.** Its four bands were padded
+  `240px`, the gutter that centres a 1440 column at 1920 and nothing else.
+  `--page-gutter` was defined in tokens.css for exactly this and was not
+  being used anywhere; the footer uses it now, so the left edge of the
+  columns sits on the left edge of the content at every width.
+- **Overview states the live figure once.** It was printed on both lines
+  and read as two separate live things.
+- **The conference card is one target.** Its federation tags were lighting
+  up under the cursor, which read as a second, smaller link inside a card
+  that goes somewhere else. The rule above them is gone too.
+- **The Stats overview is the wireframe's.** Final games, teams in scope,
+  teams with games, active conferences, average points per game —
+  recomputed against the gender switch and the conference filter. It was
+  S-09, which says the same thing on every page and ignores both controls.
+- **Points per game is what one team scores**, not what the two of them
+  score between them. The conference highlight read 31 in a competition
+  where 21 wins it.
+- **Top score needs a comparable schedule.** A federation that played one
+  stop and one good day was outranking one that played all six.
+- **A final with no teams yet says so.** `fed()` cannot repaint an empty
+  IOC code, so an undecided final kept whichever federations the specimen
+  was built with.
+- **Four ALG portraits.** `assets/players/` holds the first real cut-outs;
+  E-08 and el-24 use them where they exist and keep the silhouette
+  elsewhere.
+
 ## 2026-08-20 (1) — One selection treatment, one table, and the game page
 
 ### The 17th of June, twice

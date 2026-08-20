@@ -77,4 +77,10 @@
      on, so any full-bleed band padded with it lines up with .tpl-content. */
   --page-gutter: max(clamp(20px, 4vw, 120px), calc((100% - 1440px) / 2));
   --gutter: 240px;
+
+  /* The house slant. Hero A tilts its slats 76.5 degrees from the
+     horizontal; every angled surface in the chrome follows the same
+     figure, so the run per unit of height is 1/tan(76.5deg). */
+  --slant-angle: 76.5deg;
+  --slant-run: 0.240079;
 }

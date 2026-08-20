@@ -53,7 +53,9 @@
   height:64px;
   padding:0 40px 0 32px;
   background:var(--chrome-text);
-  clip-path:polygon(0 0,100% 0,calc(100% - 26px) 100%,0 100%);
+  /* 76.5 degrees from horizontal, the Hero A slat angle:
+     64px of height runs 64 * 0.240079 = 15.365px across. */
+  clip-path:polygon(0 0,100% 0,calc(100% - 64px * var(--slant-run)) 100%,0 100%);
 }
 .f03-word {
   display:flex;
@@ -231,9 +233,8 @@
   align-items:center;
   gap:80px;
   width:100%;
-  max-width:1920px;
   height:112px;
-  padding:0 240px;
+  padding:0 var(--page-gutter);
   background:var(--chrome-bg-2);
 }
 .f06-spongrp {
@@ -253,7 +254,7 @@
   flex-direction:row;
   align-items:center;
   justify-content:space-between;
-  padding:32px 240px 28px 240px;
+  padding:32px var(--page-gutter) 28px var(--page-gutter);
 }
 .f06-brand {
   display:flex;
@@ -270,7 +271,7 @@
   display:flex;
   flex-direction:row;
   gap:24px;
-  padding:36px 240px 44px 240px;
+  padding:36px var(--page-gutter) 44px var(--page-gutter);
   border-top:1px solid var(--chrome-line);
 }
 .f06-col {
@@ -299,7 +300,7 @@
   flex-direction:row;
   align-items:flex-start;
   gap:64px;
-  padding:24px 240px 32px 240px;
+  padding:24px var(--page-gutter) 32px var(--page-gutter);
   border-top:1px solid var(--chrome-line);
 }
 .f06-fiba {
@@ -838,6 +839,16 @@
 }
 .pcard-silhouette svg path {
   fill:var(--border-default);
+}
+/* The real cut-out sits in the same box as the silhouette it replaces:
+   bottom aligned, centred, contained so a portrait shot at a different
+   ratio is never cropped through the face. */
+.pcard-photo {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  object-position:bottom center;
 }
 .pcard-stats {
   position:absolute;
@@ -3040,8 +3051,7 @@ code {
   flex-direction:row;
   flex-wrap:wrap;
   gap:4px 10px;
-  padding-top:2px;
-  border-top:1px solid var(--border-subtle);
+  padding-top:0;
 }
 .e03-qual { display:flex; padding-top:8px; }
 
@@ -3277,7 +3287,24 @@ code {
    visual, the cut-out and the plate, not under them. */
 .pcard-shine { z-index:5; }
 .pcard-union, .pcard-kv, .pcard-shot { z-index:1; }
-.pcard-plate { z-index:2; }
+/* The stat column reads over the portrait, not under it — a real
+   cut-out is opaque where the silhouette was flat grey. */
+.pcard-stats { z-index:3; }
+.pcard-scrim {
+  position:absolute;
+  top:0;
+  right:0;
+  bottom:0;
+  width:46%;
+  z-index:2;
+  pointer-events:none;
+  background:var(--of,#E5E5E5);
+  -webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 72%);
+  mask-image:linear-gradient(90deg,transparent 0%,#000 72%);
+}
+/* Above the portrait scrim: the name plate is the card's own surface
+   and must never be washed by it. */
+.pcard-plate { z-index:4; }
 
 /* ---- S-11 StopMatrix: the stop cells are centred ------------------- */
 .c-mstop {
@@ -3421,6 +3448,38 @@ code {
   flex-wrap:wrap;
   gap:14px;
 }
+/* The scoreline reads the way S-04 GameList reads it: the home side
+   runs inwards towards the score and the away side runs outwards from
+   it, so the two flags sit either side of the figures and the eye can
+   tell home from away without a label. */
+.gm-line {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:20px;
+  flex-wrap:wrap;
+}
+.gm-side {
+  display:flex;
+  flex-direction:row;
+  align-items:center;
+  gap:12px;
+  min-width:0;
+}
+.gm-ioc {
+  font-family:'Barlow Condensed',sans-serif;
+  font-weight:800;
+  font-size:44px;
+  line-height:46px;
+  letter-spacing:-0.4px;
+  text-transform:uppercase;
+  color:var(--text-primary);
+}
+.gm-flag {
+  width:40px;
+  height:40px;
+  flex:0 0 auto;
+}
 .gm-tname {
   font-family:'Barlow Condensed',sans-serif;
   font-weight:800;
@@ -3443,9 +3502,9 @@ code {
 .gm-score {
   display:flex;
   flex-direction:row;
-  align-items:baseline;
-  gap:16px;
-  padding-top:2px;
+  align-items:center;
+  gap:12px;
+  padding-top:0;
 }
 .gm-pt {
   font-family:'Barlow Condensed',sans-serif;
@@ -3455,7 +3514,7 @@ code {
   font-variant-numeric:tabular-nums;
   color:var(--text-primary);
 }
-.gm-dot { color:var(--text-disabled); font-size:40px; line-height:56px; }
+.gm-dot { color:var(--text-disabled); font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:40px; line-height:56px; }
 
 /* ---- the two team plates ---- */
 .gm-teams {
@@ -3465,6 +3524,29 @@ code {
   width:100%;
   max-width:1440px;
 }
+/* Teams and Top scorer are one row of two equal columns, and so are the
+   two halves of the box score. Equal columns rather than the site's
+   1fr/460px split, because neither side is subordinate to the other. */
+.gm-duo,
+.gm-boxduo {
+  display:flex;
+  flex-direction:row;
+  align-items:flex-start;
+  gap:clamp(24px,2.5vw,48px);
+  width:100%;
+  max-width:1440px;
+}
+.gm-duo-col,
+.gm-boxcol {
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  flex:1 1 0;
+  min-width:0;
+}
+.gm-duo-col > .tpl-sub { width:100%; max-width:none; }
+/* Inside a half-width column the two federation cards stack. */
+.gm-duo .gm-teams { flex-direction:column; }
 .gm-team {
   flex:1 1 0;
   min-width:0;
@@ -3513,9 +3595,17 @@ code {
   display:flex;
   flex-direction:row;
   align-items:center;
-  gap:14px;
+  gap:12px;
   min-width:0;
 }
+/* el-24 Avatar at M (48) with the federation flag matched to it, so the
+   two thumbnails read as one pair rather than as two sizes. */
+.gm-top-flag {
+  width:48px;
+  height:48px;
+  flex:0 0 auto;
+}
+.gm-top-av { flex:0 0 auto; }
 .gm-top-name {
   display:flex;
   flex-direction:column;
@@ -3568,6 +3658,9 @@ code {
 .gm-box .trow-out .t-label,
 .gm-box .trow-out .t-data-m { color:var(--text-disabled); }
 .gm-note { color:var(--text-muted); padding-top:10px; }
+@media (max-width: 900px) {
+  .gm-duo, .gm-boxduo { flex-direction:column; }
+}
 
 /* ---- match stats: home value, label, away value ---- */
 .gm-stats {

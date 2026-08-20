@@ -172,6 +172,14 @@
 
 /* ctl-08 ToggleSwitch — the knob slides, the track fills. */
 @media (prefers-reduced-motion: no-preference) {
-  .tgl-track { transition:background var(--dur-base) var(--ease-out); }
-  .tgl-knob  { transition:margin var(--dur-base) var(--ease-out), background var(--dur-base) var(--ease-out); }
+  /* ctl-08 ToggleSwitch. Three things move and they are deliberately
+     not the same length: the knob travels (position), the track fills
+     (colour), and the cut-out fill underneath it cross-fades. The fill
+     is what reads as "the switch changed value", so it is the slowest
+     of the three and starts from the same instant. */
+  .tgl-track { transition:background var(--dur-base) var(--ease-out),
+                          border-color var(--dur-base) var(--ease-out); }
+  .tgl-track > .cutfill { transition:background-color var(--dur-slow) var(--ease-out); }
+  .tgl-track > .tgl-knob { transition:left var(--dur-base) var(--ease-in-out),
+                          background var(--dur-slow) var(--ease-out); }
 }

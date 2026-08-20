@@ -216,8 +216,29 @@
     var cells = $$('.cell', row);
     text(row, '.cell-time .t-data-m', (g.start || '').slice(11, 16));
     var home = $('.cell-home', row), away = $('.cell-away', row);
-    if (home) fed(home, g.home.ioc, g.home.name);
-    if (away) fed(away, g.away.ioc, g.away.name);
+    /* A final whose two sides are not decided yet arrives with no IOC
+       code on either team. fed() cannot repaint an empty code, so the
+       row kept whichever federations the specimen was built with — the
+       cell says what it is instead. */
+    [[home, g.home], [away, g.away]].forEach(function (t) {
+      if (!t[0]) return;
+      var tag = t[0].querySelector('.ftag') || t[0];
+      if (t[1].ioc) {
+        tag.classList.remove('ftag-tbd');
+        var fl = t[0].querySelector('.flag');
+        if (fl) fl.hidden = false;
+        var c0 = t[0].querySelector('.ftag-code');
+        if (c0) c0.hidden = false;
+        fed(t[0], t[1].ioc, t[1].name);
+      } else {
+        tag.classList.add('ftag-tbd');
+        var fl2 = t[0].querySelector('.flag');
+        if (fl2) fl2.hidden = true;
+        var code = t[0].querySelector('.ftag-code');
+        if (code) code.hidden = true;
+        text(t[0], '.ftag-name', 'To be decided');
+      }
+    });
     var pts = $$('.gpts', row);
     if (pts[0]) pts[0].textContent = g.home.score != null ? g.home.score : '–';
     if (pts[1]) pts[1].textContent = g.away.score != null ? g.away.score : '–';
@@ -519,18 +540,47 @@
   }
 
   /* el-10 EmptyState, at the width of the block it replaces. */
-  function emptyState(host, title, body) {
+  /* el-10 EmptyState, verbatim. The block was being built without the
+     cut-out fill and without an icon, so it came out as a filled grey
+     panel rather than the outlined one the element is specified as, and
+     every module that had nothing in it looked like a different
+     component. One builder, four icons, an optional action. */
+  var EMPTY_ICONS = {
+    clock: 'm627-287 45-45-159-160v-201h-60v225l174 181ZM480-80q-82 0-155-31.5t-127.5-86Q143-252 111.5-325T80-480q0-82 31.5-155t86-127.5Q252-817 325-848.5T480-880q82 0 155 31.5t127.5 86Q817-708 848.5-635T880-480q0 82-31.5 155t-86 127.5Q708-143 635-111.5T480-80Zm0-400Zm0 340q140 0 240-100t100-240q0-140-100-240T480-820q-140 0-240 100T140-480q0 140 100 240t240 100Z',
+    info:  'M453-280h60v-240h-60v240Zm50.5-323.2q9.5-9.2 9.5-22.8 0-14.45-9.48-24.22-9.48-9.78-23.5-9.78t-23.52 9.78Q447-640.45 447-626q0 13.6 9.48 22.8 9.48 9.2 23.5 9.2t23.52-9.2ZM480.27-80q-82.74 0-155.5-31.5Q252-143 197.5-197.5t-86-127.34Q80-397.68 80-480.5t31.5-155.66Q143-709 197.5-763t127.34-85.5Q397.68-880 480.5-880t155.66 31.5Q709-817 763-763t85.5 127Q880-563 880-480.27q0 82.74-31.5 155.5Q817-252 763-197.68q-54 54.31-127 86Q563-80 480.27-80Zm.23-60Q622-140 721-239.5t99-241Q820-622 721.19-721T480-820q-141 0-240.5 98.81T140-480q0 141 99.5 240.5t241 99.5Zm-.5-340Z',
+    search:'M784-120 532-372q-30 24-69 38t-83 14q-109 0-184.5-75.5T120-580q0-109 75.5-184.5T380-840q109 0 184.5 75.5T640-580q0 44-14 83t-38 69l252 252-56 56ZM380-400q75 0 127.5-52.5T560-580q0-75-52.5-127.5T380-760q-75 0-127.5 52.5T200-580q0 75 52.5 127.5T380-400Z',
+    calendar:'M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h60v80h360v-80h60v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-60h560v-400H200v400Zm0-460h560v-100H200v100Zm0 0v-100 100Z'
+  };
+
+  function emptyState(host, title, body, opts) {
     if (!host) return;
+    opts = opts || {};
     var e = host.querySelector(':scope > .site-empty');
     if (!e) {
       e = document.createElement('div');
-      e.className = 'site-empty empty cut cut-m';
-      e.innerHTML = '<div class="empty-icon"></div>' +
-                    '<div class="t-h3"></div><div class="t-body-s"></div>';
       host.appendChild(e);
     }
-    e.querySelector('.t-h3').textContent = title;
-    e.querySelector('.t-body-s').textContent = body || '';
+    e.className = 'site-empty empty cut cut-m cut-out';
+    var icon = EMPTY_ICONS[opts.icon] || EMPTY_ICONS.clock;
+    var action = '';
+    if (opts.href && opts.action) {
+      action = '<a class="nav-a site-empty-a" href="' + opts.href + '">' +
+               '<div class="ctl-01-Button--outline-default btn cut cut-m btn-outline cut-out">' +
+               '<div class="cutfill"></div><span class="lbl"></span>' +
+               '<svg fill="currentColor" height="18" viewBox="0 -960 960 960" width="18" ' +
+               'xmlns="http://www.w3.org/2000/svg"><path d="M686-450H160v-60h526L438-758l42-42 ' +
+               '320 320-320 320-42-42 248-248Z"></path></svg></div></a>';
+    }
+    e.innerHTML = '<div class="cutfill"></div>' +
+                  '<div class="empty-icon"><svg fill="currentColor" height="32" ' +
+                  'viewBox="0 -960 960 960" width="32" xmlns="http://www.w3.org/2000/svg">' +
+                  '<path d="' + icon + '"></path></svg></div>' +
+                  '<div class="empty-title"></div>' +
+                  '<div class="t-body-s empty-body"></div>' + action;
+    e.querySelector('.empty-title').textContent = title;
+    e.querySelector('.empty-body').textContent = body || '';
+    if (action) e.querySelector('.site-empty-a .lbl').textContent = opts.action;
+    e.hidden = false;
     return e;
   }
 
@@ -557,11 +607,22 @@
     var host = $('.car');
     var block = host && host.closest('.tpl-sub');
     if (!list || !list.length) {
+      /* The section used to disappear, which made the page look like it
+         had been built without a gallery. It states what is missing. */
       $$('.car').forEach(function (c) { c.hidden = true; });
-      if (block) block.hidden = true;
+      if (block) {
+        block.hidden = false;
+        emptyState(block, 'No photographs yet',
+                   'Galleries are published in the days after a stop.',
+                   { icon: 'info' });
+      }
       return;
     }
-    if (block) block.hidden = false;
+    if (block) {
+      block.hidden = false;
+      var oldp = block.querySelector(':scope > .site-empty');
+      if (oldp) oldp.remove();
+    }
     $$('.car').forEach(function (c) { c.hidden = false; });
     repeat(document, '.car-slide', list, function (slide, g) {
       photo(slide, g.image);
@@ -620,16 +681,60 @@
 
   /* E-08 PlayerCard, painted from a player record. */
   function paintPlayerCard(card, p, stats) {
+    /* The cut-out portrait layer. A player with a real cut-out gets it;
+       everyone else keeps the silhouette, which is the fallback the card
+       was drawn with. The image is dropped into the same .pcard-shot
+       box, so it inherits the bottom alignment and the crop. */
+    /* paintPlayerCard is handed the .pcard-sh shadow wrapper, not the
+       card. Layers have to go on the card itself — the wrapper is not a
+       positioned box, so anything absolute appended to it lands against
+       the page. */
+    var face = card.classList.contains('pcard') ? card : ($('.pcard', card) || card);
+    var shot = $('.pcard-shot', face);
+    if (shot) {
+      var img = $('.pcard-photo', shot);
+      var scrim = $('.pcard-scrim', face);
+      if (p.portrait) {
+        if (!img) {
+          img = document.createElement('img');
+          img.className = 'pcard-photo';
+          img.alt = '';
+          shot.appendChild(img);
+        }
+        img.src = p.portrait;
+        var sil = $('.pcard-silhouette', shot);
+        if (sil) sil.hidden = true;
+        /* A real portrait is opaque and can be dark exactly where the
+           stat column sits. The scrim is the card's own surface faded
+           in from the right, so the figures keep their contrast without
+           a box being drawn round them. */
+        if (!scrim) {
+          scrim = document.createElement('div');
+          scrim.className = 'pcard-scrim';
+          face.appendChild(scrim);
+        }
+      } else {
+        if (img) img.remove();
+        if (scrim) scrim.remove();
+      }
+    }
     text(card, '.pcard-first', p.first);
     var last = $('.pcard-last', card);
     if (last) { last.textContent = p.last || ''; }
     text(card, '.pcard-ioc', p.ioc);
     flag(card, p.ioc);
-    var k = $$('.pcard-k', card), v = $$('.pcard-v', card);
+    /* The stat column takes as many rows as it is given. Slots past
+       the end of the list are removed rather than left holding the
+       specimen's figures, which is what put an RPG of 1.2 on every
+       card once the column went from four measures to three. */
+    var slots = $$('.pcard-stat', card);
     (stats || []).forEach(function (s, i) {
-      if (k[i]) k[i].textContent = s[0];
-      if (v[i]) v[i].textContent = s[1];
+      if (!slots[i]) return;
+      slots[i].hidden = false;
+      text(slots[i], '.pcard-k', s[0]);
+      text(slots[i], '.pcard-v', s[1]);
     });
+    slots.slice((stats || []).length).forEach(function (n) { n.remove(); });
     link(card, 'player.html?id=' + p.id);
     fitPlayerCard(card);
     /* Cards are painted before they are put in the document, so the pass
@@ -970,7 +1075,8 @@
       if (!evs.length) {
         $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
         emptyState(accHost, 'Nothing on this day',
-                   'Pick another date, or see every conference.');
+                   'Pick another date, or see every conference.',
+                   { icon: 'calendar', href: 'calendar.html', action: 'Full calendar' });
         return;
       }
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
@@ -1150,7 +1256,10 @@
       if (lk) lk.hidden = !vals[3];
     }
     fill(lines[0], [totalC, finished, totalC - finished, live]);
-    fill(lines[1], [stopsAll, stopsDone, stopsAll - stopsDone, stopsLive]);
+    /* "1 live" was printed on both lines and read as two separate live
+       things. It is one figure about one moment in the season, so it is
+       stated once, on the first line. */
+    fill(lines[1], [stopsAll, stopsDone, stopsAll - stopsDone, 0]);
 
     /* The bar is read in the same unit as the line above it: the
        landing page counts conferences, the Conferences page counts
@@ -1251,9 +1360,13 @@
           repeat(card, '.ftag', feds, function (tag, t) {
             /* el-13 FederationTag at size S, the filled variant — the
                plain one is a bare flag and code, which is what E-03 was
-               drawing and what the card was meant to replace. */
+               drawing and what the card was meant to replace.
+               ftag-static drops the hover and the pointer: the card is
+               one target, and a tag that lit up under the cursor read as
+               a second, smaller link inside it that went somewhere else. */
             tag.classList.remove('ftag-plain');
             tag.classList.add('ftag-s');
+            tag.classList.add('ftag-static');
             flag(tag, t.ioc);
             text(tag, '.ftag-code', t.ioc);
             tag.title = t.name;
@@ -1357,10 +1470,16 @@
       })[0];
       if (!tbl) return;
       var rows = conferenceTable(c.id, gender);
+      var oldT = tbl.parentElement.querySelector(':scope > .site-empty');
+      if (oldT) oldT.remove();
       if (!rows.length) {
         $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
+        emptyState(tbl.parentElement, 'No table yet',
+                   'The conference table is built from played stops.',
+                   { icon: 'clock' });
         return;
       }
+      $$('.trow', tbl).forEach(function (r) { r.hidden = false; });
       repeat(tbl, '.trow', rows, function (row, r) {
         paintStandingRow(row, r, complete);
         row.classList.toggle('trow-hi', complete && r.rank === 1);
@@ -1381,16 +1500,38 @@
         var p = player(id);
         return p ? { p: p, team: ids[id] } : null;
       }).filter(Boolean);
-      list.sort(function (a, b) { return (b.p.rankingPoints || 0) - (a.p.rankingPoints || 0); });
+      /* Ordered by what they actually scored in this conference, with
+         3x3 ranking points as the tie-break for players who have not
+         played yet. */
+      list.forEach(function (rec) { rec.t = playerTotals(rec.p.id); });
+      list.sort(function (a, b) {
+        return (b.t.points - a.t.points) ||
+               ((b.p.rankingPoints || 0) - (a.p.rankingPoints || 0));
+      });
       list = list.slice(0, 4);
-      if (!list.length) { host.hidden = true; return; }
+      var ban = $('.ban-scorers');
+      if (ban) {
+        var anyPlayed = list.some(function (rec) { return rec.t.games; });
+        if (anyPlayed) {
+          ban.hidden = true;
+        } else {
+          ban.hidden = false;
+          text(ban, '.ban-t', 'No games played in this conference yet');
+          text(ban, '.ban-d', 'Cards are ordered by FIBA 3x3 ranking points until there are results.');
+        }
+      }
+      var oldS = host.parentElement.querySelector(':scope > .site-empty');
+      if (oldS) oldS.remove();
+      if (!list.length) {
+        host.hidden = true;
+        emptyState(host.parentElement, 'No squads entered yet',
+                   'Leading scorers appear once federations name their rosters.',
+                   { icon: 'clock' });
+        return;
+      }
       host.hidden = false;
       repeat(host, '.pcard-sh', list, function (card, rec) {
-        paintPlayerCard(card, rec.p, [
-          ['PPG', '—'], ['GP', '—'],
-          ['AGE', rec.p.age != null ? rec.p.age : '—'],
-          ['RANK', rec.p.rankingPoints ? Math.round(rec.p.rankingPoints / 1000) + 'k' : '—']
-        ]);
+        paintPlayerCard(card, rec.p, playerCardStats(rec.p));
       });
       tiltCards(host);
     }
@@ -1409,7 +1550,10 @@
       if (v[0]) v[0].textContent = scored.length || '—';
       if (v[1]) v[1].textContent = best ? (best.winRatio * 100).toFixed(0) + '%' : '—';
       if (v[2]) v[2].textContent = table.length || '—';
-      if (v[3]) v[3].textContent = scored.length ? (pts / scored.length).toFixed(1) : '—';
+      /* Points per game is what one team scores in a game, not what the
+         two of them score between them — the figure read 31 in a
+         competition where 21 wins it. */
+      if (v[3]) v[3].textContent = scored.length ? (pts / (scored.length * 2)).toFixed(1) : '—';
     }
 
     /* ---- Stops: the selector, the matrix, the games ---- */
@@ -1447,7 +1591,15 @@
       var host = $('.s11');
       if (!host) return;
       var rows = conferenceTable(c.id, gender);
-      if (!rows.length) { host.hidden = true; return; }
+      var oldM = host.parentElement.querySelector(':scope > .site-empty');
+      if (oldM) oldM.remove();
+      if (!rows.length) {
+        host.hidden = true;
+        emptyState(host.parentElement, 'Nothing to show yet',
+                   'The matrix fills in stop by stop as the conference is played.',
+                   { icon: 'clock' });
+        return;
+      }
       host.hidden = false;
       var head = '<div class="el-08-TableHeaderRow cut cut-s thead">' +
         '<div class="cell-federation cell c-fed"><span class="t-caption" style="color:inherit">Federation</span></div>' +
@@ -1552,7 +1704,8 @@
       } else {
         tbl.hidden = true;
         emptyState(host, 'No games for this stop yet',
-                   'The schedule and the results are published as the stop is played.');
+                   'The schedule and the results are published as the stop is played.',
+                   { icon: 'clock' });
       }
     }
 
@@ -1590,12 +1743,16 @@
                         .sort(function (x, y) { return (x.number || 0) - (y.number || 0); });
     var sel = Math.max(0, stops.map(function (e) { return e.slug; }).indexOf(first.slug));
     var today = isoDay(new Date());
+    /* The page carried an el-02 GenderSwitch that was wired to nothing:
+       the podium, the pools, the bracket and the game list all read the
+       men's records and the list printed both genders end to end. */
+    var gender = genderSwitch(function (g) { gender = g; draw(); });
 
     function draw() {
       var e = stops[sel] || first;
-      var men = standingsFor(e.slug, 'men'), women = standingsFor(e.slug, 'women');
-      var pool = men || women;
-      var gl = gamesFor(e.slug);
+      var pool = standingsFor(e.slug, gender) || standingsFor(e.slug);
+      var gl = gamesFor(e.slug, gender);
+      if (!gl.length) gl = gamesFor(e.slug);
 
       $$('.f04-h1-m, .f04-h1-s, .t-h1, .f04-title').forEach(function (n) {
         n.textContent = 'Stop ' + e.number + ' · ' + cityOf(e);
@@ -1668,18 +1825,48 @@
         stub.hidden = true;
       }
 
-      /* S-05 Pools */
-      if (pool) {
-        repeat(document, '.s05-row', pool.rows, function (row, r) {
-          text(row, '.s05-seed', r.seed);
+      /* S-05 Pools. Two tables, and until now both of them were painted
+         from the same list: every federation at the stop landed in Pool
+         A and Pool B stayed on its specimen row. Which pool a team was
+         actually in is in the games, not in the standings table, so the
+         pool membership is read off the fixtures. */
+      var poolOf = {};
+      gl.forEach(function (g) {
+        if (!g.poolCode) return;
+        if (g.home.ioc) poolOf[g.home.ioc] = g.poolCode;
+        if (g.away.ioc) poolOf[g.away.ioc] = g.poolCode;
+      });
+      var poolCodes = [];
+      Object.keys(poolOf).forEach(function (k) {
+        if (poolCodes.indexOf(poolOf[k]) === -1) poolCodes.push(poolOf[k]);
+      });
+      poolCodes.sort();
+      var s05blocks = $$('.s05-pool');
+      s05blocks.forEach(function (block, i) {
+        var code = poolCodes[i];
+        var rows = (pool && code)
+          ? pool.rows.filter(function (r) { return poolOf[r.ioc] === code; })
+          : (i === 0 && pool ? pool.rows : []);
+        if (!rows.length) { block.hidden = true; return; }
+        block.hidden = false;
+        text(block, '.s05-h .t-h3', 'Pool ' + (code || 'A'));
+        /* The number is the position in this pool, not the seeding or
+           the stop rank — a Pool B table that opened at 2, 4, 6 read as
+           if three rows were missing. The black rule marks who goes
+           through: the pool winner when two pools cross into a final,
+           the top two when the stop is a single pool. */
+        var advance = poolCodes.length > 1 ? 1 : 2;
+        repeat(block, '.s05-row', rows, function (row, r, i) {
+          text(row, '.s05-seed', i + 1);
           fed(row, r.ioc, r.team);
           var n = $$('.s05-n', row);
-          if (n[0]) n[0].textContent = r.won + '–' + (r.played - r.won);
+          if (n[0]) n[0].textContent = r.won + '\u2013' + (r.played - r.won);
           if (n[1]) n[1].textContent = r.points;
           if (n[2]) n[2].textContent = r.avg;
+          row.classList.toggle('s05-adv', i < advance);
           link(row, 'team.html?ioc=' + r.ioc);
         });
-      }
+      });
 
       /* S-06 Bracket — final on top, third place under it when it
          exists. The snapshot carries pool games and finals only, so a
@@ -1688,8 +1875,13 @@
       var rounds = $$('.s06-round');
       rounds.forEach(function (rd, i) {
         var label = ($('.s06-label', rd) || {}).textContent || '';
-        var game = /final/i.test(label) && !/third/i.test(label) ? finals[0]
-                 : /third/i.test(label) ? finals[1] : null;
+        /* "Semi-finals" matches /final/ too, so the semi-final round was
+           being handed the final and printing it a second time. Match on
+           the round, not on a substring of its name. */
+        var game = /third/i.test(label) ? gl.filter(function (g) { return g.round === '3P'; })[0]
+                 : /semi/i.test(label)  ? gl.filter(function (g) { return g.round === 'SF'; })[0]
+                 : /final/i.test(label) ? finals[0]
+                 : null;
         if (!game) { rd.hidden = true; return; }
         rd.hidden = false;
         var sides = $$('.s06-side', rd);
@@ -1704,9 +1896,9 @@
       var s06 = $('.s06');
       if (s06) {
         var note = $('.t-body-s', s06);
-        if (note) note.textContent = pool
-          ? 'Two pools of three · top two from each pool cross into the semi-finals'
-          : '';
+        if (note) note.textContent = poolCodes.length > 1
+          ? 'Two pools · each pool winner goes straight to the final'
+          : 'One pool · the top two meet in the final';
         s06.hidden = !finals.length;
       }
 
@@ -1717,13 +1909,18 @@
         if (day) day.textContent = gl.length
           ? fmtDate(e.start, { weekday: 'long', day: 'numeric', month: 'long' })
           : 'No games in the feed for this stop yet';
+        var oldG = gtbl.parentElement.querySelector(':scope > .site-empty');
+        if (oldG) oldG.remove();
         if (gl.length) {
+          gtbl.hidden = false;
           repeat(gtbl, '.trow', gl, paintGame);
         } else {
-          $$('.trow', gtbl).forEach(function (r, i) {
-            r.classList.add('is-placeholder');
-            r.hidden = i > 2;
-          });
+          /* Ghost rows at 45% opacity read as a disabled table rather
+             than as an empty one. */
+          gtbl.hidden = true;
+          emptyState(gtbl.parentElement, 'No games for this stop yet',
+                     'The schedule is published once the draw is made.',
+                     { icon: 'clock' });
         }
       }
 
@@ -1784,7 +1981,8 @@
         $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
         emptyState(tbl.parentElement, 'No federation matches',
                    qualOnly ? 'That federation is not in the field of twenty.'
-                            : 'Try a different name or IOC code.');
+                            : 'Try a different name or IOC code.',
+                   { icon: 'search' });
         return;
       }
       if (e) e.remove();
@@ -1868,7 +2066,8 @@
       if (!list.length) {
         grid.hidden = true;
         emptyState(grid.parentElement, 'No federation matches',
-                   'Try another region, or clear the search.');
+                   'Try another region, or clear the search.',
+                   { icon: 'search' });
         return;
       }
       grid.hidden = false;
@@ -1985,16 +2184,12 @@
                         })[0] || site;
       var roster = (recent.roster || []).map(function (m) { return player(m.id); }).filter(Boolean);
       if (roster.length) {
-        /* The snapshot carries no per-game player statistics, so the
-           card states age and 3x3 ranking points — what we do hold —
-           rather than printing ranking points under a PPG label. */
+        /* E-08's stat column states games, points and win ratio —
+           the three figures the roster tile is specified with. They are
+           summed from the derived box scores, so a card never shows an
+           em dash where a played game exists. */
         repeat(document, '.pcard-sh', roster, function (card, p) {
-          paintPlayerCard(card, p, [
-            ['AGE', p.age != null ? p.age : '—'],
-            ['RANK', p.rankingPoints ? Math.round(p.rankingPoints / 1000) + 'k' : '—'],
-            ['PPG', '—'],
-            ['GP', '—']
-          ]);
+          paintPlayerCard(card, p, playerCardStats(p));
         });
         tiltCards(document);
       }
@@ -2006,8 +2201,17 @@
       var gtbl = $('.games-tbl') ||
                  $$('.tbl').filter(function (x) { return !x.classList.contains('s10'); })[0];
       if (gtbl) {
-        if (gl.length) repeat(gtbl, '.trow', gl, paintGame);
-        else $$('.trow', gtbl).forEach(function (r) { r.classList.add('is-placeholder'); });
+        var oldR = gtbl.parentElement.querySelector(':scope > .site-empty');
+        if (oldR) oldR.remove();
+        if (gl.length) {
+          gtbl.hidden = false;
+          repeat(gtbl, '.trow', gl, paintGame);
+        } else {
+          gtbl.hidden = true;
+          emptyState(gtbl.parentElement, 'No results yet',
+                     'This federation has not played a stop in this category.',
+                     { icon: 'clock' });
+        }
       }
 
       paintPhotos(photosFor(stops).slice(0, 12));
@@ -2032,12 +2236,119 @@
             { label: p.name }]);
     var ph = $('.e05-id') || $('.e05');
     if (ph) { flag(ph, p.ioc); text(ph, '.ftag-code', p.ioc); text(ph, '.ftag-name', p.country); }
-    var g = $$('.e05-gv');
-    if (g[0]) g[0].textContent = p.age != null ? p.age : '';
-    if (g[1]) g[1].textContent = (p.rankingPoints || 0).toLocaleString();
-    if (g[2]) g[2].textContent = p.city || p.country || '';
-    /* no per-game statistics in the snapshot yet */
-    $$('.e06-row, .e07-row').forEach(function (r) { r.classList.add('is-placeholder'); });
+    /* E-05's glance row is labelled Games / Points / PPG / Win ratio in
+       the markup, and was being filled with age, ranking points and a
+       city — three values that belong to none of those labels. */
+    var glance = $$('.e05-g');
+    var head = playerTotals(p.id);
+    [['Games',     head.games || '—'],
+     ['Points',    head.games ? head.points : '—'],
+     ['PPG',       head.games ? (head.points / head.games).toFixed(1) : '—'],
+     ['Win ratio', head.winRatio == null ? '—' : head.winRatio.toFixed(2)]
+    ].forEach(function (f, i) {
+      if (!glance[i]) return;
+      text(glance[i], '.t-caption', f[0]);
+      text(glance[i], '.e05-gv', f[1]);
+    });
+
+    /* el-24 Avatar at XL. A player with a cut-out gets it; the others
+       keep the checker fallback the element ships with. */
+    var av = $('.e05 .av');
+    if (av && p.portrait) {
+      av.classList.remove('av-check-bed');
+      av.classList.add('av-sil-bed');
+      av.innerHTML = '<img class="av-photo" src="' + p.portrait + '" alt="">';
+    }
+    /* E-06 PlayerSeasonStats and E-07 GameLog, from the derived box
+       scores. Both modules used to sit at 45% opacity holding the
+       specimen's figures, because the snapshot has no per-game player
+       statistics — but the box score is derived from the final score,
+       so the season line can be summed the same way. */
+    var pg = playerGames(p.id);
+    var tot = playerTotals(p.id);
+
+    (function () {
+      var cells = $$('.e06-c');
+      var figures = [
+        ['Games played',    tot.games || '—'],
+        ['Total points',    tot.games ? tot.points : '—'],
+        ['Points per game', tot.games ? (tot.points / tot.games).toFixed(1) : '—'],
+        ['Two-pointers',    tot.games ? tot.two : '—'],
+        ['Win ratio',       tot.winRatio == null ? '—' : tot.winRatio.toFixed(2)],
+        ['Free throws',     tot.games ? tot.ft : '—']
+      ];
+      cells.forEach(function (c, i) {
+        if (!figures[i]) { c.hidden = true; return; }
+        c.hidden = false;
+        text(c, '.t-caption', figures[i][0]);
+        text(c, '.e06-v', figures[i][1]);
+      });
+
+      /* one row per stop */
+      var byStop = {}, order = [];
+      pg.forEach(function (r) {
+        var k = r.game.stop;
+        if (!byStop[k]) { byStop[k] = { stop: stop(k) || {}, games: 0, pts: 0, won: 0 }; order.push(k); }
+        byStop[k].games++;
+        byStop[k].pts += r.line.pts || 0;
+        if (r.won) byStop[k].won++;
+      });
+      var rows = order.map(function (k) { return byStop[k]; });
+      var host = $('.e06-row') && $('.e06-row').parentElement;
+      if (!rows.length) {
+        $$('.e06-row').forEach(function (r) { r.hidden = true; });
+        if (host) emptyState(host, 'No games played yet',
+                             'The season line appears once this federation has played.',
+                             { icon: 'clock' });
+      } else {
+        var old = host && host.querySelector(':scope > .site-empty');
+        if (old) old.remove();
+        repeat(document, '.e06-row', rows, function (row, r) {
+          row.hidden = false;
+          row.classList.remove('is-placeholder');
+          text(row, '.e06-stop .t-label',
+               'Stop ' + (r.stop.number || '') + ' · ' + cityOf(r.stop));
+          var n = $$('.e06-num .t-data-m', row);
+          if (n[0]) n[0].textContent = r.games;
+          if (n[1]) n[1].textContent = r.pts;
+          if (n[2]) n[2].textContent = (r.pts / r.games).toFixed(1);
+          if (n[3]) n[3].textContent = (r.won / r.games).toFixed(2);
+        });
+      }
+    })();
+
+    (function () {
+      var proto = $('.e07-row');
+      var host = proto && proto.parentElement;
+      var log = pg.slice().reverse().slice(0, 10);
+      if (!log.length) {
+        $$('.e07-row').forEach(function (r) { r.hidden = true; });
+        if (host) emptyState(host, 'No games in the log yet',
+                             'Every game this federation plays is listed here.',
+                             { icon: 'clock' });
+        return;
+      }
+      var old = host.querySelector(':scope > .site-empty');
+      if (old) old.remove();
+      repeat(host, '.e07-row', log, function (row, r) {
+        row.hidden = false;
+        row.classList.remove('is-placeholder');
+        var g = r.game, opp = g[r.other];
+        text(row, '.e07-date .t-body-s', fmtDate((g.start || '').slice(0, 10),
+                                                 { day: 'numeric', month: 'short' }));
+        text(row, '.e07-conf .t-body-s', confName(conf(g.conference)));
+        var tag = $('.e07-opp .ftag', row);
+        if (tag) { flag(tag, opp.ioc); text(tag, '.ftag-code', opp.ioc); text(tag, '.ftag-name', opp.name); }
+        var res = $('.e07-res .res-w, .e07-res .res-l', row);
+        if (res) {
+          res.className = r.won ? 'res-w' : 'res-l';
+          res.textContent = r.won ? 'W' : 'L';
+        }
+        text(row, '.e07-res .t-data-m', g[r.side].score + '\u2013' + opp.score);
+        text(row, '.e07-line', r.line.pts + ' pts · ' + r.line.two + ' 2PT · ' + r.line.ft + ' FT');
+        link(row, 'game.html?id=' + g.id);
+      });
+    })();
 
     /* C-03 PhotoGallery — the stops this player was actually entered at.
        Galleries are held per event, not per player, so a player page
@@ -2226,7 +2537,8 @@
         $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
         emptyState(accHost, query ? 'Nothing matches that search' : 'Nothing in this region yet',
                    query ? 'Try a city, a conference or an IOC code.'
-                         : 'Pick another region, or clear the day.');
+                         : 'Pick another region, or clear the day.',
+                   { icon: query ? 'search' : 'calendar' });
         return;
       }
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
@@ -2347,7 +2659,14 @@
          column of the spotlight, stated as el-13 FederationTag at L, so
          the federation and the six figures that describe it read as one
          row instead of two blocks. */
-      var best = list.slice().sort(function (a, b) { return b.avg - a.avg; })[0];
+      /* Scoring most per game is only meaningful over a comparable
+         number of games — otherwise a federation that played one stop
+         and one good day outranks one that played all six. Anything
+         under half the field's busiest schedule is out of the running. */
+      var maxPlayed = list.reduce(function (a, t) { return Math.max(a, t.played || 0); }, 0);
+      var qualified = list.filter(function (t) { return (t.played || 0) >= maxPlayed / 2; });
+      var best = (qualified.length ? qualified : list)
+        .slice().sort(function (a, b) { return b.avg - a.avg; })[0];
       var tag = $('.st-topftag');
       if (tag) {
         if (best) {
@@ -2374,11 +2693,6 @@
         if (v[i]) v[i].textContent = s[1];
       });
 
-      /* Overview is S-09, the same block the landing and Conferences
-         pages open with, rather than a second set of tiles that said
-         something similar in a different shape. */
-      paintOverview();
-
       var games = [];
       D.events.forEach(function (e) {
         if (confId !== 'All' && e.conference !== confId) return;
@@ -2393,10 +2707,35 @@
         if ((stopPlayed(e) || stopLive(e)) && (confId === 'All' || e.conference === confId)) activeConf[e.conference] = 1;
       });
 
+      /* Overview, as the wireframe states it: five figures about what is
+         actually in front of you, recomputed against the gender switch
+         and the conference filter. It used to be S-09 — the season-wide
+         conferences-and-stops block, which said the same thing on every
+         page and ignored both controls. */
+      var ovFigures = [
+        finalGames.length,
+        list.length,
+        Object.keys(withGames).filter(Boolean).length,
+        Object.keys(activeConf).length,
+        finalGames.length ? (pts / (finalGames.length * 2)).toFixed(1) : '—'
+      ];
+      $$('.st-ov .e04-stat').forEach(function (cell, i) {
+        text(cell, '.e04-v', ovFigures[i] != null ? ovFigures[i] : '—');
+      });
+
       function fillTable(sel, rows, paint) {
         var tbl = $(sel);
         if (!tbl) return;
-        if (!rows.length) { $$('.trow', tbl).forEach(function (r) { r.hidden = true; }); return; }
+        var oldF = tbl.parentElement.querySelector(':scope > .site-empty');
+        if (oldF) oldF.remove();
+        if (!rows.length) {
+          $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
+          emptyState(tbl.parentElement, 'Nothing to rank yet',
+                     'No federation in this filter has played a game.',
+                     { icon: 'info' });
+          return;
+        }
+        tbl.hidden = false;
         repeat(tbl, '.trow', rows, paint);
       }
 
@@ -2746,8 +3085,20 @@
      feed lists them, with a shirt number and a role hung off the player
      id so the same player always wears the same number. */
   function gameSquad(g, side) {
+    var ioc = g[side].ioc;
+    if (!ioc) return [];
+    /* The snapshot carries a squad list for the first stop of each
+       conference only. A federation fields the same four players across
+       that conference's stops, so a stop without its own roster record
+       falls back to the conference's — otherwise every box score from
+       stop 2 onwards came out empty. Two conferences arrive with no
+       gender label at all, hence the second fallback. */
     var t = D.teams.filter(function (x) {
-      return x.stop === g.stop && x.gender === g.gender && x.ioc === g[side].ioc;
+      return x.stop === g.stop && x.gender === g.gender && x.ioc === ioc;
+    })[0] || D.teams.filter(function (x) {
+      return x.conference === g.conference && x.gender === g.gender && x.ioc === ioc;
+    })[0] || D.teams.filter(function (x) {
+      return x.conference === g.conference && !x.gender && x.ioc === ioc;
     })[0];
     if (!t) return [];
     var used = {};
@@ -2865,6 +3216,94 @@
     return { home: H, away: A, events: pbp.events, leadChanges: pbp.leadChanges, played: true };
   }
 
+  /* ---------- season totals for one player --------------------
+     The box score is derived, not fed: deriveGame() splits a final
+     score across the squad deterministically, so the same game always
+     produces the same line. Summing those lines over every game a
+     federation played gives a player's games, points and win ratio —
+     the three figures E-08 PlayerCard states. Everything here is
+     cached, because a roster grid asks for it four times at once and a
+     leaderboard asks for it several hundred times.                */
+  var BOX_CACHE = {}, TOTALS_CACHE = {}, FED_GAMES = null;
+
+  function boxOf(g) {
+    if (BOX_CACHE[g.id]) return BOX_CACHE[g.id];
+    var rand = rngOf(seedOf(g.id));
+    var H = { squad: gameSquad(g, 'home') }, A = { squad: gameSquad(g, 'away') };
+    var hs = g.home.score, as = g.away.score;
+    if (hs != null && as != null) {
+      splitScore(hs, H.squad, rand);
+      splitScore(as, A.squad, rand);
+    }
+    return (BOX_CACHE[g.id] = { home: H, away: A });
+  }
+
+  function fedKey(conference, gender, ioc) {
+    return conference + '|' + (gender || '') + '|' + ioc;
+  }
+  function fedGames(conference, gender, ioc) {
+    if (!FED_GAMES) {
+      FED_GAMES = {};
+      D.games.forEach(function (g) {
+        ['home', 'away'].forEach(function (sd) {
+          if (!g[sd].ioc) return;
+          var k = fedKey(g.conference, g.gender, g[sd].ioc);
+          (FED_GAMES[k] = FED_GAMES[k] || []).push(g);
+        });
+      });
+    }
+    return FED_GAMES[fedKey(conference, gender, ioc)] || [];
+  }
+
+  /* Every played game this player appeared in, newest last, with the
+     line they put up in it. */
+  var PGAMES_CACHE = {};
+  function playerGames(pid) {
+    if (PGAMES_CACHE[pid]) return PGAMES_CACHE[pid];
+    var out = [], seen = {};
+    D.teams.filter(function (t) {
+      return (t.roster || []).some(function (m) { return m.id === pid; });
+    }).forEach(function (t) {
+      fedGames(t.conference, t.gender, t.ioc).forEach(function (g) {
+        if (seen[g.id]) return;
+        if (g.home.score == null || g.away.score == null) return;
+        seen[g.id] = 1;
+        var side = g.home.ioc === t.ioc ? 'home' : 'away';
+        var other = side === 'home' ? 'away' : 'home';
+        var me = boxOf(g)[side].squad.filter(function (x) { return x.id === pid; })[0];
+        if (!me) return;
+        out.push({ game: g, side: side, other: other, line: me,
+                   won: g[side].score > g[other].score });
+      });
+    });
+    out.sort(function (a, b) {
+      return String(a.game.start || '').localeCompare(String(b.game.start || ''));
+    });
+    return (PGAMES_CACHE[pid] = out);
+  }
+
+  function playerTotals(pid) {
+    if (TOTALS_CACHE[pid]) return TOTALS_CACHE[pid];
+    var out = { games: 0, points: 0, two: 0, ft: 0, won: 0, winRatio: null };
+    playerGames(pid).forEach(function (r) {
+      out.games++;
+      out.points += r.line.pts || 0;
+      out.two += r.line.two || 0;
+      out.ft += r.line.ft || 0;
+      if (r.won) out.won++;
+    });
+    if (out.games) out.winRatio = out.won / out.games;
+    return (TOTALS_CACHE[pid] = out);
+  }
+
+  /* The three figures E-08 states, formatted. */
+  function playerCardStats(p) {
+    var t = playerTotals(p.id);
+    return [['Games', t.games || '—'],
+            ['Points', t.games ? t.points : '—'],
+            ['Win ratio', t.winRatio == null ? '—' : t.winRatio.toFixed(2)]];
+  }
+
   PAGES['game.html'] = function () {
     var qs = new URLSearchParams(location.search);
     var id = qs.get('id');
@@ -2887,11 +3326,14 @@
             { label: 'Stop ' + (e.number || ''), href: 'stop.html?id=' + g.stop },
             { label: g.pool || g.name || 'Game' }]);
 
-    /* ---- head ---- */
+    /* ---- head ----
+       One caption line in the order the headline is specified: the pool
+       or round first, then when, then where, then which category. */
     var cat = shortCat(c) + ' ' + (g.gender === 'women' ? 'Women' : 'Men');
-    text(document, '.gm-date', fmtDate((g.start || e.start || '').slice(0, 10),
-                                       { day: 'numeric', month: 'short', year: 'numeric' }));
-    text(document, '.gm-venue', [cityOf(e), cat, g.pool].filter(Boolean).join(' · '));
+    var when = fmtDate((g.start || e.start || '').slice(0, 10),
+                       { day: 'numeric', month: 'short', year: 'numeric' });
+    text(document, '.gm-head',
+         [g.pool || g.name, when, cityOf(e), cat].filter(Boolean).join(' · '));
     var badge = $('.gm-badge');
     if (badge) {
       var lbl = $('.lbl', badge);
@@ -2899,16 +3341,23 @@
                         (live ? 'badge-live' : played ? 'badge-up' : 'badge-nq');
       if (lbl) lbl.textContent = live ? 'Live' : played ? 'Final' : 'Upcoming';
     }
-    text(document, '.gm-tname-h', g.home.ioc + ' ' + shortCat(c));
-    text(document, '.gm-tname-a', g.away.ioc + ' ' + shortCat(c));
+    /* IOC code, flag, score : score, flag, IOC code — S-04 GameList's
+       arrangement at headline size. The losing side is dimmed rather
+       than marked, exactly as the game list dims it. */
+    text(document, '.gm-ioc-h', g.home.ioc || '—');
+    text(document, '.gm-ioc-a', g.away.ioc || '—');
+    flag($('.gm-flag-h'), g.home.ioc);
+    flag($('.gm-flag-a'), g.away.ioc);
     text(document, '.gm-pt-h', played ? g.home.score : '–');
     text(document, '.gm-pt-a', played ? g.away.score : '–');
-    if (played) {
-      $('.gm-tname-h').classList.toggle('gm-lost', !homeWon);
-      $('.gm-tname-a').classList.toggle('gm-lost', homeWon);
-      $('.gm-pt-h').classList.toggle('gm-lost', !homeWon);
-      $('.gm-pt-a').classList.toggle('gm-lost', homeWon);
-    }
+    ['.gm-ioc-h', '.gm-pt-h', '.gm-ioc-a', '.gm-pt-a'].forEach(function (sel) {
+      var n = $(sel);
+      if (n) n.classList.toggle('gm-lost',
+        played && (/-h$/.test(sel) ? !homeWon : homeWon));
+    });
+    var hlink = $('.gm-side-h'), alink = $('.gm-side-a');
+    if (hlink && g.home.ioc) link(hlink, 'team.html?ioc=' + g.home.ioc);
+    if (alink && g.away.ioc) link(alink, 'team.html?ioc=' + g.away.ioc);
 
     /* ---- teams ---- */
     var stopGames = gamesFor(g.stop, g.gender);
@@ -2942,10 +3391,25 @@
     var top = all[0];
     if (topBlock) {
       if (!played || !top || !top.pts) {
-        topBlock.closest('.tpl-sub').hidden = true;
+        /* The section used to vanish, taking its heading with it and
+           leaving the Teams column on its own at half width. */
+        topBlock.hidden = true;
+        emptyState(topBlock.parentElement,
+                   played ? 'No scorer to name' : 'Not played yet',
+                   played ? 'No player is credited with a point in this game.'
+                          : 'The top scorer is published with the result.',
+                   { icon: 'clock' });
       } else {
+        topBlock.hidden = false;
+        var oldTop = topBlock.parentElement.querySelector(':scope > .site-empty');
+        if (oldTop) oldTop.remove();
         var side = d.home.squad.indexOf(top) > -1 ? g.home : g.away;
-        flag($('.gm-top-who .flag'), side.ioc);
+        flag($('.gm-top-flag'), side.ioc);
+        /* el-24 Avatar. There are no portraits in the snapshot, so the
+           initials fallback is the one that applies. */
+        var init = $('.gm-top-av .av-init');
+        if (init) init.textContent = ((top.first || top.name || '').charAt(0) +
+                                      (top.last || '').charAt(0)).toUpperCase();
         text(topBlock, '.gm-top-n', top.name);
         text(topBlock, '.gm-top-sub', '#' + top.no + ' · ' + top.role + ' · ' + side.ioc);
         text(topBlock, '.gm-top-pts', top.pts);
@@ -2962,10 +3426,18 @@
       var squad = t[2].squad.slice().sort(function (a, b) {
         return (b.pts - a.pts) || (a.order - b.order);
       });
+      var oldB = tbl.parentElement.querySelector(':scope > .site-empty');
+      if (oldB) oldB.remove();
       if (!squad.length) {
-        $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
+        tbl.hidden = true;
+        emptyState(tbl.parentElement,
+                   played ? 'No squad for this game' : 'Not played yet',
+                   played ? 'This federation has not named a roster for this stop.'
+                          : 'The box score is published with the result.',
+                   { icon: played ? 'info' : 'clock' });
         return;
       }
+      tbl.hidden = false;
       repeat(tbl, '.trow', squad, function (row, p) {
         row.hidden = false;
         text(row, '.cell-no .t-data-m', p.no);
@@ -3006,7 +3478,8 @@
       if (!d.events.length) {
         $$('.gm-ev', pbp).forEach(function (r) { r.hidden = true; });
         emptyState(pbp.parentElement, 'No play-by-play yet',
-                   'It is published with the result.');
+                   'It is published with the result.',
+                   { icon: 'clock' });
       } else {
         repeat(pbp, '.gm-ev', d.events, function (row, ev) {
           row.hidden = false;

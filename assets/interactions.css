@@ -219,7 +219,7 @@
 }
 
 /* from .ftag-hover */
-.live .ftag:not(.ftag-plain):hover {
+.live .ftag:not(.ftag-plain):not(.ftag-static):hover {
   background:var(--surface-sunken-2);
 }
 

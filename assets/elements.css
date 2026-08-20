@@ -1845,6 +1845,21 @@
 .av-sil svg path {
   fill:var(--border-default);
 }
+/* A federation slot that is not decided yet: no flag, no code, and the
+   name reads as a note rather than as a federation. */
+.ftag-tbd .ftag-name {
+  color:var(--text-muted);
+  font-style:italic;
+}
+/* el-24 with a real portrait: the cut-out fills the box and sits on
+   its bottom edge, the same way the roster card crops it. */
+.av-photo {
+  display:block;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:top center;
+}
 .av-init {
   display:flex;
   align-items:center;
@@ -2428,13 +2443,21 @@
   background:var(--border-default);
   background-clip:border-box;
 }
-.tgl-knob {
+.tgl-track > .tgl-knob {
+  /* Absolutely placed rather than pushed by `margin-left:auto`, because
+     `auto` is not an interpolatable length — the knob used to jump from
+     one end of the track to the other. `left` is a length in both
+     states, so motion.css can slide it. Percentages resolve against the
+     track's padding box, which keeps the 3px inset correct when the
+     focus state thickens the border from 1px to 2px. */
   --c:4px;
+  position:absolute;
+  top:50%;
+  left:3px;
+  transform:translateY(-50%);
   width:20px;
   height:20px;
   background:var(--action-default);
-  margin-left:0;
-  margin-right:auto;
 }
 .tgl-lbl {
   color:var(--text-primary);
@@ -2449,10 +2472,9 @@
   --of:var(--action-default);
   background:var(--action-default);
 }
-.tgl-on .tgl-knob {
+.tgl-on .tgl-track > .tgl-knob {
   background:var(--surface-page);
-  margin-left:auto;
-  margin-right:0;
+  left:calc(100% - 23px);
 }
 
 /* hover */
