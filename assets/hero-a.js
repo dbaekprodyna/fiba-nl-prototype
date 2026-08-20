@@ -20,8 +20,11 @@
     photoPos: 0.20,   /* its left edge, share of the region      */
     density:  0.50,   /* gap multiplier — lower is sparser       */
     pWhite:   0.49,   /* share of slats left white               */
-    pA:       0.07,   /* accent 1                                */
-    pB:       0.02,   /* accent 2                                */
+    /* Accents are counted, not sampled: a probability gave a
+       different number of yellow and red lines on every layout.
+       [min, max] lines actually drawn, picked once per build. */
+    yellow:   [2, 3],
+    red:      [1, 2],
     drift:    10.0,   /* px of idle movement during the hold     */
     spread:   2.00,   /* s  — 3.00 / 1.5                         */
     hold:     6.00,   /* s                                       */
@@ -37,10 +40,10 @@
      the desktop reference width. ?v= is a cache-buster: the files are
      re-cropped in place when the selection or the ratio changes. */
   var PHOTOS = [
-    'assets/hero-a/hero-a-1.jpg?v=2', 'assets/hero-a/hero-a-2.jpg?v=2',
-    'assets/hero-a/hero-a-3.jpg?v=2', 'assets/hero-a/hero-a-4.jpg?v=2',
-    'assets/hero-a/hero-a-5.jpg?v=2', 'assets/hero-a/hero-a-6.jpg?v=2',
-    'assets/hero-a/hero-a-7.jpg?v=2'
+    'assets/hero-a/hero-a-1.jpg?v=3', 'assets/hero-a/hero-a-2.jpg?v=3',
+    'assets/hero-a/hero-a-3.jpg?v=3', 'assets/hero-a/hero-a-4.jpg?v=3',
+    'assets/hero-a/hero-a-5.jpg?v=3', 'assets/hero-a/hero-a-6.jpg?v=3',
+    'assets/hero-a/hero-a-7.jpg?v=3'
   ];
 
   var STAG = 0.55;        /* how much of the spread the stagger eats   */
@@ -153,14 +156,9 @@
       if (over) { w *= 0.58; g *= 1.22; }
       if (x < geo.x0 + 180) g *= 0.68;
 
-      /* Accents are lines, never planes — a wide yellow or red
-         reads as a second brand colour instead of a highlight. */
-      var cr = rnd(), col, isAcc = false;
+      var cr = rnd(), col;
       if (cr < CFG.pWhite) col = '#FFFFFF';
-      else if (cr < CFG.pWhite + CFG.pA) { col = a1; isAcc = true; }
-      else if (cr < CFG.pWhite + CFG.pA + CFG.pB) { col = a2; isAcc = true; }
       else col = (CFG.tone && rnd() < 0.26) ? shade(dom, -0.16) : dom;
-      if (isAcc) w = 2 + rnd() * 6;
       if (x < geo.x0 + 150) w *= 0.45;
 
       /* Part-height only on thin slats: a wide one reads as a
@@ -184,6 +182,37 @@
     /* the solid block that closes the right edge */
     slats.push({ x: geo.vw - 52, w: 120 * BIG, y0: 0, y1: H,
                  col: cssVar('--hero-a-blue', '#253AFF'), alpha: 1, rank: 0, ph: 0, amp: 0.2 });
+
+    /* Accent lines. Always thin and always full height — a wide or
+       part-height yellow reads as a second brand colour rather than
+       a highlight. Candidates skip the left dissolve and the right
+       block; the band is then split into as many segments as there
+       are lines and one slat is taken from each, so two reds never
+       land side by side. */
+    var cand = [];
+    for (var ci = 0; ci < slats.length - 1; ci++) {
+      if (slats[ci].x > geo.x0 + 60 && slats[ci].x < geo.vw - 30) cand.push(ci);
+    }
+    function paint(range, colour) {
+      var n = range[0] + Math.floor(rnd() * (range[1] - range[0] + 1));
+      n = Math.min(n, cand.length);
+      var seg = cand.length / n, taken = [];
+      for (var k = 0; k < n; k++) {
+        var lo = Math.floor(k * seg), hi = Math.max(lo, Math.floor((k + 1) * seg) - 1);
+        var pick = lo + Math.floor(rnd() * (hi - lo + 1));
+        var idx = cand[pick];
+        var sl = slats[idx];
+        sl.col = colour;
+        sl.w = 2 + rnd() * 6;
+        sl.y0 = 0; sl.y1 = H;
+        sl.alpha = 1;
+        sl.rank = clamp((geo.anchor - (sl.x + sl.w / 2)) / (geo.anchor - geo.x0), 0, 1);
+        taken.push(idx);
+      }
+      cand = cand.filter(function (i) { return taken.indexOf(i) < 0; });
+    }
+    paint(CFG.red, a2);      /* the scarcer colour picks first */
+    paint(CFG.yellow, a1);
   }
 
   /* A slat is a parallelogram, not a rotated rect: top and bottom
