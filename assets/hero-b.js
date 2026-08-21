@@ -1,8 +1,8 @@
 /* ============================================================
    FIBA 3x3 Nations League — hero-b.js
    Hero B: cut-out chevrons gathered over the photo, spreading
-   left and right to open it, holding while the paint runs, then
-   closing back over the centre as the next photo swaps in.
+   left and right to open it, holding, then closing back over the
+   centre as the next photo swaps in.
 
    The chevrons are built here rather than imported from
    Hero B.svg. The drawn file was hand-traced, so every ribbon
@@ -25,7 +25,7 @@
                          nothing is scaled, so this is fixed at
                          every viewport                            */
     spread:  1.80,    /* s — pieces travel out, photo opens        */
-    hold:    5.00,    /* s — photo held, paint runs                */
+    hold:    5.00,    /* s — photo held                           */
     gather:  0.50,    /* s — pieces close back over the centre     */
     pause:   0.12,    /* s — covered; the photo swaps here         */
     speed:   1.00,
@@ -33,7 +33,7 @@
     boil:    1.9,     /* px each piece is re-placed by, every frame */
     tilt:    0.85,    /* deg each piece is re-angled by, every frame */
     fps:     10,      /* THE WHOLE CLOCK runs at this rate. Travel,
-                         the reveal and the paint all advance in
+                         the reveal and the travel all advance in
                          whole frames — nothing is interpolated,
                          which is the only way it reads as stop
                          motion rather than as a tween.            */
@@ -93,42 +93,6 @@
   ];
   var BASE_L = 22;    /* spine centre of the innermost left ribbon  */
   var BASE_R = 437;   /* …and of the innermost right one            */
-
-  /* Paint runs. i is the piece they hang off, so they travel with
-     it; x is where they leave it, len how far they get. */
-  /* Paint runs.
-     Paint leaves a downward-facing edge, and on a near-vertical
-     zigzag the only downward-facing edges are the outer sides of
-     the arms descending from each point. `turn` picks the point
-     (2 and 4 point right inside the band, 3 points left) and `s` is
-     how far down that arm the paint left — 0 is the point itself.
-
-     They are placed where there is somewhere to run TO: off the two
-     innermost ribbons, where the photo is open underneath, and off
-     the outer edge of each cluster, where nothing is. Dropped into
-     one of the 4–6px channels between two ribbons the paint would
-     hit the next arm within a few pixels and read as a stub. `c`
-     overrides the colour where the ribbon it leaves is white and the
-     run would otherwise vanish — blue and yellow over the photo, as
-     the concept has it. */
-  var DRIPS = [
-    /* over the photo, off the two ribbons that frame it */
-    { side: 'L', i:  0, turn: 2, s: 0.08, len: 48, w: 7, c: 'b' },
-    { side: 'L', i:  0, turn: 2, s: 0.30, len: 26, w: 5, c: 'b' },
-    { side: 'L', i:  0, turn: 4, s: 0.12, len: 40, w: 6, c: 'y' },
-    { side: 'R', i:  0, turn: 3, s: 0.08, len: 44, w: 7, c: 'b' },
-    { side: 'R', i:  0, turn: 3, s: 0.30, len: 24, w: 5, c: 'b' },
-    { side: 'R', i:  0, turn: 5, s: 0.14, len: 30, w: 5, c: 'y' },
-    /* off the outer edge of each cluster, into open white */
-    { side: 'L', i:  8, turn: 3, s: 0.08, len: 46, w: 7 },
-    { side: 'L', i:  8, turn: 3, s: 0.34, len: 26, w: 5 },
-    { side: 'L', i:  8, turn: 1, s: 0.18, len: 34, w: 6 },
-    { side: 'L', i:  7, turn: 3, s: 0.10, len: 32, w: 5 },
-    { side: 'R', i: 10, turn: 2, s: 0.10, len: 44, w: 7 },
-    { side: 'R', i: 10, turn: 2, s: 0.38, len: 24, w: 5 },
-    { side: 'R', i: 10, turn: 4, s: 0.16, len: 36, w: 6 },
-    { side: 'R', i:  9, turn: 2, s: 0.12, len: 26, w: 5 }
-  ];
 
   /* Where the composition sits. The photo's left edge is pinned to
      53.5% across the 1440 content column — the proportion in the
@@ -238,7 +202,10 @@
       p.i = i;
       p.cx = (p.x0 + p.x1) / 2;
       p.ph = (i * 2.399) % 6.283;
-      p.amp = 0.45 + ((i * 7919) % 100) / 100 * 0.8;
+      /* sway, not amp — amp is the ribbon's zigzag swing, set in
+         cluster(). Two different numbers; overwriting one with the
+         other is a trap worth naming out of existence. */
+      p.sway = 0.45 + ((i * 7919) % 100) / 100 * 0.8;
     });
 
     /* Left and right gather into their own half of the window, in
@@ -256,36 +223,6 @@
     PIECES.forEach(function (p) { far = Math.max(far, Math.abs(p.cx - CFG.photoW / 2)); });
     PIECES.forEach(function (p) { p.rank = Math.abs(p.cx - CFG.photoW / 2) / far; });
 
-    DRIPS.forEach(function (d, i) {
-      var pc = (d.side === 'L' ? left : right)[d.i];
-      var dir = SIDE[d.turn];
-      var run = TURNS[d.turn + 1] - TURNS[d.turn];
-      d.piece = pc;
-      d.fill = d.c ? col[d.c] : pc.fill;
-      /* walk from the outer corner of the point down along the arm */
-      d.x = pc.base + dir * (pc.amp + pc.w / 2) - dir * 2 * pc.amp * d.s;
-      /* and start 4px inside the ink, so the run grows out of the
-         shape rather than butting against its edge */
-      d.y = TURNS[d.turn] + run * d.s - 4;
-      d.seed = i * 0.37;
-
-      /* How far it can actually get. Below a point the space is a
-         wedge: the next ribbon over runs its own arm underneath and
-         would swallow the rest of the paint. Rather than tune every
-         length by hand against the tables, each run is cut where
-         that arm crosses it — so retuning a gap above cannot leave a
-         drip buried. */
-      var room = 1e9;
-      (d.side === 'L' ? left : right).concat(d.side === 'L' ? right : left)
-        .forEach(function (q) {
-          if (q === pc) return;
-          var Xq = q.base + dir * (q.amp + q.w / 2);
-          var t = ((Xq - d.x) * dir) / (2 * q.amp);
-          if (t <= 0 || t > 1) return;
-          room = Math.min(room, TURNS[d.turn] + run * t - d.y);
-        });
-      d.len = Math.max(10, Math.min(d.len, room - 3));
-    });
   }
 
   /* ---- geometry ----------------------------------------------- */
@@ -313,23 +250,6 @@
     ctx.translate(p.cx + p.dx, H / 2 + p.dy);
     ctx.rotate(p.rot);
     ctx.translate(-p.cx, -H / 2);
-  }
-  /* A run of paint: a little wider where it left the shape than
-     where it stopped, with the bead of paint that gathers at the
-     end. A plain round-capped line reads as a rule, not as paint. */
-  function runPaint(x, y, len, w, fill) {
-    var wEnd = w * 0.55, y1 = y + len;
-    ctx.fillStyle = fill;
-    ctx.beginPath();
-    ctx.moveTo(x - w / 2, y);
-    ctx.lineTo(x + w / 2, y);
-    ctx.lineTo(x + wEnd / 2, y1);
-    ctx.lineTo(x - wEnd / 2, y1);
-    ctx.closePath();
-    ctx.fill();
-    ctx.beginPath();
-    ctx.arc(x, y1, wEnd * 0.95, 0, 6.2832);
-    ctx.fill();
   }
   function halfPlane(e, sign) {       /* everything to one side of an edge */
     var far = sign * 4000;
@@ -375,7 +295,7 @@
       pi = mode === 2 ? smooth(pi) : easeOutQuart(pi);
       var dxs = pc.gx * (1 - pi);
       if (mode === 0 || mode === 1) {
-        dxs += Math.sin(el * 1.15 + pc.ph) * pc.amp * CFG.drift * pi;
+        dxs += Math.sin(el * 1.15 + pc.ph) * pc.sway * CFG.drift * pi;
       }
       pc.dx = dxs + boil(i, fr) * CFG.boil;
       pc.dy = boil(i + 41, fr) * CFG.boil * 0.55;
@@ -425,26 +345,6 @@
       ctx.fillStyle = pc.fill;
       ctx.fill(pc.path);
       ctx.restore();
-    }
-
-    /* ---- paint runs --------------------------------------------
-       Last, over everything. Paint that ran did so after the shapes
-       were down, and drawn underneath they were simply covered by
-       the ribbon they were supposed to be leaving. Each starts at a
-       different point in the hold and eases out, so it slows as it
-       goes. Only the translation of its ribbon is followed, not the
-       rotation — paint runs down, whatever the paper is doing. */
-    if (mode === 1 || mode === 2) {
-      ctx.globalAlpha = mode === 2 ? clamp(p * 2, 0, 1) : 1;
-      for (i = 0; i < DRIPS.length; i++) {
-        var d = DRIPS[i];
-        var delay = ((d.seed + idx * 0.13) % 1) * 0.30 * CFG.hold;
-        var dp = clamp((th - delay) / (0.45 * CFG.hold), 0, 1);
-        if (dp <= 0.05) continue;
-        runPaint(d.x + d.piece.dx, d.y + d.piece.dy,
-                 d.len * easeOutQuart(dp), d.w, d.fill);
-      }
-      ctx.globalAlpha = 1;
     }
 
     ctx.restore();
