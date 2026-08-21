@@ -4,8 +4,9 @@
    photo window cut at the same angle, hold, then gather back
    to the right while the next photo swaps in.
 
-   Nothing runs until the F-02 switch turns Hero A on. "No hero"
-   is the default and leaves the existing headline alone.
+   Nothing runs until hero-switch.js broadcasts hero:change with
+   mode "a". "No hero" is the default and leaves the existing
+   headline alone.
 
    Settings below are the values dialled in on the tuner
    (fiba-hero-slats.html, 2026-08-20).
@@ -40,10 +41,10 @@
      the desktop reference width. ?v= is a cache-buster: the files are
      re-cropped in place when the selection or the ratio changes. */
   var PHOTOS = [
-    'assets/hero-a/hero-a-1.jpg?v=3', 'assets/hero-a/hero-a-2.jpg?v=3',
-    'assets/hero-a/hero-a-3.jpg?v=3', 'assets/hero-a/hero-a-4.jpg?v=3',
-    'assets/hero-a/hero-a-5.jpg?v=3', 'assets/hero-a/hero-a-6.jpg?v=3',
-    'assets/hero-a/hero-a-7.jpg?v=3'
+    'assets/hero-a/hero-a-1.jpg?v=4', 'assets/hero-a/hero-a-2.jpg?v=4',
+    'assets/hero-a/hero-a-3.jpg?v=4', 'assets/hero-a/hero-a-4.jpg?v=4',
+    'assets/hero-a/hero-a-5.jpg?v=4', 'assets/hero-a/hero-a-6.jpg?v=4',
+    'assets/hero-a/hero-a-7.jpg?v=4'
   ];
 
   var STAG = 0.55;        /* how much of the spread the stagger eats   */
@@ -82,24 +83,10 @@
     return v || fallback;
   }
 
-  /* ---- DOM ---------------------------------------------------- */
-  var hl = document.querySelector('.tpl-content > .hl');
-  if (!hl) return;
-
-  var inner = hl.querySelector('.hl-inner');
-  if (!inner) {
-    inner = document.createElement('div');
-    inner.className = 'hl-inner';
-    while (hl.firstChild) inner.appendChild(hl.firstChild);
-    hl.appendChild(inner);
-  }
-  var cv = hl.querySelector('.hl-canvas');
-  if (!cv) {
-    cv = document.createElement('canvas');
-    cv.className = 'hl-canvas';
-    cv.setAttribute('aria-hidden', 'true');
-    hl.insertBefore(cv, hl.firstChild);
-  }
+  /* ---- DOM — owned by hero-switch.js --------------------------- */
+  var HERO = window.HERO;
+  if (!HERO) return;
+  var hl = HERO.band, cv = HERO.canvas;
   var ctx = cv.getContext('2d');
 
   /* ---- photos ------------------------------------------------- */
@@ -112,16 +99,7 @@
   /* ---- geometry ----------------------------------------------- */
   var H = 256, K = 0, geo = null, slats = [];
 
-  function measure() {
-    var band = hl.getBoundingClientRect();
-    var ir = inner.getBoundingClientRect();
-    var cs = getComputedStyle(inner);
-    var padL = parseFloat(cs.paddingLeft) || 0;
-    var padR = parseFloat(cs.paddingRight) || 0;
-    var cx = (ir.left - band.left) + padL;      /* content box, canvas space */
-    var cw = Math.max(320, ir.width - padL - padR);
-    return { w: band.width, h: band.height, cx: cx, cw: cw };
-  }
+  function measure() { return HERO.measure(); }
 
   function layout() {
     var m = measure();
@@ -307,15 +285,9 @@
   }
   function stop() { if (raf) { cancelAnimationFrame(raf); raf = 0; } }
 
-  /* ---- switch -------------------------------------------------- */
-  function apply(mode, push) {
+  /* ---- on/off -------------------------------------------------- */
+  function apply(mode) {
     on = (mode === 'a');
-    document.body.classList.toggle('hero-a', on);
-    var links = document.querySelectorAll('.f02-fam [data-hero]');
-    for (var i = 0; i < links.length; i++) {
-      links[i].classList.toggle('is-on', links[i].getAttribute('data-hero') === (on ? 'a' : 'none'));
-      links[i].setAttribute('aria-current', links[i].classList.contains('is-on') ? 'true' : 'false');
-    }
     if (on) {
       loadPhotos();
       resize();
@@ -323,22 +295,8 @@
     } else {
       stop();
     }
-    if (push) {
-      /* hash, not a query — history.replaceState is blocked on file:// */
-      if (history.replaceState) history.replaceState(null, '', on ? '#hero=a' : '#hero=none');
-      else location.hash = on ? 'hero=a' : 'hero=none';
-    }
   }
-
-  function fromHash() { return /(?:^|[#&])hero=a\b/.test(location.hash) ? 'a' : 'none'; }
-
-  document.addEventListener('click', function (e) {
-    var a = e.target.closest ? e.target.closest('.f02-fam [data-hero]') : null;
-    if (!a) return;
-    e.preventDefault();
-    apply(a.getAttribute('data-hero'), true);
-  });
-  window.addEventListener('hashchange', function () { apply(fromHash(), false); });
+  document.addEventListener('hero:change', function (e) { apply(e.detail.mode); });
 
   /* Repaint on resize; idle while the band is off screen or the
      tab is in the background. */
@@ -360,5 +318,5 @@
     }, { threshold: 0 }).observe(hl);
   }
 
-  apply(fromHash(), false);
+  apply(HERO.mode());
 })();

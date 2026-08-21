@@ -1,36 +1,45 @@
 /* ============================================================
-   FIBA 3x3 Nations League — hero-a.css
-   Hero A: 76.5° slat band under the navigation, 256px tall,
-   full-bleed. Off by default; F-02 switches it on by adding
-   .hero-a to <body>. "No hero" leaves .hl exactly as it was.
+   FIBA 3x3 Nations League — hero.css
+   The hero band shared by Hero A (76.5° slats) and Hero B
+   (cut-out chevrons). 256px tall, full-bleed, flush under the
+   navigation. Off by default; F-02 switches a variant on by
+   putting .hero-a or .hero-b on <body>. "No hero" leaves .hl
+   exactly as it was.
+   Replaces the old hero-a.css.
    ============================================================ */
 
 :root {
-  --hero-a-h: 256px;
-  --hero-a-blue:   #253AFF;   /* brand / electric blue — dominant */
-  --hero-a-yellow: #E8B33D;   /* brand / dark yellow  — accent 1 */
-  --hero-a-red:    #C32440;   /* brand / core red     — accent 2 */
+  --hero-h: 256px;
+  --hero-blue:   #253AFF;   /* brand / electric blue — dominant */
+  --hero-yellow: #E8B33D;   /* brand / dark yellow  — accent 1 */
+  --hero-red:    #C32440;   /* brand / core red     — accent 2 */
+
+  /* kept so an older hero-a.js still resolves its own names */
+  --hero-a-blue:   var(--hero-blue);
+  --hero-a-yellow: var(--hero-yellow);
+  --hero-a-red:    var(--hero-red);
 }
 
 /* ---- F-02 switch --------------------------------------------
-   Two text links in the family slot. The active one takes the
-   chrome's full-strength text, the other stays muted like the
+   Three text links in the family slot. The active one takes the
+   chrome's full-strength text, the others stay muted like the
    rest of the top bar.                                         */
 a.f02-famlink { text-decoration:none; cursor:pointer; }
 .live a.f02-famlink:hover { color:var(--chrome-text); }
 a.f02-famlink.is-on { color:var(--chrome-text); }
 
-/* ---- The wrapper is inert until Hero A is on ----------------
+/* ---- The wrapper is inert until a hero is on ----------------
    display:contents keeps the logo and the link as direct flex
    children of .hl, so the default headline is untouched.       */
 .hl-inner { display:contents; }
 .hl-canvas { display:none; }
 
-/* ---- Hero A -------------------------------------------------
-   The band breaks out of .tpl-content's gutter with a negative
-   margin rather than 100vw, so a visible scrollbar cannot push
-   a horizontal overflow.                                       */
-body.hero-a .hl {
+/* ---- The band -----------------------------------------------
+   It breaks out of .tpl-content's gutter with a negative margin
+   rather than 100vw, so a visible scrollbar cannot push a
+   horizontal overflow.                                         */
+body.hero-a .hl,
+body.hero-b .hl {
   position:relative;
   align-self:stretch;
   width:auto;          /* site.css sets width:100% on every .tpl-content
@@ -38,21 +47,23 @@ body.hero-a .hl {
                           auto lets align-self:stretch take the margins
                           into account and reach both edges. */
   max-width:none;
-  height:var(--hero-a-h);
+  height:var(--hero-h);
   margin-left:calc(-1 * clamp(20px, 4vw, 120px));
   margin-right:calc(-1 * clamp(20px, 4vw, 120px));
   padding:0;
   background:var(--surface-page);
   overflow:hidden;
 }
-body.hero-a .hl-canvas {
+body.hero-a .hl-canvas,
+body.hero-b .hl-canvas {
   position:absolute;
   inset:0;
   display:block;
   width:100%;
   height:100%;
 }
-body.hero-a .hl-inner {
+body.hero-a .hl-inner,
+body.hero-b .hl-inner {
   position:relative;
   z-index:2;
   display:flex;
@@ -69,17 +80,20 @@ body.hero-a .hl-inner {
   padding:0;
   pointer-events:none;
 }
-body.hero-a .hl-inner > * { pointer-events:auto; }
-body.hero-a .hl-logo svg { height:28px; }
+body.hero-a .hl-inner > *,
+body.hero-b .hl-inner > * { pointer-events:auto; }
+body.hero-a .hl-logo svg,
+body.hero-b .hl-logo svg { height:28px; }
 
 /* The band sits flush under F-03 — the section rhythm below it
    is unchanged. */
-body.hero-a .tpl-content { padding-top:0; }
+body.hero-a .tpl-content,
+body.hero-b .tpl-content { padding-top:0; }
 
 @media (max-width: 900px) {
-  body.hero-a .hl { height:200px; }
-  body.hero-a .hl-logo svg { height:22px; }
+  body.hero-a .hl, body.hero-b .hl { height:200px; }
+  body.hero-a .hl-logo svg, body.hero-b .hl-logo svg { height:22px; }
 }
 @media (prefers-reduced-motion: reduce) {
-  /* hero-a.js holds a single frame — see REDUCED in the script. */
+  /* both scripts hold a single frame — see REDUCED in each. */
 }
