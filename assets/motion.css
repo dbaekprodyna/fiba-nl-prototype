@@ -183,3 +183,16 @@
   .tgl-track > .tgl-knob { transition:left var(--dur-base) var(--ease-in-out),
                           background var(--dur-slow) var(--ease-out); }
 }
+
+/* ---- S-09 SeasonProgress: the bar runs out on first paint ------
+   site.js sets the fill to 0, adds this class, then sets the real
+   width — so the bar draws itself left to right once, when the page
+   arrives. overflow is clipped because the two segments inside carry
+   a 14px min-width and would otherwise show as a stub at zero. */
+.s09-fill-run {
+  overflow: hidden;
+  transition: width 1.05s cubic-bezier(.22,.61,.36,1) .18s;
+}
+@media (prefers-reduced-motion: reduce) {
+  .s09-fill-run { transition: none; }
+}

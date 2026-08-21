@@ -266,3 +266,15 @@ a.nav-a {
 .cnf-head .s09-lab { width: 132px; }
 .cnf-head .s09-brk { flex-wrap: wrap; row-gap: 4px; }
 .cnf-head .finder, .cnf-head .search { max-width: none; }
+
+/* ---- S-03 filter bar: one control height ----------------------
+   The region chips were the m size (40px, 13px type) sitting next to
+   an s-size gender switch (32px, 12px), so a single row of controls
+   had two heights in it. The chips take the switch's measurements;
+   they keep hugging their labels, since a chip's width is its word. */
+.filterbar > .el03 > .chip {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}

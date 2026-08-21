@@ -3432,14 +3432,21 @@ code {
    ============================================================ */
 
 /* ---- the result lockup ---- */
+/* The page's headline row. It carries the same H1 every other
+   template puts in .f04-idl — pool, date, venue, category — so the
+   game page reads at the same size as Conference and Stop do,
+   instead of opening on a caption. The status badge sits at the
+   right edge, bottom aligned with the headline like .f04-row's
+   control slot. */
 .gm-meta {
   display:flex;
   flex-direction:row;
-  align-items:center;
+  align-items:flex-end;
   gap:12px;
   flex-wrap:wrap;
 }
 .gm-meta .t-caption { color:var(--text-muted); }
+.gm-meta .gm-head { margin:0; color:var(--text-primary); }
 .gm-meta-sp { flex:1 1 auto; }
 .gm-title {
   display:flex;
@@ -3545,8 +3552,13 @@ code {
   min-width:0;
 }
 .gm-duo-col > .tpl-sub { width:100%; max-width:none; }
-/* Inside a half-width column the two federation cards stack. */
-.gm-duo .gm-teams { flex-direction:column; }
+/* The two federation cards split the column 50/50 rather than
+   stacking: they are the two sides of one result, so reading them
+   side by side is reading the game. .gm-team already carries
+   flex:1 1 0, so the halves stay equal whatever the names are. */
+.gm-duo .gm-teams { flex-direction:row; }
+.gm-duo .gm-team { padding:14px 14px 16px 16px; }
+.gm-duo .gm-team .ftag-name { min-width:0; overflow:hidden; text-overflow:ellipsis; }
 .gm-team {
   flex:1 1 0;
   min-width:0;
@@ -3753,7 +3765,7 @@ code {
 .gm-back { padding-top:8px; }
 
 @media (max-width: 760px) {
-  .gm-teams { flex-direction:column; }
+  .gm-teams, .gm-duo .gm-teams { flex-direction:column; }
   .gm-tname { font-size:32px; line-height:34px; }
   .gm-pt { font-size:40px; line-height:42px; }
   .gm-box .cell-two, .gm-box .cell-ft, .gm-box .cell-pts { flex:0 0 56px; }

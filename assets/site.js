@@ -928,6 +928,31 @@
   /* ---------- page renderers -------------------------------- */
   var PAGES = {};
 
+  /* One accordion open at a time. Two pages want it — Live now on the
+     landing page and the season list on Conferences — so the wiring
+     lives here rather than being written out twice. The shell's toggle
+     runs on a delegated document listener that fires after this one,
+     so the decision is taken a tick later. */
+  function soloAccordions(host) {
+    if (!host) return;
+    var accs = $$('.acc', host);
+    accs.forEach(function (a) {
+      var head = $(':scope > .acc-head', a);
+      if (!head || head._solo) return;
+      head._solo = 1;
+      head.addEventListener('click', function () {
+        setTimeout(function () {
+          if (a.getAttribute('data-open') !== 'true') return;
+          $$('.acc', host).forEach(function (x) {
+            if (x !== a && x.getAttribute('data-open') === 'true' && window.FIBA) {
+              window.FIBA.closeAccordion(x);
+            }
+          });
+        }, 0);
+      });
+    });
+  }
+
   PAGES['index.html'] = function () {
     /* ---- Live now -------------------------------------------
        LP-17, and Johannes' note on the strip: only offer days that have
@@ -1082,6 +1107,7 @@
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
       paintAccordions(evs.slice(0, 6), dISO);
       if (window.FIBA) window.FIBA.init(accHost);
+      soloAccordions(accHost);
       /* a stop that is on but has no results in the feed yet */
       $$('.acc', accHost).forEach(function (a) {
         var rows = $$('.trow', a).filter(function (r) { return !r.hidden; });
@@ -1273,7 +1299,25 @@
     var pctLive = total ? (now / total) * 100 : 0;
 
     var fillbar = $('.s09-fill', host);
-    if (fillbar) fillbar.style.width = (pctDone + pctLive).toFixed(2) + '%';
+    if (fillbar) {
+      var target = (pctDone + pctLive).toFixed(2) + '%';
+      /* First paint runs the bar out from zero, so the number is read
+         as a measurement being taken. Every later repaint — the gender
+         switch, a date change — just moves it, because replaying the
+         run each time would read as the season restarting. */
+      if (fillbar._ran) {
+        fillbar.style.width = target;
+      } else {
+        fillbar._ran = 1;
+        fillbar.style.width = '0%';
+        requestAnimationFrame(function () {
+          requestAnimationFrame(function () {
+            fillbar.classList.add('s09-fill-run');
+            fillbar.style.width = target;
+          });
+        });
+      }
+    }
     var seg = $('.s09-done', host), segLive = $('.s09-live', host);
     /* Flex shares rather than widths: the two segments divide whatever
        the fill is, so a live-only season still shows red. */
@@ -2580,24 +2624,7 @@
       if (window.FIBA) window.FIBA.init(accHost);
       /* One open at a time: the list is the whole season here, so
          leaving them open turns the page into a wall of tables. */
-      var accs = $$('.acc', accHost);
-      accs.forEach(function (a) {
-        var head = $(':scope > .acc-head', a);
-        if (!head || head._solo) return;
-        head._solo = 1;
-        head.addEventListener('click', function () {
-          /* The shell toggles on a delegated document listener, which
-             runs after this one, so the decision is taken a tick later. */
-          setTimeout(function () {
-            if (a.getAttribute('data-open') !== 'true') return;
-            accs.forEach(function (x) {
-              if (x !== a && x.getAttribute('data-open') === 'true' && window.FIBA) {
-                window.FIBA.closeAccordion(x);
-              }
-            });
-          }, 0);
-        });
-      });
+      soloAccordions(accHost);
     }
 
     days = dayList();

@@ -21,11 +21,14 @@
     gather:  0.50,    /* s — pieces close back over the centre     */
     pause:   0.12,    /* s — covered; the photo swaps here         */
     speed:   1.00,
-    drift:   3.2,     /* px of idle sway during the hold           */
-    tilt:    0.40,    /* deg of idle rotation, per piece           */
-    fps:     12,      /* the idle sway is stepped to this rate —
-                         the cut-out read comes from pieces that
-                         move in frames, not in a smooth glide     */
+    drift:   3.0,     /* px of slow sway during the hold           */
+    boil:    1.9,     /* px each piece is re-placed by, every frame */
+    tilt:    0.85,    /* deg each piece is re-angled by, every frame */
+    fps:     10,      /* THE WHOLE CLOCK runs at this rate, not just
+                         the idle sway — travel, the photo reveal and
+                         the paint all advance in whole frames. Cut-out
+                         and stop-motion read as stop-motion because
+                         nothing in them is interpolated.           */
     zoom:    1.05
   };
 
@@ -84,6 +87,8 @@
   var STAG = 0.35;           /* share of the spread the stagger eats */
   var OVERHANG = 40;         /* how far past the window the gathered
                                 pack reaches, each side              */
+  var BLEED = 8;             /* photo tucked this far under the two
+                                innermost chevrons                   */
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---- helpers ------------------------------------------------ */
@@ -91,6 +96,14 @@
   function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
   function easeOutQuart(t) { return 1 - Math.pow(1 - t, 4); }
   function smooth(t) { return t * t * (3 - 2 * t); }
+  /* Deterministic noise per (piece, frame). Every frame each piece is
+     laid down again a hair off where it was — the hand-placed wobble
+     that separates cut-out from a tween. Not a sine: a sine is smooth
+     motion sampled coarsely, this is a new position each frame. */
+  function boil(i, f) {
+    var t = Math.sin(i * 127.1 + f * 311.7) * 43758.5453;
+    return t - Math.floor(t) - 0.5;
+  }
   function cssVar(name, fallback) {
     var v = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
     return v || fallback;
@@ -110,7 +123,7 @@
   }
 
   /* ---- one-time piece prep ------------------------------------ */
-  var built = false, H = 256;
+  var built = false, H = 256, slot = null;
   function prep() {
     if (built) return;
     built = true;
@@ -143,6 +156,18 @@
     }
     tile(left, -OVERHANG, CFG.photoW / 2);
     tile(right, CFG.photoW / 2, CFG.photoW + OVERHANG);
+
+    /* The photo is only allowed in the gap between the two clusters.
+       Drawn across the whole window it showed through wherever two
+       chevrons failed to overlap, which the boil makes constant.
+       BLEED tucks its edge a little way under the innermost piece so
+       a wobble outward cannot open a white line either. */
+    var l = -1e9, r = 1e9;
+    left.forEach(function (p) { l = Math.max(l, p.x1); });
+    right.forEach(function (p) { r = Math.min(r, p.x0); });
+    slot = { l: l - BLEED, r: r + BLEED };
+    slot.mid = (slot.l + slot.r) / 2;
+    slot.half = (slot.r - slot.l) / 2;
 
     /* how late a piece starts: the ones that end up furthest out
        leave last, so the pack opens from the middle */
@@ -183,9 +208,12 @@
     raf = requestAnimationFrame(draw);
     if (!geo || !photos) return;
 
-    var el = (now - t0) / 1000 * CFG.speed;
+    /* Quantise once, here. Everything below reads `el`, so the whole
+       piece advances in 10ths of a second and never between them. */
+    var fr = Math.floor((now - t0) / 1000 * CFG.speed * CFG.fps);
+    var el = fr / CFG.fps;
     var cyc = CFG.spread + CFG.hold + CFG.gather + CFG.pause;
-    if (REDUCED) el = CFG.spread + CFG.hold * 0.5;
+    if (REDUCED) { el = CFG.spread + CFG.hold * 0.5; fr = 0; }
     var tt = el % cyc;
     var idx = Math.floor(el / cyc) % photos.length;
 
@@ -196,10 +224,6 @@
       p = 1 - (tt - CFG.spread - CFG.hold) / CFG.gather; mode = 2; th = CFG.hold;
     } else { p = 0; mode = 3; }
 
-    /* the sway and the tilt tick in frames, not continuously —
-       that stepped beat is what reads as cut-out */
-    var stepT = Math.floor(el * CFG.fps) / CFG.fps;
-
     ctx.clearRect(0, 0, geo.vw, H);
     ctx.save();
     ctx.translate(geo.px, 0);   /* 0,0 is now the photo window's top-left */
@@ -209,7 +233,7 @@
     if (img && img.complete && img.naturalWidth) {
       var rp = clamp((p - 0.12) / 0.78, 0, 1);
       rp = mode === 2 ? smooth(rp) : easeOutCubic(rp);
-      var halfOpen = geo.mid * rp;
+      var halfOpen = slot.half * rp;
       if (halfOpen > 0.5) {
         var u = tt / cyc;
         var zoom = CFG.zoom + 0.03 * u;
@@ -221,7 +245,7 @@
         else { sw = img.naturalWidth; sh = sw / dA; sx = 0; sy = (img.naturalHeight - sh) / 2; }
         ctx.save();
         ctx.beginPath();
-        ctx.rect(geo.mid - halfOpen, 0, halfOpen * 2, H);
+        ctx.rect(slot.mid - halfOpen, 0, halfOpen * 2, H);
         ctx.clip();
         ctx.drawImage(img, sx, sy, sw, sh, dx, dy, dw, dh);
         ctx.restore();
@@ -236,9 +260,13 @@
       pi = mode === 2 ? smooth(pi) : easeOutQuart(pi);
       dxs = pc.gx * (1 - pi);
       if (mode === 0 || mode === 1) {
-        dxs += Math.sin(stepT * 1.15 + pc.ph) * pc.amp * CFG.drift * pi;
+        dxs += Math.sin(el * 1.15 + pc.ph) * pc.amp * CFG.drift * pi;
       }
-      pc.dx = dxs;
+      /* re-placed every frame, in every mode — the pack never sits
+         perfectly still, which is the whole point */
+      pc.dx = dxs + boil(i, fr) * CFG.boil;
+      pc.dy = boil(i + 41, fr) * CFG.boil * 0.55;
+      pc.rot = boil(i + 97, fr) * CFG.tilt * (Math.PI / 180);
       pc.pi = pi;
     }
 
@@ -257,8 +285,8 @@
         ctx.strokeStyle = d.fill;
         ctx.lineWidth = d.w;
         ctx.beginPath();
-        ctx.moveTo(d.x + d.piece.dx, d.y);
-        ctx.lineTo(d.x + d.piece.dx, d.y + (d.y2 - d.y) * easeOutQuart(dp));
+        ctx.moveTo(d.x + d.piece.dx, d.y + d.piece.dy);
+        ctx.lineTo(d.x + d.piece.dx, d.y + d.piece.dy + (d.y2 - d.y) * easeOutQuart(dp));
         ctx.stroke();
       }
       ctx.globalAlpha = 1;
@@ -267,11 +295,9 @@
     /* ---- chevrons ---------------------------------------------- */
     for (i = 0; i < PIECES.length; i++) {
       pc = PIECES[i];
-      var a = pc.tw * CFG.tilt * (Math.PI / 180) *
-              Math.sin(stepT * 0.9 + pc.ph) * (mode === 0 || mode === 1 ? pc.pi : 0);
       ctx.save();
-      ctx.translate(pc.cx + pc.dx, H / 2);
-      if (a) ctx.rotate(a);
+      ctx.translate(pc.cx + pc.dx, H / 2 + pc.dy);
+      ctx.rotate(pc.rot);
       ctx.translate(-pc.cx, -H / 2);
       ctx.fillStyle = pc.fill;
       ctx.fill(pc.path);
