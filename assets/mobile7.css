@@ -1,0 +1,114 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile7.css
+   Round seven's phone layer. Loads last, after mobile6.css.
+
+     1  F-03m — the 3x3 mark comes down to the word mark's size,
+        so the bar has one type size on it and not two.
+     2  el-18 NavTab — a bigger icon, a taller bar, and the
+        active mark spanning the whole tap target rather than a
+        24px stub floating in the middle of it.
+     3  The Conferences dot sits on top of the globe and bounces
+        there, the same ball the live badge and the calendar
+        strip already use.
+     4  The hero's type comes up to the size of the section
+        headline underneath it, and the band grows to hold it.
+
+   ============================================================ */
+
+/* ============================================================
+   The phone/tablet chrome — the same 1099 breakpoint the chrome
+   itself is written at, because the bar is the bar at both
+   widths.
+   ============================================================ */
+@media (max-width: 1099px) {
+
+  /* ---- 1  the two marks are one size ------------------------
+     The 3x3 mark was drawn at 24px against a 16px word mark, so
+     the plate read as the louder of the two. Same cap height now;
+     the plate keeps its slant and simply narrows with it. */
+  .f03m-mark svg { height: 16px; }
+
+  /* ---- 2  the bar --------------------------------------------
+     Icon 20 -> 30 (one and a half times). The bar was 56 + its
+     rule = 57 tall; 68 + the rule is 1.2 of that. The 4px lid
+     gives the dot in 3 somewhere to land.                       */
+  .mnav-bar .ntab {
+    height: 68px;
+    padding: 4px 0 0;
+  }
+  .mnav-bar .ntab > svg {
+    width: 30px;
+    height: 30px;
+    flex: 0 0 auto;
+  }
+  /* The tap target is the whole .mnav-tab, so that is what the
+     active mark measures — it is the width of the thing you
+     pressed, not a token under the label. */
+  .mnav-bar .ntab-bar { width: 100%; }
+
+  /* room for the taller bar: 68 + 1px rule, rounded up */
+  .tpl { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+  .site-ovl { inset: 56px 0 76px 0; }
+  .f03m-sheet-body { padding-bottom: calc(88px + env(safe-area-inset-bottom, 0px)); }
+
+  /* ---- 3  the Conferences dot -------------------------------
+     It was a static pip off the right shoulder of the icon. It is
+     centred on the globe now and drops onto it, squashes and
+     springs — the dot-bounce every other live mark on the site
+     runs. The offset is a margin and not a translate because the
+     keyframes own the transform.                                */
+  .mnav-bar .ntab-live::after {
+    top: 3px;
+    left: 50%;
+    margin-left: -3px;
+    width: 6px;
+    height: 6px;
+    transform-origin: 50% 100%;
+    animation: dot-bounce 1.1s cubic-bezier(0.3, 0, 0.5, 1) infinite;
+    will-change: transform;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .mnav-bar .ntab-live::after { animation: none; }
+  }
+}
+
+/* ============================================================
+   The phone
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- 4  the hero's type ------------------------------------
+     Round six took the band down to a 12px cap to win back the
+     first screen, and the strap ended up smaller than OVERVIEW
+     directly under it — the page's own title read as the quieter
+     of the two. The cap goes to 20px, which puts the word mark
+     and the strap above .t-h2's 24px/17px cap, and the band is
+     given the height that needs.
+
+         word mark width = cap x 445 / 28   (the drawn ratio)
+         strap size      = cap / 0.72       (Condensed cap height)
+                         = 27.8px  >  24px                        */
+  .hnl { --hero-cap: 20px; }
+  .hnl-logo { width: min(318px, 100%); }
+  body.hero-nl .hnl { min-height: 140px; }
+  .hnl-in { padding: 26px 0 28px; gap: 8px; }
+  .hnl-lock { gap: 6px; }
+
+  /* The two corners were sized off what was left of the band
+     beside the lock. The lock is nearly the band's width now, so
+     that share is gone — they are given a height instead, which
+     is the measurement that decides whether they clear the type,
+     and it holds at every phone width. */
+  .hnl-kv-l { width: auto; height: 22px; }
+  .hnl-kv-r { width: auto; height: 20px; }
+  /* the court is the band's centre mark and it is drawn to sit
+     THROUGH the band — its own top and bottom rules fall outside
+     it, so what shows is the side lines and the arc. Sized off
+     the band the way the desktop sizes it: 216 of court to 192
+     of band. */
+  .hnl-court { width: 236px; height: 157px; top: -5px; }
+
+  /* ---- the reveal travels less on a small screen ------------
+     28px of rise is a fifth of a phone's fold. */
+  .rv-on .rv:not(.rv-f) { --rv-y: 16px; }
+}

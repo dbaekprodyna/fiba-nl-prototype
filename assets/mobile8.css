@@ -1,0 +1,51 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile8.css
+   Round eight's phone layer. Loads last, after mobile7.css.
+
+     1  S-02 StopNav — the ring on the selected stop is drawn
+        outside the circle, and the rail was clipping it.
+     2  Schedule — the Filter button comes up onto the section
+        headline's line instead of standing on one of its own.
+
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+  /* ---- 1  the selected stop keeps its ring ------------------
+     `.stopnav-on` is `outline: 2px` at `outline-offset: 3px`, so
+     it is drawn five pixels outside a 40px circle. The rail is
+     `overflow-x: auto`, which makes overflow-y `auto` as well —
+     and with no vertical padding the top of that ring fell
+     outside the scroll box and was cut off.
+
+     Six pixels of padding give the ring its room; six pixels of
+     negative margin give the space straight back, so nothing
+     around the rail moves. */
+  .cnf-stopnav {
+    margin: -6px -16px;
+    padding: 6px 16px;
+  }
+
+  /* ---- 2  Schedule headline and Filter share a line ---------
+     mobile5.js folds the period select behind a Filter button,
+     and the button lives in the split — one row under the word
+     Schedule. Taking it out of flow and pinning it to the top
+     right of the section puts the two on one line and gives the
+     split its first row back.
+
+     The panel it opens stays where it is, at the head of the
+     split, so it still drops directly under the button. */
+  .sched { position: relative; }
+  .sched > .el01-wrap .el01 {
+    min-height: 40px;
+    align-items: center;
+  }
+  .sched > .el01-wrap .el01-left { max-width: calc(100% - 148px); }
+  .sched-split .mfilt-btn {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 2;
+    margin: 0;
+  }
+}

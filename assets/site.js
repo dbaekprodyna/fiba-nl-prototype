@@ -3657,10 +3657,20 @@
      ============================================================ */
   var YT_CHANNEL = 'UC7LpyJP5fupiJu2CdzRQheg';
   var YT_STREAMS = 'https://www.youtube.com/@FIBA3x3/streams';
-  /* The still behind the play button when a stop names none of its
-     own. In production a job fills event.poster from the YouTube
-     Data API; the page itself never calls out to render. */
-  var NL_POSTER = 'https://i.ytimg.com/vi/bN9Z4Cf7YMQ/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAk0GbpdKZ6KXSyxK9zg-b88On6kA';
+  /* Review 8: there is no house still any more. One stop's thumbnail
+     standing in for every stop meant that every conference on the site
+     showed the Asia West/Pacific frame. A stop's poster is its own
+     stream's thumbnail, and a stop with no stream shows no frame — see
+     hasStream below. */
+  function ytThumb(id, size) {
+    return 'https://i.ytimg.com/vi/' + id + '/' + (size || 'hq720') + '.jpg';
+  }
+  function posterOf(ev) {
+    if (!ev) return '';
+    if (ev.poster) return ev.poster;
+    if (ev.video) return ytThumb(ev.video);
+    return ev.cover || '';
+  }
 
   function el(tag, cls, html) {
     var n = document.createElement(tag);
@@ -3785,10 +3795,22 @@
      prototype is every day, so an event that names a video wins. */
   function videoFrame(ev) {
     var frame = el('div', 'sched-frame');
+    var src = posterOf(ev);
     frame.innerHTML =
-      '<img alt="" class="sched-poster" src="' +
-      ((ev && (ev.poster || ev.cover)) || NL_POSTER) + '"/>' +
+      (src ? '<img alt="" class="sched-poster" src="' + src + '"/>' : '') +
       '<div class="sched-shade"></div>';
+    /* hq720 is the 16:9 still and it is there for every stream we
+       carry, but it is not guaranteed; mqdefault always is. If even
+       that fails the frame keeps its own flat surface rather than a
+       broken-image mark. */
+    var pimg = $('.sched-poster', frame);
+    if (pimg) pimg.addEventListener('error', function () {
+      if (ev && ev.video && pimg.src.indexOf('/hq720.jpg') > -1) {
+        pimg.src = ytThumb(ev.video, 'mqdefault');
+      } else {
+        pimg.remove();
+      }
+    });
     var play = el('button', 'sched-play',
       '<svg fill="currentColor" viewBox="0 -960 960 960" ' +
       'xmlns="http://www.w3.org/2000/svg"><path d="M320-203v-560l440 280-440 280Z">' +
@@ -3809,10 +3831,14 @@
     return frame;
   }
 
-  /* A stop has a stream if it is on air now or was on air once —
-     which is exactly the stops the calendar says have started. */
+  /* Review 8: a stop has a stream when a stream has been published
+     against it, and not before. "It has been played, so there must be
+     a recording" put an empty player — and the wrong still — on every
+     stop in the season; a stop with nothing to watch now shows no
+     video block at all. `day` is kept in the signature: the caller
+     passes it, and a future rule may want it. */
   function hasStream(e, day) {
-    return !!e && (!!e.video || stopLive(e, day) || stopPlayed(e, day));
+    return !!(e && e.video);
   }
 
   /* The stream on the left, whatever the view was already showing

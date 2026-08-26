@@ -1,0 +1,60 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review7.css
+   Round seven (2026-08-26, Daniel's fourth mark-up), desktop.
+
+     1  Scroll reveal — the hero and every section arrive the way
+        apple.com/iphone arrives: they rise a little and fade in
+        as they cross into the window, one beat after the other.
+     2  Hero parallax — the band's layers travel at their own
+        speeds while the page scrolls past them.
+
+   Loads after review6.css and before hero.css.
+   ============================================================ */
+
+/* ---- 1  Scroll reveal ---------------------------------------
+   Everything here is behind .rv-on, a class an inline script in
+   <head> puts on <html>. If that script or review7.js never runs,
+   not one of these rules matches and the page is simply the page
+   it was — nothing can be left invisible by a failed observer.
+
+   The easing is Apple's own long out-curve: almost all of the
+   distance is covered in the first third of the run, so the
+   element seems to arrive and settle rather than slide.        */
+@media (prefers-reduced-motion: no-preference) {
+  /* The waiting state carries NO transition. If it did, the moment
+     review7.js marks an element it would spend 800ms fading OUT —
+     a flash on everything already on screen, and a transitionend
+     that arrives before the element has arrived. The transition
+     belongs to .is-in, which is the change that should be seen. */
+  .rv-on .rv {
+    opacity: 0;
+    will-change: opacity, transform;
+  }
+  /* .rv-f is the fade-only variant, for anything that carries a
+     transform of its own (the court is translateX(-50%)) or that
+     a parallax frame writes to. Nothing here may touch transform
+     on those — not even `transform: none`. */
+  .rv-on .rv:not(.rv-f) { transform: translateY(var(--rv-y, 28px)); }
+  .rv-on .rv.is-in {
+    opacity: 1;
+    transition:
+      opacity   var(--rv-dur, 800ms) cubic-bezier(0.32, 0.72, 0, 1) var(--rv-d, 0ms),
+      transform var(--rv-dur, 800ms) cubic-bezier(0.32, 0.72, 0, 1) var(--rv-d, 0ms);
+  }
+  .rv-on .rv.is-in:not(.rv-f) { transform: none; }
+}
+
+/* The headline of a section leads and its body follows, so the
+   eye is given the name of the thing before the thing. */
+.rv-on .el01-wrap.rv { --rv-y: 20px; }
+
+/* ---- 2  Hero parallax ---------------------------------------
+   review7.js writes transforms on these four while the band is
+   still on screen, so they must not carry a transition — a
+   transition on a per-frame transform is a lag, not a motion.  */
+/* No will-change here. A standing will-change promotes the layer
+   for the whole life of the page, and the strap re-rasterises the
+   moment it is promoted — an unscrolled hero has to be the hero it
+   was, to the pixel. The browser promotes these on its own once a
+   transform is actually moving. */
+.hnl-par, .hnl-par-in { transition: none !important; }

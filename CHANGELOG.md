@@ -1,5 +1,148 @@
 # Changelog
 
+## 2026-08-26 — Eighth review: the real stream behind each stop, and four alignments
+
+Daniel's fifth mark-up. Desktop changes are in `assets/review8.css`, the
+phone half in `assets/mobile8.css`, the stream table and the asset links
+in `tools/p17_review8.py` — idempotent, and `tools/bump_assets.py` runs
+after it. `assets/site.js` carries the two behaviour changes.
+
+### A stop shows its own stream, or none
+
+- **The house still is gone.** One video id (`bN9Z4Cf7YMQ`, Asia
+  West/Pacific Stop 6) stood in as the poster for every stop on the site,
+  so Africa East, Europe-2 and Pacific all advertised a Singapore frame.
+  A stop's poster is now its own stream's thumbnail
+  (`i.ytimg.com/vi/<id>/hq720.jpg`, falling back to `mqdefault` and then
+  to the frame's flat surface).
+- **`hasStream` asks whether a stream exists, not whether the stop has
+  been played.** "It is in the past, therefore there is a recording" put
+  an empty player on all 108 stops. A stop with no published stream now
+  renders no video block at all, and the podium — or the waiting-for-
+  results panel — takes the width back, which is what `stopStream`
+  already did for an unplayed stop.
+- **49 of the 108 stops carry a real id**, read off the titles of
+  FIBA3x3's own uploads ("RE-LIVE | FIBA 3x3 Nations League 2026 -
+  <conference> - Stop <n> | ..."). A stop whose stream could not be named
+  with certainty is deliberately left empty: an absent block is right, a
+  wrong video is not. U21 Europe-2 has none at all and is the clean
+  demonstration of the empty case. In production this table is the
+  YouTube Data API's job — the page still never calls out to render.
+
+### Alignments
+
+- **The hero's headline and "How it works" are eight pixels further
+  apart** — `.hnl-in` gap 14 → 22. The band is 192 tall and holds 63 of
+  type, so the extra comes out of the air, not out of the band.
+- **Conferences: the period select ends where the meta line ends.**
+  Review 6 put the field's centre on the caption's bottom padding; the
+  select's foot now sits on the foot of "Singapore · Stop 6 · Wed 26
+  Aug". It is moved with `translateY(-12px)` rather than a margin — a
+  margin would make the field the tallest thing in the grid row and push
+  the frame down ten pixels.
+- **The podium flag is a whole circle again.** el-13 FederationTag is a
+  cut surface and `.ftag-plain` sets its side padding to zero, so the
+  flag sits flush on the tag's left edge and `clip-path` took the two
+  pixels of `.flag-ring` that live outside it — the flat left side on the
+  1st plate under Stops. A plain tag has no background, so its cut draws
+  nothing and `clip-path: none` costs it nothing. The fix reaches every
+  plain federation tag on the site: standings, stats and team rows all
+  had the same clipped ring.
+
+### Phone
+
+- **The selected stop keeps its ring.** `.stopnav-on` is a 2px outline at
+  3px offset — five pixels outside a 40px circle — and `.cnf-stopnav` is
+  `overflow-x: auto`, which makes overflow-y `auto` too. With no vertical
+  padding the top of the ring fell outside the scroll box. Six pixels of
+  padding, six of negative margin: the ring has its room and nothing
+  around the rail moves.
+- **Schedule's headline and Filter share a line.** mobile5.js folds the
+  period select behind a Filter button and the button stood one row under
+  the word Schedule. It is taken out of flow and pinned to the top right
+  of the section; the panel it opens stays at the head of the split, so
+  it still drops directly under the button.
+
+### Verified
+
+16 pages x 360 / 390 / 430 / 768 / 1024 / 1440 — no horizontal overflow,
+no JS errors. Desktop no-regression by pixel diff with `review8.css`
+routed to an empty file: every page keeps its exact height, and the only
+differences are the ones asked for plus the flag rings.
+
+## 2026-08-26 — Seventh review: the page arrives, and the phone's chrome grows
+
+Daniel's fourth mark-up. Desktop in `assets/review7.css`, the motion
+itself in `assets/review7.js`, the phone half in `assets/mobile7.css`,
+the asset links in `tools/p16_review7.py` — idempotent, and
+`tools/bump_assets.py` runs after it. No existing file was edited.
+
+### Sections arrive the way apple.com/iphone's do
+
+- **Every section — and the sub-headline that names it — rises 28px and
+  fades in as it crosses into the window**, the headline one beat (90ms)
+  ahead of its body, on the long out-curve
+  `cubic-bezier(0.32, 0.72, 0, 1)`: three quarters of the distance in the
+  first quarter of the run, then a settle. One `IntersectionObserver`, a
+  transform and an opacity. No scroll handler.
+- **On the home page the hero is the first of these**: word mark, strap
+  and link in sequence, with the two corner elements and the court
+  fading in behind them.
+- **Nothing can be left invisible.** Every rule is behind `.rv-on`, a
+  class one inline line in `<head>` puts on `<html>` and which
+  `review7.js` takes back off if it cannot do the work (no observer,
+  reduced motion). A page whose script never arrives is the page it
+  always was. Under that: a sweep that shows anything which reached the
+  window without the observer noticing, and the observer itself showing
+  anything that went past above it.
+- **An arrived element gives the reveal back.** `.rv.is-in` sets the
+  whole `transition` shorthand, so a `.card` or an `.acc` that kept it
+  would have lost the hover transition `motion.css` gives it. The
+  classes come off 1.5s after arrival.
+
+### The home hero has depth
+
+- **Desktop (≥901px): the band's four layers travel at their own rates**
+  while the page scrolls past — corners at 0.30 and 0.22 of the scrolled
+  distance, the court at 0.44, and the type at −0.16, leaving a little
+  early and fading out over the band's last two thirds. Written per frame
+  on `requestAnimationFrame`; at rest the inline transform comes off
+  altogether, so an unscrolled hero is pixel-identical to round six's.
+
+### The phone's chrome
+
+- **F-03m: the 3x3 mark comes down from 24px to the word mark's 16px.**
+  Two type sizes on one bar read as one mark shouting over the other.
+- **el-18 NavTab: icons 20 → 30 (×1.5), the bar 57 → 69 (×1.2)**, and
+  `.tpl`'s bottom room with it.
+- **The active mark is the width of the tap target**, not a 24px token
+  under the label: `.ntab-bar` is `width: 100%` on a tab with no side
+  padding.
+- **The Conferences dot is centred on the globe and bounces on it** —
+  the same `dot-bounce` the live badge and the calendar strip run. The
+  offset is a margin, not a translate, because the keyframes own the
+  transform.
+
+### The phone's hero
+
+- **The strap comes up to 27.8px against `.t-h2`'s 24px.** Round six's
+  12px cap had left the page's own title quieter than OVERVIEW directly
+  under it. Cap 12 → 20, which is the word mark's height and, over 0.72,
+  the strap's size; the band grows 104 → 140 to hold it. Below ~350px the
+  strap wraps to two lines and the band grows again rather than
+  overflowing.
+- **The two corner elements are sized by height now, not by what is left
+  of the band beside the lock** — the lock is nearly the band's width, so
+  that share was gone. Height is the measurement that decides whether
+  they clear the type, and it holds at every phone width.
+
+### Verified
+
+15 pages × 320/360/390/430/768/1024/1100/1440, each scrolled end to end:
+no horizontal overflow, no JS errors, and no element left under full
+opacity. Desktop no-regression by pixel diff with the layer routed to
+empty files — identical but for the live dot's own blink.
+
 ## 2026-08-26 — Sixth review: the cut on a control, one pinned column, a stream at every stop
 
 Daniel's third mark-up. Everything the round changes at desktop widths is

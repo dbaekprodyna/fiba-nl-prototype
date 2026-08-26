@@ -1,0 +1,50 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review8.css
+   Round eight (2026-08-26, Daniel's fifth mark-up), desktop.
+
+     1  The hero's headline and "How it works" are given eight
+        more pixels between them.
+     2  Conferences — the period select ends where the line
+        "Singapore · Stop 6 · Wed 26 Aug" ends, rather than
+        hanging under it.
+     3  The federation tag on the Stops podium stops clipping
+        the ring around its flag.
+
+   Loads after review7.css and before hero.css.
+   ============================================================ */
+
+/* ---- 1  Hero — headline over link --------------------------
+   The band is 192 tall and holds 63 of type, so the extra eight
+   comes out of the air above and below, not out of the band.  */
+.hnl-in { gap: 22px; }
+
+
+/* ---- 2  Conferences — the select sits on the meta line ------
+   Review 6 put the field's centre on the caption's bottom
+   padding; what was asked for is its foot on the meta line's
+   foot — the select and "Singapore · Stop 6 · Wed 26 Aug" end
+   together.
+
+   The row is sized by the caption (58px against the field's 56),
+   so the field is moved with `translateY` rather than a margin:
+   a margin of 12 would make the field the tallest thing in the
+   row and push the frame down by ten pixels.                  */
+@media (min-width: 1101px) {
+  .sched-split .sched-period {
+    margin-bottom: 0;
+    /* row foot → meta foot = the caption's 12px bottom padding */
+    transform: translateY(-12px);
+  }
+}
+
+
+/* ---- 3  The podium flag is a whole circle ------------------
+   el-13 FederationTag is a cut surface, and .ftag-plain sets its
+   side padding to zero — so the flag sits flush on the tag's
+   left edge and `clip-path` took the two pixels of ring that
+   live outside it. The 1st plate on Stops showed a flag with a
+   flat left side because of it.
+
+   A plain tag has no background, so its cut draws nothing; the
+   only thing the clip could ever reach was its own content.   */
+.ftag-plain { clip-path: none; }
