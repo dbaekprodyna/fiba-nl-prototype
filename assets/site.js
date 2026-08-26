@@ -3558,6 +3558,10 @@
      rather than holding an empty player. */
   var YT_CHANNEL = 'UC7LpyJP5fupiJu2CdzRQheg';
   var YT_STREAMS = 'https://www.youtube.com/@FIBA3x3/streams';
+  /* The still behind the play button when a stop names none of its
+     own. In production a job fills event.poster from the YouTube
+     Data API; the page itself never calls out to render. */
+  var NL_POSTER = 'https://i.ytimg.com/vi/bN9Z4Cf7YMQ/hq720.jpg?sqp=-oaymwEnCNAFEJQDSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAk0GbpdKZ6KXSyxK9zg-b88On6kA';
 
   function el(tag, cls, html) {
     var n = document.createElement(tag);
@@ -3674,28 +3678,37 @@
     var today = isoDay(new Date());
     var wrap = el('div', 'tpl-sub sched');
 
+    /* The head states the day rather than offering seven boxes of
+       them — third review, F1: the row of days becomes a filter. */
     wrap.appendChild(el('div', 'el-01-SectionHeader--default el01-wrap',
-      '<div class="el01"><div class="el01-left"><h2 class="t-h2">Schedule</h2></div>' +
+      '<div class="el01"><div class="el01-left">' +
+      '<h2 class="t-h2">Schedule</h2>' +
+      '<span class="sched-today"><span class="sched-livedot"></span>' +
+      '<span class="sched-todaytxt"></span></span></div>' +
       '<div class="el01-right">' +
       '<div class="el-02-GenderSwitch--men el02 el02-s sched-gender">' +
       '<div class="el02-seg cut cut-s el02-on cut-out"><div class="cutfill"></div>' +
       '<span class="lbl">Men</span></div>' +
       '<div class="el02-seg cut cut-s cut-out"><div class="cutfill"></div>' +
       '<span class="lbl">Women</span></div></div>' +
-      '<a class="ctl-02-Link--default lnk" href="calendar.html">' +
-      '<span class="lbl">Full calendar</span></a></div></div>'));
+      '<div class="selwrap sched-period"></div></div></div>'));
 
-    var days = [];
-    for (var i = -3; i <= 3; i++) days.push(shiftDay(today, i));
-    var pick = today;
     var sex = 'men';
-    var mode = 'all';
+    var period = 'today';
 
-    var strip = el('div', 'el-30-CalendarStrip--live s03wrap');
-    var rail = el('div', 's03');
-    strip.appendChild(rail);
-    wrap.appendChild(strip);
+    /* --- the day, stated ------------------------------------- */
+    var todayBox = $('.sched-today', wrap);
+    var todayTxt = $('.sched-todaytxt', wrap);
+    (function () {
+      var dt = new Date(today + 'T12:00:00');
+      todayTxt.textContent = 'Today · ' +
+        ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dt.getDay()] + ' ' +
+        dt.getDate() + ' ' +
+        ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
+         'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][dt.getMonth()];
+    })();
 
+    /* --- the frame, with its caption above it ----------------- */
     var split = el('div', 'sched-split');
     var vid = el('div', 'sched-video');
     var side = el('div', 'sched-side');
@@ -3703,64 +3716,66 @@
     split.appendChild(side);
     wrap.appendChild(split);
 
-    var tabs = el('div', 'ctl-03-Tab--default tabs',
-      '<div class="tab tab-active" data-sched="all" role="tab" tabindex="0">Schedule</div>' +
-      '<div class="tab" data-sched="done" role="tab" tabindex="0">Results</div>');
-    var list = el('div', 'sched-list');
-    side.appendChild(tabs);
-    side.appendChild(list);
-
-    $$('.tab', tabs).forEach(function (t) {
-      t.addEventListener('click', function () {
-        $$('.tab', tabs).forEach(function (x) { x.classList.remove('tab-active'); });
-        t.classList.add('tab-active');
-        mode = t.dataset.sched;
-        paintList();
+    /* --- Schedule and Results expand; they are not tabs ------- */
+    function accBlock(title, open) {
+      var b = el('div', 'sched-acc' + (open ? ' is-open' : ''),
+        '<div class="sched-acc-h" role="button" tabindex="0" aria-expanded="' +
+        (open ? 'true' : 'false') + '">' +
+        '<span class="sched-acc-t">' + title + '</span>' +
+        '<span class="sched-acc-n"></span>' +
+        '<svg class="sched-acc-i" fill="currentColor" height="20" viewBox="0 -960 960 960" ' +
+        'width="20" xmlns="http://www.w3.org/2000/svg">' +
+        '<path d="M480-344 240-584l43-43 197 197 197-197 43 43-240 240Z"></path></svg></div>' +
+        '<div class="sched-acc-b"><div class="sched-list"></div></div>');
+      var h = $('.sched-acc-h', b);
+      function toggle() {
+        var on = b.classList.toggle('is-open');
+        h.setAttribute('aria-expanded', on ? 'true' : 'false');
+      }
+      h.addEventListener('click', toggle);
+      h.addEventListener('keydown', function (ev) {
+        if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); toggle(); }
       });
-    });
+      return b;
+    }
+    var accUp = accBlock('Schedule', true);
+    var accDone = accBlock('Results', false);
+    side.appendChild(accUp);
+    side.appendChild(accDone);
 
-    function paintDays() {
-      rail.innerHTML = '';
-      days.forEach(function (d) {
-        var dt = new Date(d + 'T12:00:00');
-        var has = dayGames(d, confId, sex).length;
-        var box = el('div',
-          's03-d cut cut-s cut-out' + (d === pick ? ' s03-on' : '') + (has ? '' : ' s03-off'),
-          '<div class="cutfill"></div><div class="s03-num">' + dt.getDate() + '</div>' +
-          '<div class="s03-dm"><div class="s03-dow">' +
-          ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dt.getDay()] + '</div>' +
-          '<div class="s03-mon">' +
-          ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
-           'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][dt.getMonth()] +
-          '</div></div><div class="s03-tail">' +
-          (d === today && stopOn(d, confId) ? '<div class="s03-livedot"></div>' : '') +
-          '</div>');
-        box.addEventListener('click', function () {
-          pick = d; paintDays(); paintVideo(); paintList();
-        });
-        rail.appendChild(box);
+    /* --- which games the period covers ------------------------ */
+    function months() {
+      var seen = {};
+      D.games.forEach(function (g) {
+        if (confId && g.conference !== confId) return;
+        var m = (g.start || '').slice(0, 7);
+        if (m) seen[m] = 1;
       });
+      return Object.keys(seen).sort();
+    }
+    function monthLabel(m) {
+      var p = m.split('-');
+      return ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+              'August', 'September', 'October', 'November', 'December'][+p[1] - 1] +
+             ' ' + p[0];
+    }
+    function periodGames() {
+      return D.games.filter(function (g) {
+        if (confId && g.conference !== confId) return false;
+        if (sex && g.gender !== sex) return false;
+        var d = (g.start || '').slice(0, 10);
+        if (period === 'today') return d === today;
+        if (period === 'all') return true;
+        if (period === 'eos') return d >= today;
+        return d.slice(0, 7) === period;
+      }).sort(function (a, b) { return (a.start || '') < (b.start || '') ? -1 : 1; });
     }
 
+    /* --- painting --------------------------------------------- */
     function paintVideo() {
-      var ev = stopOn(pick, confId);
-      var isLive = !!ev && pick === today;
+      var ev = stopOn(today, confId);
+      var isLive = !!ev;
       vid.innerHTML = '';
-      var frame = el('div', 'sched-frame');
-      if (isLive) {
-        frame.innerHTML =
-          '<iframe allow="accelerometer; autoplay; encrypted-media; picture-in-picture" ' +
-          'allowfullscreen loading="lazy" ' +
-          'src="https://www.youtube.com/embed/live_stream?channel=' + YT_CHANNEL + '" ' +
-          'title="FIBA 3x3 Nations League — live"></iframe>';
-      } else {
-        frame.appendChild(el('div', 'sched-off',
-          '<div class="t-h3">No game on air</div>' +
-          '<div class="t-body-s">The stream opens here when a conference is playing.</div>' +
-          '<a class="ctl-02-Link--default lnk" href="' + YT_STREAMS + '" ' +
-          'rel="noopener" target="_blank"><span class="lbl">All streams on YouTube</span></a>'));
-      }
-      vid.appendChild(frame);
 
       var cap = el('div', 'sched-cap');
       if (ev) {
@@ -3774,44 +3789,97 @@
         cap.style.cursor = 'pointer';
         cap.addEventListener('click', function () { location.href = 'stop.html?id=' + ev.slug; });
       } else {
-        cap.innerHTML = '<span class="t-body-s sched-capmeta">Nothing scheduled on this day</span>';
+        cap.innerHTML = '<span class="t-body-s sched-capmeta">No conference is playing today</span>';
       }
       vid.appendChild(cap);
+
+      var frame = el('div', 'sched-frame');
+      var poster = (ev && (ev.poster || ev.cover)) || NL_POSTER;
+      frame.innerHTML = '<img alt="" class="sched-poster" src="' + poster + '"/>' +
+                        '<div class="sched-shade"></div>';
+      if (isLive) {
+        var play = el('button', 'sched-play',
+          '<svg fill="currentColor" viewBox="0 -960 960 960" ' +
+          'xmlns="http://www.w3.org/2000/svg"><path d="M320-203v-560l440 280-440 280Z">' +
+          '</path></svg>');
+        play.type = 'button';
+        play.setAttribute('aria-label', 'Play the live stream');
+        play.addEventListener('click', function () {
+          frame.innerHTML =
+            '<iframe allow="accelerometer; autoplay; encrypted-media; picture-in-picture" ' +
+            'allowfullscreen src="https://www.youtube.com/embed/live_stream?channel=' +
+            YT_CHANNEL + '&autoplay=1" title="FIBA 3x3 Nations League — live"></iframe>';
+        });
+        frame.appendChild(play);
+      } else {
+        frame.appendChild(el('div', 'sched-off',
+          '<div class="t-h3">No game on air</div>' +
+          '<div class="t-body-s">The stream opens here when a conference is playing.</div>' +
+          '<a class="ctl-02-Link--default lnk" href="' + YT_STREAMS + '" ' +
+          'rel="noopener" target="_blank"><span class="lbl">All streams on YouTube</span></a>'));
+      }
+      vid.appendChild(frame);
+
+      todayBox.classList.toggle('is-live', isLive);
+    }
+
+    function row(g) {
+      var done = g.home.score != null && g.away.score != null;
+      var homeWon = done && g.home.score >= g.away.score;
+      function line(t, lost) {
+        return '<div class="sched-side-row' + (lost ? ' is-lost' : '') + '">' +
+               '<span class="sched-ioc">' + (t.ioc || 'TBD') + '</span>' +
+               '<span class="sched-sc">' + (t.score != null ? t.score : '–') +
+               '</span></div>';
+      }
+      var when = period === 'today'
+        ? (g.start || '').slice(11, 16)
+        : (g.start || '').slice(8, 10) + '/' + (g.start || '').slice(5, 7);
+      var n = el('div', 'sched-row',
+        '<span class="sched-time">' + when + '</span>' +
+        '<div class="sched-teams">' +
+        line(g.home, done && !homeWon) + line(g.away, done && homeWon) + '</div>' +
+        '<div class="sched-badge">' +
+        '<div class="el-05-StatusBadge--up badge badge-up cut cut-s"><span class="lbl">' +
+        (g.pool || g.round || '') + '</span></div></div>');
+      n.addEventListener('click', function () { location.href = 'game.html?id=' + g.id; });
+      return n;
+    }
+
+    function fill(block, games, empty) {
+      $('.sched-acc-n', block).textContent = games.length ? games.length : '';
+      var list = $('.sched-list', block);
+      list.innerHTML = '';
+      if (!games.length) {
+        list.appendChild(el('div', 'sched-empty', empty));
+        return;
+      }
+      games.slice(0, 60).forEach(function (g) { list.appendChild(row(g)); });
     }
 
     function paintList() {
-      var games = dayGames(pick, confId, sex);
-      if (mode === 'done') games = games.filter(function (g) { return g.home.score != null; });
-      list.innerHTML = '';
-      if (!games.length) {
-        list.appendChild(el('div', 'sched-empty',
-          mode === 'done' ? 'No results on this day yet.' : 'No games on this day.'));
-        return;
-      }
-      games.slice(0, 40).forEach(function (g) {
-        var done = g.home.score != null && g.away.score != null;
-        var homeWon = done && g.home.score >= g.away.score;
-        function line(t, lost) {
-          return '<div class="sched-side-row' + (lost ? ' is-lost' : '') + '">' +
-                 '<span class="sched-ioc">' + (t.ioc || 'TBD') + '</span>' +
-                 '<span class="sched-sc">' + (t.score != null ? t.score : '–') +
-                 '</span></div>';
-        }
-        var row = el('div', 'sched-row',
-          '<span class="sched-time">' + (g.start || '').slice(11, 16) + '</span>' +
-          '<div class="sched-teams">' +
-          line(g.home, done && !homeWon) + line(g.away, done && homeWon) + '</div>' +
-          '<div class="sched-badge">' +
-          '<div class="el-05-StatusBadge--up badge badge-up cut cut-s"><span class="lbl">' +
-          (g.pool || g.round || '') + '</span></div></div>');
-        row.addEventListener('click', function () { location.href = 'game.html?id=' + g.id; });
-        list.appendChild(row);
-      });
+      var games = periodGames();
+      fill(accUp, games.filter(function (g) { return g.home.score == null; }),
+           'Nothing left to play in this period.');
+      fill(accDone, games.filter(function (g) { return g.home.score != null; }),
+           'No results in this period yet.');
     }
 
-    paintDays(); paintVideo(); paintList();
+    /* --- the period filter ------------------------------------ */
+    var sel = $('.sched-period', wrap);
+    sel.innerHTML = SELECT_HTML.replace('__LABEL__', 'Today');
+    var items = [{ v: 'eos', t: 'Rest of season' }]
+      .concat(months().map(function (m) { return { v: m, t: monthLabel(m) }; }))
+      .concat([{ v: 'all', t: 'Full season' }]);
+    selectControl(sel, items, function (v) {
+      period = v || 'today';
+      paintList();
+    }, 'Today');
+
+    paintVideo();
+    paintList();
     host.insertBefore(wrap, host.children[1] || null);
-    genderSwitch(function (g) { sex = g; paintDays(); paintList(); }, $('.sched-gender', wrap));
+    genderSwitch(function (g) { sex = g; paintList(); }, $('.sched-gender', wrap));
   }
 
   /* ---------- Conferences: head split, flat grid, chips -------- */
@@ -3844,7 +3912,7 @@
       });
       e03.appendChild(grid);
 
-      var region = '', order = '';
+      var region = '', order = 'live';
       function apply() {
         var cards = $$('.e03-sh', grid);
         cards.forEach(function (c) {
@@ -3866,14 +3934,14 @@
       bar.appendChild(chipRow(['All', 'Europe', 'Americas', 'Africa', 'Oceania', 'AsiaPacific'],
         function (v) { region = v; apply(); }));
       var sel = el('div', 'selwrap');
-      sel.innerHTML = SELECT_HTML.replace('__LABEL__', 'Sort by');
+      sel.innerHTML = SELECT_HTML.replace('__LABEL__', 'Live first');
       bar.appendChild(sel);
       e03.parentNode.insertBefore(bar, e03);
 
       selectControl(sel, [{ v: 'az', t: 'Name A–Z' },
-                          { v: 'live', t: 'Live first' },
                           { v: 'prog', t: 'Stops played' }],
-                    function (v) { order = v; apply(); }, 'Sort by');
+                    function (v) { order = v || 'live'; apply(); }, 'Live first');
+      apply();   /* live first on arrival, not only after a pick */
     }
 
     scheduleModule(content, null);
@@ -3920,6 +3988,36 @@
           bar.appendChild(count);
         }
       } catch (e) { console.error('teams bar', e); }
+    };
+  })();
+
+  /* ==========================================================
+     Review 4 — 2026-08-26.
+     ========================================================== */
+  (function () {
+    /* Home: the section header carried "All conferences" at its right.
+       The review asked for it under the block, on the left, where the
+       eye leaves the last row of the table. */
+    function moveSectionLink(title) {
+      var head = $$('.el01').filter(function (h) {
+        var t = $('.t-h2', h);
+        return t && t.textContent.trim().toLowerCase() === title;
+      })[0];
+      if (!head) return;
+      var a = $('.nav-a', head);
+      var sub = head.closest ? head.closest('.tpl-sub') : null;
+      if (!a || !sub || sub._r4foot) return;
+      sub._r4foot = 1;
+      var foot = document.createElement('div');
+      foot.className = 'sec-foot';
+      foot.appendChild(a);
+      sub.appendChild(foot);
+    }
+
+    var prev = PAGES['index.html'];
+    PAGES['index.html'] = function () {
+      if (prev) prev();
+      try { moveSectionLink('live now'); } catch (e) { console.error('live now link', e); }
     };
   })();
 

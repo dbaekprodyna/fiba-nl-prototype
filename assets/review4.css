@@ -1,0 +1,260 @@
+/* =================================================================
+   Review 4 — 2026-08-26.  Daniel's prototype mark-up.
+
+   Everything this round changes lives here, so the diff against the
+   third review is one file plus tools/p13_review4.py. Load order:
+   this sheet comes last, after review3.css.
+
+   1  Home — hero: the wordmark is artwork now, not type
+   2  Home — the hero link keeps its colour on hover
+   3  Home — Live now: the link sits under the block, on the left
+   4  Schedule — caption above the frame, poster instead of a
+      black player, period filter instead of the seven-day strip,
+      Schedule / Results as two expandable blocks
+   5  Conferences — the Overview container takes a plain grey rule
+   6  Standings — no rule between the search row and the toggle
+   7  Teams — the federation cells sit on the twelve-column grid
+   ================================================================= */
+
+/* ---- 1  Home — hero -------------------------------------------
+   The headline was set in Barlow Condensed 800; it is now the
+   supplied wordmark. Its artwork is all caps, so the file's height
+   IS the cap height — the strap-line is sized so its own cap
+   height lands on the same value (Barlow's cap height is .72 em,
+   so 29 / .72 = 40) and set in Light, as in NL-New Header.png. */
+:root {
+  --hero-cap: 29px;   /* wordmark height = cap height of the strap */
+}
+.hnl-logo {
+  display: block;
+  height: var(--hero-cap);
+  width: auto;
+}
+.hnl-lock { align-items: center; gap: 24px; }
+.hnl-s {
+  font-weight: 300;
+  font-size: calc(var(--hero-cap) / 0.72);
+  line-height: var(--hero-cap);
+  letter-spacing: 0.2px;
+  color: var(--text-inverse);
+}
+/* The corners are the full brand elements now — the same artwork the
+   cropped files held, but with the paint drips that were cut off. They
+   keep the footprint the approved hero had (95 / 96 high), so the band
+   reads exactly as signed off; only the drawing is better. */
+.hnl-kv-l { left: 0;  top: 0;     height: 95px; width: auto; }
+.hnl-kv-r { right: 0; bottom: 0;  height: 96px; width: auto; }
+
+@media (max-width: 900px) {
+  :root { --hero-cap: 21px; }
+  .hnl-lock { gap: 14px; }
+  .hnl-kv-l { height: 68px; }
+  .hnl-kv-r { height: 69px; }
+}
+
+/* ---- 2  Home — the hero link on hover -------------------------
+   .live .lnk:hover paints the link with --action-default, which is
+   near black; on the blue band that reads as the link breaking.
+   Inside the hero it stays white and only the rule under it moves. */
+.live .hnl-in .lnk:hover,
+.live .hnl-in .lnk:focus-visible {
+  color: var(--text-inverse);
+  border-bottom-color: var(--text-inverse);
+  outline-color: var(--text-inverse);
+}
+
+/* ---- 3  Home — Live now, the link under the block -------------
+   "All conferences" was on the section header's line, at the right;
+   it now closes the block from the left, where the eye leaves the
+   last row. */
+.sec-foot {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding-top: 4px;
+}
+.sec-foot > .nav-a { margin-right: auto; }
+
+/* ---- 4  Schedule ----------------------------------------------
+   4a The day the module is showing is a line, not a row of boxes.
+      Mota, third review F1/F2: the days become a filter. */
+.sched .el01-left { display: flex; align-items: baseline; gap: 16px; }
+.sched-today {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  white-space: nowrap;
+}
+.sched-livedot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--border-strong);
+}
+.sched-today.is-live { color: var(--text-primary); }
+.sched-today.is-live .sched-livedot { background: #ED0038; }
+.sched-period {
+  flex: 0 0 auto;
+  /* --col-2 is a percentage of the parent, and the parent here is the
+     header's right-hand group, not the page column — so the two-column
+     width is stated in the pixels it comes to at 1440. */
+  width: 220px;
+  max-width: none;
+}
+.sched-period .fld { width: 100%; }
+/* The period names are longer than two columns, so the menu grows to
+   the left of the field rather than truncating them. */
+.sched-period .sel-menu {
+  left: auto;
+  right: 0;
+  min-width: 100%;
+  width: max-content;
+  max-width: 320px;
+}
+
+/* 4b The caption is above the frame: what you are about to watch is
+      named before it plays, not after. */
+.sched-video { display: flex; flex-direction: column; }
+.sched-cap {
+  order: -1;
+  gap: 12px;
+  min-height: 0;
+  padding: 0 0 12px;
+}
+.sched-cap .sched-capmeta { margin-left: 0; color: var(--text-muted); }
+
+/* 4c The frame carries the stream's own still and a play button.
+      An embed that has not been asked for is a black rectangle and
+      it costs the visitor a YouTube round trip on every load. */
+.sched-frame { background: var(--surface-sunken-2); }
+.sched-poster {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.sched-shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.10) 0%, rgba(0,0,0,.45) 100%);
+}
+.sched-play {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 84px;
+  height: 60px;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+  color: #FFF;
+  background: rgba(237, 0, 56, .92);
+  clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+}
+.live .sched-play:hover { background: #ED0038; transform: translate(-50%, -50%) scale(1.04); }
+.sched-play:focus-visible { outline: 2px solid #FFF; outline-offset: 3px; }
+.sched-play svg { width: 30px; height: 30px; margin-left: 3px; }
+
+/* No stream: the still stays, dimmed, with the words over it. */
+.sched-off {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  color: var(--text-inverse);
+  text-shadow: 0 1px 2px rgba(0,0,0,.4);
+}
+.sched-off .t-h3 { color: var(--text-inverse); }
+.sched-off .lnk { color: var(--text-inverse); }
+.live .sched-off .lnk:hover {
+  color: var(--text-inverse);
+  border-bottom-color: var(--text-inverse);
+}
+
+/* 4d Schedule and Results are two blocks that expand, which is what
+      the third review asked for (D3), rather than two tabs over one
+      list. Schedule is open on arrival, Results folded. */
+.sched-acc {
+  border-bottom: 1px solid var(--border-subtle);
+}
+.sched-acc:first-child { border-top: 1px solid var(--border-subtle); }
+.sched-acc-h {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  cursor: pointer;
+  user-select: none;
+}
+.sched-acc-t {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.4px;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.sched-acc-n {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-right: auto;
+}
+.sched-acc-i { flex: 0 0 auto; transition: transform .18s ease; }
+.sched-acc.is-open .sched-acc-i { transform: rotate(180deg); }
+.sched-acc-b { display: none; padding-bottom: 8px; }
+.sched-acc.is-open .sched-acc-b { display: block; }
+.live .sched-acc-h:hover .sched-acc-t { color: var(--action-default); }
+.sched-acc-b .sched-list {
+  max-height: 420px;
+  overflow-y: auto;
+  border-bottom: 0;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sched-acc-i { transition: none; }
+}
+
+/* ---- 5  Conferences — Overview -------------------------------
+   The brand gradient is the site's accent, and on a page whose job
+   is to list eighteen conferences it competes with the live badge.
+   The container takes the same grey rule as every other container.
+   (Home keeps the branded one — it is the page's one accent.) */
+.s09.s09-plain { background: var(--border-default); }
+
+/* ---- 6  Standings -------------------------------------------- */
+.tblbar { border-top: 0; }
+
+/* ---- 7  Teams — the cells sit on the grid --------------------
+   The cells were 342 wide with an 8px gap, so four of them came to
+   1392 inside a 1440 column and left 48 over on the right. Four
+   spans of three columns with the page's own gutter is exactly
+   1440, and as a grid it stays exact at every width. */
+.e09-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gut);
+}
+.e09-cell { width: auto; }
+@media (max-width: 1100px) {
+  .e09-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 820px) {
+  .e09-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 560px) {
+  .e09-grid { grid-template-columns: minmax(0, 1fr); }
+}
