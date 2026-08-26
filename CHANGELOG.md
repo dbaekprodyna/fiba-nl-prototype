@@ -1,5 +1,63 @@
 # Changelog
 
+## 2026-08-25 — Third design review: one H1, the key visual, and a Schedule
+
+Mota's notes from the 21 August review, plus Daniel's mark-up of the
+header and the four sub pages. Everything new is in `assets/review3.css`
+and one block in `site.js`; `tools/p12_review3.py` applies the markup and
+is idempotent.
+
+### Global
+
+- **One H1.** `.f04-h1` at 40/42 Barlow Condensed 800, uppercase, in the
+  key visual's blue (`#0F37FF`). The three legacy sizes and E-04's team
+  name resolve to it, so a page cannot drift on its own. The page name is
+  the H1 now — *Standings*, not *Nations League Standings*. The game
+  page's meta line keeps its own size; the player page's H1 is `sr-only`
+  because E-05 carries the name.
+- **The key visual is the divider.** `NL-Sub-Header-Image.svg` sits under
+  the breadcrumb on every sub page and F-04's 1px rule is gone.
+- **ctl-03 Tab** goes to a 16px label on a black rule.
+- **A search that is not full width is 6/12 columns**; the ctl-04 Select
+  beside it is 2/12, right edge, same height.
+- **Off-grid widths snapped to the grid.** 660 -> 708 (6 col), 432 -> 464
+  (4 col), 318 -> 342 (3 col), 474 -> 464, 1104 -> 1074, 420 -> 464. The
+  390px phone frame and the IAB ad slots are sizes set outside this
+  design and were left alone. `review3.css` carries `--col-1 ... --col-12`
+  as `n/12 x 100% - (24-2n)px`, so every new width is fluid.
+- The guideline site links the same sheet, so documentation and screens
+  cannot disagree about a tab or an H1.
+
+### Home
+
+- **A new hero band, on by default.** Full bleed, 192 tall, the brand
+  gradient, the key visual's two elements anchored to the window's top
+  left and bottom right, and the headline on the page's own 1440 column.
+  The top bar switch is **Hero / No hero** — no hero is the old headline
+  lockup, unchanged. Hero A and Hero B are still reachable at `#hero=a`
+  and `#hero=b`.
+- Overview to Live now is **40**.
+
+### Standings
+
+- **ctl-04 Select** on the search's row, flush right, listing every
+  conference in the table A-Z and filtering it.
+
+### Conferences
+
+- **S-12 Schedule**, the module Mota asked for: the live stream (FIBA's
+  YouTube channel, embedded, live only), a seven-day strip, and the day's
+  games with **Schedule / Results** as tabs. Eight columns of stream, four
+  of games.
+- Find a team and Overview stand side by side, six and six.
+- One flat grid of four cards to a row; the region chips do what the
+  region headings used to do, with a sort select beside them.
+
+### Conference detail / Teams
+
+- The legend sits on the section header's line; the federation count sits
+  with the chips that change it.
+
 ## 2026-08-20 (2) — Stops 2 to 6, the 76.5° cut, and one empty state
 
 ### The five stops that were not there

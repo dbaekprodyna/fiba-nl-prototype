@@ -37,8 +37,8 @@
     hl.insertBefore(cv, hl.firstChild);
   }
 
-  var MODES = { none: 1, a: 1, b: 1 };
-  var current = 'none';
+  var MODES = { none: 1, a: 1, b: 1, nl: 1 };
+  var current = 'nl';
 
   window.HERO = {
     band: hl,
@@ -63,14 +63,15 @@
   };
 
   function fromHash() {
-    var m = /(?:^|[#&])hero=(a|b|none)\b/.exec(location.hash);
-    return m ? m[1] : 'none';
+    var m = /(?:^|[#&])hero=(a|b|nl|none)\b/.exec(location.hash);
+    return m ? m[1] : 'nl';
   }
 
   function apply(mode, push) {
-    if (!MODES[mode]) mode = 'none';
+    if (!MODES[mode]) mode = 'nl';
     current = mode;
 
+    document.body.classList.toggle('hero-nl', mode === 'nl');
     document.body.classList.toggle('hero-a', mode === 'a');
     document.body.classList.toggle('hero-b', mode === 'b');
 

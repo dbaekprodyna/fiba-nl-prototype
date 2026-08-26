@@ -996,7 +996,7 @@
 .car-slide {
   display:flex;
   align-items:flex-end;
-  width:474px;
+  width:464px;
   height:316px;
   padding:16px 18px;
   background:var(--surface-sunken);
@@ -1106,7 +1106,7 @@
   align-items:flex-end;
   justify-content:flex-start;
   width:100%;
-  max-width:1104px;
+  max-width:1074px;
   height:520px;
   padding:16px 20px;
   background:var(--surface-sunken);
@@ -1427,7 +1427,7 @@
 .s06-game {
   display:flex;
   flex-direction:column;
-  width:432px;
+  width:464px;
   border:1px solid transparent;
   background:var(--border-default);
   background-clip:border-box;
@@ -1479,7 +1479,7 @@
 .lb-tile {
   display:flex;
   align-items:flex-end;
-  width:343px;
+  width:342px;
   height:229px;
   padding:10px 12px;
   background:var(--surface-sunken);
@@ -1770,7 +1770,7 @@
   display:flex;
   flex-direction:column;
   gap:10px;
-  width:318px;
+  width:342px;
 }
 .c06-toc-i {
   font-family:'Barlow',sans-serif;
@@ -1835,10 +1835,10 @@
   display:flex;
   flex-direction:column;
   gap:10px;
-  width:432px;
+  width:464px;
 }
 .mm-featimg {
-  width:432px;
+  width:464px;
   height:200px;
   background:var(--chrome-bg-2);
   display:flex;

@@ -1,0 +1,481 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review3.css
+   Third design review, 2026-08-21 (Mota) + Daniel's mark-up.
+   Everything this round adds lives here; the existing files
+   only changed where a value changed (the off-grid widths) and
+   in site.js, where the renderers learned the new H1 class.
+
+   Sections
+     1  Grid — one column formula, used by every width below
+     2  F-04 SubHeader — key-visual strip, one H1, no rule
+     3  ctl-03 Tab — 16px label, black rule
+     4  Fields — search on 6/12, ctl-04 Select on 2/12
+     5  Home — the new hero band, HERO / NO HERO
+     6  Home — Overview to Live now is 40
+     7  Conferences — Schedule (live stream, games, results)
+     8  Conferences — head split and the flat card grid
+     9  Conference / Teams — small alignments
+   ============================================================ */
+
+/* ---- 1  Grid --------------------------------------------------
+   Twelve columns, 24px gutters, inside whatever container the
+   element sits in. A span of n columns is
+
+       n/12 x 100%  -  (24 - 2n)px
+
+   which at the 1440 content column gives the drawn values:
+   2 = 220, 3 = 342, 4 = 464, 6 = 708, 8 = 952, 9 = 1074.
+   Every width in this file is one of these — nothing is a round
+   number picked by eye, and every one of them is fluid.        */
+:root {
+  --gut: 24px;
+  --col-1:  calc(8.3333%  - 22px);
+  --col-2:  calc(16.6667% - 20px);
+  --col-3:  calc(25%      - 18px);
+  --col-4:  calc(33.3333% - 16px);
+  --col-5:  calc(41.6667% - 14px);
+  --col-6:  calc(50%      - 12px);
+  --col-7:  calc(58.3333% - 10px);
+  --col-8:  calc(66.6667% -  8px);
+  --col-9:  calc(75%      -  6px);
+  --col-10: calc(83.3333% -  4px);
+  --col-11: calc(91.6667% -  2px);
+  --col-12: 100%;
+
+  /* The brand blue the key visual is drawn in. The page H1 and
+     the hero band are the same ink. */
+  --brand-blue: #0F37FF;
+  --hero-from:  #253AFF;
+  --hero-to:    #2A3B92;
+  --hero-nl-h:  192px;
+}
+
+/* ---- 2  F-04 SubHeader ---------------------------------------
+   Breadcrumb, then the key visual, then the H1. The 1px rule
+   under the block is gone: the key visual is the divider now.  */
+.f04 {
+  gap: 0;
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+.f04 > .crumbs { margin-bottom: 18px; }
+
+.f04-kv {
+  width: 100%;
+  margin: 0 0 22px;
+  line-height: 0;
+}
+.f04-kv img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* One H1 on every sub page: .f04-h1. The three legacy sizes and
+   E-04's team name resolve to the same 40px type, so no page can
+   drift on its own. */
+.f04-h1,
+.f04-h1-l,
+.f04-h1-m,
+.f04-h1-s,
+.e04-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 42px;
+  letter-spacing: -0.3px;
+  text-transform: uppercase;
+  color: var(--brand-blue);
+}
+/* The control column sits on the H1, not on the context line
+   under it. */
+.f04-row { align-items: flex-start; }
+.f04-ctl { padding-top: 4px; }
+.f04-idl .t-body-s,
+.f04-idl .f04-meta { margin-top: 2px; }
+
+/* The game page's line is a meta line that happens to be marked
+   up as the H1 — pool, date, venue, category. It keeps its own
+   size rather than shouting at 40. */
+.f04-h1.gm-head {
+  font-size: 28px;
+  line-height: 32px;
+  font-weight: 700;
+  color: var(--text-secondary);
+}
+
+/* ---- 3  ctl-03 Tab -------------------------------------------
+   Label goes to 16px and the strip's rule to black — the 1px
+   grey read as a hairline the tab was floating over.           */
+.tabs,
+.stabs { border-bottom: 1px solid var(--action-default); }
+.tab {
+  height: 48px;
+  padding: 0 24px;
+  font-size: 16px;
+  line-height: 20px;
+  letter-spacing: 0.3px;
+}
+
+/* ---- 4  Fields ------------------------------------------------
+   A search that is not full width is six of twelve columns; the
+   ctl-04 Select next to it is two, flush with the right edge and
+   the same height, so the pair reads as one row of controls.    */
+.tpl-content > .tpl-sub > .search,
+.tpl-content > .tpl-sub > .rowsplit > .search,
+.rowsplit > .search {
+  width: 100%;
+  max-width: var(--col-6);
+  flex: 0 0 auto;
+}
+/* the finder's own field fills its column — it is already 6/12 */
+.cnf-head .search,
+.finder .search,
+.site-ovl .search { max-width: none; }
+
+.rowsplit { gap: var(--gut); align-items: stretch; }
+
+.selwrap {
+  position: relative;
+  width: 100%;
+  max-width: var(--col-2);
+  flex: 0 0 auto;
+}
+.selwrap .fld {
+  width: 100%;
+  height: 56px;
+  cursor: pointer;
+  --of: var(--surface-page);
+  background: var(--border-default);
+}
+.selwrap .sel-lbl {
+  flex: 1 1 0;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-primary);
+}
+.selwrap .fld svg { flex: 0 0 auto; transition: transform var(--dur-fast) var(--ease-out); }
+.selwrap.is-open .fld svg { transform: rotate(180deg); }
+
+.sel-menu {
+  position: absolute;
+  z-index: 60;
+  top: calc(100% + 4px);
+  right: 0;
+  left: 0;
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 4px 0;
+  background: var(--surface-page);
+  border: 1px solid var(--border-default);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .12);
+}
+.sel-menu[hidden] { display: none; }
+.sel-item {
+  display: flex;
+  align-items: center;
+  height: 40px;
+  padding: 0 16px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--text-primary);
+  cursor: pointer;
+  white-space: nowrap;
+}
+.live .sel-item:hover { background: var(--surface-sunken); }
+.sel-item.is-on { background: var(--action-default); color: var(--text-inverse); }
+
+/* ---- 5  Home — the hero band ---------------------------------
+   Full bleed: the band reaches both edges of the window while the
+   headline keeps the page's own 1440 column, so the type lines up
+   with Overview underneath it. The two key-visual elements are
+   the band's corners — top left and bottom right — and they are
+   anchored to the window, not to the column.                    */
+.hnl { display: none; }
+
+body.hero-nl .hl { display: none; }
+body.hero-nl .hnl {
+  position: relative;
+  display: block;
+  align-self: stretch;
+  width: auto;
+  max-width: none;
+  height: var(--hero-nl-h);
+  margin-left: calc(-1 * clamp(20px, 4vw, 120px));
+  margin-right: calc(-1 * clamp(20px, 4vw, 120px));
+  overflow: hidden;
+  background: linear-gradient(102deg, var(--hero-from) 0%, var(--hero-to) 100%);
+}
+body.hero-nl .tpl-content { padding-top: 0; }
+
+.hnl-kv {
+  position: absolute;
+  display: block;
+  pointer-events: none;
+}
+.hnl-kv-l { left: 0;  top: 0; }
+.hnl-kv-r { right: 0; bottom: 0; }
+
+.hnl-in {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 14px;
+  width: min(calc(100% - 2 * clamp(20px, 4vw, 120px)), var(--content-max));
+  height: 100%;
+  margin: 0 auto;
+}
+.hnl-lock {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.hnl-t,
+.hnl-s {
+  font-family: 'Barlow Condensed', sans-serif;
+  text-transform: uppercase;
+  color: var(--text-inverse);
+}
+.hnl-t {
+  font-weight: 800;
+  font-size: 40px;
+  line-height: 42px;
+  letter-spacing: -0.3px;
+}
+.hnl-s {
+  font-weight: 400;
+  font-size: 34px;
+  line-height: 36px;
+  letter-spacing: 0.2px;
+  color: rgba(255, 255, 255, .92);
+}
+.hnl-in .lnk { color: var(--text-inverse); }
+.live .hnl-in .lnk:hover { border-bottom-color: var(--text-inverse); }
+
+@media (max-width: 900px) {
+  body.hero-nl .hnl { height: 168px; }
+  .hnl-t { font-size: 30px; line-height: 32px; }
+  .hnl-s { font-size: 24px; line-height: 26px; }
+  .hnl-kv { transform: scale(.72); transform-origin: left top; }
+  .hnl-kv-r { transform-origin: right bottom; }
+}
+
+/* F-02: two links now, not three — HERO and NO HERO. */
+.f02-fam { gap: 20px; }
+
+/* ---- 6  Home — Overview to Live now ---------------------------
+   The two blocks were separated by the section gap; the review
+   asked for 40 between them, so the left column owns the rhythm. */
+.tpl-split .tpl-colL {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+/* ---- 7  Conferences — Schedule --------------------------------
+   Mota, 2026-08-21: "when you go into a conference, we need to
+   show the games in the overview — the schedule, a list of the
+   games, the results", and the live stream sits at conference
+   level. One module answers all four: the stream on 8 columns,
+   the day's games on 4, with Schedule and Results as tabs.     */
+.sched-split {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gut);
+  align-items: stretch;
+  width: 100%;
+}
+.sched-video {
+  flex: 0 0 var(--col-8);
+  max-width: var(--col-8);
+  min-width: 0;
+}
+.sched-side {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.sched-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: var(--surface-sunken-2);
+  overflow: hidden;
+}
+.sched-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+/* No live game today: the frame says so rather than showing a
+   dead player. */
+.sched-off {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 100%;
+  padding: 24px;
+  text-align: center;
+}
+.sched-off .t-h3 { color: var(--text-secondary); }
+
+.sched-cap {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-height: 48px;
+  padding: 12px 0 0;
+}
+.sched-cap .sched-capname {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 24px;
+  text-transform: uppercase;
+}
+.sched-cap .sched-capmeta { margin-left: auto; }
+
+.sched-list {
+  flex: 1 1 auto;
+  min-height: 0;
+  max-height: 520px;
+  overflow-y: auto;
+  border-bottom: 1px solid var(--border-subtle);
+}
+.sched-list[hidden] { display: none; }
+
+.sched-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  height: 52px;
+  padding: 0 4px;
+  border-bottom: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+.live .sched-row:hover { background: var(--surface-sunken); }
+.sched-row:last-child { border-bottom: 0; }
+.sched-time {
+  flex: 0 0 46px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-muted);
+}
+.sched-teams {
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.sched-side-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 18px;
+}
+.sched-side-row .sched-ioc { flex: 1 1 0; min-width: 0; }
+.sched-side-row .sched-sc { font-variant-numeric: tabular-nums; color: var(--text-primary); }
+.sched-side-row.is-lost .sched-ioc,
+.sched-side-row.is-lost .sched-sc { color: var(--text-muted); }
+.sched-badge { flex: 0 0 auto; }
+
+.sched-empty {
+  padding: 28px 4px;
+  font-family: 'Barlow', sans-serif;
+  font-size: 15px;
+  color: var(--text-muted);
+}
+.sched .el01-right { display: flex; align-items: center; gap: 20px; }
+
+@media (max-width: 1100px) {
+  .sched-split { flex-direction: column; }
+  .sched-video { flex: 1 1 auto; max-width: none; }
+  .sched-list { max-height: 360px; }
+}
+
+/* ---- 8  Conferences — head split and card grid ----------------
+   Find a team on the left six columns, Overview on the right six,
+   then one flat grid of four cards to a row with the region chips
+   doing what the region headings used to do.                    */
+.cnf-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gut);
+  width: 100%;
+}
+.cnf-grid > .e03-sh { width: 100%; min-width: 0; }
+.cnf-grid > .e03-sh > .e03-card { width: 100%; }
+.cnf-grid > .e03-sh[hidden] { display: none; }
+
+.cnf-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gut);
+  width: 100%;
+}
+.cnf-bar .selwrap { max-width: var(--col-2); }
+
+/* The Overview card in half a column: label, four figures and the
+   bar have to fit without the numbers wrapping to a second line.
+   S-09 was drawn full width, where a 150px cell is right; here the
+   cell hugs its own figure instead. */
+.cnf-head .s09-lab  { width: auto; min-width: 84px; }
+.cnf-head .s09-line { gap: 12px; }
+.cnf-head .s09-brk  { flex-wrap: nowrap; }
+.cnf-head .s09-k    { width: auto; gap: 8px; padding-left: 12px; margin-left: 12px; }
+
+@media (max-width: 1280px) { .cnf-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (max-width: 980px)  { .cnf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px)  { .cnf-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* ---- 9  Conference / Teams -----------------------------------
+   The legend belongs on the section header's line, not on a row
+   of its own under it; the federation count belongs with the
+   chips that change it.                                         */
+/* On the header's line the legend is not a band of its own, so it
+   drops the rules above and below it. */
+.el01 .legend {
+  margin-left: auto;
+  width: auto;
+  padding: 0;
+  border-top: 0;
+  border-bottom: 0;
+}
+.el01-right { display: flex; align-items: center; gap: 16px; margin-left: auto; }
+
+.teams-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gut);
+  width: 100%;
+}
+.teams-bar .e09-count { margin-left: auto; }
