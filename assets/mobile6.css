@@ -1,0 +1,294 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile6.css
+   Round six's phone layer. Loaded after mobile5.css, so this is
+   the last word on every phone width.
+
+     A  chrome     the mark and the word mark read from the left,
+                   the bar casts e1, and the divider's red end is
+                   a third of what it was
+     B  controls   Filter and Clear filter get their outline back,
+                   and Live now puts Filter at the right end of
+                   the gender switch's own line
+     C  tables     one pinned column, a header rule that survives
+                   it, and a Player column that truncates
+     D  home       a shorter hero, one line of counters, a tighter
+                   Qualification foot, news that starts at the top
+     E  pages      the roster rail starts at the margin, About
+                   drops its anchor list
+   ============================================================ */
+
+
+/* ============================================================
+   A. Site chrome
+   ============================================================ */
+@media (max-width: 1099px) {
+
+  /* The word mark reading from the left and the e1 under the bar
+     are F-03m's own, not this round's: both are in modules.css so
+     the spec sheet shows them. All the phone adds is that round
+     five's padding-left:0 stays out of the way of it. */
+  .mnav-bar-top > .f03m-search { margin-left: auto; }
+
+  /* ---- ctl-03 Tab on a phone ------------------------------
+     Tabs share the width between them here, so the 60px gutter
+     elements.css gives them on a desktop would overflow. */
+  .tabs > .tab { padding: 0 12px; }
+}
+
+@media (max-width: 767px) {
+
+  /* ---- F-04's 4px divider ---------------------------------
+     The artwork is 1440 wide and its coloured end is the first
+     240px of it, so a 358px window showed three fifths red. The
+     strip is squeezed horizontally — the height is exact either
+     way — which brings more of the artwork into the same space:
+     the red end drops to about a third and the blue run that
+     follows it takes the rest. */
+  .f04-kv { overflow: hidden; }
+  .f04-kv img {
+    width: 143%;
+    max-width: none;
+    transform: scaleX(.7);
+    transform-origin: left center;
+  }
+}
+
+
+/* ============================================================
+   B. Controls
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- the cut corners keep their line --------------------
+     A clip-path cuts the corner off the border with everything
+     else, so the two 45 degree edges drew nothing. The outline
+     becomes the button's own background with a slightly smaller
+     cut shape over it — el-00 CutSurface, the way every other
+     cut control in the system is built. */
+  .mfilt-btn {
+    position: relative;
+    border: 1px solid transparent;
+    background: var(--border-default);
+    color: var(--text-primary);
+  }
+  .mfilt-btn::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: var(--surface-page);
+    clip-path: polygon(7.414px 0, 100% 0,
+                       100% calc(100% - 7.414px),
+                       calc(100% - 7.414px) 100%,
+                       0 100%, 0 7.414px);
+  }
+  .mfilt-btn > * { position: relative; }
+  .mfilt-btn.is-open {
+    background: var(--chrome-bg);
+    border-color: transparent;
+    color: var(--text-inverse);
+  }
+  .mfilt-btn.is-open::before { background: var(--chrome-bg); }
+
+  /* ---- a select field fills the panel it is folded into ----
+     review3 caps the conference field at two of twelve columns and
+     review5 restates it for the folded panel; both of those beat
+     round five's phone rule on specificity, so the field drew as a
+     40px empty box. Restated here, last, at the same weight. */
+  .cnf-bar .selwrap,
+  .cnf-bar .mfilt-panel > .selwrap,
+  .mfilt-panel > .selwrap,
+  .mfilt-panel > .sched-period {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    align-self: stretch;
+  }
+
+  /* ---- Live now: Filter shares the switch's line -----------
+     The switch says which competition you are looking at and the
+     button narrows it; they belong on one row, with the button
+     at the far end. The segments lose a little padding so both
+     fit a 360 screen. */
+  .filterbar {
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  /* Not `>`: the Filter button's DOM parent is the .mfilt wrapper,
+     which is display:contents — it is a flex item of the row but not
+     a child of it. */
+  .filterbar > .el02 { order: 1; margin-right: 0; }
+  .filterbar .mfilt-btn { order: 2; margin-left: auto; align-self: center; }
+  .filterbar .mfilt-panel { order: 3; }
+  .filterbar .mfilt.is-open > .mfilt-panel { flex: 1 1 100%; }
+  /* el-02's segments are 160px wide by default, which with the
+     button is 100px more than a 360 screen has. Both come down to
+     the small switch's proportions so the row holds. */
+  .filterbar > .el02 > .el02-seg { width: 88px; height: 36px; font-size: 12px; }
+  .filterbar .mfilt-btn {
+    height: 36px;
+    padding: 0 12px;
+    gap: 6px;
+    font-size: 11px;
+  }
+}
+
+
+/* ============================================================
+   C. Tables
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- one pinned column ----------------------------------
+     Two pinned columns left 120px of a 358px screen for the
+     figures the table exists to show. The first column says
+     which row you are reading; that is enough. */
+  .thead > .cell:nth-child(2),
+  .trow  > .cell:nth-child(2) {
+    position: static;
+    left: auto;
+  }
+
+  /* ---- the header rule the pinned cell was hiding ----------
+     Two things were painting over it. A cell is 44px tall and the
+     header row is 40, so every cell overflowed its own row by four
+     pixels — mobile.css gives a sortable cell a 44px tap target —
+     and the pinned cells carry `background: inherit`, so
+     the grey they painted covered the rule underneath. The cells
+     stretch to the row's content box instead, and only the column
+     that is still pinned keeps a background. */
+  .thead { height: auto; min-height: 44px; }
+  .thead > .cell,
+  .trow > .cell { height: auto; align-self: stretch; }
+  .thead > .cell:nth-child(2),
+  .trow > .cell:nth-child(2) { background: transparent; }
+
+  /* ---- the accordion's table scrolls, its button does not --
+     el-20's panel held the rows AND "View conference", so the
+     button rode away with the table. mobile6.js wraps the rows
+     in their own scroller and leaves the actions behind. */
+  .acc-body { overflow-x: visible; }
+  .acc-body > .mscroll {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .acc-body > .acc-actions { position: relative; z-index: 3; }
+
+  /* ---- Stats: the Player column is a fixed column ----------
+     A player's name is the widest thing in the table and it was
+     setting the column's width, so every figure beside it was
+     pushed off screen. The column is fixed at an initial plus a
+     short name and anything longer ends in an ellipsis; the
+     table itself scrolls. */
+  [data-pane="players"] > div {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .r05-pl {
+    flex: 0 0 128px;
+    width: 128px;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .r05-pl > .av { flex: 0 0 auto; }
+  .r05-pl > .team-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .r05-rank { flex: 0 0 34px; width: 34px; }
+  .r05-team { flex: 0 0 96px; width: 96px; }
+  .r05-num  { flex: 0 0 84px; width: 84px; }
+}
+
+
+/* ============================================================
+   D. Home
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- the hero gives back a third of its height -----------
+     The band was 156px for three lines of type. The same lock at
+     a smaller cap height, with the padding taken in to match,
+     reads the same and leaves the page's first module on the
+     first screen. */
+  body.hero-nl .hnl { min-height: 104px; }
+  .hnl { --hero-cap: 12px; }
+  .hnl-in { padding: 14px 0 15px; gap: 6px; }
+  .hnl-lock { gap: 5px; }
+  .hnl-logo { width: min(188px, 100%); }
+  .hnl-court { width: 122px; height: 82px; }
+  .hnl-kv-l { width: min(92px, var(--hnl-side)); }
+  .hnl-kv-r { width: min(110px, calc(var(--hnl-side) * 1.2)); }
+
+  /* ---- Overview: four counters, one line -------------------
+     total / finished / to go / live were a two-by-two block that
+     took as much room as the figure it was reporting on. They
+     are one row of four now, sized to fit 360. */
+  .s09-brk { flex-wrap: nowrap; gap: 0; width: 100%; }
+  .s09-k {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    gap: 4px;
+    padding-left: 8px;
+    margin-left: 0;
+  }
+  .s09-k:first-child { padding-left: 0; border-left: 0; }
+  .s09-kv { width: auto; font-size: 14px; line-height: 18px; }
+  .s09-kl {
+    font-size: 12px;
+    line-height: 16px;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .cnf-head .s09-brk { flex-wrap: nowrap; }
+  .cnf-head .s09-k { margin-left: 0; padding-left: 8px; }
+
+  /* ---- Qualification: the foot closes up -------------------
+     Half the step between the table and More, and between More
+     and Full standings — the three belong to one another. */
+  .r01-more { margin-top: -8px; margin-bottom: -8px; height: 36px; }
+
+  /* ---- News: a headline starts at the top ------------------
+     The two cards are the same height, so the shorter headline
+     was centred in its half and the pair read as misaligned. */
+  .c02-hb { justify-content: flex-start; }
+}
+
+
+/* ============================================================
+   E. The rest of the pages
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- the roster rail starts at the text margin -----------
+     The rail bled to both edges, which put the first card half a
+     gutter left of everything above it. It keeps the page's own
+     left margin and bleeds to the right only, so the next card
+     still shows at the edge. */
+  .e10, .e10-scorers {
+    width: calc(100% + 16px);
+    margin: 0 -16px 0 0;
+    padding: 0 0 4px;
+  }
+
+  /* ---- About: the anchor list is a desktop affordance ------
+     Five links above the first heading push the article itself
+     off the screen on a phone, and the sections are one scroll
+     apart anyway. */
+  .c06-toc { display: none; }
+
+  /* ---- the More sheet's external mark ---------------------- */
+  .f03m-ext {
+    display: inline-flex;
+    align-items: center;
+    margin-left: 6px;
+  }
+  .f03m-ext svg { width: 16px; height: 16px; display: block; }
+}

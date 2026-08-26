@@ -1,0 +1,197 @@
+/* =================================================================
+   Review 6 — 2026-08-26.  Daniel's third mark-up.
+
+   Load order: after review5.css, before hero.css and mobile.css.
+   Everything the round changes at desktop widths is here; the
+   phone-only half of the round is in assets/mobile6.css.
+
+   1  The house corner cut on every video frame
+   2  A wider tab strip
+   3  Filter and Clear filter keep their outline
+   4  Clear filter is a selected control that leaves when it is
+      no longer holding anything back
+   5  Conferences — the region chips are the select's size, and the
+      period select drops onto the conference's own meta line
+   6  Conference detail — a live conference marks its Stops tab
+   7  A stop shows its stream beside its result
+   ================================================================= */
+
+
+/* ---- 1  Video frames carry the cut ------------------------------
+   Every other surface on the site is cut at the top-left and the
+   bottom-right; the stream was the one rectangle that was not.
+   .sched-frame is the frame the schedule module builds and the two
+   stop pages now reuse, so one rule covers all of them.          */
+.sched-frame,
+.c06-video {
+  clip-path: polygon(var(--cut-m) 0, 100% 0,
+                     100% calc(100% - var(--cut-m)),
+                     calc(100% - var(--cut-m)) 100%,
+                     0 100%, 0 var(--cut-m));
+}
+
+
+/* ---- 2  The tab strip breathes ----------------------------------
+   Two or three tabs on a 1440 page had a 24px gutter each side of
+   their label, which read as a row of pills rather than as a
+   strip. Three times that. The figure is ctl-03 Tab's own, so it
+   is in elements.css as well — but review 3 restated the tab's
+   metrics on top of the element, so the live value has to be
+   restated here or the older round wins. The phone's narrower
+   gutter is in mobile6.css.                                     */
+.tab { padding: 0 72px; }
+
+
+/* ---- 3  A cut control keeps its outline -------------------------
+   clip-path cuts the corner off the border with everything else,
+   so a 1px outline drawn as `border` simply stops at the notch and
+   the two 45 degree edges show nothing at all. The system's answer
+   is el-00 CutSurface: the outline is the element's own background
+   and a second, slightly smaller cut shape is laid over it, which
+   leaves exactly the ring — including the diagonals.
+
+   --ic is the inner cut: 8px - 0.586 x 1px of border, the figure
+   base.css derives for every cut-out in the system.              */
+.cutbtn,
+.cal-clear,
+.mfilt-btn {
+  position: relative;
+  border: 1px solid transparent;
+  background: var(--cutline, var(--border-default));
+  --cutc: 8px;
+  --cutic: 7.414px;
+  clip-path: polygon(var(--cutc) 0, 100% 0,
+                     100% calc(100% - var(--cutc)),
+                     calc(100% - var(--cutc)) 100%,
+                     0 100%, 0 var(--cutc));
+}
+.cutbtn::before,
+.cal-clear::before,
+.mfilt-btn::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background: var(--cutfillc, var(--surface-page));
+  clip-path: polygon(var(--cutic) 0, 100% 0,
+                     100% calc(100% - var(--cutic)),
+                     calc(100% - var(--cutic)) 100%,
+                     0 100%, 0 var(--cutic));
+}
+/* the label and the icon ride above the fill */
+.cutbtn > *,
+.cal-clear > *,
+.mfilt-btn > * { position: relative; }
+
+
+/* ---- 4  Clear filter --------------------------------------------
+   It is the one control on the row that is switched on — something
+   is filtered, and this is the way out — so it wears the selected
+   treatment the gender switch and the active tab wear. And it is
+   only there while there is something to clear: site.js hides it
+   when the page is back to All, and brings it back in the same
+   place the moment a filter is set.                              */
+.cal-clear {
+  --cutline: var(--action-default);
+  --cutfillc: var(--action-default);
+  color: var(--text-inverse);
+}
+.live .cal-clear:hover {
+  --cutline: var(--action-hover);
+  --cutfillc: var(--action-hover);
+  color: var(--text-inverse);
+}
+.cal-clear:focus-visible { outline: 2px solid var(--action-default); outline-offset: 2px; }
+
+
+/* ---- 5a Conferences — the chips answer the select ---------------
+   Six region chips at 32px sat under a 44px select and read as a
+   smaller class of control than the thing beside them. They are
+   the same height now, with the padding and type to match.       */
+.cnf-bar .el03 > .chip,
+.cnf-bar .mfilt-panel > .el03 > .chip {
+  height: 44px;
+  padding: 0 22px;
+  font-size: 13px;
+  letter-spacing: 0.4px;
+}
+
+/* ---- 5b Conferences — the period select sits on the meta line ---
+   The select was in the section header, level with the word
+   "Schedule". What it filters is the conference named under it, so
+   site.js moves it into the split and the grid drops it to the
+   bottom of the caption row — the line that reads
+   "Singapore · Stop 6 · Wed 26 Aug".                             */
+@media (min-width: 1101px) {
+  /* Not `>`: mobile5.js wraps every filter control in .mfilt, which
+     is display:contents — the select is a grid item but its DOM
+     parent is the wrapper, so a child combinator misses it. */
+  .sched-split .sched-period {
+    grid-area: 1 / 2 / 2 / 3;
+    justify-self: end;
+    align-self: end;
+    width: 220px;
+    max-width: 100%;
+    /* the row ends at the caption's padding, six pixels under the
+       meta line; -6 puts the field's own centre on that line */
+    margin-bottom: -6px;
+  }
+}
+@media (max-width: 1100px) {
+  /* Stacked, the select goes back above the frame it filters. On a
+     phone mobile5.js has folded it behind the Filter button, so the
+     button is what has to lead — the panel drops under it. */
+  .sched-split .sched-period,
+  .sched-split .mfilt-btn {
+    order: -2;
+    align-self: flex-end;
+    width: 220px;
+    max-width: 100%;
+  }
+  .sched-split .mfilt-btn { width: auto; }
+  .sched-split .mfilt-panel { order: -1; }
+}
+/* the header row keeps its title alone */
+.sched > .el01-wrap .el01-right:empty { display: none; }
+
+
+/* ---- 6  Conference detail — the live mark on the tab ------------
+   The site navigation puts a pulsing dot beside Conferences while
+   something is being played. Inside a conference the same fact
+   belongs on the tab that holds the stops.                       */
+.tab .f03-dot {
+  flex: 0 0 auto;
+  margin-left: 8px;
+}
+.tab { gap: 0; }
+
+
+/* ---- 7  A stop shows its stream beside its result ---------------
+   Selecting a stop that has been played, or is being played, now
+   answers "can I watch it" as well as "who won it": the stream on
+   the left, the podium — or, on the stop page, the pools and the
+   bracket — on the right. A stop with no stream keeps the single
+   column it had.                                                 */
+.vsplit {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gut);
+  align-items: flex-start;
+  width: 100%;
+}
+.vsplit > .vsplit-v {
+  flex: 0 0 var(--col-6);
+  max-width: var(--col-6);
+  min-width: 0;
+}
+.vsplit > .vsplit-r {
+  flex: 1 1 0;
+  min-width: 0;
+}
+@media (max-width: 1100px) {
+  .vsplit { flex-direction: column; align-items: stretch; }
+  .vsplit > .vsplit-v { flex: 1 1 auto; max-width: none; width: 100%; }
+}
+/* A played stop has nothing waiting beside the frame, so the frame
+   takes the width back rather than leaving half the row empty. */
+.vsplit-solo > .vsplit-v { flex: 1 1 auto; max-width: none; width: 100%; }
+.vsplit-solo > .vsplit-r { display: none; }

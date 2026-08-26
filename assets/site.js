@@ -606,6 +606,16 @@
   function paintPhotos(list) {
     var host = $('.car');
     var block = host && host.closest('.tpl-sub');
+    /* Review 6: the gallery is in the Overview pane. It used to set
+       block.hidden = false on every repaint, so changing the gender
+       while the Stops tab was open pulled Photos back out of the
+       hidden pane — and being the pane's last block, it landed above
+       everything the Stops tab was showing. A block only un-hides
+       into the pane that is actually on. */
+    if (block && block.dataset.pane) {
+      var onTab = $('.tab.tab-active');
+      if (onTab && onTab.dataset.tab !== block.dataset.pane) return;
+    }
     if (!list || !list.length) {
       /* The section used to disappear, which made the page look like it
          had been built without a gallery. It states what is missing. */
@@ -1700,6 +1710,9 @@
       if (badge) badge.hidden = !live;
       var lnk = $('.cnf-stop-link');
       if (lnk) lnk.setAttribute('href', 'stop.html?id=' + e.slug);
+      /* Review 6: a stop that is being played, or has been, has a
+         stream. It goes beside the podium rather than under it. */
+      stopStream($('.cnf-stop'), e, today, '.cnf-stop-podium');
 
       var pod = $('.cnf-stop-podium');
       if (pod) {
@@ -1765,9 +1778,25 @@
       if (window.FIBA) window.FIBA.init(document);
     }
 
+    /* Review 6: the site navigation puts a pulsing dot beside
+       Conferences while something is being played. Inside a
+       conference the same fact belongs on the tab that holds the
+       stops, so the tab strip answers "is it on now" too. */
+    function markLiveTab() {
+      var t = $$('.cnf-tabs .tab').filter(function (x) {
+        return x.dataset.tab === 'stops';
+      })[0];
+      if (!t) return;
+      var live = stops.some(function (e) { return stopLive(e, today); });
+      var dot = $('.f03-dot', t);
+      if (live && !dot) t.appendChild(el('div', 'f03-dot'));
+      if (!live && dot) dot.remove();
+    }
+
     genderSwitch(function (g) { gender = g; draw(); });
     tabPanes(document, '.cnf-tabs');
     draw();
+    markLiveTab();
 
     /* "See updated conference table" goes back to the standings, which
        is on the other tab. */
@@ -1868,6 +1897,10 @@
       } else if (stub) {
         stub.hidden = true;
       }
+      /* Review 6: the timeline says which stop; the stream says you
+         can watch it. It sits under the timeline, on the left, with
+         the block that is waiting for the results on the right. */
+      stopStream($('.cnf-stopnav'), e, today, '.stop-stub', true);
 
       /* S-05 Pools. Two tables, and until now both of them were painted
          from the same list: every federation at the stop landed in Pool
@@ -2698,6 +2731,17 @@
         drawStrip();
         drawList();
       });
+      /* Review 6: it is a switched-on control, so it is only there
+         while something is switched on. Every redraw re-asks whether
+         the page is still narrowed; clearing it puts the page back to
+         All and to the whole season and the button goes with it. */
+      function syncClear() {
+        b.hidden = (!region || region === 'All') && sel < 0 && !query;
+      }
+      var _strip = drawStrip, _list = drawList;
+      drawStrip = function () { _strip(); syncClear(); };
+      drawList = function () { _list(); syncClear(); };
+      syncClear();
       bar.appendChild(b);
     })();
 
@@ -3729,6 +3773,85 @@
     return hit;
   }
 
+  /* ---------- Review 6: one video frame -----------------------
+     The schedule module built the poster-and-play facade inline.
+     Two stop views want the same thing, so it is one function: the
+     still, the shade, the button, and the embed that is only
+     fetched once somebody asks for it.
+
+     The production mechanism is the channel's own live embed,
+     which resolves to whatever FIBA3x3 is broadcasting and needs
+     no link from anyone. It renders nothing off air, which on a
+     prototype is every day, so an event that names a video wins. */
+  function videoFrame(ev) {
+    var frame = el('div', 'sched-frame');
+    frame.innerHTML =
+      '<img alt="" class="sched-poster" src="' +
+      ((ev && (ev.poster || ev.cover)) || NL_POSTER) + '"/>' +
+      '<div class="sched-shade"></div>';
+    var play = el('button', 'sched-play',
+      '<svg fill="currentColor" viewBox="0 -960 960 960" ' +
+      'xmlns="http://www.w3.org/2000/svg"><path d="M320-203v-560l440 280-440 280Z">' +
+      '</path></svg>');
+    play.type = 'button';
+    play.setAttribute('aria-label', 'Play the stream');
+    play.addEventListener('click', function () {
+      frame.innerHTML =
+        '<iframe allow="accelerometer; autoplay; encrypted-media; picture-in-picture" ' +
+        'allowfullscreen src="' +
+        (ev && ev.video
+           ? 'https://www.youtube.com/embed/' + ev.video + '?autoplay=1'
+           : 'https://www.youtube.com/embed/live_stream?channel=' +
+             YT_CHANNEL + '&autoplay=1') +
+        '" title="FIBA 3x3 Nations League"></iframe>';
+    });
+    frame.appendChild(play);
+    return frame;
+  }
+
+  /* A stop has a stream if it is on air now or was on air once —
+     which is exactly the stops the calendar says have started. */
+  function hasStream(e, day) {
+    return !!e && (!!e.video || stopLive(e, day) || stopPlayed(e, day));
+  }
+
+  /* The stream on the left, whatever the view was already showing
+     on the right. No stream and nothing moves: the block keeps the
+     single column it had, which is what an unplayed stop shows.  */
+  function stopStream(anchor, e, day, sideSel, after) {
+    if (!anchor || !e) return;
+    var side = $(sideSel);
+    if (!side) return;
+    var home = after ? anchor.parentNode : anchor;
+    var split = $('.vsplit', home) ||
+                (after && anchor.nextElementSibling &&
+                 anchor.nextElementSibling.classList.contains('vsplit')
+                   ? anchor.nextElementSibling : null);
+
+    if (!hasStream(e, day)) {
+      if (split) {
+        if (split.contains(side)) home.insertBefore(side, split);
+        split.remove();
+      }
+      return;
+    }
+    if (!split) {
+      split = el('div', 'vsplit');
+      split.appendChild(el('div', 'vsplit-v'));
+      split.appendChild(el('div', 'vsplit-r'));
+      if (after) home.insertBefore(split, anchor.nextSibling);
+      else home.appendChild(split);
+    }
+    var right = $('.vsplit-r', split);
+    if (side.parentNode !== right) right.appendChild(side);
+    var left = $('.vsplit-v', split);
+    left.innerHTML = '';
+    left.appendChild(videoFrame(e));
+    /* Nothing to put beside it — a hidden stub on a played stop —
+       and the frame takes the width back. */
+    split.classList.toggle('vsplit-solo', !!side.hidden);
+  }
+
   function scheduleModule(host, confId) {
     var today = isoDay(new Date());
     var wrap = el('div', 'tpl-sub sched');
@@ -3776,6 +3899,13 @@
     split.appendChild(side);
     wrap.appendChild(split);
 
+    /* Review 6: the period select sat beside the word "Schedule".
+       What it filters is the conference named under it, so it moves
+       into the split, where the grid drops it to the foot of the
+       caption row — level with "Singapore · Stop 6 · Wed 26 Aug". */
+    var per = $('.sched-period', wrap);
+    if (per) split.appendChild(per);
+
     /* --- Schedule and Results expand; they are not tabs ------- */
     function accBlock(title, open) {
       var b = el('div', 'sched-acc' + (open ? ' is-open' : ''),
@@ -3791,6 +3921,17 @@
       function toggle() {
         var on = b.classList.toggle('is-open');
         h.setAttribute('aria-expanded', on ? 'true' : 'false');
+        /* Review 6: Schedule and Results answer the same question at
+           two ends of the day. Opening one folds the other, so the
+           column always shows one list rather than two or none. */
+        if (on && b.parentNode) {
+          $$('.sched-acc', b.parentNode).forEach(function (x) {
+            if (x === b || !x.classList.contains('is-open')) return;
+            x.classList.remove('is-open');
+            var xh = $('.sched-acc-h', x);
+            if (xh) xh.setAttribute('aria-expanded', 'false');
+          });
+        }
       }
       h.addEventListener('click', toggle);
       h.addEventListener('keydown', function (ev) {
@@ -3855,29 +3996,10 @@
       }
       vid.appendChild(cap);
 
-      var frame = el('div', 'sched-frame');
-      var poster = (ev && (ev.poster || ev.cover)) || NL_POSTER;
-      frame.innerHTML = '<img alt="" class="sched-poster" src="' + poster + '"/>' +
-                        '<div class="sched-shade"></div>';
-      if (isLive) {
-        var play = el('button', 'sched-play',
-          '<svg fill="currentColor" viewBox="0 -960 960 960" ' +
-          'xmlns="http://www.w3.org/2000/svg"><path d="M320-203v-560l440 280-440 280Z">' +
-          '</path></svg>');
-        play.type = 'button';
-        play.setAttribute('aria-label', 'Play the live stream');
-        play.addEventListener('click', function () {
-          frame.innerHTML =
-            '<iframe allow="accelerometer; autoplay; encrypted-media; picture-in-picture" ' +
-            'allowfullscreen src="' +
-            (ev && ev.video
-               ? 'https://www.youtube.com/embed/' + ev.video + '?autoplay=1'
-               : 'https://www.youtube.com/embed/live_stream?channel=' +
-                 YT_CHANNEL + '&autoplay=1') +
-            '" title="FIBA 3x3 Nations League — live"></iframe>';
-        });
-        frame.appendChild(play);
-      } else {
+      var frame = videoFrame(ev);
+      if (!isLive) {
+        var pl = $('.sched-play', frame);
+        if (pl) pl.remove();
         frame.appendChild(el('div', 'sched-off',
           '<div class="t-h3">No game on air</div>' +
           '<div class="t-body-s">The stream opens here when a conference is playing.</div>' +

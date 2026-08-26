@@ -1,5 +1,109 @@
 # Changelog
 
+## 2026-08-26 — Sixth review: the cut on a control, one pinned column, a stream at every stop
+
+Daniel's third mark-up. Everything the round changes at desktop widths is
+in `assets/review6.css`, the phone half in `assets/mobile6.css` and
+`assets/mobile6.js`, and three figures that belong to the system rather
+than to the round went into `base.css`, `elements.css` and `modules.css`.
+`tools/p15_review6.py` applies the markup and the behaviour and is
+idempotent; run `tools/bump_assets.py` after it.
+
+### Global
+
+- **Every video frame carries the house cut.** `.sched-frame` — now the
+  one frame the schedule module and both stop views share — and the
+  About page's placeholder are notched top-left and bottom-right like
+  every other surface on the site.
+- **ctl-03 Tab's gutter is 72px**, three times review 3's 24. The figure
+  is in `elements.css`, restated in `review6.css` because review 3 wrote
+  the tab's metrics on top of the element. The phone keeps 12px, where
+  tabs share the width between them.
+- **A cut control keeps its outline.** `clip-path` removes the corner
+  from the border with everything else, so a 1px `border` drew nothing on
+  the two 45 degree edges — which is why Filter and Clear filter looked
+  open at both corners. The outline becomes the element's own background
+  with a slightly smaller cut shape over it, the construction el-00
+  CutSurface already uses. `base.css` carries it as `.cutbtn` for
+  controls that cannot hold a `.cutfill` child.
+- **Clear filter is a selected control**, black, and it is only on the
+  page while something is filtered — clearing it puts the page back to
+  All and to the whole season and the button goes with it. Setting any
+  filter brings it back in the same place.
+- **F-03m reads from the left** — the mark, the word mark beside it, the
+  search at the far end — and carries **e1**. Both are in `modules.css`,
+  so the spec sheet shows them.
+- **F-04's 4px divider** was three fifths red on a phone: the artwork is
+  1440 wide and its coloured end is the first 240px of it. The strip is
+  squeezed horizontally, so the red end is about a third and the blue run
+  takes the rest.
+- **One pinned table column, not two.** Two pinned columns left 120px of
+  a 358px screen for the figures the table exists to show. The header
+  rule the pinned cell used to hide is back: a sortable cell has a 44px
+  tap target and the header row was 40, so every cell overflowed its own
+  row and painted over the border.
+- **The roster and leading-scorer rails start at the text margin** and
+  bleed to the right only, so the first card lines up with everything
+  above it and the next one still shows at the screen edge.
+
+### Home
+
+- The phone hero gives back a third of its height — the same lock at a
+  smaller cap height with the padding taken in to match.
+- Overview's **total / finished / to go / live** are one line of four.
+- Qualification's table, More and Full standings are half a step apart.
+- **Live now**: Filter sits at the right end of the gender switch's own
+  line. el-02's segments come down to 88px so both fit a 360 screen.
+- **el-20's panel scrolls its table, not its button.** The panel held the
+  standings *and* "View conference", so the link rode away with the
+  table. `mobile6.js` wraps the rows in a scroller of their own.
+- News headlines start at the top of their card rather than centred in
+  it.
+
+### Conferences
+
+- **The period select drops onto the conference's own meta line** —
+  level with "Singapore · Stop 6 · Wed 26 Aug" rather than beside the
+  word Schedule. Stacked, it goes back above the frame it filters.
+- **Schedule and Results are one control with two positions**: opening
+  one folds the other.
+- The region chips are 44px, so they read as the select's siblings
+  instead of a smaller class of control.
+- **The conference field drew as a 40px empty box on a phone.** review 3
+  caps it at two of twelve columns and review 5 restated that for the
+  folded panel; both beat round five's phone rule on specificity.
+- **A live conference marks its Stops tab** with the navigation's own
+  pulsing dot.
+- **Selecting a stop shows its stream.** A stop that is being played, or
+  has been, puts the frame on the left and the podium — on the stop page,
+  the block waiting for the pools and the bracket — on the right. A stop
+  with no stream keeps the single column it had.
+
+### Stats
+
+- The Players table's **Player column is fixed at 128px** — an initial
+  and a short name — and anything longer ends in an ellipsis. The table
+  scrolls sideways instead of pushing every figure off screen.
+
+### About
+
+- The anchor list is a desktop affordance; the phone drops it.
+
+### Navigation
+
+- **About Nations League is a link** to the page it names, without the
+  arrow character.
+- Every remaining external mark in the More sheet is an icon.
+
+### Fixed
+
+- **Photos jumped to the top of the conference detail page** after a
+  gender switch. `paintPhotos` set its block's `hidden` to false on every
+  repaint, so changing gender while the Stops tab was open pulled the
+  gallery back out of the hidden Overview pane — and being that pane's
+  last block, it landed above everything the Stops tab was showing. A
+  block only un-hides into the pane that is actually on.
+
 ## 2026-08-25 — Third design review: one H1, the key visual, and a Schedule
 
 Mota's notes from the 21 August review, plus Daniel's mark-up of the

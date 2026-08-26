@@ -127,11 +127,16 @@
   gap:0;
   border-bottom:1px solid var(--border-subtle);
 }
+/* Review 6: ctl-03 Tab carries a 72px gutter — three times the 24
+   review 3 gave it. Two or three tabs with a label's width of
+   padding read as a row of pills; the strip is a navigation band
+   and it is sized like one. The phone keeps a narrow gutter, where
+   the tabs share the width between them instead. */
 .tab {
   display:flex;
   align-items:center;
   height:44px;
-  padding:0 20px;
+  padding:0 72px;
   font-family:'Barlow',sans-serif;
   font-weight:600;
   font-size:14px;

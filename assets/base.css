@@ -141,3 +141,38 @@ b {
 @supports not (background: paint(x)) {
   .cut-out { --ic: var(--c); }
 }
+
+
+/* A cut control that cannot hold a .cutfill child -----------------
+   clip-path removes the corner from the border along with the rest
+   of the box, so a 1px outline drawn with `border` shows nothing on
+   the two 45 degree edges. Everywhere the mark-up allows it the
+   system solves this with el-00 CutSurface: the outline is the
+   element's own background and a .cutfill layer covers all of it
+   except the ring. A <button> built by script has no room for that
+   child, so the same construction is offered as one class with the
+   fill on ::before.
+
+   --cutic is the inner cut: --cutc minus 0.586 x the border, the
+   figure .cut-out derives for every cut-out in the system.       */
+.cutbtn {
+  position:relative;
+  border:1px solid transparent;
+  background:var(--cutline,var(--border-default));
+  --cutc:8px;
+  --cutic:7.414px;
+  clip-path:polygon(var(--cutc) 0,100% 0,100% calc(100% - var(--cutc)),calc(100% - var(--cutc)) 100%,0 100%,0 var(--cutc));
+}
+.cutbtn::before {
+  content:'';
+  position:absolute;
+  left:0;
+  top:0;
+  right:0;
+  bottom:0;
+  background:var(--cutfillc,var(--surface-page));
+  clip-path:polygon(var(--cutic) 0,100% 0,100% calc(100% - var(--cutic)),calc(100% - var(--cutic)) 100%,0 100%,0 var(--cutic));
+}
+.cutbtn > * {
+  position:relative;
+}
