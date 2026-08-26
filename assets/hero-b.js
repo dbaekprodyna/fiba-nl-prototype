@@ -230,8 +230,11 @@
   function layout() {
     var m = HERO.measure();
     H = m.h;
+    /* CLEAR_OF_LOGO is the room the 1440 headline needs. Stacked,
+       the headline is above the strip and needs none of it. */
     var want = m.cx + m.cw * PHOTO_AT;
-    geo = { vw: m.w, px: Math.max(want, m.cx + CLEAR_OF_LOGO) };
+    var px = HERO.stacked() ? m.w * 0.12 : Math.max(want, m.cx + CLEAR_OF_LOGO);
+    geo = { vw: m.w, px: px };
   }
 
   function resize() {

@@ -47,12 +47,27 @@
     mode: function () { return current; },
     /* The content box the page uses, in canvas coordinates —
        both variants anchor their artwork to it. */
+    /* True when mobile.css has stacked the band: the headline sits
+       on white above and the canvas is its own strip below, rather
+       than the two being layered. Driven from CSS so the layout
+       decision stays in one place. */
+    stacked: function () {
+      return getComputedStyle(hl).getPropertyValue('--hero-stack').trim() === '1';
+    },
     measure: function () {
-      var band = hl.getBoundingClientRect();
+      /* The canvas, not the band. On desktop the canvas is inset:0
+         of the band and the two are identical; stacked, the canvas
+         is the shorter strip and is what has to be measured. */
+      var band = cv.getBoundingClientRect();
       var ir = inner.getBoundingClientRect();
       var cs = getComputedStyle(inner);
       var padL = parseFloat(cs.paddingLeft) || 0;
       var padR = parseFloat(cs.paddingRight) || 0;
+      /* Stacked, there is no headline to clear: the artwork owns
+         the full width of its strip. */
+      if (window.HERO.stacked()) {
+        return { w: band.width, h: band.height, cx: 0, cw: 0 };
+      }
       return {
         w: band.width,
         h: band.height,

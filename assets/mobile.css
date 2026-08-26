@@ -1,0 +1,618 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile.css
+   The phone and tablet layer. Loaded last, so every rule here
+   is an override of the desktop sheets rather than a fork of
+   them: one URL, one codebase, one design system.
+
+   Breakpoint contract
+     <= 767px    phone. Single column, mobile chrome, priority
+                 columns in every data row.
+     768–1099px  tablet. Deliberately light — the mobile chrome
+                 is kept (the desktop nav needs ~1100px to fit)
+                 and content goes to two columns. Landscape
+                 tablet is explicitly out of scope for now.
+     >= 1100px   desktop. Untouched by this file.
+
+   Nothing above 1100px may be changed here. The desktop design
+   is still in review, and this file must never be the reason a
+   desktop fix does not land.
+   ============================================================ */
+
+
+/* ============================================================
+   A. Site chrome — F-03 out, F-03m + el-18 tab bar in
+   ============================================================ */
+
+/* Above the swap the injected chrome is simply not on the page.
+   mobile.js builds both the chrome and the F-06m footer stack on
+   every page regardless of width — one DOM, no resize rebuild —
+   so hiding them here is what keeps the desktop untouched. */
+.mnav { display: none; }
+.f06m-cols { display: none; }
+
+@media (max-width: 1099px) {
+
+  /* The desktop competition nav needs about 1100px for its nine
+     items, the season chip and the search. Below that it wraps
+     over the page instead of shrinking, so it is replaced, not
+     compressed. F-02 goes with it: the mobile spec has no
+     corporate strip, and its links move into the More sheet. */
+  .f03, .f02 { display: none; }
+
+  .mnav { display: block; }
+
+  /* ---- F-03m header ---------------------------------------- */
+  .mnav-bar-top {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 60;
+    width: auto;
+    height: 56px;
+    padding: 0 8px 0 16px;
+  }
+  .mnav-bar-top .brandlogo svg { height: 16px; width: auto; }
+
+  /* ---- el-18 NavTab bar ------------------------------------ */
+  .mnav-bar {
+    position: fixed;
+    bottom: 0; left: 0; right: 0;
+    z-index: 60;
+    width: auto;
+    height: auto;
+    padding: 0 4px env(safe-area-inset-bottom, 0px) 4px;
+  }
+  /* The chrome's links are the layout, so they are real flex
+     items — not the display:contents a.nav-a wrapper the page
+     builder uses everywhere else. */
+  .mnav-tab, .mnav a.f03m-l {
+    text-decoration: none;
+    color: inherit;
+  }
+  .mnav-tab {
+    display: flex;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+  .mnav-bar .ntab { width: 100%; }
+  .mnav-bar .ntab-l {
+    /* five tabs across 390px leaves ~74px each; "Conferences" is
+       the longest label the design system put on the bar. */
+    font-size: 8px;
+    letter-spacing: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+  }
+  /* the red dot F-03 carries on Conferences, at tab scale */
+  .ntab-live { position: relative; }
+  .ntab-live::after {
+    content: '';
+    position: absolute;
+    top: 8px; left: 50%;
+    margin-left: 9px;
+    width: 6px; height: 6px;
+    border-radius: 999px;
+    background: var(--status-live);
+  }
+
+  /* ---- the More sheet -------------------------------------- */
+  .mnav-sheet {
+    position: fixed;
+    inset: 56px 0 64px 0;
+    width: auto;
+    z-index: 55;
+    overflow-y: auto;
+  }
+  .mnav-sheet[hidden] { display: none; }
+  .mnav-sheet .f03m-sheet-top { height: 56px; }
+  /* the page behind the sheet must not scroll under it */
+  .mnav-locked, .mnav-locked body { overflow: hidden; }
+
+  /* ---- room for the two fixed bars ------------------------- */
+  .tpl {
+    padding-top: 56px;
+    padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+  }
+
+  /* E-11 search overlay: site.js measures the desktop chrome to
+     place this, and the desktop chrome is now 0px tall. On a
+     phone the overlay is the screen. */
+  .site-ovl {
+    position: fixed;
+    inset: 56px 0 64px 0;
+    width: auto;
+    max-width: none;
+    overflow-y: auto;
+  }
+  /* F-05 MegaMenu is a desktop module; More replaces it. */
+  .site-mm { display: none !important; }
+
+  /* Floor under everything below: a page may scroll down, never
+     sideways. Individual modules are fixed properly above — this
+     only stops one missed module from breaking the whole page. */
+  html, body { overflow-x: hidden; }
+}
+
+
+/* ============================================================
+   B. Page frame  (phone)
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* One gutter for the page and for every full-bleed band that
+     pads itself with --page-gutter, so their content still lines
+     up with the column. 16px matches F-03m and F-06m. */
+  :root { --page-gutter: 16px; --gutter: 16px; }
+
+  .tpl-content {
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-bottom: 40px;
+    gap: 40px;
+  }
+
+  /* Nothing may push the document sideways. Individual fixes are
+     below; this is the floor under them. */
+  html, body { overflow-x: hidden; }
+  img, svg, canvas, video { max-width: 100%; }
+
+  /* Every two-column template is one column. */
+  .tpl-split { flex-direction: column; gap: 32px; }
+  .tpl-colR, .tpl-split .tpl-colR.col-3 { flex: 1 1 auto; max-width: none; width: 100%; }
+
+  /* ---- F-04 page head -------------------------------------- */
+  .f04-row { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .f04-ctl { width: 100%; flex-wrap: wrap; justify-content: flex-start; gap: 12px; }
+  .f04-h1-l { font-size: 34px; line-height: 34px; }
+  .f04-h1-m { font-size: 24px; line-height: 28px; }
+  .f04-h1-s { font-size: 19px; line-height: 22px; }
+  .f04-crumbs { flex-wrap: wrap; }
+  .f04-96 { height: auto; }
+  .f04-320 { height: auto; min-height: 200px; }
+
+  /* ---- type scale ------------------------------------------ */
+  .t-h2 { font-size: 24px; line-height: 28px; }
+  .t-h3 { font-size: 17px; line-height: 22px; }
+  .t-body-l { font-size: 16px; line-height: 24px; }
+
+  /* ---- touch targets --------------------------------------- */
+  /* el-03 chips, el-06 buttons and the sort headers are all
+     drawn at desktop heights. 44px is the floor on a phone. */
+  .chip, .btn, .dsel, .pag-i { min-height: 44px; }
+  .c06-toc-i { min-height: 44px; display: flex; align-items: center; }
+  .f02-famlink { min-height: 44px; display: inline-flex; align-items: center; }
+}
+
+
+/* ============================================================
+   C. S-10 Hero — the 4:6 split does not survive a phone
+   ============================================================
+   The hero is one band with the headline layered over a
+   full-bleed particle field, split 4:6. At 390px the left four
+   would leave 156px for a wordmark that is drawn 445 wide, so
+   the two are stacked instead: headline on white, particle
+   strip under it, both full width.
+
+   --hero-stack is the switch. hero-switch.js reads it and
+   measures the canvas instead of the band, and both variants
+   then draw across the whole strip — no engine fork.
+   ============================================================ */
+@media (max-width: 767px) {
+
+  body.hero-a .hl,
+  body.hero-b .hl {
+    --hero-stack: 1;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    height: auto;
+    /* matches the phone gutter, so the band reaches both edges
+       and no further */
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+
+  body.hero-a .hl-inner,
+  body.hero-b .hl-inner {
+    width: auto;
+    height: auto;
+    margin: 0;
+    padding: 18px 16px 14px 16px;
+    gap: 10px;
+  }
+
+  body.hero-a .hl-canvas,
+  body.hero-b .hl-canvas {
+    position: relative;
+    inset: auto;
+    display: block;
+    width: 100%;
+    height: 150px;
+  }
+
+  /* the wordmark scales with the column instead of overflowing it */
+  .hl-logo svg,
+  body.hero-a .hl-logo svg,
+  body.hero-b .hl-logo svg {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+  }
+
+  /* "No hero": the plain headline row is a column too */
+  .hl {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 0 0 0;
+  }
+  .hl .lnk { align-self: flex-start; }
+}
+
+
+/* ============================================================
+   D. Data rows — priority columns, not a squeeze
+   ============================================================
+   el-08 rows are fixed-width columns: pos 48 + conf 180 + wr 116
+   + pa 124 + ep 72 + pts 124 + st 72, plus a flexible federation
+   column. That is 736px of hard minimum, which is what pushed
+   every page to 843px wide.
+
+   Shrinking them all would give eight unreadable columns. The
+   phone keeps the ones a standing is actually read for — rank,
+   who, points, status — and drops the rest. Nothing is lost:
+   the same row on the detail page carries the full set. */
+@media (max-width: 767px) {
+
+  .cell { padding: 0 8px; }
+
+  /* S-01 / S-02 standings and stats */
+  .c-conf, .c-wr, .c-pa, .c-ep { display: none; }
+  .c-pos { width: 34px; }
+  .c-pts { width: 62px; }
+  .c-st  { width: 58px; }
+  .c-fed { padding-left: 4px; }
+
+  /* S-04 game lists: time, the two sides and the score. Pool,
+     game status and the box-score link go to the game page. */
+  .c-pool, .c-gst, .c-box, .c-route { display: none; }
+  .c-time { width: 62px; }
+  .c-score { width: 92px; }
+
+  /* E-07 season journey (team page): stop, where, placing, points.
+     The date is already in the host cell's second line. */
+  .c-jdate { display: none; }
+  .c-jstop { width: 34px; }
+  .c-jplace { width: 56px; }
+  .c-jpts { width: 54px; }
+  .c-jstatus { width: 66px; }
+
+  /* the sortable header is a control: keep it thumb-sized */
+  .cell-sortable, .row-head .cell { min-height: 44px; }
+  /* column labels are 12px with 1px of tracking, which is what
+     ran PLACED into TOUR PTS once the columns narrowed */
+  .cell .t-caption { font-size: 10px; letter-spacing: 0; }
+
+  /* federation tags lose the long name before the row scrolls */
+  .ftag-txt .ftag-name { display: none; }
+
+  /* A row that still cannot fit scrolls inside itself rather
+     than taking the page with it. */
+  .tbl, .tbl-fill { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+}
+
+
+/* ============================================================
+   E. Cards, grids and carousels
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* E-10 player card grid: one card per row, full width. */
+  .e10, .pcard-row, .e10-cards { gap: 12px; }
+  .e10 > .pcard-sh { flex: 1 1 100%; max-width: none; }
+
+  /* auto-fill grids drop to one track */
+  .c02-body, .c04-row, .e03, .e06 { grid-template-columns: 1fr; }
+
+  /* C-01 how-it-works steps stack */
+  .c01-steps { flex-direction: column; gap: 20px; }
+
+  /* KPI strips wrap instead of overflowing */
+  .kpi { flex: 1 1 45%; min-width: 0; }
+
+  /* ---- carousels -------------------------------------------
+     The slides are 474px wide and the stage is moved by app.js
+     with translateX, reading the gap to work out the step. So
+     the phone keeps that mechanism and changes only the size:
+     one slide per screen, no gap, and the stage clipped to the
+     card. Turning the stage into a scroll-snap rail instead
+     would have left app.js still translating it and the el-22
+     indicator pointing at a slide nobody is looking at. */
+  .car-stage { gap: 0; }
+  .car-slide {
+    flex: 0 0 100%;
+    width: auto;
+    min-width: 0;
+    height: auto;
+    min-height: 230px;
+    padding: 14px 14px;
+  }
+  /* the arrows are the control on a phone, so they get the room */
+  .car-bar { gap: 12px; }
+  .car-btn { width: 44px; height: 44px; }
+  .ind { flex: 1 1 0; min-width: 0; }
+
+  /* S-09 the wide key/value band stacks. Its .s09-k pairs are
+     150px each and sat in a nowrap row — four of them held the
+     document 600px wide even after the page itself stopped
+     scrolling. */
+  .s09 { flex-direction: column; align-items: flex-start; gap: 16px; padding: 20px 16px; }
+  .s09-lines { width: 100%; min-width: 0; }
+  .s09-line { flex-wrap: wrap; gap: 10px 16px; }
+  .s09-lab { width: 100%; }
+  .s09-brk { flex-wrap: wrap; gap: 8px 0; width: 100%; }
+  .s09-k { width: auto; flex: 1 1 46%; min-width: 0; }
+  .s09-kl { min-width: 0; }
+  .s09-right { width: 100%; align-items: flex-start; }
+
+  /* el-20 accordion head: a 64px nowrap row holding a title, a
+     stop-dots strip and a caption. On a phone it wraps to two
+     lines rather than pushing the card off the screen. */
+  .acc-head { height: auto; min-height: 56px; padding: 12px 12px 12px 14px; flex-wrap: wrap; row-gap: 8px; }
+  .acc-left { min-width: 0; gap: 10px; flex: 1 1 100%; flex-wrap: wrap; }
+  .acc-left > * { min-width: 0; }
+  .dots-wrap { gap: 8px; flex-wrap: wrap; }
+
+  /* a sort glyph is an icon, never a flex item that can grow */
+  .cell svg { flex: 0 0 auto; width: 16px; height: 16px; }
+}
+
+
+/* ============================================================
+   F. F-06m footer
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* The five link columns are replaced by the el-19 disclosure
+     stack mobile.js builds from them. */
+  .f06-cols { display: none; }
+  .f06m-cols { display: flex; flex-direction: column; padding: 8px 16px 16px 16px; }
+  .f06m-cols .disc { width: 100%; }
+  .f06m-cols .disc-head { cursor: pointer; }
+  .f06m-cols .disc-chev { transition: transform var(--dur-fast) var(--ease-out); color: var(--chrome-text-muted); }
+  .f06m-cols .disc-open .disc-chev { transform: rotate(180deg); }
+  /* app.js animates the panel's height, which means it also sets
+     display:block on it — so the links inside need to be blocks
+     rather than relying on the panel being a flex column. */
+  .f06m-cols .disc-link { display: block; color: var(--chrome-text); padding: 5px 0; }
+
+  /* the sponsor band wraps under its label instead of scrolling */
+  .f06-spon { flex-direction: column; align-items: flex-start; gap: 20px; height: auto; padding: 24px 16px; }
+  .f06-spongrp { flex-direction: column; align-items: flex-start; gap: 12px; width: 100%; }
+  .f06-sponlogos { flex-wrap: wrap; gap: 20px; }
+
+  .f06-brandrow { flex-direction: column; align-items: flex-start; gap: 20px; padding: 24px 16px 20px 16px; }
+  .f06-social { flex-wrap: wrap; gap: 16px; }
+  .f06-bar { flex-direction: column; gap: 16px; padding: 20px 16px 28px 16px; }
+  .f06-legal { max-width: none; }
+}
+
+
+/* ============================================================
+   F2. Page modules that hold a hard minimum width
+   ============================================================
+   Each of these is a row of fixed-width children — a stat strip,
+   a podium, a pool pair, the search overlay's top bar. They are
+   the last four things holding the document wider than the
+   screen, and each one wraps or stacks rather than shrinks, so
+   the numbers stay legible.
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* E-06 stat strip (player, team) — five cells in a row */
+  .e06-grid { flex-wrap: wrap; }
+  .e06-c { flex: 1 1 33%; min-width: 0; padding: 12px 10px; }
+  .e06-h { flex-wrap: wrap; row-gap: 8px; }
+  .e06-cell { min-width: 0; }
+
+  /* E-05 identity block */
+  .e05-meta { flex-wrap: wrap; row-gap: 8px; }
+  .e05-id { min-width: 0; }
+  .e05-glance { flex-wrap: wrap; row-gap: 10px; column-gap: 20px; }
+  .e05-g { min-width: 0; }
+
+  /* S-02 StopNav is a timeline: stacking it would destroy the
+     one thing it says. It becomes a rail instead, full bleed to
+     the screen edge so the swipe reads. */
+  .cnf-stopnav { margin: 0 -16px; padding: 0 16px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+  .cnf-stopnav::-webkit-scrollbar { display: none; }
+  .s02 { min-width: max-content; }
+
+  /* E-11 search overlay top bar — the field takes the row, the
+     close control drops to the end of it */
+  .ovl, .ovl-top, .ovl-search, .ovl-body { max-width: none; min-width: 0; }
+  /* site.css scopes these to .site-ovl, so the phone rules have to
+     be scoped the same way to reach the injected copy as well as
+     the one search.html renders inline. */
+  .ovl-top, .site-ovl .ovl-top {
+    flex-wrap: wrap;
+    row-gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+  .ovl-search, .site-ovl .ovl-search { flex: 1 1 100%; order: 2; }
+  .ovl-close, .site-ovl .ovl-close { padding-left: 0; order: 1; margin-left: auto; }
+  .ovl .search, .site-ovl .search { width: 100%; max-width: none; }
+
+  /* S-08 Podium — three 342px plinths side by side */
+  .s08 { flex-direction: column; align-items: stretch; gap: 12px; }
+  .s08-p, .s08-plinth { width: auto; }
+  .s08-p { padding: 16px 12px 0 12px; }
+
+  /* el-30 CalendarStrip — eight day cells sharing 358px gave each
+     one 40px, which is narrower than a two-digit date. It becomes
+     a rail: the cells keep their real size and the strip scrolls. */
+  .s03 { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; gap: 6px; }
+  .s03::-webkit-scrollbar { display: none; }
+  .s03-d { flex: 0 0 auto; min-width: 68px; }
+
+  /* S-02 StopNav sits in that same rail (see E-05 above); its
+     stops were flex:1 1 0, which collapses to nothing inside a
+     max-content track and overlapped every city label. */
+  .s02-stop { flex: 0 0 auto; min-width: 108px; }
+  .s02-body { padding-right: 14px; }
+
+  /* C-06 article with a table of contents — the TOC is a 318px
+     column beside the body. On a phone it goes above it. */
+  .c06 { flex-direction: column; gap: 20px; }
+  .c06-toc { width: auto; max-width: none; }
+  .c06-main { max-width: none; min-width: 0; }
+
+  /* S-05 Pools — two pools side by side */
+  .s05 { flex-direction: column; gap: 28px; }
+  .s05-pool { min-width: 0; }
+  .s05-h { flex-wrap: wrap; row-gap: 4px; }
+  .s05-n { min-width: 0; }
+}
+
+
+/* ============================================================
+   F3. Review 3  (2026-08-21, Mota + mark-up)
+   ============================================================
+   The third review landed a 12-column grid, one 40px H1 with a
+   key-visual strip above it, the NL hero band, and the
+   conference Schedule module. All of it was drawn at 1440.
+   These are the phone's readings of those five things.
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- F-04 SubHeader ---------------------------------------
+     One H1 at 40px across every sub page. At 390 that is about
+     nine characters to the line for a name like "Nations League
+     Calendar", so it comes down with the rest of the scale. */
+  .f04-h1, .f04-h1-l, .f04-h1-m, .f04-h1-s, .e04-name {
+    font-size: 30px;
+    line-height: 32px;
+  }
+  .f04-h1.gm-head { font-size: 20px; line-height: 25px; }
+  .f04-kv { margin-bottom: 16px; }
+  .f04-ctl { padding-top: 0; }
+
+  /* ---- The NL hero band -------------------------------------
+     Two key visuals mark the band's corners. On a phone the
+     top-left one lands exactly where the headline is, so only
+     the bottom-right corner is kept — the gradient and one
+     corner still read as the band; two corners and a headline
+     in 168px do not. */
+  body.hero-nl .hnl {
+    height: auto;
+    min-height: 150px;
+    /* the band's own bleed has to match the phone gutter, or it
+       runs 4px past both edges */
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+  .hnl-kv-l { display: none; }
+  .hnl-kv-r { transform: scale(.5); transform-origin: right bottom; }
+  .hnl-in {
+    width: calc(100% - 32px);
+    padding: 20px 0 22px;
+    gap: 10px;
+  }
+  .hnl-lock { gap: 4px 14px; }
+  .hnl-t { font-size: 26px; line-height: 28px; }
+  .hnl-s { font-size: 19px; line-height: 22px; }
+
+  /* ---- el-01 SectionHeader ----------------------------------
+     Review 3 moved the legend and the section link onto the
+     header's own line with margin-left:auto. Two of those and a
+     title do not share 358px. */
+  .el01 { flex-wrap: wrap; row-gap: 10px; align-items: flex-start; }
+  .el01-left { min-width: 0; }
+  .el01-right { flex-wrap: wrap; gap: 10px 14px; margin-left: 0; width: 100%; }
+  .el01 .legend, .el01 .finder-count, .el01 .e09-count { margin-left: 0; }
+
+  /* ---- Fields on the 12-column grid -------------------------
+     A search on 6/12 and a select on 2/12 are column spans, and
+     at 390 a column is 30px. Both take the row. */
+  .tpl-content > .tpl-sub > .search,
+  .tpl-content > .tpl-sub > .rowsplit > .search,
+  .rowsplit > .search { max-width: none; }
+  .rowsplit { flex-direction: column; gap: 12px; }
+  .cnf-bar, .teams-bar { flex-wrap: wrap; gap: 12px; }
+  .cnf-bar .selwrap, .teams-bar .selwrap { max-width: none; width: 100%; }
+
+  /* ---- S-09 in the half-column Overview card ----------------
+     review3.css pins .cnf-head .s09-brk to nowrap so four
+     figures stay on one line in half a column. There is no half
+     column here, and nowrap is what pushed the card off screen. */
+  /* site.css wraps this S-09 so its two halves stack inside half
+     a column. Wrap plus the column direction below turns it into
+     a two-COLUMN flex box, which put the progress bar off the
+     right edge of the page. */
+  .cnf-head .s09 { flex-wrap: nowrap; }
+  .cnf-head .s09-brk { flex-wrap: wrap; }
+  .cnf-head .s09-k { margin-left: 0; padding-left: 0; }
+  .cnf-head .s09-lab { width: 100%; }
+  /* modules.css gives this a hard width:30%, which in a column
+     flex container beats both flex-basis and align-self:stretch. */
+  .s09-right { width: 100%; align-items: flex-start; align-self: stretch; }
+  .s09-bar, .s09-track { width: 100%; }
+
+  /* ---- S-xx Schedule (conference) ---------------------------
+     The split already stacks at 1100. What is left is the row:
+     a time, two teams and a pool badge in 358px. */
+  .sched-list { max-height: 420px; }
+  .sched-row { height: auto; min-height: 56px; padding: 8px 2px; gap: 8px; }
+  .sched-time { flex: 0 0 40px; }
+  .sched-cap { flex-wrap: wrap; row-gap: 4px; }
+  .sched-cap .sched-capmeta { margin-left: 0; flex: 1 1 100%; }
+  .sched-badge { flex: 0 0 auto; }
+}
+
+
+/* ============================================================
+   G. Tablet  (768–1099px)
+   Deliberately light: the mobile chrome from section A is kept,
+   and the content goes to two columns instead of one.
+   ============================================================ */
+@media (min-width: 768px) and (max-width: 1099px) {
+
+  .tpl-content { padding-left: 32px; padding-right: 32px; }
+  :root { --page-gutter: 32px; }
+
+  /* the widest fixed columns still do not fit two-up */
+  .c-conf, .c-wr { display: none; }
+  /* the box-score link is what still pushed a game row past the
+     edge at 768 — the row itself already links to the game */
+  .c-box { display: none; }
+
+  .e10 > .pcard-sh { flex: 1 1 calc(50% - 24px); max-width: calc(50% - 24px); }
+  .car-slide { flex: 0 0 46%; min-width: 0; }
+
+  /* The two bands that are wider than a tablet no matter what is
+     inside them: S-09's four 150px key/value pairs, and F-06's
+     sponsor row. Both wrap; neither is restyled further. */
+  .s09-lines { min-width: 0; }
+  .s09-line { flex-wrap: wrap; gap: 10px 16px; }
+  .s09-brk { flex-wrap: wrap; width: 100%; }
+  .s09-k { width: auto; flex: 1 1 24%; min-width: 0; }
+
+  .f06-spon { height: auto; padding-top: 20px; padding-bottom: 20px; gap: 32px; }
+  .f06-spongrp { flex-wrap: wrap; min-width: 0; }
+  .f06-sponlogos { flex-wrap: wrap; }
+}
+
+
+/* ============================================================
+   H. Motion
+   ============================================================ */
+@media (max-width: 1099px) {
+  /* Hover is the desktop's affordance. On a touch screen the
+     hover styles latch after a tap and look like a stuck state. */
+  @media (hover: none) {
+    .live .f03m-l:hover,
+    .live .ntab:hover,
+    .live .pcard-sh:hover { background: none; filter: none; }
+  }
+}
