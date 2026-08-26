@@ -1,0 +1,132 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile9.css
+   Round nine's phone layer. Loads last, after mobile8.css.
+
+     1  F-03m — the 3x3 mark goes back to the size it was.
+     2  el-18 NavTab — the five icons are drawn lighter.
+     3  The Conferences dot comes down onto the globe.
+     4  The home hero — the lock and "How it works" sit in the
+        middle of the band, and the two corner elements are
+        drawn half again as large.
+     5  E-08 PlayerCard rails — the first card keeps the page's
+        left margin, but the rail itself now reaches the edge,
+        so a card slides all the way out instead of stopping
+        against a strip of empty gutter.
+     6  The reveal's rise, phone size.
+
+   ============================================================ */
+
+
+/* ============================================================
+   The phone and the tablet — the chrome is the chrome at both.
+   ============================================================ */
+@media (max-width: 1099px) {
+
+  /* ---- 1  the 3x3 mark, at its own size --------------------
+     Round seven took it from 24px down to the word mark's 16px
+     cap so the bar carried one type size. As the leftmost thing
+     on the bar it is the mark the page is recognised by, and at
+     16 it read as a footnote to the word mark beside it. Back to
+     24; the plate around it keeps its height and its slant and
+     simply widens to hold it.                                  */
+  .f03m-mark svg { height: 24px; }
+
+  /* ---- 2  the tab icons are drawn lighter ------------------
+     These are Material Symbols outlines at weight 400 — an
+     outline drawn as a filled shape, so there is no stroke on
+     them to thin. What thins them is a stroke in the colour of
+     the bar, laid over the fill: it straddles the edge of every
+     limb of the icon and takes half its width off each side.
+     22 user units on a 960 grid is 11 either side of every edge,
+     which is very close to the step from weight 400 to weight
+     200 in the family itself.
+
+     The bar is one flat colour behind every one of them — the
+     active tab included — so the stroke has exactly one colour
+     to be, and the icon keeps its silhouette and its size.    */
+  .mnav-bar .ntab > svg > path {
+    stroke: var(--chrome-bg);
+    stroke-width: 22;
+    stroke-linejoin: round;
+    paint-order: fill stroke;
+  }
+
+  /* ---- 3  the Conferences dot sits closer to the globe -----
+     One pixel down. It is a ball bouncing on the icon, and at
+     3px the gap at the top of the bounce read as a gap rather
+     than as flight.                                            */
+  .mnav-bar .ntab-live::after { top: 4px; }
+}
+
+
+/* ============================================================
+   The phone
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- 4  the hero band ------------------------------------
+     Two things at once, and they are the same thing.
+
+     The corners are drawn half again as large — 22 -> 33 and
+     20 -> 30 — and the top-left one is anchored to the top edge
+     the lock's first line was already close to. So the band is
+     given the height that both need, and the padding is made
+     even top and bottom so the lock and "How it works" sit in
+     the middle of it rather than filling it.
+
+         top    33 of artwork + 4 clear = 37
+         bottom 30 of artwork + 4 clear = 34, and the last line
+                of type carries its own descender space, so the
+                two read level at 37 and 34.
+
+     The band's floor is a variable because .hnl-in needs the same
+     number: the band is sized with min-height, and a percentage
+     height inside a min-height resolves to auto — .hnl-in would
+     be exactly as tall as its own content and centring would
+     have nothing to happen in.                                 */
+  .hnl { --hnl-min: 192px; }
+  body.hero-nl .hnl { min-height: var(--hnl-min); }
+  .hnl-in {
+    min-height: var(--hnl-min);
+    justify-content: center;
+    padding: 37px 0 34px;
+    gap: 8px;
+  }
+
+  .hnl-kv-l { width: auto; height: 33px; }
+  .hnl-kv-r { width: auto; height: 30px; }
+
+  /* The court is drawn to sit THROUGH the band — its own top and
+     bottom rules fall outside it, so what shows is the two side
+     lines and the arc. It is sized off the band for that reason,
+     and the band just grew by twenty pixels, so it grows by the
+     same share: 236 x 157 -> 264 x 176 at 192 of band.         */
+  .hnl-court { width: 264px; height: 176px; top: -6px; }
+
+  /* ---- 5  the player-card rails ----------------------------
+     Round six pulled the rail's left edge in to the text margin
+     so the first card lined up with the headline above it. It
+     did that by starting the scroll box at 16px — which also
+     stops every later card at 16px, and a card being pushed off
+     the screen parks against a strip of empty gutter instead of
+     leaving.
+
+     The rail goes back to the full width of the screen and the
+     16px becomes its own padding. Padding inside a scroll box
+     scrolls away with the content: the first card still starts
+     on the margin, and every card can now travel to the edge.
+     scroll-padding-left brings the snap points with it, so a
+     card that settles settles on the margin too.               */
+  .e10, .e10-scorers {
+    width: calc(100% + 32px);
+    margin: 0 -16px;
+    padding: 0 0 4px 16px;
+    scroll-padding-left: 16px;
+  }
+
+  /* ---- 6  the rise, at phone size --------------------------
+     36px of travel is a fifth of the fold on a phone. It keeps
+     the ratio it had to the desktop's rise.                    */
+  .rv-on .rv:not(.rv-f) { --rv-y: 22px; }
+  .rv-on .el01-wrap.rv { --rv-y: 16px; }
+}

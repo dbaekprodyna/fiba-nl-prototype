@@ -1,0 +1,39 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review9.css
+   Round nine (2026-08-26, Daniel's sixth mark-up), desktop.
+
+     1  The section arrival slows down to apple.com/iphone's
+        pace — the same curve, a longer run and a wider beat
+        between one element and the next.
+     2  The hero's top-left key visual stays welded to the top
+        edge of the band while the page scrolls past it.
+        (rate change — see review7.js)
+
+   Loads after review8.css and before hero.css.
+   ============================================================ */
+
+/* ---- 1  the arrival takes its time --------------------------
+   Round seven built the reveal at 800ms with 28px of rise and a
+   90ms beat between siblings, and read as a flick rather than an
+   arrival. Apple's own section reveal runs a shade over a second
+   and travels further, which is what makes the long tail of the
+   curve legible: the element covers most of the distance early
+   and then eases the last few pixels in.
+
+   Only the three numbers change. The easing, the stagger cap and
+   the fade-only variants are round seven's and stay as they are.
+
+       duration  800ms -> 1100ms
+       rise       28px ->   36px
+       beat       90ms ->  130ms   (review7.js STEP)
+
+   These are set on the gate class rather than on .rv, so the
+   phone layer can still ask for a shorter rise underneath.    */
+html.rv-on {
+  --rv-dur: 1100ms;
+  --rv-y: 36px;
+}
+
+/* The section headline still leads its body, and still travels
+   a little less than the body does — it is the smaller thing. */
+.rv-on .el01-wrap.rv { --rv-y: 26px; }

@@ -25,7 +25,11 @@
 
   var D = document;
   var HTML = D.documentElement;
-  var STEP = 90;                       /* ms between two siblings  */
+  /* Round nine: the beat between siblings widens with the run.
+     800ms/90ms read as a flick; apple.com/iphone's arrival is a
+     shade over a second with a wider beat, and the duration and
+     the rise that go with these live in review9.css.          */
+  var STEP = 130;                      /* ms between two siblings  */
   var MAXI = 4;                        /* nothing waits longer     */
 
   function off() { HTML.classList.remove('rv-on'); }
@@ -72,7 +76,9 @@
   function show(n) {
     if (!n.classList.contains('rv')) return;
     n.classList.add('is-in');
-    setTimeout(function () { clean(n); }, 1500);
+    /* long enough to outlast the slowest arrival there is:
+       1100ms of run behind 4 x 130ms of stagger. */
+    setTimeout(function () { clean(n); }, 2200);
   }
 
   /* Nothing is put into the waiting state that the reader has
@@ -197,7 +203,14 @@
        of the page's speed, so it reads as further away. The type
        is given a negative rate: it leaves a little early.
        mode 1 keeps the court's own translateX(-50%).            */
-    [[q('.hnl-kv-l'), 0.30, 0], [q('.hnl-kv-r'), 0.22, 0],
+    /* Round nine: the top-left element's rate is 0. At 0.30 it
+       travelled down three tenths of the scrolled distance while
+       the band travelled up all of it, so a strip of flat blue
+       opened between the top of the band and the top of the
+       artwork — the corner came away from its own corner. It is
+       drawn INTO that edge, so it has to hold it; the depth in
+       the band comes from the other three.                     */
+    [[q('.hnl-kv-l'), 0.00, 0], [q('.hnl-kv-r'), 0.22, 0],
      [q('.hnl-court'), 0.44, 1], [q('.hnl-in'), -0.16, 2]]
       .forEach(function (e) {
         if (!e[0]) return;
@@ -269,6 +282,22 @@
     syncParallax();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', function () { syncParallax(); sweep(); });
+
+    /* Round nine. A pane behind a tab is display:none, so its
+       blocks have no box — armed() lets them wait, the observer
+       is never called for them (0 to 0), and sweep() skips them
+       because a box of no size cannot be measured. Press the tab
+       and the pane appears with its contents still at opacity 0,
+       and nothing ever comes back for them. Conference > Stops
+       opened onto an empty column because of it.
+
+       A press is the only thing that opens a pane, so a press is
+       what sends the sweep round again. Capture, so a handler
+       that stops the event still gets swept after. */
+    var ct = 0;
+    function later() { clearTimeout(ct); ct = setTimeout(sweep, 80); }
+    D.addEventListener('click', later, true);
+    D.addEventListener('keyup', later, true);
     if (pq.addEventListener) pq.addEventListener('change', syncParallax);
     else if (pq.addListener) pq.addListener(syncParallax);
 

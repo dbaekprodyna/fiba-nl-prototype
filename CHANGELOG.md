@@ -1,5 +1,102 @@
 # Changelog
 
+## 2026-08-26 — Ninth review: the arrival slows down, the corner holds its corner
+
+Daniel's sixth mark-up. Desktop in `assets/review9.css`, the phone half in
+`assets/mobile9.css`, the links in `tools/p18_review9.py` — idempotent,
+with `tools/bump_assets.py` after it. `assets/review7.js` carries the four
+motion constants that are not expressible in CSS.
+
+### Global
+
+- **The section arrival runs at apple.com/iphone's pace.** Round seven
+  built the reveal at 800ms over 28px with a 90ms beat between siblings,
+  and it read as a flick rather than an arrival. It is 1100ms over 36px
+  with a 130ms beat now — same curve, same stagger cap, same fade-only
+  variants. The duration and the rise are custom properties set on the
+  `.rv-on` gate, so the phone layer can still ask for a shorter rise
+  underneath (22px there, 16px for a section headline). `review7.js`'s
+  tidy-up delay goes 1500 → 2200ms to outlast the slowest arrival there
+  is: 1100ms of run behind four beats of stagger.
+
+### Mobile chrome
+
+- **The 3x3 mark goes back to 24px.** Round seven took it down to the word
+  mark's 16px cap so the bar carried one type size; as the leftmost thing
+  on the bar it is what the page is recognised by, and at 16 it read as a
+  footnote. The plate keeps its height and its slant and widens to hold
+  it.
+- **The five tab icons are drawn lighter.** They are Material Symbols
+  outlines at weight 400 — an outline drawn as a *filled* shape, so there
+  is no stroke on them to thin. What thins them is a stroke in the colour
+  of the bar laid over the fill: it straddles every edge and takes half
+  its width off each side. 22 user units on the 960 grid is 11 either
+  side, which is close to the family's own step from weight 400 to 200.
+  The bar is one flat colour behind every icon, the active one included,
+  so the stroke has exactly one colour to be and the silhouette and the
+  size are kept.
+- **The Conferences dot comes down one pixel onto the globe** (`top` 3 →
+  4). It is a ball bouncing on the icon, and the gap at the top of the
+  bounce read as a gap rather than as flight.
+
+### Home — the hero
+
+- **Desktop: the top-left key visual holds the top edge.** Its parallax
+  rate was 0.30, so it travelled down three tenths of the scrolled
+  distance while the band travelled up all of it, and a strip of flat
+  blue opened between the top of the band and the top of the artwork —
+  the corner came away from its own corner. The rate is 0. The artwork is
+  drawn *into* that edge, so it has to hold it; the depth in the band
+  comes from the other three layers, which are unchanged.
+- **Phone: the lock and "How it works" sit in the middle of the band, and
+  the two corner elements are drawn half again as large** (22 → 33 and
+  20 → 30 of height). The band is given the height both need — 192, with
+  37 of air above and 34 below, the difference being the descender space
+  the last line of type carries with it. The centring needs a floor on
+  `.hnl-in` as well as on `.hnl`: the band is sized with `min-height`, and
+  a percentage height inside a `min-height` resolves to auto, so `.hnl-in`
+  would be exactly as tall as its own content and there would be nothing
+  to be in the middle of. The court grows by the band's own share, 236 ×
+  157 → 264 × 176 — it is drawn to sit *through* the band, with its own
+  top and bottom rules outside it, so it has to be sized off it.
+
+### Conference detail and Team — the player-card rails
+
+- **A card slides all the way out now.** Round six pulled the rail's left
+  edge in to the text margin so the first card lined up with the headline
+  above it, and did it by starting the scroll box at 16px — which also
+  stopped every later card at 16px, so a card being pushed off the screen
+  parked against a strip of empty gutter instead of leaving. The rail is
+  the full width of the screen again and the 16px is its own padding:
+  padding inside a scroll box scrolls away with the content, so the first
+  card still starts on the margin and every card can travel to the edge.
+  `scroll-padding-left` brings the snap points with it.
+
+### Fixed on the way past
+
+- **Conference > Stops opened onto an empty column.** A pane behind a tab
+  is `display: none`, so its blocks have no box: `armed()` lets them wait,
+  the observer is never called for them (0 to 0), and `sweep()` skips them
+  because a box of no size cannot be measured. Pressing the tab showed the
+  pane with its contents still at opacity 0, and nothing ever came back
+  for them. A press is the only thing that opens a pane, so a press is now
+  what sends the sweep round again — captured, so a handler that stops the
+  event still gets swept after. Present since round seven; it was not in
+  the mark-up.
+
+### Verified
+
+- 15 pages × 320/360/390/430/768/1024/1100/1440 — no horizontal
+  overflow, no JS errors, and no `.rv` left below full opacity after a
+  page is scrolled to the end.
+- Desktop no-regression by `page.route`-ing `review9.css`/`mobile9.css` to
+  empty files and comparing full-page screenshots with `pixelmatch`: at
+  1440 twelve of fifteen pages are pixel-identical and the three that are
+  not differ only in the pulsing live dots (8–49px, each bounded to a
+  6 × 8 badge dot). At 390 and 768 the difference is the header mark, the
+  five tab icons, and — on the phone only — the hero band (20px taller)
+  and the two rails.
+
 ## 2026-08-26 — Eighth review: the real stream behind each stop, and four alignments
 
 Daniel's fifth mark-up. Desktop changes are in `assets/review8.css`, the
