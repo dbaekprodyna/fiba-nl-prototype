@@ -1,0 +1,198 @@
+/* =================================================================
+   Review 5 — 2026-08-26.  Daniel's second mark-up + the mobile list.
+
+   Load order: after review4.css, before hero.css and mobile.css.
+   Everything the round changes at desktop widths is here; the
+   phone-only half of the round is in assets/mobile5.css.
+
+   1  Home — the hero lock is centred, the key visuals are the
+      band's full-height corners, and the court is behind the type
+   2  Conferences — the gender switch goes up to the page head,
+      the live conference is named over its own meta line, and the
+      Schedule / Results accordion starts level with the video
+   3  Calendar — All + today on arrival, with a dismissible
+      Clear filter beside the chips
+   4  Home — Photos loses the link that went nowhere
+   5  Shared plumbing for the phone's Filter button and the
+      Qualification "More" control
+   ================================================================= */
+
+
+/* ---- 1  Home — the hero ----------------------------------------
+   NL-New Header-Edited.png: the wordmark and the strap-line sit in
+   the middle of the band with "How it works" centred under them,
+   the two brand elements are the band's left and right ends rather
+   than two small corners, and the court drawing sits behind the
+   type.
+
+   The mark-up is drawn at 1728, where the lock measures 899 and the
+   left element ends 4px before it starts. Below 1728 there is less
+   room beside the lock, so the elements are given exactly what is
+   left of it and never more than the drawn size:
+
+       side = (band - 906) / 2      906 = the lock plus its clearance
+
+   At 1728 that is 411 and 492 — the drawn sizes. At 1440 it is 267
+   and 320, and the type still lands clear of both.               */
+.hnl {
+  --hnl-lock: 906px;
+  --hnl-side: max(0px, calc((100% - var(--hnl-lock)) / 2));
+}
+.hnl-in {
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+.hnl-lock {
+  justify-content: center;
+  align-items: center;
+}
+/* The court is the band's centre mark. It is drawn 324 x 216 and the
+   band is 192 high, so the frame's own top rule sits just above the
+   band and the drawing reads as a court seen through it. */
+.hnl-court {
+  position: absolute;
+  left: 50%;
+  top: -7px;
+  z-index: 1;
+  display: block;
+  width: 324px;
+  height: 216px;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+.hnl-kv-l {
+  left: 0;
+  top: 0;
+  width: min(411px, var(--hnl-side));
+  height: auto;
+}
+.hnl-kv-r {
+  right: 0;
+  bottom: 0;
+  /* the right element is drawn wider than the left one because its
+     top-left quarter is empty — the type passes through it */
+  width: min(492px, calc(var(--hnl-side) * 1.2));
+  height: auto;
+}
+
+
+/* ---- 2a Conferences — the live conference names itself ---------
+   The section header carried a red dot and "Today · Wed 26 Aug".
+   The day belongs with the conference it describes, so the caption
+   becomes two lines — the name over "city · stop · day" — and the
+   header keeps only its title.                                   */
+.sched-today { display: none; }
+.sched-cap {
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  min-height: 0;
+  padding: 0 0 12px;
+}
+.sched-cap .sched-capname { line-height: 1.2; }
+.sched-cap .sched-capmeta {
+  margin-left: 0;
+  color: var(--text-muted);
+}
+/* the live badge belongs on the name's line, not above it */
+.sched-cap .badge-live { order: -1; }
+.sched-caphead {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+/* ---- 2b Conferences — the accordion starts at the video --------
+   The caption is above the frame, so a row of two flex children
+   started the accordion at the caption instead of at the picture.
+   The split becomes a two-by-two grid and the caption takes the
+   first row of the left column on its own; nothing moves in the
+   DOM, so the stacked reading below 1100 is untouched.           */
+@media (min-width: 1101px) {
+  .sched-split {
+    display: grid;
+    grid-template-columns: var(--col-8) minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    column-gap: var(--gut);
+    row-gap: 0;
+    align-items: start;
+  }
+  .sched-video { display: contents; }
+  .sched-cap   { grid-area: 1 / 1 / 2 / 2; }
+  .sched-frame { grid-area: 2 / 1 / 3 / 2; }
+  .sched-side  { grid-area: 2 / 2 / 3 / 3; }
+}
+
+
+/* ---- 3  Calendar — Clear filter --------------------------------
+   The strip opens on today and the chips on All, so the page states
+   a day rather than the whole season. Clear filter is the way back
+   out of both, and it sits at the right end of the chip row at the
+   chips' own height.                                              */
+.cal-bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px var(--gut);
+  width: 100%;
+}
+.cal-bar > .el03 { flex: 0 1 auto; min-width: 0; }
+.cal-clear {
+  display: inline-flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  margin-left: auto;
+  padding: 0 14px 0 16px;
+  border: 1px solid var(--border-default);
+  background: var(--surface-page);
+  color: var(--text-secondary);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.2px;
+  cursor: pointer;
+  clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+}
+.cal-clear svg { flex: 0 0 auto; width: 16px; height: 16px; }
+.live .cal-clear:hover {
+  border-color: var(--border-strong);
+  color: var(--text-primary);
+}
+.cal-clear:focus-visible { outline: 2px solid var(--action-default); outline-offset: 2px; }
+.cal-clear[hidden] { display: none; }
+
+
+/* ---- 5  The phone's Filter button ------------------------------
+   mobile5.js wraps every filter control on a page in .mfilt so the
+   phone can fold them behind one button. Above the phone the
+   wrapper is transparent — display:contents leaves the controls as
+   direct children of the row they were in, so no desktop layout
+   moves. The four child-combinator rules that the wrapper would
+   otherwise break are restated here.                             */
+.mfilt { display: contents; }
+.mfilt-btn { display: none; }
+.mfilt-panel { display: contents; }
+/* the wrapper's open state means nothing above the phone */
+.mfilt.is-open > .mfilt-panel { display: contents; }
+
+.filterbar .mfilt-panel > .el03 { flex: 0 1 auto; min-width: 0; }
+.tpl-colL .filterbar .mfilt-panel > .el03 { width: auto; }
+.filterbar .mfilt-panel > .el03 > .chip {
+  height: 32px;
+  padding: 0 16px;
+  font-size: 12px;
+  letter-spacing: 0.2px;
+}
+.tblbar .mfilt-panel > .tgl { flex: 0 0 auto; padding: 10px 0; }
+.cnf-bar .mfilt-panel > .selwrap { max-width: var(--col-2); }
+.cal-bar .mfilt-panel > .el03 { flex: 0 1 auto; min-width: 0; }
+
+/* The Qualification list is complete on a desktop; the phone shows
+   twelve rows and this opens the rest. */
+.r01-more { display: none; }

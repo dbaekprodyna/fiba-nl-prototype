@@ -1,0 +1,480 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile5.css
+   Round five's phone layer. Loaded after mobile.css, so this is
+   an override of an override: every rule here answers one line of
+   the 2026-08-26 mark-up and nothing above 1100px is touched.
+
+     A  chrome      3x3 mark in the header, three-dot More, the
+                    sheet meets the tab bar
+     B  spacing     20px between modules; breadcrumb, rule
+     C  controls    gender switch left, filters behind Filter,
+                    chip rows swipe, tabs fill, selects fit
+     D  tables      every column, first two pinned, legend in four
+     E  home        Mota's block order, twelve qualifiers, photos
+                    that swipe, a mobile advert
+     F  pages       news stacks, stats line up, the conference
+                    cards ride a rail, highlights two up
+     G  hero        the centred lock with two smaller corners
+   ============================================================ */
+
+
+/* ============================================================
+   A. Site chrome
+   ============================================================ */
+@media (max-width: 1099px) {
+
+  /* ---- F-03m: the mark the desktop header carries ------------
+     The phone header had the word mark alone. The 3x3 mark is the
+     first thing on the desktop bar and it is what the eye finds a
+     FIBA page by, so it opens the phone bar too, on the same white
+     slanted plate. */
+  .mnav-bar-top { padding-left: 0; gap: 12px; }
+  .f03m-mark {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    height: 56px;
+    padding: 0 22px 0 16px;
+    background: var(--chrome-text);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 56px * var(--slant-run)) 100%, 0 100%);
+  }
+  .f03m-mark svg { display: block; height: 24px; width: auto; }
+  .mnav-bar-top > .f03m-l:first-of-type { gap: 12px; }
+
+  /* ---- the More sheet meets the tab bar ----------------------
+     The sheet stopped 64px short of the bottom while the bar is
+     shorter than that, so a strip of the page showed between the
+     two. The sheet now runs to the bottom edge and the bar, which
+     is above it in the stack, sits on top of it; the sheet's own
+     body keeps enough room under its last link. */
+  .mnav-sheet { inset: 56px 0 0 0; }
+  .f03m-sheet-body { padding-bottom: calc(76px + env(safe-area-inset-bottom, 0px)); }
+}
+
+
+/* ============================================================
+   B. Spacing
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* One step between every module and every section: 20px. */
+  .tpl-content { gap: 20px; padding-bottom: 20px; }
+  .tpl-split { gap: 20px; }
+  .home-split { gap: 20px; }
+
+  /* The page opens the same distance under the fixed header as the
+     breadcrumb sits above its rule — 18px, both sides of it. */
+  .tpl-content { padding-top: 18px; }
+  body.hero-nl .tpl-content,
+  body.hero-a .tpl-content,
+  body.hero-b .tpl-content { padding-top: 0; }
+  .f04 > .crumbs { margin-bottom: 18px; }
+
+  /* The rule under the breadcrumb is 4px on a desktop. As a 1440
+     wide drawing scaled to the column it came out 1px, so it is
+     given its real height and shows the middle of the artwork
+     rather than a squashed copy of all of it. */
+  .f04-kv { margin: 0 0 20px; }
+  .f04-kv img {
+    height: 4px;
+    object-fit: cover;
+    /* the artwork's coloured end rather than the plain middle of it */
+    object-position: left center;
+  }
+}
+
+
+/* ============================================================
+   C. Controls
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- the gender switch reads from the left ----------------- */
+  .el02 { align-self: flex-start; margin-left: 0; }
+  .filterbar > .el02,
+  .el01-right > .el02,
+  .f04-ctl > .el02 { margin-left: 0; }
+  .f04-ctl, .el01-right, .tblbar,
+  .filterbar, .r01-ctl, .cnf-bar, .teams-bar { justify-content: flex-start; }
+
+  /* ---- everything else folds behind Filter -------------------
+     A phone cannot hold six region chips, a sort field and a
+     toggle on one screen and still show what they filter. They go
+     under one button; the gender switch stays out, because it is
+     the page's subject rather than a narrowing of it. */
+  .filterbar, .cnf-bar, .teams-bar, .rowsplit,
+  .cal-bar, .tblbar, .el01-right, .f04-ctl { flex-wrap: wrap; }
+
+  .mfilt-btn {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    align-self: flex-start;
+    gap: 8px;
+    height: 40px;
+    padding: 0 16px;
+    border: 1px solid var(--border-default);
+    background: var(--surface-page);
+    color: var(--text-primary);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 12px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+    clip-path: polygon(8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px);
+  }
+  .mfilt-btn svg { flex: 0 0 auto; width: 18px; height: 18px; }
+  .mfilt-btn .mfilt-n {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 5px;
+    border-radius: 999px;
+    background: var(--brand-blue);
+    color: var(--text-inverse);
+    font-size: 10px;
+  }
+  .mfilt-btn.is-open {
+    background: var(--chrome-bg);
+    border-color: var(--chrome-bg);
+    color: var(--text-inverse);
+  }
+  .mfilt-btn.is-open .mfilt-chev { transform: rotate(180deg); }
+  /* A section opens from one button; the wrappers its other rows need
+     carry a button that never shows. */
+  .mfilt-btn-quiet { display: none; }
+  .mfilt-chev { transition: transform var(--dur-fast, .18s) ease; }
+
+  .mfilt-panel { display: none; }
+  .mfilt.is-open > .mfilt-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    flex: 1 1 100%;
+    width: 100%;
+    padding: 4px 0 0;
+  }
+  /* Clear filter keeps the Filter button's line; the panel drops
+     under both of them. */
+  .cal-bar > .cal-clear { order: 1; }
+  .cal-bar .mfilt-panel { order: 2; }
+
+  /* ---- a chip row never wraps to four lines ------------------
+     Six regions, or four squad categories, are a rail: the chips
+     keep their size and the row scrolls to the screen's edges. */
+  .el03 {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 0 16px;
+    width: auto;
+  }
+  .el03::-webkit-scrollbar { display: none; }
+  .el03 > .chip { flex: 0 0 auto; }
+
+  /* ---- a select field is a column span on a desktop ----------
+     Two of twelve columns is 40px at 390, which is why the
+     conference field on Standings drew as an empty box. */
+  .selwrap,
+  .cnf-bar .selwrap,
+  .rowsplit .selwrap,
+  .sched-period,
+  .mfilt-panel > .selwrap {
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+  }
+  .selwrap > .fld { width: 100%; }
+  .sel-menu { left: 0; right: auto; width: 100%; max-width: none; }
+
+  /* ---- tabs fill the row ------------------------------------- */
+  .tabs { display: flex; width: 100%; }
+  .tabs > .tab {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 0;
+    min-width: 0;
+    text-align: center;
+  }
+}
+
+
+/* ============================================================
+   D. Tables — every column, the first two pinned
+   ============================================================
+   The phone used to drop win ratio, points average and the rest
+   so eight columns would fit in 358px. The mark-up asks for the
+   whole table instead: it scrolls sideways, and the two columns
+   that say WHICH row you are reading stay put while it does.
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* Not every table on the site is wrapped in .tbl — the standings
+     inside an el-20 accordion are rows straight in the panel — so
+     the scroller is put on whatever actually holds the rows. */
+  .tbl, .tbl-fill, .acc-body {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .thead, .trow { min-width: max-content; }
+  .cell { flex: 0 0 auto; padding: 0 10px; }
+
+  /* the columns are back */
+  .c-conf, .c-wr, .c-pa, .c-ep, .c-pool, .c-gst, .c-jdate { display: flex; }
+  .c-box, .c-route { display: none; }
+
+  /* widths that let two of them be pinned and still leave the rest
+     of the table something to move into */
+  .c-fed   { flex: 0 0 132px; width: 132px; padding-left: 8px; }
+  .c-conf  { flex: 0 0 104px; width: 104px; }
+  .c-pos   { flex: 0 0 34px;  width: 34px; }
+  .c-wr, .c-pa { flex: 0 0 82px; width: 82px; }
+  .c-ep    { flex: 0 0 58px;  width: 58px; }
+  .c-pts   { flex: 0 0 78px;  width: 78px; }
+  .c-st    { flex: 0 0 62px;  width: 62px; }
+  .c-time  { flex: 0 0 58px;  width: 58px; }
+  .c-home, .c-away { flex: 0 0 116px; width: 116px; }
+  .c-score { flex: 0 0 88px;  width: 88px; }
+  .c-jstop { flex: 0 0 34px;  width: 34px; }
+  .c-jhost { flex: 0 0 156px; width: 156px; }
+  .c-jdate { flex: 0 0 78px;  width: 78px; }
+  .c-mstop { flex: 0 0 52px;  width: 52px; }
+
+  /* The pinned pair. mobile5.js measures the first column and
+     writes --stick1 on each table, because it is a different
+     column on each of them. */
+  .thead > .cell:nth-child(-n+2),
+  .trow  > .cell:nth-child(-n+2) {
+    position: sticky;
+    z-index: 2;
+    background: inherit;
+  }
+  .thead > .cell:nth-child(1),
+  .trow  > .cell:nth-child(1) { left: 0; }
+  .thead > .cell:nth-child(2),
+  .trow  > .cell:nth-child(2) { left: var(--stick1, 48px); }
+  /* a sticky cell has to paint, or the row it covers shows through */
+  .trow { background: var(--surface-page); }
+  .trow.trow-hi { background: var(--surface-sunken); }
+  .thead { background: var(--surface-sunken); }
+  /* the day heading in a game list stays with the left edge */
+  .games-tbl > .games-day { position: sticky; left: 0; }
+
+  /* the federation's full name comes back — there is room now */
+  .ftag-txt .ftag-name { display: none; }
+
+  /* ---- the legend above a table -----------------------------
+     Four markers on one right-aligned line wrapped into an
+     unreadable two. One to a line, from the left. */
+  .legend, .legend-top, .el01 .legend {
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: nowrap;
+    gap: 8px;
+    width: 100%;
+    margin-left: 0;
+    padding: 12px 0 10px;
+  }
+  .legend-item { width: 100%; }
+}
+
+
+/* ============================================================
+   E. Home
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- Mota LP-09: the phone's block order -------------------
+     Excel, the latest of the three sources and the one the email
+     agrees with: Status, Qualification, Live, Photos, Find a
+     team, News. Qualification is the right rail on a desktop, so
+     on a phone it has to cross the split — the two columns go
+     transparent and their blocks take the order themselves. */
+  .home-split { display: flex; flex-direction: column; }
+  .home-split > .tpl-colL,
+  .home-split > .tpl-colR { display: contents; }
+  .home-split > .tpl-colL > .tpl-sub:nth-child(1) { order: 1; }   /* Status   */
+  .home-split > .tpl-colR > .tpl-sub               { order: 2; }   /* Qualification */
+  .home-split > .tpl-colL > .tpl-sub:nth-child(2) { order: 3; }   /* Live now */
+
+  /* ---- twelve qualifiers, then More -------------------------- */
+  .r01.is-capped > .r01-row:nth-child(n+13) { display: none; }
+  .r01-more {
+    display: inline-flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    align-self: flex-start;
+    height: 44px;
+    margin-top: 4px;
+    padding: 0 4px;
+    border: 0;
+    background: none;
+    color: var(--action-default);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+  .r01-more svg { width: 18px; height: 18px; transition: transform .18s ease; }
+  .r01-more.is-open svg { transform: rotate(180deg); }
+
+  /* ---- the advert is a mobile advert -------------------------
+     A 1440 x 160 leaderboard is not a slot that exists on a
+     phone. 320 x 100 is the large mobile banner, and the space
+     states the size it is actually selling. */
+  .ad-full {
+    align-self: center;
+    width: 100%;
+    max-width: 320px;
+    height: 100px;
+  }
+  .ad-dim[data-m] { font-size: 0; letter-spacing: 0; }
+  .ad-dim[data-m]::after { content: attr(data-m); font-size: 12px; letter-spacing: normal; }
+  .ad-lbl { font-size: 11px; }
+
+  /* ---- Photos: the rail answers a thumb ---------------------- */
+  .car-viewport { touch-action: pan-y; }
+  .car.is-swiping .car-stage { transition: none; }
+}
+
+
+/* ============================================================
+   F. The rest of the pages
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- News: the picture is over the story, not beside it ---- */
+  .c04-row { flex-direction: column; gap: 12px; padding: 16px 0; }
+  .c04-img { width: 100%; height: 200px; }
+  .c04-t { font-size: 20px; line-height: 26px; }
+
+  /* ---- three leftovers that held a few pixels past the edge ----
+     .gm-boxduo stacks below 900 but keeps align-items:flex-start,
+     which in a column makes its children as wide as their widest
+     row instead of as wide as the page. */
+  .gm-boxduo, .gm-duo { align-items: stretch; }
+  .gm-boxduo > *, .gm-duo > * { min-width: 0; max-width: 100%; }
+  .e07-opp { flex: 1 1 auto; min-width: 0; }
+  .crumbs { flex-wrap: wrap; }
+
+  /* ---- Stats: the spotlight figures line up ------------------
+     "Score points" takes two lines and "Events" one, so the
+     numbers sat at two different heights. Every label is given
+     both lines whether it needs the second or not. */
+  .e04-stats .e04-stat > .t-caption {
+    display: block;
+    min-height: 32px;      /* 2 x the 16px caption line */
+  }
+  .e04-stats { flex-wrap: wrap; }
+  .e04-stat { flex: 1 1 33%; min-width: 0; padding: 14px 12px; }
+  .st-top { flex: 1 1 100%; }
+
+  /* ---- Conference detail ------------------------------------- */
+  /* Highlights are four small figures: two to a row reads as a
+     block instead of a column four screens long. */
+  .cnf-kpis {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  .cnf-kpis > .kpi { flex: none; min-width: 0; }
+
+  /* Leading scorers and the roster are rails. The card is cut to
+     three quarters of the column so the next one shows at the
+     edge and the row reads as something to push. */
+  .e10, .e10-scorers {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 12px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x proximity;
+    scrollbar-width: none;
+    margin: 0 -16px;
+    padding: 0 16px 4px;
+  }
+  .e10::-webkit-scrollbar, .e10-scorers::-webkit-scrollbar { display: none; }
+  .e10 > .pcard-sh, .e10-scorers > .pcard-sh {
+    flex: 0 0 74%;
+    max-width: 74%;
+    min-width: 0;
+    scroll-snap-align: start;
+  }
+}
+
+
+/* ============================================================
+   G. The NL hero on a phone
+   ============================================================
+   Round five centres the lock, so both brand elements come back —
+   the left one was hidden because it landed on a left-aligned
+   headline. They are sized off the lock the same way the desktop
+   sizes them, with a smaller lock and smaller caps.
+   ============================================================ */
+@media (max-width: 767px) {
+
+  body.hero-nl .hnl {
+    height: auto;
+    min-height: 156px;
+    margin-left: -16px;
+    margin-right: -16px;
+  }
+  .hnl {
+    --hero-cap: 15px;
+    /* the lock is the wordmark's width here, and what is left of the
+       band either side of it is what the two corners get */
+    --hnl-lock: 212px;
+  }
+  .hnl-in {
+    width: calc(100% - 32px);
+    align-items: center;
+    text-align: center;
+    padding: 22px 0 24px;
+    gap: 10px;
+  }
+  .hnl-lock {
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+  }
+  .hnl-logo {
+    width: min(240px, 100%);
+    height: auto;
+  }
+  .hnl-s { font-size: calc(var(--hero-cap) / 0.72); line-height: 1.15; }
+
+  .hnl-kv-l {
+    display: block;
+    left: 0; top: 0;
+    width: min(118px, var(--hnl-side));
+    height: auto;
+    transform: none;
+  }
+  .hnl-kv-r {
+    right: 0; bottom: 0;
+    width: min(140px, calc(var(--hnl-side) * 1.2));
+    height: auto;
+    transform: none;
+  }
+  .hnl-court {
+    width: 156px;
+    height: 104px;
+    top: -3px;
+  }
+}

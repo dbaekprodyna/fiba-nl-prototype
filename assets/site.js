@@ -2642,13 +2642,65 @@
 
     days = dayList();
     clampWin();
+
+    /* Review 5: the page opens on All and on today, as the prototype
+       does, and Clear filter is what returns the whole season. */
+    function openOnToday() {
+      var i = days.indexOf(iso(new Date()));
+      sel = i;
+      if (i > -1 && days.length > SLOTS) {
+        win = Math.max(0, Math.min(i - Math.floor(SLOTS / 2), days.length - SLOTS));
+      }
+      clampWin();
+    }
+    openOnToday();
+
     region = chipFilter(function (r) {
       region = r; days = dayList(); sel = -1; win = 0; clampWin();
       drawStrip(); drawList();
     }) || 'All';
     gender = genderSwitch(function (g) { gender = g; drawList(); }, $('.f04-ctl')) || 'men';
-    searchField($('.cal-find') || document, 'Search a stop, city or federation',
+    var setQuery = searchField($('.cal-find') || document,
+                'Search a stop, city or federation',
                 function (q) { query = q; drawList(); });
+
+    /* The chips and the reset share one row: chips from the left,
+       Clear filter at the right end, both at the chips' height. */
+    (function () {
+      var chips = $('.el03');
+      if (!chips || chips.closest('.cal-bar')) return;
+      var bar = el('div', 'cal-bar');
+      chips.parentNode.insertBefore(bar, chips);
+      bar.appendChild(chips);
+      var b = el('button', 'cal-clear',
+        '<span>Clear filter</span>' +
+        '<svg fill="currentColor" height="16" viewBox="0 -960 960 960" width="16" ' +
+        'aria-hidden="true"><path d="m251-160-91-91 229-229-229-229 91-91 229 229 229-229 ' +
+        '91 91-229 229 229 229-91 91-229-229Z"></path></svg>');
+      b.type = 'button';
+      b.setAttribute('aria-label', 'Clear every filter');
+      b.addEventListener('click', function () {
+        region = 'All';
+        sel = -1;
+        win = 0;
+        query = '';
+        days = dayList();
+        clampWin();
+        $$('.chip', chips).forEach(function (c, i) {
+          c.classList.toggle('chip-on', i === 0);
+        });
+        var inp = $('.cal-find input') || $('.search input');
+        if (inp && inp.value) {
+          inp.value = '';
+          inp.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+        query = '';
+        drawStrip();
+        drawList();
+      });
+      bar.appendChild(b);
+    })();
+
     drawStrip();
     drawList();
   };
@@ -3556,6 +3608,9 @@
   /* FIBA's own channel. A conference that is playing shows its
      stream in place; when nothing is on air the frame says so
      rather than holding an empty player. */
+  /* ============================================================
+     Review 5 — 2026-08-26. Daniel's second mark-up.
+     ============================================================ */
   var YT_CHANNEL = 'UC7LpyJP5fupiJu2CdzRQheg';
   var YT_STREAMS = 'https://www.youtube.com/@FIBA3x3/streams';
   /* The still behind the play button when a stop names none of its
@@ -3699,13 +3754,18 @@
     /* --- the day, stated ------------------------------------- */
     var todayBox = $('.sched-today', wrap);
     var todayTxt = $('.sched-todaytxt', wrap);
+    /* Review 5: the day is stated under the conference that is
+       playing rather than beside the section title, so it reads as
+       "Singapore · Stop 6 · Wed 26 Aug". */
+    var dayLine = '';
     (function () {
       var dt = new Date(today + 'T12:00:00');
-      todayTxt.textContent = 'Today · ' +
+      dayLine =
         ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'][dt.getDay()] + ' ' +
         dt.getDate() + ' ' +
         ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul',
          'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][dt.getMonth()];
+      todayTxt.textContent = 'Today · ' + dayLine;
     })();
 
     /* --- the frame, with its caption above it ----------------- */
@@ -3781,11 +3841,13 @@
       if (ev) {
         var c = conf(ev.conference);
         cap.innerHTML =
+          '<span class="sched-caphead">' +
           (isLive ? '<div class="el-05-StatusBadge--live badge badge-live cut cut-s">' +
                     '<span class="badge-dot"></span><span class="lbl">Live</span></div>' : '') +
-          '<span class="sched-capname">' + (c ? confName(c) : ev.conference) + '</span>' +
+          '<span class="sched-capname">' + (c ? confName(c) : ev.conference) +
+          '</span></span>' +
           '<span class="t-body-s sched-capmeta">' + (ev.city || '') +
-          ' · Stop ' + (ev.number || 1) + '</span>';
+          ' · Stop ' + (ev.number || 1) + ' · ' + dayLine + '</span>';
         cap.style.cursor = 'pointer';
         cap.addEventListener('click', function () { location.href = 'stop.html?id=' + ev.slug; });
       } else {
@@ -3807,8 +3869,12 @@
         play.addEventListener('click', function () {
           frame.innerHTML =
             '<iframe allow="accelerometer; autoplay; encrypted-media; picture-in-picture" ' +
-            'allowfullscreen src="https://www.youtube.com/embed/live_stream?channel=' +
-            YT_CHANNEL + '&autoplay=1" title="FIBA 3x3 Nations League — live"></iframe>';
+            'allowfullscreen src="' +
+            (ev && ev.video
+               ? 'https://www.youtube.com/embed/' + ev.video + '?autoplay=1'
+               : 'https://www.youtube.com/embed/live_stream?channel=' +
+                 YT_CHANNEL + '&autoplay=1') +
+            '" title="FIBA 3x3 Nations League — live"></iframe>';
         });
         frame.appendChild(play);
       } else {
@@ -3879,7 +3945,16 @@
     paintVideo();
     paintList();
     host.insertBefore(wrap, host.children[1] || null);
-    genderSwitch(function (g) { sex = g; paintList(); }, $('.sched-gender', wrap));
+    /* Review 5: every other sub page carries the switch at the right
+       end of the headline row, so this one does too. */
+    var gsw = $('.sched-gender', wrap);
+    var pageCtl = $('.f04-ctl');
+    if (!pageCtl) {
+      var pageRow = $('.f04-row');
+      if (pageRow) { pageCtl = el('div', 'f04-ctl'); pageRow.appendChild(pageCtl); }
+    }
+    if (gsw && pageCtl) pageCtl.appendChild(gsw);
+    genderSwitch(function (g) { sex = g; paintList(); }, gsw || wrap);
   }
 
   /* ---------- Conferences: head split, flat grid, chips -------- */
