@@ -161,6 +161,15 @@
 
   /* ---------- lookups -------------------------------------- */
   function conf(id) { return D.conferences.filter(function (c) { return c.id === id; })[0]; }
+
+  /* Review 10: the federation a player represents, from the code on
+     his shirt. players.json's `country` is his residence and the two
+     disagree for 73 players in the season. */
+  function nationOf(ioc) {
+    if (!ioc || !D.teams) return '';
+    var t = D.teams.filter(function (x) { return x.ioc === ioc; })[0];
+    return (t && t.name) || '';
+  }
   function stop(slug) { return D.events.filter(function (e) { return e.slug === slug; })[0]; }
   /* Whether a stop has been played is a fact about the calendar, not
      about how far the snapshot got. Deriving it from the presence of a
@@ -907,8 +916,14 @@
       /* Season totals for this federation, the same four figures the
          team header carries. */
       var tot = { played: 0, won: 0, points: 0, stops: 0 };
+      /* Review 10: this conference's stops, not every stop in the
+         season that this federation turned up at. */
+      var mine = {};
+      D.events.forEach(function (e2) {
+        if (e2.conference === team.conference) mine[e2.slug] = 1;
+      });
       D.standings.forEach(function (s2) {
-        if (s2.gender !== team.gender) return;
+        if (s2.gender !== team.gender || !mine[s2.stop]) return;
         s2.rows.forEach(function (r) {
           if (r.ioc !== team.ioc) return;
           tot.played += r.played || 0;
@@ -2322,10 +2337,10 @@
     $$('.f04-h1, .f04-h1-m, .f04-h1-s, .f04-title').forEach(function (n) { n.textContent = p.name; });
     crumbs([{ label: 'Home', href: 'index.html' },
             { label: 'Teams', href: 'teams.html' },
-            { label: p.country || '', href: 'team.html?ioc=' + p.ioc },
+            { label: nationOf(p.ioc) || p.country || '', href: 'team.html?ioc=' + p.ioc },
             { label: p.name }]);
     var ph = $('.e05-id') || $('.e05');
-    if (ph) { flag(ph, p.ioc); text(ph, '.ftag-code', p.ioc); text(ph, '.ftag-name', p.country); }
+    if (ph) { flag(ph, p.ioc); text(ph, '.ftag-code', p.ioc); text(ph, '.ftag-name', nationOf(p.ioc) || p.country); }
     /* E-05's glance row is labelled Games / Points / PPG / Win ratio in
        the markup, and was being filled with age, ranking points and a
        city — three values that belong to none of those labels. */
@@ -3157,9 +3172,9 @@
         } },
       { rows: players, label: 'Players',
         paint: function (row, p) {
-          fed(row, p.ioc, p.country);
+          fed(row, p.ioc, nationOf(p.ioc) || p.country);
           text(row, '.e11-t', p.name);
-          text(row, '.e11-m', p.country || '');
+          text(row, '.e11-m', nationOf(p.ioc) || p.country || '');
           link(row, 'player.html?id=' + p.id);
         } },
       { rows: news, label: 'News',
@@ -3657,6 +3672,10 @@
      ============================================================ */
   var YT_CHANNEL = 'UC7LpyJP5fupiJu2CdzRQheg';
   var YT_STREAMS = 'https://www.youtube.com/@FIBA3x3/streams';
+  /* Review 10: the last resort. A local file, so it cannot
+     fail to load, and it is the band's own gradient and court
+     rather than a photograph of somewhere else. */
+  var POSTER_FALLBACK = 'assets/poster-nl.svg';
   /* Review 8: there is no house still any more. One stop's thumbnail
      standing in for every stop meant that every conference on the site
      showed the Asia West/Pacific frame. A stop's poster is its own
@@ -3666,10 +3685,23 @@
     return 'https://i.ytimg.com/vi/' + id + '/' + (size || 'hq720') + '.jpg';
   }
   function posterOf(ev) {
-    if (!ev) return '';
+    if (!ev) return POSTER_FALLBACK;
     if (ev.poster) return ev.poster;
     if (ev.video) return ytThumb(ev.video);
-    return ev.cover || '';
+    if (ev.cover) return ev.cover;
+    /* Review 10: a stop with no stream and no gallery of its own —
+       there are twenty-five of them — used to return nothing, and an
+       empty string means videoFrame draws no image and the frame is
+       a grey rectangle. The conference's own newest cover is the
+       closest true picture of it. */
+    var sib = null;
+    if (ev.conference && D.events) {
+      D.events.forEach(function (x) {
+        if (x.conference !== ev.conference || !x.cover) return;
+        if (!sib || (x.start || '') > (sib.start || '')) sib = x;
+      });
+    }
+    return (sib && sib.cover) || POSTER_FALLBACK;
   }
 
   function el(tag, cls, html) {
@@ -3807,6 +3839,10 @@
     if (pimg) pimg.addEventListener('error', function () {
       if (ev && ev.video && pimg.src.indexOf('/hq720.jpg') > -1) {
         pimg.src = ytThumb(ev.video, 'mqdefault');
+      } else if (pimg.src.indexOf(POSTER_FALLBACK) < 0) {
+        /* A cover that 404s, or a network that will not reach
+           ytimg — the house still is local and always answers. */
+        pimg.src = POSTER_FALLBACK;
       } else {
         pimg.remove();
       }

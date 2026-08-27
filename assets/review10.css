@@ -1,0 +1,90 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review10.css
+   Round ten (2026-08-27, Daniel's seventh mark-up), desktop.
+
+     1  The hero's court is drawn behind the two key visuals,
+        not over them.
+     2  A stop's stream takes eight columns and the podium beside
+        it takes four, stacked, every tile the same width.
+
+   Loads after review9.css and before hero.css.
+   ============================================================ */
+
+
+/* ---- 1  the court goes behind the corners -------------------
+   Three things sit inside the band: the court, the two key
+   visuals, and the lock. The court was given z-index 1 in round
+   five to lift it off the gradient; the key visuals were left on
+   auto, and an auto-positioned element loses to any positive
+   z-index no matter what order it is in the document. So the
+   blue court lines were being painted across the top-left
+   artwork.
+
+   The band is three explicit layers now, bottom to top:
+   court 0, corners 1, lock 2 (.hnl-in already carries 2).    */
+.hnl-court { z-index: 0; }
+.hnl-kv    { z-index: 1; }
+
+
+/* ---- 2  the stream is eight columns, the podium is four ------
+   Round six put the stream and the podium side by side at six
+   and six. Six columns of 1440 is a 708px frame — wider than the
+   stream is ever shown at — and it left the three podium tiles
+   sitting in a row inside a half-width box, each one as wide as
+   its own federation name and none of them the same.
+
+   The frame goes to eight and the podium to four, which is the
+   split the rest of the page already uses, and the podium turns
+   through ninety degrees: three tiles down the column, each one
+   the full four columns wide, so the three read as a ranking
+   rather than as three loose chips.
+
+   .vsplit is shared with the stop page, where the right-hand
+   column is the "not played yet" block; it gets the same four
+   columns, for the same reason — the two pages should not put
+   the same frame at two different sizes.                     */
+.vsplit > .vsplit-v {
+  flex: 0 0 var(--col-8);
+  max-width: var(--col-8);
+}
+.vsplit > .vsplit-r {
+  flex: 0 0 var(--col-4);
+  max-width: var(--col-4);
+}
+
+/* The podium: a column, and every tile the width of the column.
+   flex-wrap has to be cleared as well as the direction — a
+   wrapping column box takes its width from its tallest run, not
+   from its parent, and the tiles would keep their own widths. */
+.vsplit-r .cnf-stop-podium {
+  flex-direction: column;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  width: 100%;
+}
+.vsplit-r .cnf-pod {
+  width: 100%;
+  justify-content: flex-start;
+}
+/* The federation name is what makes the tiles different widths;
+   in a column it has the room to be there. */
+.vsplit-r .cnf-pod .ftag { flex: 1 1 auto; min-width: 0; }
+
+/* Solo — a played stop with nothing waiting beside the frame —
+   still hands the width back. Round six's rule sets flex and
+   max-width on .vsplit-v; it is repeated here because the two
+   rules above are more specific than it is. */
+.vsplit-solo > .vsplit-v {
+  flex: 1 1 auto;
+  max-width: none;
+  width: 100%;
+}
+
+@media (max-width: 1100px) {
+  .vsplit > .vsplit-v,
+  .vsplit > .vsplit-r {
+    flex: 1 1 auto;
+    max-width: none;
+    width: 100%;
+  }
+}

@@ -44,6 +44,13 @@ for t in snap.get("teams", {}).values():
                 "age": m.get("age"),
                 "gender": (m.get("gender") or "").lower(),
                 "rankingPoints": m.get("rankingPoints"),
+                # The roster carries three sizes of the player's FIBA
+                # profile picture, addressed by his member id — which is
+                # not this record's id, so it cannot be derived. 480 is
+                # the size the card and the profile block both use.
+                # tools/fill_portraits.py does the same for a
+                # players.json that is already built.
+                "portrait": m.get("imageMediumUrl") or m.get("imageSmallUrl"),
             }
         roster.append({"id": pid, "captain": bool(m.get("isCaptain"))})
     teams.append({

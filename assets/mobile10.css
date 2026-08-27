@@ -1,0 +1,352 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile10.css
+   Round ten's phone layer. Loads last, after mobile9.css.
+
+     1  The home hero — the two corner key visuals are drawn at
+        twice the size they were, and the band is given the room.
+     2  el-30 CalendarStrip — the paging arrows go, the strip is
+        a rail, and it arrives with today in the middle of it.
+        (Live now and Calendar are the same module.)
+     3  Tables — minimum spacing, IOC codes only, and a pinned
+        column count set per table rather than for all of them.
+     4  E-07 Game log — the one list on the site that was not
+        wired into the table system at all.
+     5  E-01 TeamFinder — the result card's four figures become
+        two by two.
+     6  The team page's category switch is a swipe rail.
+
+   ============================================================ */
+
+
+/* ============================================================
+   The phone and the tablet
+   ============================================================ */
+@media (max-width: 1099px) {
+
+  /* ---- 6  the category switch swipes ----------------------
+     U23 Men / U23 Women / U21 Men / U21 Women is four segments
+     of a fixed size on a screen that fits two and a half of
+     them, and the fourth was simply off the page with nothing
+     to say so. Same rail as the player-card rows: the box is
+     the full width of the screen and the page margin is its
+     own padding, so the first segment lines up with the
+     breadcrumb above it and the last one can still reach the
+     edge.                                                     */
+  .f04-ctl .el02,
+  .el02.el02-quad {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    scroll-padding-left: 16px;
+  }
+  .f04-ctl .el02::-webkit-scrollbar,
+  .el02.el02-quad::-webkit-scrollbar { display: none; }
+  .f04-ctl .el02 > .el02-seg,
+  .el02.el02-quad > .el02-seg { flex: 0 0 auto; }
+}
+
+
+/* ============================================================
+   The phone
+   ============================================================ */
+@media (max-width: 767px) {
+
+  /* ---- 1  the hero corners, twice the size -----------------
+     Round nine drew them at 33 and 30 and the mark-up asks for
+     twice that. The band is sized the same way it was: the
+     artwork plus four pixels of air, top and bottom, around a
+     lock that has not changed height.
+
+         top    66 of artwork + 4 clear = 70
+         bottom 60 of artwork + 4 clear = 64
+         lock and link, unchanged        = 121
+         ------------------------------------
+         band                             255 -> 256
+
+     The court is sized off the band, as it has been since round
+     seven — its own top and bottom rules have to fall outside
+     the band or it stops reading as a court and starts reading
+     as a rectangle. 264 x 176 at 192 of band becomes 352 x 235
+     at 256, and the overhang grows with it.                   */
+  .hnl { --hnl-min: 256px; }
+  .hnl-in { padding: 70px 0 64px; }
+  .hnl-kv-l { width: auto; height: 66px; }
+  .hnl-kv-r { width: auto; height: 60px; }
+  .hnl-court { width: 352px; height: 235px; top: -8px; }
+
+  /* The corners are 165 and 210 wide at that height, so the lock
+     can no longer have the full width of the band. It never used
+     more than two thirds of it. */
+  .hnl-in > .hnl-lock { max-width: calc(100% - 24px); }
+
+
+  /* ---- 2  the day strip is a rail, not a pager -------------
+     The two arrows page the strip eight days at a time. On a
+     phone the strip is already a rail you swipe, so the arrows
+     were a second way to do the same thing — and being outside
+     the scroll box they sat half off each edge of the screen,
+     which is how they read: as two clipped boxes rather than as
+     controls.
+
+     They go. The strip takes the width they were using, runs
+     edge to edge, and review10.js scrolls today into the middle
+     of it on arrival — the one day the module exists to show
+     was the one day you had to go looking for.                */
+  .s03nav { display: none !important; }
+  .s03wrap {
+    width: calc(100% + 32px);
+    margin: 0 -16px;
+    padding: 0 0 4px 16px;
+    gap: 0;
+  }
+  .s03 {
+    padding-right: 16px;
+    scroll-padding-left: 16px;
+  }
+
+
+  /* ---- 3  tables ------------------------------------------
+     Two things, and the second one depends on the first.
+
+     (a) Spacing. A cell was 10px of padding either side and the
+     columns were sized for a name that is not being shown —
+     el-13 has been code-only on a phone since round five. Every
+     width comes down to what the content in it actually needs,
+     and the padding comes down to 6. Between the two, a 358px
+     screen sees three or four columns of a standings table
+     instead of two.
+
+     (b) How many columns are pinned. Round five pinned two,
+     round six pinned one, and both of them did it to every
+     table on the site. Neither number is right for all of them:
+     a standings row is read as "which federation, then what" and
+     needs the position and the flag to stay; a game list is read
+     a row at a time and needs nothing pinned at all; a matrix of
+     stops needs its federation and nothing else.
+
+     So the count is per table. review10.js tags each table's row
+     parent with mstick-2 / mstick-1 / mstick-0 and measures the
+     first column onto it, because that column is a different
+     width on every one of them.                               */
+
+  /* (a) the spacing */
+  .cell { padding: 0 6px; }
+  .thead > .cell:first-child,
+  .trow > .cell:first-child { padding-left: 8px; }
+  .thead > .cell:last-child,
+  .trow > .cell:last-child { padding-right: 8px; }
+
+  .c-fed   { flex: 0 0 88px;  width: 88px; }
+  .c-conf  { flex: 0 0 94px;  width: 94px; }
+  .c-pos   { flex: 0 0 30px;  width: 30px; }
+  .c-wr, .c-pa { flex: 0 0 64px; width: 64px; }
+  .c-ep    { flex: 0 0 46px;  width: 46px; }
+  .c-pts   { flex: 0 0 62px;  width: 62px; }
+  .c-st    { flex: 0 0 58px;  width: 58px; }
+  .c-time  { flex: 0 0 56px;  width: 56px; }
+  .c-home, .c-away { flex: 0 0 78px; width: 78px; }
+  .c-score { flex: 0 0 70px;  width: 70px; white-space: nowrap; }
+  .c-pool  { flex: 0 0 74px;  width: 74px; }
+  .c-gst   { flex: 0 0 86px;  width: 86px; }
+  .c-jstop { flex: 0 0 42px;  width: 42px; }
+  .c-jhost { flex: 0 0 112px; width: 112px; }
+  .c-jdate { flex: 0 0 62px;  width: 62px; }
+  .c-mstop { flex: 0 0 44px;  width: 44px; }
+
+  /* S-02 Stats, players: rank, player, federation, conference,
+     then the figures. It carries none of the c- classes. */
+  .r05-rank { flex: 0 0 30px;  width: 30px; }
+  .r05-pl   { flex: 0 0 132px; width: 132px; min-width: 0; gap: 8px !important; }
+  .r05-pl .team-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-size: 15px !important;
+  }
+  .r05-team { flex: 0 0 70px; width: 70px; }
+  .r05-num  { flex: 0 0 60px; width: 60px; }
+  /* The initials chip is forty of the hundred and fifty pixels the
+     name has to live in, and it says the same thing the name does. */
+  .r05-pl .av { display: none; }
+
+  /* An el-13 tag is a flag and a code on a phone. It was still
+     being laid out as though the name were there. */
+  .ftag-txt { min-width: 0; }
+  .ftag-m, .ftag-s { gap: 6px; }
+
+  /* The header labels are longer than the figures under them —
+     "Pts Average" over "18.6" — and at these widths they ran into
+     each other. A caption in a header cell wraps; the column is
+     sized by its data, which is the thing being compared, and the
+     label finds the room it needs above it. */
+  .thead > .cell { flex-wrap: nowrap; }
+  .thead .t-caption {
+    white-space: normal;
+    line-height: 12px;
+    letter-spacing: 0;
+    min-width: 0;
+  }
+  .thead > .cell-num .t-caption { text-align: right; }
+
+  /* A conference column of "Asia Central/East U23" over an 84px cell
+     is three lines, and the row beside it is one — so a standings
+     table came out as a ragged stack of different heights. The
+     labels are shortened by review10.js (region words to their
+     three-letter form); what is left fits two lines at most.      */
+  .c-conf, .e07-conf { font-size: 12px; line-height: 14px; }
+
+  /* (b) the pinned columns — the default is cleared first, then
+     each table is given the count it asked for. */
+  .thead > .cell,
+  .trow > .cell {
+    position: static;
+    left: auto;
+  }
+
+  .mtbl {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+  .mtbl > .thead,
+  .mtbl > .trow,
+  .mtbl > .e06-h,
+  .mtbl > .e06-row,
+  .mtbl > .e07-row { min-width: max-content; }
+
+  .mstick-1 > .thead > .cell:nth-child(1),
+  .mstick-1 > .trow  > .cell:nth-child(1),
+  .mstick-2 > .thead > .cell:nth-child(-n+2),
+  .mstick-2 > .trow  > .cell:nth-child(-n+2) {
+    position: sticky;
+    z-index: 2;
+    background: inherit;
+  }
+  .mstick-1 > .thead > .cell:nth-child(1),
+  .mstick-1 > .trow  > .cell:nth-child(1),
+  .mstick-2 > .thead > .cell:nth-child(1),
+  .mstick-2 > .trow  > .cell:nth-child(1) { left: 0; }
+  .mstick-2 > .thead > .cell:nth-child(2),
+  .mstick-2 > .trow  > .cell:nth-child(2) { left: var(--stick1, 30px); }
+
+  /* A pinned cell has to paint or the row travels under it. Only
+     the cells that are actually pinned get a background — round
+     six found that a transparent-but-painted second cell covers
+     the header rule. */
+  .mstick-0 > .thead > .cell,
+  .mstick-0 > .trow > .cell,
+  .mstick-1 > .thead > .cell:nth-child(n+2),
+  .mstick-1 > .trow  > .cell:nth-child(n+2),
+  .mstick-2 > .thead > .cell:nth-child(n+3),
+  .mstick-2 > .trow  > .cell:nth-child(n+3) { background: transparent; }
+
+  /* S-05 Pools: the seed and the federation are one thing — the
+     seed on its own names no row — so the pair pins together.
+     At these widths the pool table fits the screen anyway; the
+     rule is there for the long federation codes. */
+  .s05-seed { width: 30px; }
+  .s05-n { width: 56px; }
+
+
+  /* ---- 4  E-07 Game log -----------------------------------
+     This list was never in the table system: its rows are
+     .e07-row straight inside an unclassed div, so the scroller
+     that .tbl gets never reached it and neither did any of the
+     widths. What it did instead was let five fixed columns and
+     one flexible one shrink inside a 358px box until the date,
+     the conference, the opponent and the result were all drawn
+     on top of each other — and the header, which is allowed to
+     wrap, wrapped to three lines inside a 40px row and printed
+     over the first result.
+
+     review10.js tags the parent as a table; the header stops
+     wrapping, every column takes the width its content needs,
+     and the whole thing scrolls sideways like the game lists it
+     belongs with. Nothing is pinned: a game log is read a row
+     at a time and the date is the least of what is in it.    */
+  .e06-h { flex-wrap: nowrap; height: auto; min-height: 40px; }
+  .e07-row { height: 56px; }
+  .e06-cell { padding: 0 6px; }
+
+  .e07-date  { flex: 0 0 58px;  width: 58px; padding-left: 8px; }
+  .e07-conf  { flex: 0 0 104px; width: 104px; }
+  .e07-opp   { flex: 0 0 86px;  width: 86px; min-width: 0; }
+  .e07-res   { flex: 0 0 76px;  width: 76px; gap: 6px; white-space: nowrap; }
+  .e07-line  { flex: 0 0 140px; width: 140px; font-size: 13px; }
+  .e07-media { flex: 0 0 62px;  width: 62px; gap: 8px; padding-right: 8px; }
+
+  /* E-06, the season table on a player page: one row per stop. Same
+     treatment — the stop names itself in 132 rather than 220, and the
+     figures take the width a three-digit number takes. */
+  .e06-stop { flex: 0 0 148px; width: 148px; padding-left: 8px; }
+  .e06-num  { flex: 0 0 66px;  width: 66px; }
+
+
+  /* ---- 4b  the team header's caption line -----------------
+     "U23 Men · Europe-3 U23 · Not qualified" is three things on
+     one row that has room for two, and a row does not wrap: each
+     of them was squeezed to its longest word and broke in the
+     middle — "U23 / Men", "Europe-3 / U23", "NOT / QUALIFIED",
+     with the badge sitting across the name beside it.
+
+     It wraps, and each part stays whole.                       */
+  .e04-sub {
+    flex-wrap: wrap;
+    row-gap: 6px;
+    column-gap: 10px;
+  }
+  .e04-sub > * { flex: 0 0 auto; white-space: nowrap; }
+
+
+  /* ---- 4c  E-08 PlayerCard, without a pointer --------------
+     The card's whole behaviour — the lift, the six degrees of tip,
+     the specular band crossing it — hangs off :hover, and a phone
+     has no hover. What it has instead is a card that moves through
+     the screen while you swipe the rail, and a device that knows
+     which way it is being held.
+
+     review10.js drives the same two custom properties the pointer
+     wrote, from whichever of the two is available, and marks the
+     card nearest the middle of the screen .pcard-on. So the rule
+     below is round six's hover rule with the hover taken out.
+
+     The transition is shortened: at 240ms a tilt that is being fed
+     sixty times a second reads as lag rather than as weight.     */
+  .live .pcard-sh.pcard-on { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
+  .live .pcard-sh.pcard-on .pcard {
+    transform: translateY(-6px)
+               rotateX(var(--tilt-x, 0deg))
+               rotateY(var(--tilt-y, 0deg));
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.22), 0 2px 6px rgba(0, 0, 0, 0.12);
+  }
+  .live .pcard-sh.pcard-on .pcard-shine { opacity: 1; }
+  .pcard { transition-duration: 140ms; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .live .pcard-sh.pcard-on .pcard { transform: translateY(-2px); }
+    .live .pcard-sh.pcard-on .pcard-shine { opacity: 0; }
+  }
+
+
+  /* ---- 5  the TeamFinder result card ----------------------
+     Four figures on one line gave each of them 80 pixels, which
+     is narrower than the words above them: "Stops played" broke
+     to two lines, "22-7" broke after the dash, and "12 of 6"
+     came down a word at a time. Two by two.                   */
+  .finder-stats { flex-wrap: wrap; }
+  .finder-stat {
+    flex: 0 0 50%;
+    width: 50%;
+    min-width: 0;
+    padding: 12px 14px;
+  }
+  .finder-stat:nth-child(2n) { border-right: 0; }
+  .finder-stat:nth-child(-n+2) { border-bottom: 1px solid var(--border-subtle); }
+  .finder-v {
+    font-size: 28px;
+    line-height: 30px;
+    white-space: nowrap;
+  }
+}
