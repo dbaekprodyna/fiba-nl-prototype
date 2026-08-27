@@ -1,5 +1,47 @@
 # Changelog
 
+## 2026-08-27 — Thirteenth review: two marks
+
+Daniel's tenth mark-up, two items. Both are CSS only:
+`assets/review13.css` (desktop, loaded after review11.css and before
+hero.css) and `assets/mobile13.css` (phone, last stylesheet of all).
+`tools/p23_review13.py` links the two on every page and is idempotent,
+followed as always by `tools/bump_assets.py`.
+
+### Home > hero
+
+- **The two brand elements get a size of their own.** Round five had
+  sized them off the band — `side = (band - 906) / 2`, capped at the
+  1728 drawing — which gave 267 and 320 at 1440 and made them read as
+  the band's two ends. The mark gives them 128px and 104px of width,
+  `height: auto`, so the drawn ratios hold: 128 x 51.2 for
+  `kv-brand-1.svg` (440 x 176) and 104 x 29.7 for `kv-brand-2.svg`
+  (498 x 142). They are corner marks flanking the lock now. The phone
+  keeps the heights rounds eleven and twelve set for it, because both
+  mobile layers load after this file.
+
+### Phone > tab bar
+
+- **Four pixels back at each end.** Round twelve took el-18 NavTab from
+  68 to 58 to kill the black lid over the icon, and the row of five
+  ended up tight against the bar's own top rule and against the home
+  indicator underneath. The box goes to 66 with the icon + label + rule
+  block (50) still centred, so the free space is 8 above and 8 below
+  instead of 4 and 4. Bar, strip, reserve, overlay and sheet move
+  together, the lesson of round twelve: strip and `.tpl` reserve 60 ->
+  68, `.site-ovl` and `.mnav-sheet` inset 60 -> 68, `.f03m-sheet-body`
+  72 -> 80.
+
+- **The Conferences dot is whole at the top of its bounce.** The flat
+  top was never a black object drawn over it. `.ntab` carries
+  `cut cut-s`, and a clip-path clips an element's own pseudo-elements:
+  at `top: 1px` the rest position of the bounce is `translateY(-45%)` =
+  -1.7px, so the top 1.7px of the dot fell outside the clip and the tab
+  bar's own black showed through it. The taller box moves the icon's
+  top edge from 4 to 8; `top: 5px` keeps the dot landing three pixels
+  into the globe exactly as before and puts the top of the bounce at
+  2.3px, clear of the edge.
+
 ## 2026-08-27 — Twelfth review: the phone half, again
 
 Daniel's ninth mark-up — the ten screenshots in `Mobile Feedbacks 2/` — plus

@@ -1,0 +1,30 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review13.css
+   Round thirteen, the desktop half. Loaded after review11.css
+   and before hero.css, so the mobile layers still have the last
+   word on a phone.
+   ============================================================ */
+
+/* ---- 1  the two brand elements, at their marked size ---------
+   Round five sized them off the band instead of off a number:
+   `side = (band - 906) / 2`, capped at the 1728 drawing — 411 and
+   492 there, 267 and 320 at 1440. Daniel's mark gives them a size
+   of their own, and it is a much quieter one: the elements read as
+   corner marks flanking the lock rather than as the band's ends.
+
+   Width only. Both files carry a viewBox (440 x 176 and 498 x 142)
+   and `height: auto` keeps the drawn ratio, so the left element
+   comes out 128 x 51.2 and the right one 104 x 29.7.
+
+   The phone keeps the heights round eleven and twelve set for it
+   (mobile11.css / mobile12.css load after this file).          */
+.hnl-kv-l {
+  width: 128px;
+  height: auto;
+  max-width: none;
+}
+.hnl-kv-r {
+  width: 104px;
+  height: auto;
+  max-width: none;
+}
