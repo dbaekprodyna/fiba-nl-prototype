@@ -1,0 +1,428 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile12.css
+   Twelfth round, the phone half — 2026-08-27.
+   Daniel's ninth mark-up ("Mobile Feedbacks 2") plus the two
+   requests that came with it: the stop link becomes a control,
+   and a stop page can get back to the list it came from.
+
+   Loaded last, after mobile11.css. Nothing here escapes a
+   media query, so a desktop reads none of it.
+   ============================================================ */
+
+
+@media (max-width: 767px) {
+
+  /* ---- 1  Open stop page: a control, at the right edge -------
+     Two faults, one line of mark-up. `.cnf-stop-link` carries
+     margin-left:auto, but it is an `a.nav-a`, and site.css gives
+     those display:contents — the flex item in the head row is
+     the .lnk INSIDE the anchor, so the auto margin was being
+     set on a box that does not take part in the layout. The
+     link sat wherever the title left it.
+
+     The margin moves to the box that is actually the flex item,
+     and the link takes the outline treatment ctl-01 Button
+     wears: on a phone this is the one thing on the row you are
+     meant to press, and an underlined caption does not say so.
+
+     The outline is drawn the way every cut control on the site
+     draws it — the element's background IS the 1px ring and a
+     slightly smaller cut shape on ::before covers the rest.
+     `border` cannot do it: clip-path takes the corner off the
+     border with everything else and the two 45 degree edges
+     come out blank.                                          */
+  .cnf-stop-head > .cnf-stop-link,
+  .cnf-stop-head .cnf-stop-link > .lnk {
+    margin-left: auto;
+  }
+  .cnf-stop-head .cnf-stop-link > .lnk {
+    position: relative;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    height: 34px;
+    padding: 0 12px;
+    gap: 6px;
+    border: 1px solid transparent;
+    background: var(--action-default);
+    color: var(--action-default);
+    font-size: 12px;
+    line-height: 16px;
+    --cutc: 8px;
+    --cutic: 7.414px;
+    clip-path: polygon(var(--cutc) 0, 100% 0,
+                       100% calc(100% - var(--cutc)),
+                       calc(100% - var(--cutc)) 100%,
+                       0 100%, 0 var(--cutc));
+  }
+  .cnf-stop-head .cnf-stop-link > .lnk::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: var(--surface-page);
+    clip-path: polygon(var(--cutic) 0, 100% 0,
+                       100% calc(100% - var(--cutic)),
+                       calc(100% - var(--cutic)) 100%,
+                       0 100%, 0 var(--cutic));
+  }
+  .cnf-stop-head .cnf-stop-link > .lnk > * { position: relative; }
+  /* the underline el-02 Link carries is the other treatment */
+  .cnf-stop-head .cnf-stop-link > .lnk { border-bottom-color: transparent; }
+  .cnf-stop-head .cnf-stop-link > .lnk svg { width: 16px; height: 16px; }
+
+  /* The head has to be allowed to give the control its width;
+     the title wraps instead. */
+  .cnf-stop-head { gap: 10px; }
+  .cnf-stop-id { min-width: 0; }
+
+
+  /* ---- 2  the stop podium is a ranking, not two-and-one ------
+     Three cut tiles wrapping in a 358px row came out as two on
+     the first line and one alone on the second, which reads as
+     a broken grid rather than as first, second, third. It gets
+     the shape the desktop's right-hand column already gives it:
+     one tile a row, every tile the full width — and with a full
+     row to live on, the federation's name comes back.        */
+  .cnf-stop-podium {
+    flex-direction: column;
+    flex-wrap: nowrap;
+    align-items: stretch;
+    width: 100%;
+    gap: 8px;
+  }
+  .cnf-pod {
+    width: 100%;
+    justify-content: flex-start;
+    padding: 10px 14px;
+  }
+  .cnf-pod .ftag { flex: 1 1 auto; min-width: 0; }
+  .cnf-pod .ftag-txt .ftag-name {
+    display: block;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+
+  /* ---- 3  S-08 Podium: the desktop figure, made to fit -------
+     Round eleven stacked it — first, second, third down the
+     page — because the three plinths, each shrunk to the width
+     of its own numeral, read as three broken boxes. The plinths
+     were the fault, not the arrangement: a podium IS three
+     heights side by side, and it survives being made small.
+
+     So the desktop figure comes back and is scaled to the
+     screen: three equal columns, the plinth the full width of
+     its column, and the 120/88/64 heights taken down in the
+     same proportion. The flag and the name are set on the
+     element in the page's own mark-up, so both need the
+     important to move.                                        */
+  .s08 {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: center;
+    gap: 8px;
+  }
+  .s08-p {
+    flex: 1 1 0;
+    width: auto;
+    min-width: 0;
+    gap: 8px;
+    padding: 12px 0 0;
+  }
+  .s08-1, .s08-2, .s08-3 { order: 0; }
+  .s08-p > .s08-plinth {
+    align-self: auto;
+    width: 100%;
+    align-items: flex-start;
+    padding-top: 8px;
+  }
+  .s08-1 .s08-plinth { height: 74px; }
+  .s08-2 .s08-plinth { height: 56px; }
+  .s08-3 .s08-plinth { height: 42px; }
+  .s08-pos { font-size: 30px; line-height: 30px; }
+  .s08-p > .flag {
+    width: 44px !important;
+    height: 44px !important;
+    flex: 0 0 auto;
+  }
+  .s08-p > .team-name {
+    font-size: 13px !important;
+    line-height: 16px;
+    text-align: center;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+
+
+  /* ---- 4  a table with nothing pinned has to pin nothing -----
+     Round five pinned the first two cells of EVERY table:
+
+         .thead > .cell:nth-child(-n+2) { position: sticky }
+
+     Round ten took that back with
+
+         .thead > .cell { position: static }
+
+     — one class lighter than the rule it is undoing, so for the
+     tables round ten decided should pin nothing at all it never
+     landed. Games and Season journey were still pinning their
+     first two columns, at the default 48px offset, and the
+     second column was therefore drawn 8-10px ON TOP of the
+     first the moment the table was scrolled: "14:00" under
+     "CHN", "Stop" under "Host".
+
+     The reset is repeated at the specificity the round five
+     rule actually has. It is scoped to .mstick-0, so the tables
+     that DO pin a column keep theirs.                        */
+  .mstick-0 > .thead > .cell,
+  .mstick-0 > .trow  > .cell,
+  .mstick-0 > .e06-h > .cell,
+  .mstick-0 > .e06-row > .cell,
+  .mstick-0 > .e07-row > .cell {
+    position: static;
+    left: auto;
+  }
+
+
+  /* ---- 5  a score needs air around it ------------------------
+     el-04 TeamRow puts the flag at the inside edge of the home
+     and away cells, hard against the figure in the score cell
+     next door: 21 and the Mongolian flag were touching, and at
+     two digits they overlapped. The two cells that meet the
+     score are given the width their content actually takes and
+     the score cell keeps its own margins.                    */
+  .c-home, .c-away { flex: 0 0 84px; width: 84px; }
+  .c-score { flex: 0 0 78px; width: 78px; }
+  .c-home { justify-content: flex-end; padding-right: 10px; }
+  .c-away { justify-content: flex-start; padding-left: 10px; }
+  .games-tbl .c-score { padding: 0 4px; }
+
+
+  /* ---- 6  a host is two lines at most ------------------------
+     "Ñuñoa, Santiago Metropolitan, Chile" in a 112px column is
+     three lines, and one three-line cell sets the height of
+     every row in the table. The column is widened to the point
+     where the common case — "Vilnius, Lithuania" — is two, and
+     the long one is cut at two with an ellipsis rather than
+     being allowed to set the row height on its own.          */
+  .c-jhost { flex: 0 0 148px; width: 148px; }
+  .c-jhost > .t-body-s {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    line-height: 18px;
+  }
+
+
+  /* ---- 7  E-06's figures line up ----------------------------
+     Six stat cells in a three-column grid, and "Points per
+     game" is the only label that wraps — so its figure started
+     one line lower than the two beside it and the row read as
+     a mistake. The caption is given the height of two lines
+     whether it needs them or not, which puts every figure in
+     the row on the same baseline.                            */
+  .e06-grid .e06-c > .t-caption {
+    display: block;
+    min-height: 32px;
+  }
+
+
+  /* ---- 8  every player in the ranking has a chip -------------
+     Round eleven brought el-24 Avatar back into the player
+     column for the 442 players who carry a photograph, and left
+     the other 269 with nothing — so a row without a photograph
+     started its name forty pixels to the left of the rows above
+     it. The initials are what the element ships for exactly
+     this case; the column is only straight if every row has
+     one.                                                      */
+  .r05-pl .av,
+  .r05-pl .av[data-portrait] {
+    display: flex;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+  }
+  .r05-pl .av + .team-name { min-width: 0; }
+  .r05-pl .av-init { font-size: 9px; line-height: 24px; }
+
+
+  /* ---- 9  the season chip is cut like everything else --------
+     The one control in the More sheet still drawn as a plain
+     rectangle, in a system where every box takes the corner off
+     its top left and bottom right.
+
+     The cut goes on the WRAPPER, not on the <select>: a select
+     paints its own background over anything the parent's ::before
+     draws, so the ring has to be the wrapper's background and the
+     fill the wrapper's ::before, with the control itself made
+     transparent on top of both. That is the same construction
+     .cutbtn uses, and it is what keeps the line on the two 45
+     degree edges — a `border` is cut away with the corner and
+     leaves them blank.                                         */
+  .mnav-seasonbox {
+    --cutc: 8px;
+    --cutic: 7.414px;
+    /* --chrome-line is #262626 on a #171717 sheet: a divider you
+       read as a change of surface, but not enough to draw a box
+       around a control. The ring is the sheet's own text at low
+       opacity, which is what the mark-up around it reads as. */
+    background: rgba(255, 255, 255, 0.24);
+    clip-path: polygon(var(--cutc) 0, 100% 0,
+                       100% calc(100% - var(--cutc)),
+                       calc(100% - var(--cutc)) 100%,
+                       0 100%, 0 var(--cutc));
+  }
+  .mnav-seasonbox::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: var(--chrome-bg);
+    clip-path: polygon(var(--cutic) 0, 100% 0,
+                       100% calc(100% - var(--cutic)),
+                       calc(100% - var(--cutic)) 100%,
+                       0 100%, 0 var(--cutic));
+    pointer-events: none;
+  }
+  .mnav-season {
+    border: 0;
+    background: transparent;
+    position: relative;
+    z-index: 1;
+    padding: 0 24px 0 10px;
+  }
+  .mnav-seasonbox > svg { z-index: 1; }
+
+
+  /* ---- 10  the NL band, shorter -----------------------------
+     Round eleven's 205px was measured against a two-line
+     sub-head and 44px of lid. Daniel's mark puts the band's
+     bottom edge just under "How it works": the lid comes down
+     to 26 and the floor to 24, and the minimum with it.      */
+  .hnl { --hnl-min: 168px; }
+  .hnl-in { padding: 26px 0 24px; }
+  .hnl-kv-r { width: auto; height: 32px; }
+}
+
+
+@media (max-width: 1099px) {
+
+  /* ---- 11  the tab bar loses its lid, and the reserve fits ---
+     Two things, and they have to move together.
+
+     Round seven took el-18 NavTab from 56 to 68 to make room for
+     a 30px icon, and put the whole of the extra twelve above the
+     glyph: 20px of black over the icon and 2px under the label.
+     The icon comes down to 26 — the size it is on the tab bar in
+     the spec sheet — and the box to 58, which leaves 5 above and
+     10 under the label. That is the black lid the mark points at.
+
+     The lid is only half of it. Round eleven paints a fixed strip
+     in the chrome's colour behind the bar, so that the reserve at
+     the foot of .tpl is never read as a white seam — and that
+     strip is 76px, measured against the 68px bar. With the bar at
+     58 the strip stood SEVENTEEN pixels proud of it: the black
+     started well above the tab bar's own top rule, which is what
+     the screenshot actually shows. Bar, strip and reserve are one
+     number now, and the sheet and the overlay are measured off
+     the same one.
+
+     At every width the phone chrome is used, not only on a phone:
+     the tab bar is the same object on a tablet.               */
+  .mnav-bar .ntab { height: 58px; padding: 0; }
+  .mnav-bar .ntab > svg { width: 26px; height: 26px; }
+  .mnav-bar .ntab-live::after { top: 1px; }
+  .mnav::after { height: calc(60px + env(safe-area-inset-bottom, 0px)); }
+  .tpl { padding-bottom: calc(60px + env(safe-area-inset-bottom, 0px)); }
+  .site-ovl { inset: 56px 0 60px 0; }
+  .mnav-sheet { inset: 56px 0 60px 0; }
+  .f03m-sheet-body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
+}
+
+
+/* ---- 12  back to the stops overview --------------------------
+   Added by review12.js on stop.html, at every width: a stop page
+   is reached from the conference's Stops tab and had no way back
+   to it except the browser's own button.
+
+   It sits on the el-06 StopDots row, at the right end, because
+   that row is the thing it undoes. The rail keeps its own scroll
+   box, so on a narrow phone the dots slide under a control that
+   stays where it is.                                          */
+.snrow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+.snrow > .stopnav { flex: 0 1 auto; min-width: 0; }
+.snback {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+  flex: 0 0 auto;
+  margin-left: auto;
+  padding: 4px 0;
+  color: var(--text-primary);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  background: none;
+  border: 0;
+}
+.snback > svg { width: 18px; height: 18px; flex: 0 0 auto; }
+.live .snback:hover { color: var(--action-default); }
+.snback:focus-visible { outline: 2px solid var(--action-default); outline-offset: 2px; }
+
+@media (max-width: 767px) {
+  /* Six 40px dots and the control do not share 358px. The dots
+     come down to the size el-06 uses inside a rail — the ring on
+     the selected one still fits — and the label breaks over two
+     lines, which is narrower than it is tall here.            */
+  .snrow { gap: 8px; }
+  .snrow > .stopnav {
+    gap: 6px;
+    overflow-x: auto;
+    scrollbar-width: none;
+    /* overflow-x:auto makes overflow-y auto with it, and the ring
+       on the selected dot — outline 2px at offset 3 — is drawn
+       outside the dot's box on all four sides. Six pixels of
+       padding give it room inside the scroll box and the same
+       six back as a negative margin, so the rail still starts and
+       ends where the rest of the column does. */
+    padding: 6px;
+    margin: -6px;
+  }
+  .snrow > .stopnav::-webkit-scrollbar { display: none; }
+  /* Six dots at 30 and five gaps at 6 is 210 of the 326 the band
+     leaves at 390px; the control takes 104 and the row gap 8. All
+     six stay on the screen — a rail you have to swipe to see the
+     stop you are on is worse than a smaller dot. */
+  .snrow > .stopnav > .stopnav-i {
+    flex: 0 0 30px;
+    width: 30px;
+    height: 30px;
+    font-size: 14px;
+  }
+  .snback {
+    font-size: 10px;
+    line-height: 12px;
+    letter-spacing: 0.2px;
+    gap: 4px;
+    max-width: 92px;
+    white-space: normal;
+  }
+  .snback > svg { width: 15px; height: 15px; }
+}

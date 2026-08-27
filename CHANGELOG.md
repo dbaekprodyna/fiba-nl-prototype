@@ -1,5 +1,102 @@
 # Changelog
 
+## 2026-08-27 — Twelfth review: the phone half, again
+
+Daniel's ninth mark-up — the ten screenshots in `Mobile Feedbacks 2/` — plus
+the two requests that came with them. All of it is in `assets/mobile12.css`
+and `assets/review12.js`; `tools/p22_review12.py` links the two on every page
+and is idempotent, followed as always by `tools/bump_assets.py`.
+
+Nothing in this round reaches a desktop except the back link in the last
+entry, which is new mark-up rather than a change to any: 1440 is pixel-for-
+pixel what it was on every page, with the layer on and off.
+
+### Conferences > Stops
+
+- **Open stop page is a control, at the right edge.** Two faults in one line
+  of mark-up. `.cnf-stop-link` carries `margin-left: auto`, but it is an
+  `a.nav-a`, and site.css gives those `display: contents` — the flex item in
+  the head row is the `.lnk` *inside* the anchor, so the auto margin was set
+  on a box that takes no part in the layout, and the link sat wherever the
+  stop's title left it. The margin moves to the box that is actually the flex
+  item. And on a phone this is the one thing on that row you are meant to
+  press, so it takes the outline treatment ctl-01 Button wears rather than an
+  underlined caption — drawn the way every cut control on the site is drawn,
+  the ring as the element's background and the fill on `::before`, because a
+  `border` is cut away with the corner and leaves the two 45 degree edges
+  blank.
+
+- **The podium is a ranking again.** Three cut tiles wrapping in a 358px row
+  came out two-and-one, which reads as a broken grid. It gets the shape the
+  desktop's right-hand column already gives it: one tile a row, each the full
+  width — and with a row to itself, the federation's name comes back beside
+  the code.
+
+- **A game list stopped printing the time under the home team.** Round five
+  pinned the first two cells of every table; round ten took that back with a
+  rule one class lighter than the one it was undoing, so for the tables round
+  ten decided should pin nothing — Games, Results, Season journey — it never
+  landed. Both columns were still sticky, at the default 48px offset, and the
+  second was drawn on top of the first the moment the table was scrolled.
+  The reset is repeated at the specificity the round five rule actually has,
+  scoped to `.mstick-0`. The score cell and the two team cells beside it also
+  get the width their content takes, so a flag and a two-digit score are no
+  longer touching.
+
+### Stop page
+
+- **S-08 Podium is the desktop figure, made small.** Round eleven stacked it
+  because the three plinths, each shrunk to the width of its own numeral, read
+  as three broken boxes. The plinths were the fault, not the arrangement: a
+  podium *is* three heights side by side. Three equal columns, each plinth the
+  full width of its column, and 120/88/64 taken down to 74/56/42.
+
+- **A stop page can get back to the list it came from.** review12.js wraps the
+  el-06 StopDots rail and puts a text control at the far end of that row —
+  arrow, "Back to stops overview" — pointing at `conference.html?id=…#stops`.
+  The fragment is new: conference.html now opens on whichever tab the URL
+  names. On a phone the dots come down to 30 so that all six and the control
+  share the row; the rail keeps a scroll box with six pixels of padding, or
+  the ring on the selected dot is clipped by its own overflow.
+
+### Player, Stats, Home, chrome
+
+- **The category chip says which team site the player is on.** E-05 ships with
+  "U23 Men" written into the specimen and nothing ever replaced it, so every
+  player on the site — the women included — was labelled a men's U23 player.
+  It is a fact about the roster the player appears in, not about the player:
+  the team site names both the category and the gender.
+
+- **E-06's figures line up.** "Points per game" is the only label in the grid
+  that wraps, so its figure started a line lower than the two beside it. The
+  caption is given the height of two lines whether it needs them or not.
+
+- **Every row in the player ranking carries a chip.** Round eleven brought
+  el-24 Avatar back for the 442 players who have a photograph and left the
+  other 269 with nothing, so a row without one started its name forty pixels
+  left of the rows above it. The initials are what the element ships for that
+  case.
+
+- **The NL band comes down to 168.** Round eleven's 205 was measured against a
+  two-line sub-head and 44px of lid; the mark puts the band's bottom edge just
+  under "How it works".
+
+- **The tab bar loses its lid, and the black strip behind it fits.** Round
+  seven took el-18 NavTab from 56 to 68 and put the whole of the extra twelve
+  above the icon. The icon goes to 26 and the box to 58. That is only half of
+  it: round eleven paints a fixed strip in the chrome's colour behind the bar
+  so the reserve at the foot of `.tpl` is never read as a white seam, and that
+  strip was 76px — with the bar at 58 it stood seventeen pixels proud of it,
+  which is the black area the screenshot points at. Bar, strip, reserve, sheet
+  and overlay are one number now.
+
+- **The season chip in the More sheet takes the house corner.** The last
+  control on the site still drawn as a plain rectangle. The cut goes on the
+  wrapper and not on the `<select>` — a select paints its own background over
+  anything the parent's `::before` draws — and the ring is the sheet's own
+  text at 24% rather than `--chrome-line`, which at #262626 on #171717 is a
+  divider you read as a change of surface, not a box around a control.
+
 ## 2026-08-27 — Eleventh review: the key visual comes forward, and the design system catches up
 
 Daniel's eighth mark-up. Desktop in `assets/review11.css`, the phone half in
