@@ -1,5 +1,147 @@
 # Changelog
 
+## 2026-08-27 — Eleventh review: the key visual comes forward, and the design system catches up
+
+Daniel's eighth mark-up. Desktop in `assets/review11.css`, the phone half in
+`assets/mobile11.css`, three pieces of behaviour in `assets/review11.js`, the
+prototype patches in `tools/p20_review11.py` and the design-system half in
+`tools/p21_designsystem3.py` — both idempotent, both followed by
+`tools/bump_assets.py`.
+
+Round ten is not in this file; its work is in `tools/p19_review10.py`.
+
+### Global
+
+- **E-08 PlayerCard: the key-visual element is drawn over the portrait.**
+  It was in the background layer, which is the one place on the card where it
+  is never seen — the cut-out is widest exactly where the mark is drawn. It
+  moves to the layer above the photograph and crosses the shoulder, and comes
+  out of the background layer entirely. No markup moved: the card's stack is
+  stated in CSS, next to the rest of it, and the mark keeps the .85 opacity it
+  was drawn with so the face underneath is never fully covered. The anatomy
+  diagram in the design system was re-cut to match — card 1 is the gradient and
+  the Union mark, card 2 is the cut-out **and** the key visual.
+
+- **The gender you choose follows you off the page.** Every top-level page
+  carries an el-02 GenderSwitch and every one of them opened on Men, because
+  that is the segment the specimen marks as selected; the choice was a local
+  variable inside one page renderer, so any link threw it away. Choose Women on
+  Home, Conferences, Teams, Calendar or Stats and every switch you meet after
+  it opens on Women — including the four-segment one on a team page, which is
+  built from the team sites a federation actually fields. Where a federation is
+  in both, U23 is the default. `sessionStorage`, not `localStorage`: it is a
+  reading position, not a preference, and a new visit starts where the site
+  starts.
+
+- **el-24 Avatar takes the player's photograph.** 442 of the season's 711
+  players carry a headshot in the feed. Stats > Players and the top scorer on a
+  Stop Final now use it; the other 269 keep the initials the element ships with,
+  and a CDN that will not answer falls back to them rather than to a broken
+  image. On a phone the chip comes back into the player column for those 442
+  only — round ten hid it because "SM" beside "Santino Mazzucchelli" spends
+  forty pixels saying what the column already says, which a face does not.
+
+- **A paused carousel marks the slide you are looking at.** el-22's bar fills
+  over the slide's own duration, so the bar for the slide on screen is the one
+  filling. A swipe pauses the carousel first and then moves it, which left the
+  slide it landed on holding an empty bar — no black anywhere in the row. A
+  stopped carousel has no duration to measure, so that bar is simply full: it
+  marks the position rather than the time left on it.
+
+### Conferences
+
+- **The live frame has a stream to play.** The frame falls back to the
+  channel's own live embed when the stop it is showing names no video, and the
+  channel embed renders nothing off air — which on a prototype is every day.
+  Twenty-five of the season's stops carry no stream, and today's is one of them.
+  A stop being played today with no stream of its own is given the league's
+  current broadcast as the data loads, so the poster, `hasStream` and the embed
+  all work the way they already do for the forty-nine stops that carry one.
+
+### Standings
+
+- **The Full standings button is gone,** desktop and phone. It sat under the
+  standings table and went to the page it was on.
+
+### Phone
+
+- **The hero band is a fifth shorter and joins the arrival.** 256 → 205, with
+  the clearances divided the way round ten divided them, and the court down a
+  further one and a half times: 352 × 235 → 235 × 157. review7.js reveals the
+  hero's parts and leaves the band where it is, which is right on a desktop
+  where the parallax owns it; on a phone the band is the first block in a column
+  of blocks and was the only one that did not rise and fade as it arrived.
+
+- **A pinned column wins.** Round five pinned the first two cells of every table
+  with `z-index: 2`; round ten took the pinning off most of them but left the
+  z-index — and a z-index on a **flex item** counts even when the item is not
+  positioned, because the flex spec gives it a stacking context of its own. So
+  every second cell was on the same layer as the pinned first cell and later in
+  document order, and therefore on top of it. That is why the conference column
+  printed through the federation column and the ranking figures printed through
+  the player's name. The leftovers are cleared and the cells that are actually
+  pinned are lifted well clear.
+
+- **Two pixels between two columns.** `.cell` carries 6px each side, so any two
+  columns are 12px apart — as long as what is in them fits. Where it did not,
+  the figure spilled out of its own box and landed against the one beside it
+  ("—631,758", right-aligned numbers spilling **left**). Every column that was
+  measured under its own content is given the width it needs; nothing is
+  clipped, because a table on a phone scrolls and a column costs width, not
+  legibility.
+
+- **S-08 Podium is a podium again.** `width: auto` on the plinth inside a
+  centred column shrank each one to the width of the numeral on it — the broken
+  container under every flag. Stacked, the heights say nothing, so they go and
+  the order does the work: first, second, third, top to bottom, each on a
+  full-width bar, first keeping its black fill.
+
+- **No white seam under the footer.** The tab bar is 72 tall and the page
+  reserves 76 for it, with 4px of gutter down each side; scrolled to the bottom
+  that read as a white band between a black footer and a black tab bar. The
+  reserve is painted in the chrome's own colour, under the bar.
+
+- **The season is in the More sheet,** level with "Nations League" and hard
+  right. F-03 carries it on a desktop and the phone header had nowhere to put
+  it, so a reader on a handset had no way of knowing which season they were
+  looking at, let alone of leaving it.
+
+- The Conferences dot drops one pixel closer to the globe. E-09
+  FederationDirectory halves its gap — 250 cards at 24px apart is five screens
+  of white space between the As and the Zs.
+
+- **The link out of a stop was below the site footer.** `p7` appended it to
+  `.tpl` rather than to `.tpl-content`, so "See updated conference table" was
+  printed under the legal band on stop and game pages, outside every margin the
+  page keeps. It goes where every other section-closing link goes.
+
+### New — S-13 Countdown
+
+The block for a page with nothing to report yet: the league between seasons, or
+a sibling competition — World Tour, Women's Series — whose next stop is the
+whole story of the page. Four counters, each in its own cut surface, Barlow
+Condensed with tabular figures so the seconds do not shuffle the row as they
+tick. Three variants: **default** on the page surface, **brand** on the NL
+gradient for a hero band, **compact** as a strip inside a card. At zero the
+counters are replaced by the live badge every other surface on the site uses —
+a countdown that has run out is not a row of noughts. `data-until` carries the
+target in ISO and `review11.js` ticks every countdown on the page.
+
+There is no colon between the counters. One was drawn and taken out again: the
+counters carry the corner cut, the cut is a clip-path, and a clip-path clips
+whatever a child paints outside its own box — which is exactly where a
+separator has to sit.
+
+### Design system
+
+`system/index.html` and the six `_check` sheets were loading `review3.css` and
+`review4.css` and stopping there, so every decision taken in rounds five to
+eleven was in the prototype and not in the specimens — the system was showing
+the components as they were three weeks ago. They now load the same desktop
+stylesheets as a page of the prototype, in the same order. `mobile*.css` is
+deliberately not linked: it is written against the prototype's own page frame,
+and the specimens are documented at desktop width.
+
 ## 2026-08-26 — Ninth review: the arrival slows down, the corner holds its corner
 
 Daniel's sixth mark-up. Desktop in `assets/review9.css`, the phone half in

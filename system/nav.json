@@ -354,6 +354,11 @@
     "slug": "s-11-stopmatrix",
     "title": "S-11 StopMatrix",
     "desc": "One row per federation, one column per stop. Johannes’ original, and what Alex asked for on slide 9 — \"Good, but show six stops\"."
+   },
+   {
+    "slug": "s-13-countdown",
+    "title": "S-13 Countdown",
+    "desc": "The block for a page with nothing to report yet — the league between seasons, or a World Tour / Women's Series stop that has not started. Four counters, a brand variant for a hero band, a compact strip, and a zero state that hands over to the live badge."
    }
   ]
  },

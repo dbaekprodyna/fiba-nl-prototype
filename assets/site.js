@@ -466,6 +466,23 @@
      behaviour. Each returns the current value and calls back when
      it changes, so a page renderer stays a single render function. */
 
+
+  /* Review 11: the gender is the reader's, not the page's.
+     Written by whichever switch they touch, read by every switch
+     that opens after it — including the four-segment one on a team
+     page. sessionStorage, because it is a reading position and not
+     a preference: a new visit starts where the site starts. */
+  var NL_SEX = 'nl.gender';
+  function sexGet() {
+    try {
+      var v = window.sessionStorage.getItem(NL_SEX);
+      return v === 'women' || v === 'men' ? v : '';
+    } catch (e) { return ''; }
+  }
+  function sexSet(v) {
+    try { window.sessionStorage.setItem(NL_SEX, v); } catch (e) {}
+  }
+
   /* el-02 GenderSwitch → 'men' | 'women'. Scoped, because a page can
      carry more than one: the landing page has the switch in F-04's slot,
      one inside each live accordion and one on the qualification board,
@@ -482,9 +499,24 @@
         seg.forEach(function (x) { x.classList.remove('el02-on'); });
         s.classList.add('el02-on');
         value = /women/i.test(s.textContent) ? 'women' : 'men';
+        sexSet(value);
         onChange(value);
       });
     });
+    /* Arriving with a choice already made: move the switch to it and
+       hand the page that value, so the first paint is the right one
+       and no repaint is needed. */
+    var want = sexGet();
+    if (want && want !== value) {
+      var hit = seg.filter(function (s) {
+        return (/women/i.test(s.textContent) ? 'women' : 'men') === want;
+      })[0];
+      if (hit) {
+        seg.forEach(function (x) { x.classList.remove('el02-on'); });
+        hit.classList.add('el02-on');
+        value = want;
+      }
+    }
     return value;
   }
 
@@ -650,6 +682,37 @@
     });
   }
 
+
+  /* Review 11: el-24 Avatar, with a photograph where the feed has
+     one. The element ships with two beds — a checker plate for the
+     empty state and a flat surface for a silhouette — and a portrait
+     wants the flat one, or the checker shows through the corners of
+     a cut-out. Without a portrait nothing is touched: the initials
+     the caller has already written stay exactly as they are. */
+  function avatarOf(av, p) {
+    if (!av || !p || !p.portrait) return false;
+    if (av.dataset.portrait === p.portrait) return true;
+    av.dataset.portrait = p.portrait;
+    av.classList.remove('av-check-bed');
+    av.classList.add('av-sil-bed', 'av-photo-bed');
+    var img = $('.av-photo', av);
+    if (!img) {
+      img = document.createElement('img');
+      img.className = 'av-photo';
+      img.alt = '';
+      av.appendChild(img);
+    }
+    /* A CDN that will not answer leaves the initials rather than a
+       broken-image mark, so the row never loses the player's name. */
+    img.onerror = function () {
+      img.remove();
+      av.classList.remove('av-photo-bed');
+      av.removeAttribute('data-portrait');
+    };
+    img.src = p.portrait;
+    return true;
+  }
+
   /* The name plate on E-08 PlayerCard is a fixed height, so a surname
      that does not fit is scaled down rather than wrapped — two lines of
      30px surname push the plate over the stat column. The steps are
@@ -791,15 +854,28 @@
     });
     if (!opts.length) return null;
 
+    /* Which of the four opens. The reader's gender first, and U23
+       ahead of U21 inside it, because U23 is the road to the World
+       Cup and the one a federation is read by. A federation that
+       fields no team in the gender they chose falls back to U23 in
+       the one it does field, rather than to whatever came first. */
+    var want = sexGet();
+    function pick(list) { return list.length ? list[0] : null; }
+    var current =
+      pick(opts.filter(function (o) { return o.gender === want && o.cat === 'U23'; })) ||
+      pick(opts.filter(function (o) { return o.gender === want; })) ||
+      pick(opts.filter(function (o) { return o.cat === 'U23'; })) ||
+      opts[0];
+
     var proto = $('.el02-seg', el).cloneNode(true);
     el.innerHTML = '';
-    var current = opts[0];
     opts.forEach(function (o) {
       var seg = proto.cloneNode(true);
       seg.classList.remove('el02-on');
       text(seg, '.lbl', o.label);
       seg.onclick = function () {
         current = o;
+        sexSet(o.gender);
         $$('.el02-seg', el).forEach(function (s) { s.classList.remove('el02-on'); });
         seg.classList.add('el02-on');
         onChange(o);
@@ -906,6 +982,9 @@
 
     /* ---- 4 · result ---- */
     function result(team, label) {
+      /* Review 11: picking a team site here is picking a gender, and
+         the team page it links to opens on whatever was picked. */
+      sexSet(team.gender || 'men');
       var st = D.standings.filter(function (s) {
         return s.stop === team.stop && s.gender === team.gender;
       })[0];
@@ -2950,6 +3029,7 @@
         if (name) name.textContent = p.name;
         var init = $('.r05-pl .av-init', row);
         if (init) init.textContent = ((p.first || ' ')[0] + (p.last || ' ')[0]).toUpperCase();
+        avatarOf($('.r05-pl .av', row), p);
         flag($('.r05-pl .flag', row), p.ioc);
         /* Team, its own column: flag, IOC code, and the federation the
            player is fielded by. */
@@ -3556,11 +3636,13 @@
         if (oldTop) oldTop.remove();
         var side = d.home.squad.indexOf(top) > -1 ? g.home : g.away;
         flag($('.gm-top-flag'), side.ioc);
-        /* el-24 Avatar. There are no portraits in the snapshot, so the
-           initials fallback is the one that applies. */
+        /* el-24 Avatar. The box score is derived, so the squad row
+           carries no portrait of its own — the player record does,
+           for 442 of the 711, and the id is the way back to it. */
         var init = $('.gm-top-av .av-init');
         if (init) init.textContent = ((top.first || top.name || '').charAt(0) +
                                       (top.last || '').charAt(0)).toUpperCase();
+        avatarOf($('.gm-top-av'), player(top.id) || top);
         text(topBlock, '.gm-top-n', top.name);
         text(topBlock, '.gm-top-sub', '#' + top.no + ' · ' + top.role + ' · ' + side.ioc);
         text(topBlock, '.gm-top-pts', top.pts);
@@ -3702,6 +3784,26 @@
       });
     }
     return (sib && sib.cover) || POSTER_FALLBACK;
+  }
+
+
+  /* Review 11: the stream on the live frame.
+     A stop that is being played today and names no video of its own
+     is given the league's current broadcast, so the play button on
+     the conferences page opens a stream rather than an empty channel
+     embed. The poster is that broadcast's own still. */
+  var LIVE_FALLBACK = 'tYyPnWmBtKM';
+  var LIVE_FALLBACK_POSTER =
+    'https://i.ytimg.com/vi/tYyPnWmBtKM/hq720.jpg?v=6a89f088&sqp=-oaymwEnCNAFEJQ' +
+    'DSFryq4qpAxkIARUAAIhCGAHYAQHiAQoIGBACGAY4AUAB&rs=AOn4CLAQpUbJhnJOdh5Z_O72TobA7v9CzA';
+
+  function stampLiveStream() {
+    var today = isoDay(new Date());
+    (D.events || []).forEach(function (e) {
+      if (!stopLive(e, today) || e.video) return;
+      e.video = LIVE_FALLBACK;
+      e.poster = LIVE_FALLBACK_POSTER;
+    });
   }
 
   function el(tag, cls, html) {
@@ -4289,6 +4391,7 @@
     FILES.forEach(function (f, i) { D[f] = res[i]; });
     D.playersById = {};
     D.players.forEach(function (p) { D.playersById[p.id] = p; });
+    try { stampLiveStream(); } catch (e) { console.error('live stream', e); }
 
     var page = document.body.dataset.page || 'index.html';
     try {

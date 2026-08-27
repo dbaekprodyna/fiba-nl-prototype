@@ -485,14 +485,21 @@
      between two frames, which is why it sometimes jumped to full. */
   function fillBar(fill, active, playing) {
     if (!fill) return;
-    fill.classList.remove('ind-filling', 'ind-hold');
+    fill.classList.remove('ind-filling', 'ind-hold', 'ind-still');
     fill.style.width = '0%';
     if (!active) return;
+    /* Review 11: stopped. Nothing is being measured, so the bar for
+       the slide on screen is full — it marks the position rather than
+       the time left on it. This is the state a swipe lands in. */
+    if (!playing) {
+      fill.classList.add('ind-still');
+      fill.style.width = '100%';
+      return;
+    }
     void fill.offsetWidth;
     fill.style.removeProperty('width');
     fill.style.setProperty('--ind-dur', SLIDE_MS + 'ms');
     fill.classList.add('ind-filling');
-    if (!playing) fill.classList.add('ind-hold');
   }
 
   /* ---------- standalone indicator (el-22) -------------------

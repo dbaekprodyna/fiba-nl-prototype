@@ -1,0 +1,269 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile11.css
+   Round eleven, the phone half. Always the last stylesheet.
+   ============================================================ */
+
+@media (max-width: 1100px) {
+
+  /* ---- 1  the white band under the footer -------------------
+     The tab bar is fixed and .tpl reserves the room it needs at
+     the bottom of the page. The bar is 68 of icon and label + 4
+     of its own lid = 72, and the reserve is 76 — so the last
+     four pixels of the reserve are page surface, and the bar
+     leaves 4px of gutter down each side as well. Scrolled to
+     the very bottom that reads as a white seam between a black
+     footer and a black tab bar.
+
+     The strip is painted once, fixed, in the chrome's own
+     colour, and it sits one layer under the bar. Nothing is
+     ever meant to be read there: it is the reserve.          */
+  .mnav::after {
+    content: '';
+    position: fixed;
+    left: 0; right: 0; bottom: 0;
+    z-index: 54;
+    height: calc(76px + env(safe-area-inset-bottom, 0px));
+    background: var(--chrome-bg);
+    pointer-events: none;
+  }
+
+  /* ---- 2  the Conferences dot, one pixel lower -------------
+     Round nine took it from 3 to 4. At 4 the gap at the top of
+     the bounce still read as a gap. */
+  .mnav-bar .ntab-live::after { top: 5px; }
+}
+
+
+@media (max-width: 900px) {
+
+  /* ---- 3  the hero band, one fifth shorter -----------------
+     Round ten built the band out of its own clearances:
+
+       top    66 of artwork + 4 clear = 70
+       bottom 60 of artwork + 4 clear = 64
+       lock and link                  = 121
+       ----------------------------------------
+       band                            255 -> 256
+
+     A fifth off 256 is 205, and 205 less the 121 of type is 84
+     of clearance to divide the way it was divided before —
+     52/48, which is 44 and 40. The corner artwork keeps its
+     4px of clear inside that, so 40 and 36.
+
+     The court is sized off the band and Daniel asked for it a
+     further one and a half times down: 352 x 235 becomes
+     235 x 157, and the overhang that keeps its own top and
+     bottom rules outside the band comes down with it.       */
+  .hnl { --hnl-min: 205px; }
+  .hnl-in { padding: 44px 0 40px; }
+  .hnl-kv-l { width: auto; height: 40px; }
+  .hnl-kv-r { width: auto; height: 36px; }
+  .hnl-court { width: 235px; height: 157px; top: -5px; }
+
+  /* The band is a section like any other now — review11.js
+     marks it for the scroll reveal — so it needs the same
+     starting state the rest of them have. The parts inside it
+     fade only, or the type would rise twice. */
+  .rv-on .hnl.rv { will-change: transform, opacity; }
+}
+
+
+@media (max-width: 767px) {
+
+  /* ---- 4  a pinned column has to win --------------------
+     Round five pinned the first two cells of every table and
+     gave them z-index 2. Round ten took the pinning back off
+     most of them — position: static — but left the z-index
+     where it was, and a z-index on a FLEX ITEM counts even
+     when the item is not positioned: the flex spec gives it a
+     stacking context of its own. So every second cell in every
+     table was still sitting on the same layer as the pinned
+     first cell, later in document order, and therefore on top
+     of it. That is why the conference column was printing
+     through the federation column, and why the Ranking points
+     figures were printing through the player's name.
+
+     The leftovers are cleared, and the cells that are actually
+     pinned are lifted well clear of them.                   */
+  .thead > .cell,
+  .trow > .cell { z-index: auto; }
+
+  .mstick-1 > .thead > .cell:nth-child(1),
+  .mstick-1 > .trow  > .cell:nth-child(1),
+  .mstick-2 > .thead > .cell:nth-child(1),
+  .mstick-2 > .trow  > .cell:nth-child(1) { z-index: 6; }
+  .mstick-2 > .thead > .cell:nth-child(2),
+  .mstick-2 > .trow  > .cell:nth-child(2) { z-index: 5; }
+
+  /* A pinned cell paints the row's own surface. `inherit` is
+     right for a row that has a state colour of its own; the
+     explicit colour underneath it is the guarantee for one
+     that has not been given a background at all. */
+  .mstick-1 > .trow  > .cell:nth-child(1),
+  .mstick-2 > .trow  > .cell:nth-child(-n+2) {
+    background-color: var(--surface-page);
+    background: inherit;
+  }
+  .mstick-1 > .thead > .cell:nth-child(1),
+  .mstick-2 > .thead > .cell:nth-child(-n+2) {
+    background-color: var(--surface-sunken);
+    background: inherit;
+  }
+
+  /* ---- 5  two pixels between two columns -------------------
+     .cell carries 6px each side, so any two columns are 12px
+     apart — as long as what is in them fits. Where it does not,
+     the figure spills out of its own box and lands against the
+     one beside it: "—631,758" with nothing between the two.
+     Right-aligned numbers spill LEFT, which is why it read as
+     the two columns having been welded together.
+
+     Every column that was measured over its own width is given
+     the width its content actually needs. Nothing is clipped —
+     a table on a phone scrolls, so a column costs width and
+     not legibility.                                          */
+  .c-fed   { flex: 0 0 92px;  width: 92px; }
+  .c-pos   { flex: 0 0 38px;  width: 38px; }
+  .c-home, .c-away { flex: 0 0 92px; width: 92px; }
+  .c-mstop { flex: 0 0 54px;  width: 54px; }
+  .r05-rank { flex: 0 0 34px; width: 34px; }
+  .r05-team { flex: 0 0 80px; width: 80px; }
+  .r05-num  { flex: 0 0 74px; width: 74px; }
+  .cell-pname { flex: 0 0 142px; width: 142px; }
+
+  /* The two columns that DO clip do it on purpose — a
+     player name is cut with an ellipsis rather than given half
+     the screen. Stating it here keeps it from spilling now that
+     its neighbours no longer absorb the overflow. */
+  .r05-pl .team-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* A photograph is not the initials. Round ten hid the avatar in
+     the player column on a phone, and it was right to: a chip
+     reading "SM" beside "Santino Mazzucchelli" spends forty of the
+     column's pixels saying what the column already says. A face
+     does not — it is the one thing in the row the name cannot
+     give you. So the chip comes back, smaller, and only for the
+     442 players who have one. */
+  .r05-pl .av[data-portrait] {
+    display: flex;
+    flex: 0 0 24px;
+    width: 24px;
+    height: 24px;
+  }
+  .r05-pl .av[data-portrait] + .team-name { min-width: 0; }
+
+  /* ---- 6  S-08 Podium, stacked ----------------------------
+     Three plinths side by side is a podium. One under another
+     is a list, and it was being drawn as neither: mobile.css
+     set the plinth to width:auto inside a centred column, so
+     each one shrank to the width of the numeral on it — the
+     "broken container" under every flag.
+
+     Stacked, the heights say nothing, so they go; the order
+     does the work instead. First, second, third, top to bottom,
+     each on a full-width bar, and first keeps the black fill it
+     has on a desktop.                                        */
+  .s08-p > .s08-plinth {
+    align-self: stretch;
+    width: auto;
+    align-items: center;
+    padding-top: 0;
+  }
+  .s08-1 .s08-plinth,
+  .s08-2 .s08-plinth,
+  .s08-3 .s08-plinth { height: 44px; }
+  .s08-1 { order: 1; }
+  .s08-2 { order: 2; }
+  .s08-3 { order: 3; }
+  .s08-pos { font-size: 26px; line-height: 26px; }
+
+  /* ---- 7  E-09 FederationDirectory, closer together --------
+     Half the gap. On a phone the directory is one column, so
+     the 24px between two cards is 24px of nothing, 250 times —
+     five screens of white space between the As and the Zs. The
+     gap on the grid is the one that counts; .e09's own gap is
+     the space between the alphabet index and the grid.        */
+  .e09 { gap: 10px; }
+  .e09-grid { gap: 12px; }
+
+  /* ---- 8  the season picker in the More sheet --------------
+     F-03 carries the season on a desktop and the phone header
+     had nowhere to put it, so the sheet is where it goes —
+     level with the group it belongs to, hard right. */
+  .f03m-grp-h.f03m-grp-h-row {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+  .mnav-season {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    box-sizing: border-box;
+    height: 30px;
+    padding: 0 24px 0 9px;
+    border: 1px solid var(--chrome-line);
+    background: transparent;
+    color: var(--chrome-text);
+    font-family: 'Barlow', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    letter-spacing: 0.6px;
+    line-height: 26px;
+    text-transform: none;
+    -webkit-appearance: none;
+    appearance: none;
+    cursor: pointer;
+  }
+  .mnav-season:focus-visible {
+    outline: 2px solid var(--chrome-text);
+    outline-offset: 2px;
+  }
+  .mnav-seasonbox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 0 0 auto;
+  }
+  .mnav-seasonbox > svg {
+    position: absolute;
+    right: 7px;
+    width: 14px;
+    height: 14px;
+    color: var(--chrome-text-muted);
+    pointer-events: none;
+  }
+  .mnav-season option { color: #111; }
+}
+
+
+@media (max-width: 767px) {
+
+  /* ---- 9  S-13 Countdown on a phone ------------------------
+     Four counters still fit across a 320px screen, which is
+     what makes them the right shape for this block: the whole
+     figure is one glance wide at every width. What does not
+     fit is 64px of numeral, so the counter shrinks and the
+     label drops to its initial — D, H, M, S — which is what
+     the compact variant already does at any width.          */
+  .s13 { padding: 24px 20px; gap: 16px; }
+  .s13-t { font-size: 32px; line-height: 34px; }
+  .s13-sub { font-size: 15px; line-height: 20px; }
+  .s13-units { gap: 6px; }
+  .s13-u { padding: 12px 4px 10px; --c: 8px; }
+  .s13-v { font-size: 34px; line-height: 34px; letter-spacing: -0.5px; }
+  .s13-k { font-size: 9px; letter-spacing: 0.6px; }
+  .s13-foot { gap: 12px 18px; }
+
+  /* The compact strip has no room to be a row at this width. */
+  .s13-compact { flex-direction: column; align-items: stretch; }
+  .s13-compact .s13-units { width: 100%; }
+  .s13-compact .s13-u { flex: 1 1 0; width: auto; }
+}
