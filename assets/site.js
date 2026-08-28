@@ -1586,7 +1586,25 @@
                         .sort(function (a, b) { return (a.number || 0) - (b.number || 0); });
     var played = stops.filter(function (e) { return standingsFor(e.slug); });
     var gender = 'men';
-    var sel = Math.max(0, played.length - 1);   /* the newest stop with results */
+
+    /* Review 14 — the Stops tab opens on what is being played.
+       A conference is read to find out where it is right now, so
+       the tab lands on the live stop while one is on, and on the
+       last stop that has taken place once the day is over.
+       Played is a calendar fact, not a snapshot fact — a stop
+       whose results have not been ingested has still happened,
+       which is why this counts stopPlayed() and not standings. */
+    function defaultStop() {
+      var live = -1, last = -1;
+      stops.forEach(function (e, i) {
+        if (stopLive(e, today)) live = i;
+        if (stopPlayed(e, today)) last = i;
+      });
+      if (live > -1) return live;
+      if (last > -1) return last;
+      return 0;   /* nothing has been played yet: the first stop is next */
+    }
+    var sel = defaultStop();
 
     $$('.f04-h1, .f04-h1-m, .f04-h1-s, .t-h1, .e02-name, .f04-title').forEach(function (n) {
       n.textContent = confName(c);
@@ -1889,6 +1907,18 @@
 
     genderSwitch(function (g) { gender = g; draw(); });
     tabPanes(document, '.cnf-tabs');
+
+    /* Pressing Stops re-reads the day: the tab is an entry point,
+       not a place you are kept, so it always opens on the live
+       stop (or the last played one) however far you browsed
+       before leaving it. Inside the tab the dots still rule. */
+    $$('.cnf-tabs .tab').forEach(function (t) {
+      if (t.dataset.tab !== 'stops') return;
+      t.addEventListener('click', function () {
+        sel = defaultStop();
+        drawStopNav(); drawStop(); drawGames();
+      });
+    });
     draw();
     markLiveTab();
 

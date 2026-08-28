@@ -1,5 +1,74 @@
 # Changelog
 
+## 2026-08-28 — Fourteenth review: five marks
+
+Daniel's eleventh mark-up. Four items are CSS —
+`assets/review14.css` (desktop, after review13.css and before
+hero.css) and `assets/mobile14.css` (phone, last of all) — and one
+is behaviour, in `assets/site.js`. `tools/p24_review14.py` links
+the sheets on every page, applies the site.js edit and brings the
+design system shell up to date; it is idempotent and is followed
+as always by `tools/bump_assets.py`.
+
+### Home > hero
+
+- **The brand elements go back to being measured, at 70%.** Round
+  thirteen had pinned them to 128px and 104px. The round-five
+  sizing returns — `side = (band - 906) / 2`, capped at the drawn
+  411 and 492 — multiplied by 0.7, so at 1440 the pair is 186.9
+  and 224.3 wide with the drawn ratios kept. Desktop only: both
+  mobile layers load after this file.
+
+### Every page > tabs
+
+- **An unselected tab label is black.** ctl-03 Tab rested at
+  `--text-muted` (#737373), which on a white strip reads as a
+  disabled control — the Stops tab of a conference and the Players
+  tab of Stats both looked switched off. The resting label goes to
+  `--text-primary`; the selected tab is still a filled black block
+  with a white label, so the pair is told apart by the block and
+  not by two greys. `.tab-disabled` keeps its own grey, and el-02's
+  segmented switch gets the same move (#525252 -> #0A0A0A). The
+  phone's bottom bar is left out on purpose: it is on dark chrome.
+
+### Player
+
+- **The portrait is twice the size.** el-24 Avatar xl is 116px
+  everywhere; on a player page the portrait is the page's subject,
+  so E-05 takes it to 232 and the initials fallback follows (44 ->
+  88). The element itself is unchanged — this is a module rule. On
+  desktop the row centres, so the name no longer hangs off the top
+  of the picture; on a phone the block stacks, because a 232
+  portrait leaves 102px of a 390 screen for a name set in 40px
+  Condensed.
+
+### Conference
+
+- **The Stops tab opens on what is being played.** The stop was
+  chosen once, at load, and it was the newest one with results.
+  The tab now reads the day: the live stop while one is on, the
+  last stop that has taken place once it is over, and the first
+  stop before the conference opens. Pressing Stops re-reads it —
+  the tab is an entry point, not a place you are kept. Played is a
+  calendar fact, not a snapshot fact, so this counts `stopPlayed()`
+  and not `standingsFor()`.
+
+- **"Open stop page" is a control on the desktop too.** Round
+  twelve gave it the outline treatment and the right edge on a
+  phone and left the desktop with an underlined caption sitting
+  wherever the title left it. Same recipe, one size up (40px tall,
+  14px label). The auto margin goes on the `.lnk` inside the
+  anchor: `a.nav-a` is `display: contents`, so the anchor itself is
+  not the flex item.
+
+### Design system
+
+- **The shell was two rounds behind.** `system/index.html` and the
+  six `_check` pages linked up to review11.css; thirteen and
+  fourteen are added. `mobile*.css` stays out, as before — the
+  shell is not the prototype frame and the specimens are read at
+  desktop width.
+
 ## 2026-08-27 — Thirteenth review: two marks
 
 Daniel's tenth mark-up, two items. Both are CSS only:

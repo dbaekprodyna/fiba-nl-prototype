@@ -1,0 +1,129 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review14.css
+   Round fourteen, the desktop half. Loaded after review13.css
+   and before hero.css, so the mobile layers still have the last
+   word on a phone.
+   ============================================================ */
+
+/* ---- 1  the two brand elements, at 70% of round five ---------
+   Round thirteen pinned them to 128px and 104px. The mark asks
+   for the round-five sizing back — the one that measures them
+   off the band, `side = (band - 906) / 2`, capped at the drawn
+   size — but at seven tenths of it, so they stay corner marks
+   rather than the band's two ends.
+
+       left   min(411px, side)        x 0.7
+       right  min(492px, side * 1.2)  x 0.7
+
+   At 1440 the side is 267, so the pair comes out 186.9 and
+   224.3 wide; `height: auto` keeps the drawn ratios (440 x 176
+   and 498 x 142). Desktop only — mobile11.css and mobile12.css
+   load after this file and keep the heights they set.        */
+.hnl-kv-l {
+  width: calc(min(411px, var(--hnl-side)) * 0.7);
+  height: auto;
+  max-width: none;
+}
+.hnl-kv-r {
+  width: calc(min(492px, calc(var(--hnl-side) * 1.2)) * 0.7);
+  height: auto;
+  max-width: none;
+}
+
+
+/* ---- 2  an unselected tab is black, not grey ----------------
+   ctl-03 Tab gave the resting label `--text-muted` (#737373),
+   which on a white strip reads as a disabled control — the
+   Stops tab of a conference and the Players tab of Stats both
+   looked switched off. The label goes to `--text-primary`; the
+   selected tab is still a filled black block with a white
+   label, so the pair is told apart by the block, not by two
+   greys. The hover wash (`--surface-sunken`) is untouched and
+   still carries hover on its own.
+
+   el-02's segmented switch gets the same treatment — it sat one
+   step lighter at `--text-secondary` (#525252).               */
+.tab:not(.tab-active):not(.tab-disabled) {
+  color: var(--text-primary);
+}
+.el02-seg:not(.el02-on):not(.el02-dis) {
+  color: var(--text-primary);
+}
+/* The phone's bottom bar (el-18 NavTab) is on dark chrome and is
+   deliberately left out — black on #171717 is nothing at all. */
+
+
+/* ---- 3  the player portrait, twice the size -----------------
+   el-24 Avatar xl is 116px everywhere. On a player page the
+   portrait is the page's subject, not a list marker, so E-05
+   takes it to 232 and the initials fallback follows (44 -> 88).
+   The element itself is unchanged: this is a module rule.     */
+.e05 .av-xl {
+  width: 232px;
+  height: 232px;
+}
+.e05 .av-xl .av-init {
+  font-size: 88px;
+  line-height: 1;
+}
+/* With a 232 portrait beside a 170 name block the type used to hang
+   off the top of the picture. The row centres instead. */
+@media (min-width: 768px) {
+  .e05 { align-items: center; }
+}
+
+
+/* ---- 4  Open stop page, as the control it is ----------------
+   Round twelve gave this link the outline treatment on a phone
+   and left the desktop with an underlined caption sitting
+   wherever the title left it. Same recipe here, one size up.
+
+   `.cnf-stop-link` is an `a.nav-a`, and site.css gives those
+   display:contents — the flex item on the head row is the
+   `.lnk` INSIDE the anchor, so the auto margin has to go there.
+
+   The ring is drawn the way every cut control on the site draws
+   it: the element's background IS the 1px ring and a slightly
+   smaller cut shape on ::before covers the rest. `border`
+   cannot do it — clip-path takes the corner off the border with
+   everything else and the two 45 degree edges come out blank. */
+@media (min-width: 768px) {
+  .cnf-stop-head > .cnf-stop-link,
+  .cnf-stop-head .cnf-stop-link > .lnk {
+    margin-left: auto;
+  }
+  .cnf-stop-head .cnf-stop-link > .lnk {
+    position: relative;
+    flex: 0 0 auto;
+    box-sizing: border-box;
+    height: 40px;
+    padding: 0 16px;
+    gap: 8px;
+    border: 1px solid transparent;
+    border-bottom-color: transparent;
+    background: var(--action-default);
+    color: var(--action-default);
+    font-size: 14px;
+    line-height: 18px;
+    --cutc: 8px;
+    --cutic: 7.414px;
+    clip-path: polygon(var(--cutc) 0, 100% 0,
+                       100% calc(100% - var(--cutc)),
+                       calc(100% - var(--cutc)) 100%,
+                       0 100%, 0 var(--cutc));
+  }
+  .cnf-stop-head .cnf-stop-link > .lnk::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background: var(--surface-page);
+    clip-path: polygon(var(--cutic) 0, 100% 0,
+                       100% calc(100% - var(--cutic)),
+                       calc(100% - var(--cutic)) 100%,
+                       0 100%, 0 var(--cutic));
+  }
+  .cnf-stop-head .cnf-stop-link > .lnk > * { position: relative; }
+  .cnf-stop-head .cnf-stop-link > .lnk svg { width: 18px; height: 18px; }
+  .cnf-stop-head { gap: 12px; }
+  .cnf-stop-id { min-width: 0; }
+}

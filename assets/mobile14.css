@@ -1,0 +1,24 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile14.css
+   Round fourteen, the phone half. Last stylesheet of all.
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+  /* ---- the player portrait at 232 needs the column ----------
+     E-05 is a row: portrait, then name and meta beside it. At
+     232 the portrait leaves 102px of a 390 screen for a name
+     set in 40px Condensed. The block stacks instead — the
+     portrait keeps the size the mark asks for and the name gets
+     the full width under it.                                 */
+  .e05 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .e05 .av-xl {
+    width: 232px;
+    height: 232px;
+  }
+  .e05-id { width: 100%; }
+}
