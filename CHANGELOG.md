@@ -1,5 +1,90 @@
 # Changelog
 
+## 2026-08-28 — Fifteenth review: Alex's comments, the ten that were ready
+
+From "NL more comments.pptx", the items that needed no decision from
+anyone: the data was there, the module was there, and the change ends
+inside it. `assets/review15.css` (desktop, after review14.css and
+before hero.css), `assets/mobile15.css` (phone, last of all) and
+`assets/site.js`. `tools/p25_review15.py` links the sheets, does the
+mark-up, applies the site.js edits and brings the design system with
+it; idempotent, and followed as always by `tools/bump_assets.py`.
+
+### Everywhere
+
+- **A win ratio is a percentage.** 0.83 read as a probability. One
+  formatter, `pctRatio()`, so Standings, a conference table, a team
+  header, a player page, Find a team and Stats all state 83%.
+
+### Home > live conference (S-01)
+
+- **The head says the place, and the dots say the stop.** It read
+  "Kigali · Stop 5 of 6" with the el-06 dots printing "Stop 5 of 6" an
+  inch to its right. The head keeps the city.
+- **The table says what it is.** "Not clear that this is. Look like the
+  conference standings, that is ok." It is, so a caption over it says
+  so — and carries the stop it stands after, which is where the head's
+  half of the repetition went.
+- **Six federations, not four.** A conference is up to six teams and
+  the table was cutting it at four for no reason but the specimen.
+
+### Home and Conferences > overview (S-09)
+
+- **A Teams line.** "We can add number of teams playing and number of
+  countries." 202 team sites, 68 nations — the two figures the Find a
+  team header already prints, stated in the block's own grammar. The
+  painter now addresses the two counted lines by name, because a third
+  line on the landing page would otherwise have been handed the stop
+  figures that belong to Conferences.
+
+### Standings
+
+- **The rank column.** The table opened on Federation while the
+  conference table beside it has led with Pos all along; the painter
+  had been writing `.cell-position` into a column that did not exist.
+  On a phone this also promotes the table to two pinned columns, which
+  is what review10 always intended for a ranking.
+- **A Zone filter.** Europe, Americas, AsiaPacific, Africa, Oceania —
+  `regionOf()` already folded Europe-1..4 and the U21 conferences into
+  those five for the landing page, so the field is one more ctl-04 on
+  the search row.
+
+### Conferences > Find a team
+
+- **U21 is called U21.** The label was hard-coded to U23, so a
+  federation fielding both was offered "U23 Men" twice and told its
+  U21 side was U23. The age category lives in the conference name.
+- **Q / S / R on every team site**, on the button and on the result
+  card, read off the same season table Standings ranks with.
+- The four sites are offered U23 before U21 and men before women, the
+  order el-02 already builds its switch in.
+
+### Stats
+
+- **Teams gains PPG and a status marker, and sorts.** The row is
+  painted by class now rather than by index — painting by position is
+  how the win ratio ended up under Pts Average the last time a column
+  moved.
+- **Players gains total points, and its empty columns are filled.**
+  Games and PPG had been printing an em dash on the grounds that the
+  snapshot has no box scores. It has none, but the box score is derived
+  from the final score — the player page has been summing exactly this
+  since round ten. Both tables sort on every column.
+
+### Conference
+
+- **Conference highlights comes off.** Games, best win ratio,
+  federations and average points are all read off the table directly
+  above them.
+
+### Still open, deliberately
+
+`EP 12` on Standings and `GP 29` on Stats are the same fault and are
+not fixed here: `federationTable()` sums a federation's U23 and U21
+team sites into one row. Alex is right that six is the maximum, and
+the fix is the same decision as his note on the Teams page — one row
+per team site, or one row per federation with the figures split.
+
 ## 2026-08-28 — Fourteenth review: five marks
 
 Daniel's eleventh mark-up. Four items are CSS —

@@ -306,6 +306,10 @@
       t.winRatio = t.played ? t.won / t.played : 0;
       t.avg = t.played ? Math.round((t.scored / t.played) * 10) / 10 : 0;
       t.confname = confName(conf(t.conference));
+      /* Review 15 — the zone the Standings filter offers. regionOf()
+         already folds Europe-1..4 and the U21 conferences back into
+         the five zones, so nothing new is derived here. */
+      t.zone = regionOf(conf(t.conference));
     });
     list.sort(function (a, b) { return b.tour - a.tour || b.winRatio - a.winRatio; });
     list.forEach(function (t, i) {
@@ -330,6 +334,12 @@
   /* el-08 TableHeaderRow: the sort arrow and the cell-sorted class were
      painted into the specimen but nothing was wired, so the header
      looked like a control and behaved like a label. */
+  /* Review 15 — the World Tour states a win ratio as a
+     percentage and Alex asked the league to read the same way.
+     One formatter, so the figure is identical on every page. */
+  function pctRatio(v) {
+    return (v == null || isNaN(v)) ? '\u2014' : Math.round(v * 100) + '%';
+  }
   function cmp(key, dir) {
     return function (a, b) {
       var x = a[key], y = b[key];
@@ -447,7 +457,7 @@
     row.hidden = false;
     fed(row, r.ioc, r.team);
     text(row, '.cell-position .t-data-m', r.rank);
-    text(row, '.cell-winratio .t-data-m', r.winRatio.toFixed(2));
+    text(row, '.cell-winratio .t-data-m', pctRatio(r.winRatio));
     text(row, '.cell-ptsavg .t-data-m', r.avg.toFixed(1));
     text(row, '.cell-ep .t-data-m', r.stops);
     text(row, '.cell-points .t-data-m', r.tour);
@@ -887,6 +897,23 @@
     return current;
   }
 
+  /* Review 15 — Q / S / R for one team site, read off the same
+     season table the Standings page ranks with, so the letter a
+     federation is given here is the letter it is given there.
+     (conferences.html has a statusOf() of its own about a whole
+     conference; this one is about one team site, hence the name.) */
+  var STATUS_CACHE = {};
+  function siteStatus(team) {
+    if (!team || !team.ioc) return '';
+    var g = team.gender || 'men';
+    var k = g + '|' + team.ioc;
+    if (STATUS_CACHE[k] != null) return STATUS_CACHE[k];
+    var row = federationTable(g).filter(function (t) {
+      return t.ioc === team.ioc;
+    })[0];
+    return (STATUS_CACHE[k] = (row && row.status) || '');
+  }
+
   /* ---------- E-01 TeamFinder --------------------------------
      step 1 default · 2 filled in · 3 choose team site · 4 result   */
   function initFinder(f) {
@@ -961,18 +988,37 @@
       flag($('.finder-picked', f), t.ioc);
       text(f, '.finder-country', t.name);
       var sites = D.teams.filter(function (x) { return x.ioc === t.ioc; });
+      /* Review 15 — the label was hard-coded to U23, so a federation
+         that fields U21 as well was offered the same two buttons
+         twice and told its U21 side was U23. The age category lives
+         in the conference and nowhere else. */
       var byCat = {};
       sites.forEach(function (x) {
-        var label = 'U23 ' + (x.gender === 'women' ? 'Women' : 'Men');
+        var label = shortCat(conf(x.conference)) + ' ' +
+                    (x.gender === 'women' ? 'Women' : 'Men');
         byCat[label] = byCat[label] || x;
       });
       var box = $('.finder-sites-list', f);
       box.innerHTML = '';
-      Object.keys(byCat).forEach(function (label) {
+      var ORDER = ['U23 Men', 'U23 Women', 'U21 Men', 'U21 Women'];
+      Object.keys(byCat).sort(function (a, b) {
+        var i = ORDER.indexOf(a), j = ORDER.indexOf(b);
+        return (i < 0 ? 9 : i) - (j < 0 ? 9 : j);
+      }).forEach(function (label) {
         var b = document.createElement('div');
         b.className = 'btn btn-outline cut cut-s cut-out';
         b.innerHTML = '<div class="cutfill"></div><span class="lbl"></span>';
         b.querySelector('.lbl').textContent = label;
+        /* Alex: "then also if Q, S or R". The marker is on the button,
+           so the answer is there before a site is even chosen. */
+        var mk = siteStatus(byCat[label]);
+        if (mk) {
+          var m = document.createElement('div');
+          m.className = 'el-05-StatusBadge--marker-' + mk +
+                        ' marker marker-' + mk + ' cut cut-s finder-mk';
+          m.innerHTML = '<span class="lbl">' + mk.toUpperCase() + '</span>';
+          b.appendChild(m);
+        }
         b.addEventListener('click', function () { result(byCat[label], label); });
         box.appendChild(b);
       });
@@ -1014,9 +1060,21 @@
 
       flag($('.finder-card-head', f), team.ioc);
       text(f, '.finder-cat', /women/i.test(label) ? 'Women' : 'Men');
-      text(f, '.finder-team', team.ioc + ' U23');
+      text(f, '.finder-team', team.ioc + ' ' + shortCat(c));
+      (function () {
+        var box = $('.finder-team', f) || $('.finder-card-head', f);
+        var old2 = $('.finder-result-mk', f);
+        if (old2) old2.remove();
+        var mk = siteStatus(team);
+        if (!mk || !box) return;
+        var m = document.createElement('div');
+        m.className = 'el-05-StatusBadge--marker-' + mk +
+                      ' marker marker-' + mk + ' cut cut-s finder-result-mk';
+        m.innerHTML = '<span class="lbl">' + mk.toUpperCase() + '</span>';
+        box.appendChild(m);
+      })();
       text(f, '.finder-pts', tot.points);
-      text(f, '.finder-ratio', tot.played ? (tot.won / tot.played).toFixed(2) : '\u2014');
+      text(f, '.finder-ratio', pctRatio(tot.played ? tot.won / tot.played : null));
       text(f, '.finder-record', tot.played ? tot.won + '\u2013' + (tot.played - tot.won) : '\u2014');
       text(f, '.finder-played', tot.stops + ' of ' + (c.stopCount || 0));
       link($('.finder-goteam', f), 'team.html?ioc=' + team.ioc);
@@ -1037,6 +1095,19 @@
      lives here rather than being written out twice. The shell's toggle
      runs on a delegated document listener that fires after this one,
      so the decision is taken a tick later. */
+  /* Review 15 — Alex, of the table inside the live conference:
+     "Not clear that this is. Look like the conference standings,
+     that is ok." It is, so it says so. The caption also carries
+     the stop the table stands after, which is what the head used
+     to repeat next to the dots. */
+  function accCaption(node, c, e, all) {
+    var cap = $('.acc-cap', node);
+    if (!cap) return;
+    var of = c.stopCount || (all || []).length;
+    cap.textContent = 'Conference standings' +
+      (e && e.number ? ' \u00b7 after stop ' + e.number + ' of ' + of : '');
+  }
+
   function soloAccordions(host) {
     if (!host) return;
     var accs = $$('.acc', host);
@@ -1242,8 +1313,12 @@
 
         text(node, '.t-h3', confName(c));
         var meta = $$('.acc-head .t-body-s', node)[0];
-        if (meta) meta.textContent = e.city + ' · Stop ' + e.number +
-                                     ' of ' + (c.stopCount || all.length);
+        /* Review 15 — the head said "Kigali · Stop 5 of 6" with the
+           el-06 dots printing "Stop 5 of 6" an inch to its right. The
+           head keeps the place; the stop is stated once, by the dots,
+           and once more by the caption over the table below. */
+        if (meta) meta.textContent = e.city;
+        accCaption(node, c, e, all);
         var badge = $('.acc-head .badge', node);
         if (badge) badge.hidden = !live;
         text(node, '.acc-head .t-caption',
@@ -1258,7 +1333,7 @@
         if (!rows.length) {
           $$('.trow', node).forEach(function (r) { r.hidden = true; });
         } else {
-          repeat(node, '.trow', rows.slice(0, 4), function (row, r) {
+          repeat(node, '.trow', rows.slice(0, 6), function (row, r) {
             paintStandingRow(row, r, complete);
           });
         }
@@ -1377,7 +1452,17 @@
     var stopsDone = playedStops().length, stopsAll = D.events.length;
     var stopsLive = D.events.filter(function (e) { return stopLive(e, today); }).length;
 
-    var lines = $$('.s09-line', host);
+    /* Review 15 — the Teams line is filled by name, and the two
+       counted lines are addressed without it: adding a third line
+       to the landing page would otherwise have handed it the stop
+       figures, which belong to the Conferences page. */
+    var lines = $$('.s09-line', host).filter(function (l) {
+      return !l.classList.contains('s09-line-teams');
+    });
+    var seenIoc = {};
+    D.teams.forEach(function (t) { if (t.ioc) seenIoc[t.ioc] = 1; });
+    text(host, '.s09-kv-sites', D.teams.length);
+    text(host, '.s09-kv-nations', Object.keys(seenIoc).length);
     function fill(line, vals) {
       if (!line) return;
       var kv = $$('.s09-kv', line);
@@ -2148,7 +2233,7 @@
      marker already says. */
   PAGES['standings.html'] = function () {
     var tbl = $('.tbl');
-    var gender = 'men', query = '', confPick = '';
+    var gender = 'men', query = '', confPick = '', zonePick = '';
     var qualOnly = new URLSearchParams(location.search).get('view') === 'qualification';
     var state = { key: 'tour', dir: -1 };
     var COLS = {
@@ -2169,6 +2254,7 @@
       if (qualOnly) pool = pool.slice(0, FIELD);
       var list = pool.filter(function (t) {
         if (confPick && t.confname !== confPick) return false;
+        if (zonePick && t.zone !== zonePick) return false;
         return !query || (t.team + ' ' + t.ioc).toLowerCase().indexOf(query) > -1;
       });
       var note = $('.ban-t'), body = $('.ban-d');
@@ -2194,7 +2280,7 @@
         fed(row, t.ioc, t.team);
         text(row, '.cell-position .t-data-m', t.rank);
         text(row, '.cell-conference .t-body-s', t.confname);
-        text(row, '.cell-winratio .t-data-m', t.winRatio.toFixed(2));
+        text(row, '.cell-winratio .t-data-m', pctRatio(t.winRatio));
         text(row, '.cell-ptsavg .t-data-m', t.avg.toFixed(1));
         text(row, '.cell-ep .t-data-m', t.stops);
         text(row, '.cell-points .t-data-m', t.tour);
@@ -2217,6 +2303,8 @@
       var names = Object.keys(seen).sort(function (a, b) { return a.localeCompare(b); });
       selectControl($('.selwrap[data-select="conference"]'), names,
                     function (v) { confPick = v; draw(); }, 'All conferences');
+      selectControl($('.selwrap[data-select="zone"]'), REGIONS.slice(),
+                    function (v) { zonePick = v; draw(); }, 'All zones');
     })();
 
     var tgl = $('.tgl[data-toggle="qualification"]');
@@ -2337,7 +2425,7 @@
       var ev = $$('.e04-v');
       if (me) {
         if (ev[0]) ev[0].textContent = me.tour;
-        if (ev[1]) ev[1].textContent = me.winRatio.toFixed(2);
+        if (ev[1]) ev[1].textContent = pctRatio(me.winRatio);
         if (ev[2]) ev[2].textContent = me.won + '–' + (me.played - me.won);
         if (ev[3]) ev[3].textContent = me.stops;
         if (ev[4]) ev[4].textContent = me.rank;
@@ -2458,7 +2546,7 @@
     [['Games',     head.games || '—'],
      ['Points',    head.games ? head.points : '—'],
      ['PPG',       head.games ? (head.points / head.games).toFixed(1) : '—'],
-     ['Win ratio', head.winRatio == null ? '—' : head.winRatio.toFixed(2)]
+     ['Win ratio', pctRatio(head.winRatio)]
     ].forEach(function (f, i) {
       if (!glance[i]) return;
       text(glance[i], '.t-caption', f[0]);
@@ -2488,7 +2576,7 @@
         ['Total points',    tot.games ? tot.points : '—'],
         ['Points per game', tot.games ? (tot.points / tot.games).toFixed(1) : '—'],
         ['Two-pointers',    tot.games ? tot.two : '—'],
-        ['Win ratio',       tot.winRatio == null ? '—' : tot.winRatio.toFixed(2)],
+        ['Win ratio',       pctRatio(tot.winRatio)],
         ['Free throws',     tot.games ? tot.ft : '—']
       ];
       cells.forEach(function (c, i) {
@@ -2766,9 +2854,9 @@
 
         text(node, '.t-h3', confName(c));
         var meta = $$('.acc-head .t-body-s', node)[0];
-        if (meta) meta.textContent = cityOf(e) + ' · Stop ' + e.number +
-          ' of ' + (c.stopCount || all.length) + ' · ' +
+        if (meta) meta.textContent = cityOf(e) + ' · ' +
           fmtDate(e.start, { day: 'numeric', month: 'short' });
+        accCaption(node, c, e, all);
         var badge = $('.acc-head .badge', node);
         if (badge) badge.hidden = !live;
         text(node, '.acc-head .t-caption', 'Stop ' + e.number + ' of ' + (c.stopCount || all.length));
@@ -2782,7 +2870,7 @@
         if (!rows.length) {
           $$('.trow', node).forEach(function (r) { r.hidden = true; });
         } else {
-          repeat(node, '.trow', rows.slice(0, 4), function (row, r) {
+          repeat(node, '.trow', rows.slice(0, 6), function (row, r) {
             paintStandingRow(row, r, complete);
           });
         }
@@ -2910,6 +2998,9 @@
       });
     }
 
+    var perfSort = { key: 'tour', dir: -1 };
+    var playSort = { key: 'points', dir: -1 };
+
     function drawTeams() {
       var list = scope();
 
@@ -2999,16 +3090,22 @@
         repeat(tbl, '.trow', rows, paint);
       }
 
-      fillTable('.st-perf', list.slice(0, 12), function (row, t, i) {
+      /* Review 15 — addressed by class rather than by index: the
+         table gained PPG and a status marker, and painting by
+         position is how the win ratio ended up under Pts Average
+         the last time a column moved. */
+      var perf = list.slice().sort(cmp(perfSort.key, perfSort.dir));
+      fillTable('.st-perf', perf.slice(0, 12), function (row, t, i) {
         row.hidden = false;
         fed(row, t.ioc, t.team);
-        var c = $$('.cell', row);
-        text(c[0], '.t-data-m, .t-body-s', i + 1);
-        text(c[2], '.t-body-s', t.confname);
-        text(c[3], '.t-data-m', t.played);
-        text(c[4], '.t-data-m', t.won + '–' + (t.played - t.won));
-        text(c[5], '.t-data-m', (t.winRatio * 100).toFixed(0) + '%');
-        text(c[6], '.t-data-m', t.tour);
+        text(row, '.cell-position .t-data-m, .cell-position .t-body-s', i + 1);
+        text(row, '.cell-conference .t-body-s', t.confname);
+        text(row, '.cell-gp .t-data-m', t.played);
+        text(row, '.cell-wl .t-data-m', t.won + '–' + (t.played - t.won));
+        text(row, '.cell-winratio .t-data-m', pctRatio(t.winRatio));
+        text(row, '.cell-ppg .t-data-m', t.avg != null ? t.avg.toFixed(1) : '—');
+        text(row, '.cell-points .t-data-m', t.tour);
+        marker(row, t.status || 'r');
         link(row, 'team.html?ioc=' + t.ioc);
       });
 
@@ -3038,9 +3135,23 @@
         if (!t) return false;
         if (gender && t.gender && t.gender !== gender) return false;
         return confId === 'All' || t.conference === confId;
-      }).slice().sort(function (a, b) {
-        return (b.rankingPoints || 0) - (a.rankingPoints || 0);
-      }).slice(0, 30);
+      });
+      /* Review 15 — the three numeric columns were printing an em
+         dash on the grounds that the snapshot has no box scores.
+         It has none, but the box score is derived from the final
+         score — the player page has been summing exactly this all
+         along, so the table can state it too. */
+      list.forEach(function (p) {
+        var tt = playerTotals(p.id);
+        p.games = tt.games;
+        p.points = tt.games ? tt.points : 0;
+        p.ppg = tt.games ? tt.points / tt.games : 0;
+        p.ranking = p.rankingPoints || 0;
+        p.pname = ((p.last || '') + ' ' + (p.first || '')).trim() || p.name || '';
+        p.teamioc = (teamOf[p.id] || {}).ioc || p.ioc || '';
+        p.confname = confName(conf((teamOf[p.id] || {}).conference));
+      });
+      list = list.sort(cmp(playSort.key, playSort.dir)).slice(0, 30);
 
       var old = host.parentElement.querySelector(':scope > .site-empty');
       if (!list.length) {
@@ -3072,18 +3183,44 @@
         /* Games and PPG stay empty: the snapshot has no box scores. The
            middle column is relabelled to the measure we do hold rather
            than printing ranking points under a Points heading. */
-        var n = $$('.r05-num', row);
-        if (n[0]) n[0].textContent = '—';
-        if (n[1]) n[1].textContent = (p.rankingPoints || 0).toLocaleString();
-        if (n[2]) n[2].textContent = '—';
+        text(row, '.cell-games .t-data-m', p.games || '—');
+        text(row, '.cell-points .t-data-m', p.games ? p.points : '—');
+        text(row, '.cell-ppg .t-data-m', p.games ? p.ppg.toFixed(1) : '—');
+        text(row, '.cell-ranking .t-data-m', p.ranking.toLocaleString());
         link(row, 'player.html?id=' + p.id);
       });
     }
 
     function draw() { drawTeams(); drawPlayers(); }
 
+    /* Review 15 — "I assume sorteable by PPG, and Team and name."
+       Both tables use the same el-08 sorter the Standings page has;
+       each opens on the column its ranking is about. */
+    var PERF_COLS = {
+      'cell-federation': { key: 'team', text: 1 },
+      'cell-conference': { key: 'confname', text: 1 },
+      'cell-gp':         { key: 'played' },
+      'cell-wl':         { key: 'won' },
+      'cell-winratio':   { key: 'winRatio' },
+      'cell-ppg':        { key: 'avg' },
+      'cell-points':     { key: 'tour' },
+      'cell-status':     { key: 'statusRank' }
+    };
+    var PLAY_COLS = {
+      'cell-player':     { key: 'pname', text: 1 },
+      'cell-team':       { key: 'teamioc', text: 1 },
+      'cell-conference': { key: 'confname', text: 1 },
+      'cell-games':      { key: 'games' },
+      'cell-points':     { key: 'points' },
+      'cell-ppg':        { key: 'ppg' },
+      'cell-ranking':    { key: 'ranking' }
+    };
+
     gender = genderSwitch(function (g) { gender = g; draw(); });
     tabPanes(document, '.st-tabs');
+    if ($('.st-perf')) sortable($('.st-perf'), PERF_COLS, perfSort, draw);
+    var plTbl = $('[data-pane="players"] .thead');
+    if (plTbl) sortable(plTbl.parentElement, PLAY_COLS, playSort, draw);
     draw();
   };
 
@@ -3562,7 +3699,7 @@
     var t = playerTotals(p.id);
     return [['Games', t.games || '—'],
             ['Points', t.games ? t.points : '—'],
-            ['Win ratio', t.winRatio == null ? '—' : t.winRatio.toFixed(2)]];
+            ['Win ratio', pctRatio(t.winRatio)]];
   }
 
   PAGES['game.html'] = function () {

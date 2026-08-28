@@ -1,0 +1,61 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review15.css
+   Round fifteen, the desktop half. Loaded after review14.css and
+   before hero.css, so the mobile layers still have the last word
+   on a phone.
+   ============================================================ */
+
+/* ---- 1  S-01: the table says what it is ---------------------
+   Alex, of the standings inside the live conference: "Not clear
+   that this is." A caption over the table names it and states
+   the stop it stands after — which is also where "Stop 5 of 6"
+   goes now that it has come off the head, where the el-06 dots
+   were printing it a second time an inch to the right.        */
+.acc-cap {
+  padding: 0 0 10px 2px;
+  color: var(--text-muted);
+}
+.acc-cap:empty { display: none; }
+
+
+/* ---- 2  S-09: the Teams line -------------------------------
+   "In overview we can add number of teams playing and number of
+   countries." Two figures, in the block's own grammar. The line
+   is shorter than the two above it because it is two counters
+   and not four; the labels are longer, so the counter box gives
+   up its fixed width to them. */
+.s09-line-teams .s09-k {
+  width: auto;
+  min-width: 150px;
+  white-space: nowrap;
+}
+
+
+/* ---- 3  Standings: two filters on one row ------------------
+   The zone field joins the conference field at the right edge.
+   `.rowsplit` is space-between, which would have parked the new
+   control in the middle of the row; the auto margin takes the
+   free space instead, so the pair reads as one group.         */
+.rowsplit > .selwrap-zone { margin-left: auto; }
+
+
+/* ---- 4  Stats: two more columns ----------------------------
+   W–L and PPG were sharing `.c-wr` and a hard-coded index. They
+   get widths of their own, so the row survives the next column
+   that moves. */
+.c-wl  { width: 96px; }
+.c-ppg { width: 88px; }
+
+
+/* ---- 5  Find a team: the status letter on the button -------
+   "Show both U23 and U21 if any, then also if Q, S or R." The
+   marker sits at the end of the ctl-01 outline button, so the
+   answer is on the button before a site is chosen.            */
+.finder-sites-list .btn { gap: 10px; }
+.finder-sites-list .btn > .marker { flex: 0 0 auto; }
+.finder-result-mk { margin-left: 8px; vertical-align: middle; }
+.finder-team {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}

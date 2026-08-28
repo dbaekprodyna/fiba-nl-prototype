@@ -1,0 +1,21 @@
+/* ============================================================
+   FIBA 3x3 Nations League — mobile15.css
+   Round fifteen, the phone half. Last stylesheet of all.
+   ============================================================ */
+
+@media (max-width: 767px) {
+
+  /* S-09's Teams line is two counters where the others are four,
+     so mobile6's `flex: 1 1 0` hands each of them half the row.
+     The labels are the longest in the block and must not be the
+     thing that gets clipped, so the value gives up its width. */
+  .s09-line-teams .s09-k { min-width: 0; }
+  .s09-line-teams .s09-kv { flex: 0 0 auto; }
+  .s09-line-teams .s09-kl { overflow: visible; }
+
+  /* The caption over the accordion's table sits tighter here. */
+  .acc-cap { padding-bottom: 8px; }
+
+  /* Two select fields now share the Standings filter panel. */
+  .rowsplit > .selwrap-zone { margin-left: 0; }
+}
