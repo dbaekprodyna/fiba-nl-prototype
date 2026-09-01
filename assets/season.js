@@ -27,23 +27,21 @@
 (function () {
   'use strict';
 
-  /* The state has to survive a link. Every page carries the F-02
-     switch, but `<a href="conferences.html">` drops the hash, so an
-     off-season home used to land on a live Conferences page. The hash
-     is still the authority when it says something: `season=` names the
-     state outright, and a hash that carries `hero=` without a `season=`
-     is the way back to live, because that is the hash the Hero / No
-     hero links write. With no hash at all the last stated answer
-     stands, for this tab only. */
-  var HASH = location.hash || '';
-  var M = /(?:^|[#&])season=(live|off|pre)\b/.exec(HASH);
-  var stated = M ? M[1] : (/(?:^|[#&])hero=/.test(HASH) ? 'live' : null);
-  var mode = stated;
-  try {
-    if (stated) sessionStorage.setItem('nl-season', stated);
-    else mode = sessionStorage.getItem('nl-season');
-  } catch (e) { /* private mode: the hash is the only state there is */ }
-  if (mode !== 'off' && mode !== 'pre') mode = 'live';
+  /* The hash, and only the hash. An earlier pass remembered the last
+     state for the tab so that a nav link would not drop it, but with
+     the F-02 switch hidden there was no stated way out of a state you
+     had landed in — a home page opened later came back off-season.
+     Every page load starts in season unless its own URL says
+     otherwise, which is the state the site is actually in.
+
+       index.html#season=off        the season is over
+       index.html#season=pre        the next one is coming
+       index.html  /  #hero=nl      in season
+
+     A hash travels with a typed or bookmarked URL, so a page can
+     still be shown in either off-calendar state on its own. */
+  var M = /(?:^|[#&])season=(live|off|pre)\b/.exec(location.hash || '');
+  var mode = M ? M[1] : 'live';
 
   var PIN = {
     live: '2026-08-26T15:20:00',
