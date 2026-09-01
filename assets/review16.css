@@ -1,0 +1,384 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review16.css
+   Round sixteen. The season-state switch in F-02, and the
+   off-season home it turns on.
+   Loaded after review15.css, before hero.css.
+   ============================================================ */
+
+/* ---- 1  F-02: two groups, not four links ---------------------
+   Hero / No hero say how the band is drawn. Off season / Pre
+   season say what day the site is being shown on. They are
+   different questions, so a rule separates them rather than a
+   fifth and sixth item in the same row. */
+.f02-fam .f02-sep {
+  display: inline-block;
+  width: 1px;
+  height: 11px;
+  margin: 0 2px;
+  background: currentColor;
+  opacity: .32;
+  vertical-align: -1px;
+}
+
+/* ---- 2  no live mark when nothing is live --------------------
+   Both are painted from the data and both go on their own when
+   the day is pinned past the last stop. The rules are here as
+   the guarantee: an off-season page must never carry a live dot,
+   whatever a specimen left in the mark-up. */
+.season-off .f03-dot,
+.season-pre .f03-dot,
+.season-off .mnav-bar .ntab-live::after,
+.season-pre .mnav-bar .ntab-live::after,
+.season-off .s03-livedot,
+.season-pre .s03-livedot { display: none !important; }
+.season-off .badge-live,
+.season-pre .badge-live { display: none !important; }
+
+
+/* ============================================================
+   The off-season home
+   ============================================================ */
+
+/* ---- 3  hero strip: the ladder and the milestones ------------
+   The band above states the season. This states where the next
+   one is, at whatever resolution is actually known. */
+.os-hero { gap: 20px; }
+.os-lad {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 4px 0 0;
+}
+.os-lad-k {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.02;
+  letter-spacing: .005em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+}
+.os-lad-k .os-lad-n {
+  font-variant-numeric: tabular-nums;
+  color: var(--brand-stroke, #253AFF);
+}
+.os-lad-s { color: var(--text-muted); }
+
+.os-ms {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.os-ms-i {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 14px 14px 16px;
+  background: var(--surface-sunken);
+}
+.os-ms-i::before {
+  content: '';
+  position: absolute;
+  left: 14px; right: 14px; top: 0;
+  height: 2px;
+  background: var(--border-default);
+}
+.os-ms-next::before { background: var(--brand-stroke, #253AFF); }
+.os-ms-d {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.os-ms-next .os-ms-d { color: var(--brand-stroke, #253AFF); }
+.os-ms-t { font-weight: 600; line-height: 1.25; }
+.os-ms-tba .os-ms-t { color: var(--text-disabled); }
+
+/* ---- 4  Winners — the prize-ceremony galleries ---------------
+   One shape for every card: the photograph, and the stop it was
+   shot at written on it. Nothing else is known about them and
+   nothing else needs to be. */
+.os-wingrid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 12px;
+}
+.os-win-c {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: var(--surface-sunken-2);
+  cursor: pointer;
+}
+.os-win-c img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--dur-slow, .4s) var(--ease-out, ease);
+}
+.os-win-c:hover img { transform: scale(1.04); }
+.os-win-cap {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 22px 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.72) 62%);
+}
+.os-win-city { font-weight: 700; font-size: 13px; line-height: 1.2; }
+.os-win-meta { font-size: 11px; opacity: .82; line-height: 1.2; }
+.os-win-c[hidden] { display: none; }
+
+/* ---- 5  2026 in numbers -------------------------------------- */
+.os-nums {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.os-num {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 18px 18px 20px;
+  background: var(--surface-sunken);
+}
+.os-num-v {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.os-num-l {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.os-scope {
+  font-size: 12px;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+
+/* ---- 6  Champions -------------------------------------------- */
+.os-champs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+.os-champ {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px 16px 18px;
+  background: var(--surface-page);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+.os-champ:hover { border-color: var(--border-strong); }
+.os-champ-c {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+}
+.os-champ-w { display: flex; align-items: center; gap: 10px; }
+.os-champ-w .flag { width: 32px; height: 32px; flex: 0 0 auto; }
+.os-champ-n {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.os-champ-f {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-muted);
+  font-size: 13px;
+}
+.os-champ-sc {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+/* ---- 7  Watch again ------------------------------------------ */
+.os-rail {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.os-vid { display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+.os-vid-f {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--surface-sunken-2);
+}
+.os-vid-f img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.os-vid-p {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 48px; height: 48px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  background: rgba(10,10,10,.72);
+  color: #fff;
+}
+.os-vid:hover .os-vid-p { background: var(--brand-stroke, #253AFF); }
+.os-vid-p svg { width: 22px; height: 22px; }
+.os-vid-t { font-weight: 700; line-height: 1.25; }
+.os-vid-m { font-size: 13px; color: var(--text-muted); }
+
+/* ---- 8  Next generation -------------------------------------- */
+.os-gen {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+.os-pl { display: flex; flex-direction: column; gap: 8px; cursor: pointer; }
+.os-pl-p {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: var(--surface-sunken-2);
+}
+.os-pl-p img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.os-pl-n { font-weight: 700; line-height: 1.2; }
+.os-pl-m { font-size: 13px; color: var(--text-muted); }
+
+.os-path {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 16px 18px;
+  background: var(--surface-sunken);
+}
+.os-path-s { font-weight: 700; letter-spacing: .01em; }
+.os-path-s.is-here { color: var(--brand-stroke, #253AFF); }
+.os-path-a { color: var(--text-disabled); }
+
+/* ---- 9  How it works ----------------------------------------- */
+.os-how { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+.os-how-c {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 20px 20px 22px;
+  background: var(--surface-page);
+  border: 1px solid var(--border-subtle);
+  cursor: pointer;
+}
+.os-how-c:hover { border-color: var(--border-strong); }
+.os-how-t {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 24px;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+.os-how-d { color: var(--text-muted); line-height: 1.5; }
+
+/* ---- 10  Get the 2027 dates ---------------------------------- */
+.os-cta {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+  padding: 28px 32px 30px;
+  background: var(--chrome-bg);
+  color: var(--chrome-text);
+}
+.os-cta-t {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700;
+  font-size: 34px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.os-cta-d { color: var(--chrome-text-muted); max-width: 52ch; }
+.os-cta-form { display: flex; gap: 8px; align-items: center; }
+.os-cta-in {
+  height: 44px;
+  width: 260px;
+  padding: 0 14px;
+  border: 1px solid rgba(255,255,255,.24);
+  background: transparent;
+  color: var(--chrome-text);
+  font: inherit;
+}
+.os-cta-in::placeholder { color: var(--chrome-text-muted); }
+.os-cta-b {
+  height: 44px;
+  padding: 0 20px;
+  border: 0;
+  background: var(--chrome-text);
+  color: var(--chrome-bg);
+  font: inherit;
+  font-weight: 700;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+/* ---- 11  narrower --------------------------------------------- */
+@media (max-width: 1099px) {
+  .os-ms { grid-template-columns: repeat(2, 1fr); }
+  .os-nums { grid-template-columns: repeat(2, 1fr); }
+  .os-wingrid { grid-template-columns: repeat(3, 1fr); }
+  .os-champs { grid-template-columns: 1fr 1fr; }
+  .os-rail { grid-template-columns: 1fr 1fr; }
+  .os-gen { grid-template-columns: repeat(3, 1fr); }
+  .os-how { grid-template-columns: 1fr; }
+  .os-lad-k { font-size: 34px; }
+  .os-cta { flex-direction: column; align-items: stretch; gap: 18px; }
+  .os-cta-in { width: auto; flex: 1 1 auto; min-width: 0; }
+}
+@media (max-width: 640px) {
+  .os-ms { grid-template-columns: 1fr; }
+  .os-wingrid { grid-template-columns: 1fr 1fr; }
+  .os-champs { grid-template-columns: 1fr; }
+  .os-rail { grid-template-columns: 1fr; }
+  .os-gen { grid-template-columns: 1fr 1fr; }
+}
+
+/* the one conference the snapshot has no standings for */
+.os-champ-empty { border-style: dashed; }
+.os-champ-none { color: var(--text-disabled); }
+
+
+/* ---- 12  Standings: the two fields are one group -------------
+   Review 15 wrote `.rowsplit > .selwrap-zone { margin-left: auto }`
+   and it never applied. mobile5.js wraps every foldable filter on
+   the page in `.mfilt > .mfilt-panel`, and on a desktop both of
+   those are `display: contents` — so the fields are still the flex
+   items of `.rowsplit`, but they are no longer its CHILDREN. The
+   child combinator matched nothing, `.rowsplit` is space-between,
+   and the zone field was parked in the middle of the row.
+
+   review6.css already carries this warning for `.sched-period`;
+   this is the same trap one row further down the page. Descendant,
+   not child. */
+.rowsplit .selwrap-zone { margin-left: auto; }
+
+/* mobile15 reverses it for the folded panel with the same child
+   combinator, so that rule has never applied either. */
+@media (max-width: 1099px) {
+  .rowsplit .selwrap-zone { margin-left: 0; }
+}

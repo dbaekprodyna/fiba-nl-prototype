@@ -1,0 +1,268 @@
+/* ============================================================
+   FIBA 3x3 Nations League — review17.css
+   Round seventeen. Daniel's mark on the two off-calendar states.
+
+     1  Conferences loses the Men / Women switch.
+     2  The off-season home is re-cut: Winners first and only the
+        teams that qualified, the season's figures in the Overview
+        module, Find a team under them, the conference winners
+        renamed and four to a row, and the Live now block brought
+        down under the advertising as Calendar.
+     3  The pre-season home is a different page, not the same one
+        with a different headline: the 2027 wordmark, a running
+        S-13 Countdown, and the next generation as player cards.
+
+   Loaded after review16.css, before hero.css.
+   ============================================================ */
+
+
+/* ---- 1  Conferences: no gender switch ------------------------
+   Round sixteen moved it from the page header onto the Schedule
+   block, on the argument that a control sits at the level it
+   changes. Daniel's answer is shorter: on this page it changes
+   so little that it should not be offered at all. The element
+   stays in the mark-up and stays wired — site.js reads its
+   segments to decide which half of the draw the game list shows,
+   and removing the node would take the list with it. It is the
+   offer that goes, not the machinery. */
+body[data-page="conferences.html"] .sched-gender { display: none !important; }
+
+/* ---- 1b  Conferences, out of season --------------------------
+   The Schedule block is a live stream, a list of today's games and
+   a results panel. Out of season all three are empty or historic,
+   and a block that answers "what is on now" with nothing is worse
+   than no block. The whole section goes in both off-calendar
+   states; the conference grid below it is the page.
+
+   season.js stamps the state on <html>, so this needs no script. */
+html.season-off body[data-page="conferences.html"] .sched,
+html.season-pre body[data-page="conferences.html"] .sched { display: none !important; }
+
+/* ---- 1c  Conferences, before the season ----------------------
+   Overview counts finished stops, live conferences and season
+   progress. Before a season starts every one of those is zero, so
+   the module is dropped and Find a team — which is the one thing
+   on the page that still works, and the thing a reader arrives for
+   in these months — takes the full width.
+
+   site.js reshapeConferences() puts the two blocks in a .tpl-split
+   six and six; the right column goes and the left is released from
+   its 1074px cap. */
+html.season-pre .cnf-head > .tpl-colR { display: none; }
+html.season-pre .cnf-head > .tpl-colL { max-width: none; width: 100%; }
+
+
+/* ============================================================
+   2  The off-season home
+   ============================================================ */
+
+/* ---- 2.1  Winners, in the Photos module ----------------------
+   Same carousel, same slide, same indicator — the section is a
+   gallery and the site already has one. What changed is what is
+   in it: one photograph per qualified team, so no nation and no
+   frame is shown twice. */
+.os-winsec .car-slide { cursor: pointer; }
+.os-winsec .car-slide .t-caption {
+  position: absolute;
+  left: 0; right: 0; bottom: 0;
+  padding: 28px 14px 12px;
+  color: #fff;
+  text-align: left;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,.74) 64%);
+}
+.os-winsec .car-slide { position: relative; }
+/* The specimen slide is 464px wide and the stage sets an 8px gap, so
+   three of them are 1408 against a 1376 content column — the third
+   was cut and a sliver of the fourth showed at the right edge. The
+   slide is measured off the viewport instead, so three fill the row
+   exactly at any desktop width. app.js pages by the slide's own
+   offsetWidth plus the gap, so the arithmetic follows. The narrow
+   breakpoints keep mobile.css's own slide widths. */
+@media (min-width: 1100px) {
+  .os-winsec .car-slide { width: calc((100% - 16px) / 3); }
+}
+/* The indicator carries one bar per photograph, so the row states
+   how far through the set the reader is rather than claiming ten
+   positions over twenty-four slides. Twenty-four bars at the
+   specimen's 36px would wrap into three rows and stop reading as
+   one scale, so they share the row instead. */
+.os-winsec .ind { flex: 1 1 0; min-width: 0; flex-wrap: nowrap; }
+.os-winsec .ind-d { flex: 1 1 0; width: auto; min-width: 5px; }
+
+
+/* ---- 2.2  2026 in numbers, in the Overview module -------------
+   S-09 verbatim: the same outlined cut surface, the same label
+   column, the same rule between the figures. Season progress is
+   gone — out of season there is nothing left to progress. The
+   only thing the module cannot do as shipped is a five figure
+   number, because .s09-kv is 44px wide for a count of eighteen. */
+.s09-nums { align-items: stretch; }
+.s09-nums .s09-brk { flex-wrap: wrap; }
+.s09-nums .s09-k {
+  width: auto;
+  min-width: 0;
+  gap: 10px;
+  padding-right: 22px;
+}
+.s09-nums .s09-kv { width: auto; min-width: 30px; }
+.s09-nums .s09-k:first-child { padding-left: 0; border-left: 0; }
+
+/* Three stacked lines left two thirds of the card empty. The label
+   column is 170px because the in-season module states four figures
+   a line; here it states two, so the lines share the row and only
+   fall back to stacking when the row actually runs out. Wrap, not a
+   three column grid: at a narrower window the third group drops to
+   its own line instead of all three being squeezed. */
+@media (min-width: 1100px) {
+  .s09-nums .s09-lines {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 14px 28px;
+  }
+  .s09-nums .s09-line { flex: 0 1 auto; gap: 14px; }
+  .s09-nums .s09-lab { width: auto; }
+  .s09-nums .s09-k { padding-right: 0; }
+}
+
+
+/* ---- 2.3  The qualifiers ------------------------------------
+   Four to a row, and the outline drawn the way the system draws
+   an outline. `border: 1px` cannot survive `clip-path` — the two
+   45 degree corners are cut out of the border box along with
+   everything else, which is why the stroke went missing at the
+   top left and the bottom right. The card is now el-00 CutSurface:
+   the element is filled with the line colour and clipped, and a
+   .cutfill child inset by the same 1px carries the card's own
+   surface. The line then follows the corner. */
+.os-champs { grid-template-columns: repeat(4, 1fr); }
+.os-champ {
+  position: relative;
+  border: 1px solid transparent;
+  background: var(--border-default);
+  background-clip: border-box;
+  --of: var(--surface-page);
+  --n: 1px;
+}
+/* --ic is set here rather than by adding .cut-out, which would also
+   force position:relative on every child — the same reason .pcard
+   states it inline. 0.586 x the 1px border is the inset that puts
+   the fill's diagonal exactly 1px inside the card's. */
+.os-champ { --ic: calc(var(--c) - 0.586px); }
+.os-champ > .cutfill { z-index: 0; }
+.os-champ > *:not(.cutfill) { position: relative; z-index: 1; }
+.os-champ:hover { background: var(--border-strong); }
+.os-champ-empty { background: var(--border-subtle); }
+.os-champ-n { font-size: 24px; }
+.os-champ-f { flex-wrap: wrap; row-gap: 2px; font-size: 12px; }
+
+
+/* ---- 2.4  Calendar -------------------------------------------
+   The Live now block, out of the Overview column and across the
+   page. Nothing about it changes except its width and its name:
+   out of season it is not a live block, it is the record of when
+   the league played. */
+.os-calsec .filterbar { flex-wrap: wrap; row-gap: 12px; }
+.os-calsec .acc { width: 100%; }
+
+
+/* ---- 2.5  Be first to know ----------------------------------
+   The field was a transparent box with a 24% white hairline on a
+   near-black band, and it read as a line of type — Daniel took it
+   for an email address printed on the page. An input is a surface
+   you can put a cursor in, so it is given one. */
+.os-cta-form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+}
+.os-cta-lab {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--chrome-text-muted);
+}
+.os-cta-row { display: flex; align-items: center; gap: 8px; }
+/* behaviour.css strips every <input> inside .live back to a
+   transparent, colour-inheriting box — that is what made this field
+   read as printed type on the dark band. Two classes beat `.live
+   input`, which is where the paint has to be restored. */
+.os-cta-row .os-cta-in {
+  flex: 0 0 auto;
+  height: 48px;
+  width: 300px;
+  padding: 0 16px;
+  border: 0;
+  background: var(--surface-page);
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 16px;
+}
+.os-cta-row .os-cta-in::placeholder { color: var(--text-disabled); opacity: 1; }
+.os-cta-row .os-cta-in:focus {
+  outline: 0;
+  box-shadow: inset 0 0 0 2px var(--brand-stroke, #253AFF);
+}
+.os-cta-b { height: 48px; }
+.os-cta-note { color: var(--chrome-text-muted); font-size: 13px; }
+
+
+/* ============================================================
+   3  The pre-season home
+   ============================================================ */
+
+/* ---- 3.1  S-13 Countdown, running --------------------------
+   The specimen is variant = default and it is used verbatim. The
+   figures cannot come from Date.now(), because season.js has
+   pinned that to the day the prototype is being demonstrated on;
+   the block runs on the pin plus the wall clock since the page
+   loaded, so it counts down in real seconds from a date the rest
+   of the site agrees with. */
+.os-cdsec .s13 { width: 100%; }
+.os-cdsec .s13-v { font-variant-numeric: tabular-nums; }
+
+
+/* ---- 3.2  The next generation, as E-08 -----------------------
+   Six to a row, men on the first and women on the second — the
+   competition runs two draws and a row each is the shortest way
+   to say so. The card is the four-light specimen at the small
+   scale; .pcard-sh is inline-flex and hugs its card, so the grid
+   cell has to be told to fill. */
+.os-gen17 { display: flex; flex-direction: column; gap: 18px; }
+.os-genrow {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 16px;
+}
+.os-genrow-lab {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+.os-genrow .pcard-sh { display: flex; width: 100%; min-width: 0; }
+.os-genrow .pcard { width: 100%; }
+
+
+/* ---- 4  narrower ---------------------------------------------- */
+@media (max-width: 1099px) {
+  .os-champs { grid-template-columns: repeat(2, 1fr); }
+  .os-genrow { grid-template-columns: repeat(3, 1fr); }
+  .os-cta-in { width: 100%; }
+  .os-cta-row { width: 100%; }
+  .os-cta-form { width: 100%; }
+}
+@media (max-width: 640px) {
+  .os-champs { grid-template-columns: 1fr; }
+  .os-genrow { grid-template-columns: 1fr 1fr; }
+  .s09-nums .s09-line { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .s09-nums .s09-lab { width: auto; }
+  .os-cta-row { flex-direction: column; align-items: stretch; }
+  .os-cta-b { width: 100%; }
+}

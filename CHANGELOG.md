@@ -1,5 +1,128 @@
 # Changelog
 
+## 2026-09-01 — Seventeenth review: the two off-calendar states, separated
+
+Round sixteen built one off-season page and showed it under two
+names. Daniel's mark separates them, because they are not the same
+argument: out of season the page is about what was won, before the
+season it is about what is coming. `assets/review17.css` (after
+review16.css, before hero.css) and `assets/review17.js` (last of all)
+carry both; `tools/p27_review17.py` links them, lifts the E-08
+PlayerCard specimen into `index.html` as a `<template>`, exports the
+card painter from `site.js` and stands review16's builder down.
+Idempotent, and followed as always by `tools/bump_assets.py`.
+
+### The state survives a link
+
+`season.js` reads the hash first, as it always did, and now remembers
+the answer for the tab. Every page carries the F-02 switch, but
+`<a href="conferences.html">` drops the hash, so an off-season home
+used to land on a live Conferences page. A hash that says `season=`
+still decides; a hash that carries `hero=` with no `season=` is the way
+back to live, because that is what the Hero / No hero links write; with
+no hash at all the last stated answer stands. Those two links are on
+the home page only, so the second group in F-02 gains its third
+member — **In season** — and every page now has a stated way out.
+
+### Conferences
+
+- **The Schedule block is gone in both off-calendar states.** It is a
+  live stream, a list of today's games and a results panel; out of
+  season all three are empty or historic, and a block that answers
+  "what is on now" with nothing is worse than no block.
+- **Before the season, Overview goes too and Find a team takes the
+  full width.** Overview counts finished stops, live conferences and
+  season progress, and before a season starts every one of those is
+  zero. Find a team is the one thing on the page that still works in
+  those months, so it gets the page.
+- **The Men / Women switch goes.** Round sixteen moved it from the
+  page header down onto the Schedule block, on the argument that a
+  control sits at the level it changes. Daniel's answer is shorter:
+  on a page of eighteen conference cards it changes so little that it
+  should not be offered. The element stays in the mark-up and stays
+  wired — site.js reads its segments to decide which half of the draw
+  the game list shows, and deleting the node takes the list with it.
+  It is the offer that goes, not the machinery.
+
+### Home > off season
+
+- **Winners opens the page**, and "The next generation is already
+  training" is gone with its milestone ladder. Out of season the first
+  thing on the page is the season that just finished.
+- **One photograph, one qualified team.** The feed titles a hundred
+  and forty-eight galleries "Prize Ceremony" but writes only
+  seventy-seven distinct frames across them, and the same nation wins
+  several stops, so the raw set repeats both. The set is built from
+  the other end instead: the twenty-four federations the league sends
+  to the U23 World Cup — twelve men's, twelve women's — each with the
+  most recent stop it won that has a gallery, skipping any frame
+  already used. Twenty-four photographs, twenty-four teams, nothing
+  twice. It runs in the Photos module: same carousel, same slide, same
+  indicator, one bar per photograph. The "Show all 148 ceremonies"
+  link is gone — there is no longer a tail to open. The slide is
+  measured off the carousel viewport rather than the specimen's fixed
+  464px, so three fill the content column exactly instead of cutting
+  the third and showing a sliver of the fourth at the right edge.
+- **2026 in numbers is S-09**, the module the in-season page opens
+  with, rather than a row of tiles of its own. Season progress is
+  dropped: out of season the answer is always all of it. The three
+  lines share one row on a desktop — the in-season module states four
+  figures a line and needs the height, this one states two and left
+  two thirds of the card empty. They wrap back to stacked below 1100.
+- **Find a team** moves up under it, from the foot of the page.
+- **Champions becomes U23 World Cup Qualifiers**, four to a row. The
+  card's outline was missing at the top left and the bottom right
+  because `clip-path` takes the corner out of the border box too, so a
+  `border` draws nothing along the two 45 degree edges. The card is
+  now el-00 CutSurface — the element carries the line colour, a
+  `.cutfill` child inset by the border width carries the surface — and
+  the stroke follows the corner.
+- **Watch 2026 again, Meet the next generation, the Nations League →
+  U23 World Cup → World Tour → Olympics strip and Get ready for 3x3
+  are gone.** The explainer is gone from the pre-season page too — the
+  home page is not where the competition gets explained; About is.
+- **Live now comes down under the advertising as Calendar.** Same
+  block, full width, new name: out of season it is not a live block,
+  it is the record of when the league played.
+- **Be first to know has a field you can type in.** It had one before,
+  but behaviour.css strips every `<input>` inside `.live` back to a
+  transparent, colour-inheriting box, and on the near-black band that
+  read as an email address printed on the page rather than as somewhere
+  to put a cursor. Two classes beat `.live input`; the field is a white
+  surface with a label over it.
+
+### Home > pre season
+
+- **The 2027 wordmark in the hero** (`assets/logo-nl-2027-hero.svg`,
+  the supplied file). Same artwork height as the 2026 one, so
+  `--hero-cap` keeps the lock-up on its cap height and nothing else in
+  the band moves. The season chip in the header follows it.
+- **S-13 Countdown, variant = default, directly under the hero, and it
+  runs.** It cannot be driven by review11's ticker: that reads
+  `Date.now()`, and season.js has pinned `Date.now()` to the day the
+  prototype is being demonstrated on, so every figure would stand
+  still. This one takes the pin as its zero and adds the wall clock
+  since the page loaded, so it counts real seconds towards a date the
+  rest of the site agrees with. It deliberately carries no
+  `data-until`, so review11 leaves it alone.
+- **Find a team** under the countdown.
+- **Meet the next generation is E-08 PlayerCard**, six to a row, men
+  on the first row and women on the second — the league runs two draws
+  and a row each says so without a switch to press. The card is the
+  four-light specimen at the small scale, cloned from a `<template>`
+  in the page; a template keeps its contents out of every selector
+  site.js runs across the document, which a hidden `<div>` would not.
+  The three figures are painted by site.js's own exported painter,
+  because they are derived from the box scores in there and a second
+  implementation would drift.
+- Then **Advertising** and **Be first to know**.
+
+### Checked
+
+Fifteen pages at 1440 and the two states at 1440 and 390: no
+JavaScript errors, no horizontal overflow. The live state is
+unchanged.
+
 ## 2026-08-28 — Fifteenth review: Alex's comments, the ten that were ready
 
 From "NL more comments.pptx", the items that needed no decision from

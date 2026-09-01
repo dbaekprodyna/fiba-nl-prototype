@@ -4549,6 +4549,15 @@
     };
   })();
 
+  /* Review 17 — the off-calendar layers build E-08 cards of their own,
+     and the card's three figures are derived in here from the box
+     scores. One export rather than a second implementation that would
+     drift from this one. */
+  window.NL = window.NL || {};
+  window.NL.paintPlayerCard = function (card, p) {
+    paintPlayerCard(card, p, playerCardStats(p));
+  };
+
   /* ---------- boot ------------------------------------------ */
   var FILES = ['conferences', 'events', 'standings', 'teams', 'players', 'news', 'photos', 'games'];
 
