@@ -16,6 +16,20 @@
    ============================================================ */
 
 
+/* ---- 0  F-02: the season links come off the page -------------
+   In season / Off season / Pre season are a demonstration control,
+   not part of the design, and they were reading as site navigation
+   in the top right. They are hidden rather than removed: the links
+   and their handlers stay wired, the state still lives in the hash
+   (`#season=off`, `#season=pre`, `#hero=nl` for live) and still
+   survives a link within the tab, so the three states can be shown
+   by typing the hash. Delete this rule to bring the switch back.
+
+   Hero / No hero are untouched. */
+.f02-fam .f02-season,
+.f02-fam .f02-sep { display: none !important; }
+
+
 /* ---- 1  Conferences: no gender switch ------------------------
    Round sixteen moved it from the page header onto the Schedule
    block, on the argument that a control sits at the level it

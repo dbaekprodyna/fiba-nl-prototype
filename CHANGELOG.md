@@ -14,6 +14,13 @@ Idempotent, and followed as always by `tools/bump_assets.py`.
 
 ### The state survives a link
 
+*The F-02 season links are hidden as of this round — they read as site
+navigation in the top right, and the prototype is being shown to a
+client. The mechanism below is intact: the hash still names the state
+and still survives a link within the tab, so `#season=off` and
+`#season=pre` (and `#hero=nl` for live) show the three states. One rule
+at the head of review17.css brings the switch back.*
+
 `season.js` reads the hash first, as it always did, and now remembers
 the answer for the tab. Every page carries the F-02 switch, but
 `<a href="conferences.html">` drops the hash, so an off-season home
