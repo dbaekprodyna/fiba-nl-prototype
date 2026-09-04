@@ -37,7 +37,7 @@
     hl.insertBefore(cv, hl.firstChild);
   }
 
-  var MODES = { none: 1, a: 1, b: 1, nl: 1 };
+  var MODES = { a: 1, b: 1, nl: 1 };
   var current = 'nl';
 
   window.HERO = {
@@ -77,8 +77,14 @@
     }
   };
 
+  /* Review 20 — Daniel: the hero is not a setting any more. The two
+     links that switched it off came out of the top bar, and with them
+     the `none` state: a hash left over from before now resolves to the
+     hero rather than to a page without one. Hero A and Hero B stay
+     reachable by hash, because they are how the two treatments are
+     shown side by side in a review. */
   function fromHash() {
-    var m = /(?:^|[#&])hero=(a|b|nl|none)\b/.exec(location.hash);
+    var m = /(?:^|[#&])hero=(a|b|nl)\b/.exec(location.hash);
     return m ? m[1] : 'nl';
   }
 

@@ -148,7 +148,10 @@
 
     function paint() {
       $$('.acc', host).forEach(function (acc) {
-        var lnk = $('.acc-actions .lnk', acc);
+        /* Review 19 — the accordion now offers two links. The first is
+           "View conference", added by site.js and marked; this one
+           relabels the second, which is the one that goes to a stop. */
+        var lnk = $('.acc-actions .lnk:not(.acc-conf-lnk)', acc);
         if (!lnk) return;
         var seed = $('[data-href^="conference.html"]', acc);
         var href = (seed && seed.getAttribute('data-href')) ||

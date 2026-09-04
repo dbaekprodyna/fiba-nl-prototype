@@ -1,0 +1,122 @@
+/* ============================================================
+   Review 19 — 2026-09-03
+   Where controls sit, what a table's third column is, and the
+   two blocks that go back to a shape an earlier round changed.
+   Loaded after review18.css and before hero.css.
+   ============================================================ */
+
+/* ---- Live now: the switch rides on the caption line ----------
+   The caption and the gender switch were two stacked blocks
+   between the accordion's head and its table, so the switch read
+   as a second heading. They are one line now: what the table is
+   on the left, whose table it is on the right. Both bottoms sit
+   on the same rule, which is what makes the gap under the switch
+   the gap the caption already had. */
+.acc-capline {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 10px;
+}
+.acc-capline > .acc-cap { padding: 0 0 0 2px; }
+.acc-gslot {
+  display: flex;
+  flex: 0 0 auto;
+  margin-left: auto;
+}
+
+/* Two links at the foot of an open accordion — the conference,
+   then the stop — need a gutter between them. */
+.acc-actions { gap: 28px; }
+
+@media (max-width: 900px) {
+  .acc-capline { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .acc-gslot { margin-left: 0; }
+}
+
+/* ---- Seed is a column of every WT table ----------------------
+   Thirteen columns now, and the narrowest place one is drawn is
+   an open accordion on the landing page rather than a full-width
+   page. Federation, Seed and Tour pts give back the width Seed
+   takes, so the stop columns keep theirs and Status does not
+   scroll off the right — the failure this table had at twelve. */
+.wt-tbl .c-fed    { flex: 0 1 156px; min-width: 88px; }
+.wt-tbl .c-wtseed { flex: 0 0 52px; }
+.wt-tbl .c-wtpts  { flex: 0 0 74px; }
+.wt-scroll > .wt-tbl { min-width: 830px; }
+.st-perf.wt-tbl { min-width: 920px; }
+
+/* ---- Conference tabs: one rule under the strip ---------------
+   A played tab carried a 2px grey border-bottom that sat directly
+   on the strip's own 1px black rule, so the strip read as two
+   lines of different colours. The state is already said by the
+   label's colour. */
+.cnf-stoptabs .cnf-tab-done:not(.tab-active) { border-bottom-color: transparent; }
+
+/* ---- Stop: the stop's name under the tab that picked it -------
+   The headline stays the conference on all seven views. This is
+   what changes when a tab is clicked. */
+.stop-idl {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.stop-idl-s { color: var(--text-muted); }
+/* .tpl-content spaces its children 64px apart, which is the gap
+   between blocks. This is not another block — it is the caption
+   of the strip above it. */
+@media (min-width: 901px) {
+  /* .tpl-content spaces its children 40px apart on this page; 24px is
+     the distance that reads as "belongs to the strip above". */
+  .tpl-content > .stop-idl { margin-top: -16px; }
+}
+
+/* ---- Standings: the bar reads left to right ------------------
+   "Qualification only" and the export are both things you do to
+   the table, so they stand together at the left; the legend is
+   the thing you read about it, and it keeps the right end. */
+.tblbar > .legend-top { flex: 0 1 auto; margin-left: auto; }
+.tblbar > .x-export { flex: 0 0 auto; }
+
+/* ---- Calendar: the month card is the conference card ---------
+   Same shell, same grey stroke, same elevation on hover — the
+   .sh wrapper carries the shadow because a clipped surface
+   cannot draw one. A live stop takes the brand stroke instead of
+   a fill, exactly as a live conference card does. */
+.cal-cards > .e03-sh { min-width: 0; }
+.e03-sh > .cal-card { flex: 1 1 auto; min-width: 0; }
+.cal-card {
+  padding: 20px 22px 22px 26px;
+  gap: 14px;
+}
+.cal-card:hover { background: var(--border-default); }
+.cal-card.brandstroke:hover { background: var(--brand-stroke); }
+.cal-card-name {
+  white-space: normal;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* ---- Calendar: the reset belongs to the strip ----------------
+   Clear filter undoes the region, the search and the picked day,
+   and the picked day is what the strip above is for. */
+.cal-clearbar {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ---- The stop strip on a phone -------------------------------
+   Seven tabs cannot share 358px: mobile5.css gives every tab an
+   equal share of the row, which is 51px a tab, and the labels
+   ran over each other. review18 already said the strip should
+   scroll sideways there; the mobile layer loads after it and
+   outranked the rule on order alone, so it is restated here at a
+   specificity that survives. */
+@media (max-width: 900px) {
+  .cnf-stoptabs.tabs { overflow-x: auto; }
+  .cnf-stoptabs.tabs > .tab { flex: 0 0 auto; padding: 0 16px; }
+}

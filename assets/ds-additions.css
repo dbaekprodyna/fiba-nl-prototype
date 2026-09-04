@@ -1,0 +1,387 @@
+/* ============================================================
+   FIBA 3x3 Design System — additions
+   Three components the World Tour build needed and the system
+   did not have yet. Written in the system's own idiom: tokens
+   only, the 45° corner cut, a .live gate on every interactive
+   state, and a reduced-motion guard on every animation.
+
+   Merge target: assets/ds-additions.css in the Nations League
+   build, linked after modules.css, with the three entries added
+   to system/nav.json.
+
+     S-14  StopBar     the season as a submenu
+     el-31 MeterBar    a labelled value against a track
+     el-32 VideoThumb  a video poster that links out
+
+   None of them carries a brand colour of its own. Red appears
+   in S-14 only as --status-live, the same reservation el-05
+   StatusBadge makes: red is LIVE and nothing else.
+   ============================================================ */
+
+/* ---------------------------------------------------------------
+   S-14 StopBar
+   A season has more stops than a menu can hold — the 2026 World
+   Tour has seventeen Masters and twenty-two Challengers. Listed
+   flat they are an alphabet; listed in season order the same strip
+   becomes a submenu AND a progress bar: where the tour has been,
+   where it is tonight, where it goes next. Three states carry it.
+   Past recedes, the live stop is the only white one and the only
+   one that carries the bouncing dot, and the stops still to come
+   stay legible. No dates: a date column would make it a calendar,
+   and S-07 SeasonCalendar is the calendar.
+   --------------------------------------------------------------- */
+.s14 {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  max-width: 1920px;
+  height: 44px;
+  background: #141414;                    /* one step under --chrome-bg */
+  border-top: 1px solid var(--chrome-line);
+  overflow: hidden;
+}
+.s14-nav {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 44px;
+  background: #141414;
+  color: var(--chrome-text-muted);
+  z-index: 2;
+}
+.s14-nav svg { display: block; }
+.s14-scroll {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  scrollbar-width: none;
+  scroll-behavior: smooth;
+}
+.s14-scroll::-webkit-scrollbar { display: none; }
+.s14-i {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 14px;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: var(--surface-sunken-2);          /* still to come */
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+}
+.s14-done { color: #575757; }              /* been and gone */
+.s14-on {
+  color: var(--chrome-text);
+  font-weight: 700;
+  /* The bar is white, like every other selected state in the chrome:
+     F-03's active item, the season control. Red is carried by the
+     dot alone, which is the one thing on the strip that means LIVE. */
+  border-bottom: 2px solid var(--chrome-text);
+}
+.s14-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--status-live);
+  flex: 0 0 auto;
+}
+.s14-all {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 44px;
+  padding: 0 16px;
+  background: var(--chrome-bg-2);
+  color: var(--chrome-text);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+/* states — hover and focus, .live-gated like every other element */
+.s14-i-hover, .live .s14-i:hover { color: var(--chrome-text); background: var(--chrome-hover); }
+.s14-done-hover, .live .s14-done:hover { color: #8A8A8A; }
+.s14-all-hover, .live .s14-all:hover { background: #333333; }
+.s14-nav-hover, .live .s14-nav:hover { color: var(--chrome-text); }
+.live .s14-i, .live .s14-all, .live .s14-nav { cursor: pointer; }
+.live .s14-i:focus-visible, .live .s14-all:focus-visible {
+  outline: 2px solid var(--chrome-text);
+  outline-offset: -2px;
+}
+/* The live stop's dot is the el-05 dot, so it bounces the same way. */
+@media (prefers-reduced-motion: no-preference) {
+  .s14-dot {
+    animation: dot-bounce 1.1s cubic-bezier(0.3, 0, 0.5, 1) infinite;
+    transform-origin: 50% 100%;
+  }
+}
+
+/* ---------------------------------------------------------------
+   el-31 MeterBar
+   One value against a track, with an optional label and figure
+   above it. S-09 Overview has a season-progress bar built into
+   the module and el-22 CarouselIndicator has a filling bar, but
+   neither can be used to compare rows — which is what a "who is
+   in the twelve" board needs. Track and fill only; the fill is
+   --action-default so the bar reads as a quantity, not a state.
+   --------------------------------------------------------------- */
+.meter { display: flex; flex-direction: column; gap: 6px; width: 100%; }
+.meter-top {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.meter-lab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-secondary);
+}
+.meter-lab > span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.meter-v {
+  flex: 0 0 auto;
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+.meter-track {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  background: var(--surface-sunken-2);
+}
+.meter-fill {
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  background: var(--action-default);
+}
+/* variant = accent — the one place a family site's colour is allowed
+   in, because the bar is a quantity and not a control. Set
+   --meter-accent on an ancestor; unset, it stays black.          */
+.meter-accent .meter-fill { background: var(--meter-accent, var(--action-default)); }
+@media (prefers-reduced-motion: no-preference) {
+  .meter-fill { transition: width var(--dur-slow) var(--ease-out); }
+}
+
+/* ---------------------------------------------------------------
+   el-32 VideoThumb
+   The system has no video player on purpose — ctl-07 WatchLive
+   sends people to YouTube rather than embedding one. A thumbnail
+   that links out is a different thing: a poster, a duration or
+   format badge, a play control and a title. Portrait is the
+   default because vertical Shorts are what the channel posts;
+   landscape is the 16:9 variant.
+   --------------------------------------------------------------- */
+.vth { display: flex; flex-direction: column; gap: 10px; width: 100%; }
+/* No .cut-out here on purpose: base.css gives every child of a
+   cut-out box position:relative, and the poster's play control,
+   badge and scrim all have to be absolute. The poster has no
+   border, so the single-layer cut is the right one anyway. */
+.vth-p {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 9 / 16;
+  background: var(--chrome-bg);
+  overflow: hidden;
+}
+.vth-wide .vth-p { aspect-ratio: 16 / 9; }
+.vth-p > img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.vth-scrim {
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,0) 45%, rgba(0,0,0,.55) 100%);
+}
+.vth-play {
+  position: absolute;
+  left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  background: var(--surface-page);
+  color: var(--text-primary);
+}
+.vth-badge {
+  position: absolute;
+  left: 8px; top: 8px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  height: 24px;
+  padding: 0 10px;
+  background: var(--chrome-bg);
+  color: var(--chrome-text);
+  font-family: 'Barlow', sans-serif;
+  font-weight: 700;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+.vth-t {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+  color: var(--text-primary);
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.vth-hover .vth-play, .live .vth:hover .vth-play { background: var(--action-default); color: var(--text-inverse); }
+.vth-hover .vth-t, .live .vth:hover .vth-t {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
+}
+.live .vth { cursor: pointer; }
+.live .vth:focus-visible { outline: 2px solid var(--action-default); outline-offset: 3px; }
+@media (prefers-reduced-motion: no-preference) {
+  .vth-play { transition: background-color var(--dur-fast) var(--ease-out), color var(--dur-fast) var(--ease-out); }
+  .vth-p > img { transition: transform var(--dur-slow) var(--ease-out); }
+  .live .vth:hover .vth-p > img { transform: scale(1.04); }
+}
+
+/* ---------------------------------------------------------------
+   el-07 AccordionShell — open and close
+   The shell was documented as two static states; this is the
+   transition between them. Rows animate through grid-template-rows
+   rather than height, because the body's height is content-defined
+   and a height transition cannot interpolate to `auto`. motion.css
+   already declares the timing for it.
+   --------------------------------------------------------------- */
+.acc-fold { display: grid; grid-template-rows: 1fr; }
+.acc-fold > .acc-body { min-height: 0; overflow: hidden; }
+.acc[data-open="false"] .acc-fold { grid-template-rows: 0fr; }
+.acc[data-open="false"] .acc-fold > .acc-body {
+  padding-top: 0; padding-bottom: 0; border-top-color: transparent;
+}
+.acc-caret { display: flex; align-items: center; }
+.acc[data-open="false"] .acc-caret { transform: rotate(-90deg); }
+@media (prefers-reduced-motion: no-preference) {
+  .acc-fold { transition: grid-template-rows var(--dur-base) var(--ease-in-out); }
+  .acc-fold > .acc-body {
+    transition: padding var(--dur-base) var(--ease-in-out),
+                border-color var(--dur-base) var(--ease-in-out);
+  }
+  .acc-caret { transition: transform var(--dur-base) var(--ease-in-out); }
+}
+
+/* ---------------------------------------------------------------
+   el-13 FederationTag — team-first content
+   On a club competition the club is the identifier and the country
+   is the qualifier, which is the reverse of a national-team table.
+   Same component, same flag ring and gap; the two type roles swap.
+   --------------------------------------------------------------- */
+.ftag-teamfirst .ftag-name { font-size: 15px; line-height: 20px; color: var(--text-primary); }
+.ftag-teamfirst .ftag-code {
+  font-family: 'Barlow', sans-serif;
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 20px;
+  letter-spacing: 0.6px;
+  color: var(--text-muted);
+}
+
+
+/* ---------------------------------------------------------------
+   Foundations · Elevation — the hover lift
+   The system defines e0 / e1 / e2 and puts the shadow on a wrapper,
+   because clip-path clips a filter and every cut surface would eat
+   its own shadow. What it did not define is the transition between
+   two of them. .sh-lift is that: at rest the wrapper's own step,
+   on hover one step up and two pixels of travel. It goes on the
+   .sh wrapper, never on the cut surface inside it.
+   --------------------------------------------------------------- */
+.sh-lift { will-change: filter, transform; }
+.live .sh-lift:hover { filter: drop-shadow(0 3px 6px rgba(0, 0, 0, .20)); }
+@media (prefers-reduced-motion: no-preference) {
+  .sh-lift { transition: filter var(--dur-base) var(--ease-out), transform var(--dur-base) var(--ease-out); }
+  .live .sh-lift:hover { transform: translateY(-2px); }
+}
+
+/* ---------------------------------------------------------------
+   el-14 Chip — size XS
+   L 48 / M 40 / S 32 were the three sizes. A category label above a
+   headline needs to sit under the headline in weight, not beside it,
+   so the set gains a fourth step at 22.
+   --------------------------------------------------------------- */
+.chip-xs {
+  height: 22px;
+  gap: 4px;
+  padding: 0 9px;
+  font-size: 10px;
+  letter-spacing: 0.7px;
+  justify-content: center;
+}
+
+/* ---------------------------------------------------------------
+   S-13 Countdown — the figures actually run
+   A countdown that does not count is a picture of a countdown. Each
+   figure falls into place the way the live dot does: down, squash on
+   contact, spring back. It is a basketball competition; the motion
+   in the system is a bounce, and this is the same curve el-05's dot
+   uses, at the length of one tick.
+   --------------------------------------------------------------- */
+.s13-v { display: inline-block; transform-origin: 50% 100%; }
+@media (prefers-reduced-motion: no-preference) {
+  .s13-v.is-tick { animation: s13-drop 620ms cubic-bezier(0.3, 0, 0.5, 1); }
+}
+@keyframes s13-drop {
+  0%   { transform: translateY(-52%) scale(1, 1); }
+  38%  { transform: translateY(0)    scale(1, 1); }
+  47%  { transform: translateY(0)    scale(1.18, 0.82); }
+  56%  { transform: translateY(-14%) scale(0.96, 1.04); }
+  72%  { transform: translateY(0)    scale(1.06, 0.94); }
+  86%  { transform: translateY(-4%)  scale(1, 1); }
+  100% { transform: translateY(0)    scale(1, 1); }
+}
+
+/* ---------------------------------------------------------------
+   Progress that arrives
+   S-09's season bar and el-31 MeterBar both state a quantity, and a
+   quantity reads better arriving than already there. The target
+   width is held in --w; the bar runs to it when the block reveals,
+   on the same easing as the reveal itself. Nothing moves for a
+   reader who has asked for less motion — the bar is simply full.
+   --------------------------------------------------------------- */
+.meter-fill, .s09-fill { width: var(--w, 0%); }
+@media (prefers-reduced-motion: no-preference) {
+  .reveal .meter-fill, .reveal .s09-fill { width: 0; }
+  .reveal.is-in .meter-fill, .reveal.is-in .s09-fill {
+    width: var(--w, 0%);
+    transition: width 900ms cubic-bezier(0.32, 0.72, 0, 1) 120ms;
+  }
+}
+/* el-31's track and fill carry the same 14px height and corner cut as
+   S-09's season bar, so a board of meters and the season bar read as
+   one family rather than two bars that happen to be near each other. */
+.meter-track { height: 14px; }
+.meter-fill { min-width: 14px; }

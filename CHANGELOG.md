@@ -1,5 +1,416 @@
 # Changelog
 
+## 2026-09-03 — Twentieth review: one axis per column
+
+Four of this round's twelve marks are the same mark: a table whose
+heading row and whose body rows had stopped agreeing where the
+columns were. They had a single cause, and it is the kind of thing
+that is invisible until it is measured. `assets/review20.css`
+carries the round and `tools/p30_review20.py` links it; the rest is
+in `assets/site.js`, with one change each to `assets/hero-switch.js`,
+`index.html` and `stop.html`.
+
+### The columns
+
+**Every cell in a flex row has `min-width: auto`, and that resolves
+to min-content.** A heading cell's min-content is its label plus a
+sort arrow; a body cell's is a flag and three letters, or two digits.
+They are not the same number, so each column resolved to a slightly
+different width in the head than in the body, and by the right-hand
+end of thirteen columns the heading was a whole cell out of step with
+the figures under it. No WT cell is allowed an automatic minimum any
+more: with `min-width: 0` the stated flex-basis is what both rows
+use, and the two resolve identically by construction. Measured after:
+every column box is identical head to body, to the pixel.
+
+**The second half is which edge the heading stands on.** A
+right-aligned column reads down its right edge, and the sort arrow
+was sitting between the label and that edge, so every heading stood
+twenty pixels inboard of its own figures. The arrow goes to the left
+of the label instead. (Reversing a flex row reverses its axis with
+it, so the packing that puts the label on the right is `flex-start`,
+not `flex-end` — worth writing down, because it looks like a typo.)
+
+**POS lost its sort arrow.** It offered to re-sort the table by the
+order the sort had just produced, and in a 44px column it pushed the
+label off the centre the numbers below it stand on.
+
+The same fix, in the shape the block needed, on **S-05 Pools**: the
+three figures are 64px cells in the rows and were three free-standing
+labels twelve pixels apart in the header, so W–L, PF and PA stood
+over nothing in particular. The header's group now has the rows'
+column widths.
+
+**Conferences' Overview** had the same disease with different
+symptoms: every cell sized itself to its own content, so no two of
+the three lines put a rule in the same place. It is one grid across
+the whole block now — the lines and their figure groups are
+`display: contents`, so a label and its figures are items of the same
+grid and every rule lands on one axis. The Teams line carries two
+figures where the others carry four, so each of them spans two
+columns and still ends on a column edge.
+
+### The rest
+
+**The hero is not a setting.** The Hero / No hero links come out of
+the top bar and the `none` state goes with them; a bookmark carrying
+`#hero=none` now resolves to the hero. Hero A and Hero B stay
+reachable by hash, because that is how the two treatments are shown
+side by side in a review.
+
+**A card that lifts.** E-03 raised itself to elevation e1 on hover:
+15% black at two pixels, drawn directly under a one-pixel grey stroke
+darker than the shadow. Nothing was visible. A card under the pointer
+is at e2 now — one whole step, which is what "raised" has to be to
+read as raised. Both values are the design system's own.
+
+**News photographs zoom**, the way the World Tour prototype's video
+thumbnails do: the image grows inside a box that does not. A
+background image cannot do this — `background-size` has nothing to
+interpolate from the `cover` keyword — so a photograph that has to
+move is an `<img>` in a clipping box, and one that fails to load
+removes itself rather than leaving a broken-image mark where the
+plain surface used to be.
+
+**A live stop's tab keeps the live colour.** The dot went white so it
+would carry on the black active tab, but the dot is the one mark on
+this site that means "on air" and it is red everywhere else.
+
+**The Schedule module is back, at the head of the stop being
+played.** On Conferences it sat above a grid of eighteen and streamed
+whichever one happened to be on, which is why round eighteen took it
+off that page; here it has exactly one subject — this stop, the
+recording that actually went out behind the play button, and the
+day's games beside it. A stop that is not on has nothing to stream,
+so the module is only built where it has something to say, and where
+it is built it is the page's only player. Its Men / Women switch is
+the page's: the podium, the pools and the bracket follow it too.
+
+**Calendar.** The "Season calendar" sub-headline goes — the page is
+titled Calendar and the two view chips say which view, so it was
+naming the page a third time. The chips carry Material Symbols'
+calendar_month and calendar_today, so they are told apart before they
+are read. Day view arrives on a day (12 August, the day Live now
+opens on) rather than on an empty strip, and Clear filter does what
+it says: it widens the day back out to the whole season — 108 stops,
+one accordion each — where before it emptied the page.
+
+### Verification
+
+18 assertions on the twelve marks, all passing, plus a column probe
+that measures every heading box against its body box (13 of 13
+identical) and every heading label against its column's right edge.
+44 page loads across 21 URLs at 1440 and 390, including the
+off-season and pre-season states and the calendar's two views, with
+no JavaScript errors and no horizontal overflow.
+
+## 2026-09-03 — Nineteenth review: where a control sits
+
+Twelve marks from Daniel, and eleven of them are about position: a
+switch that should be beside its table, a legend that should end at
+the right, a timeline that should be read after the thing it
+explains, a headline that should not move when a tab is clicked.
+Nothing here changes what the site knows. `assets/review19.css`
+carries the styling and `tools/p29_review19.py` links it; the
+behaviour is in `assets/site.js`, with one line each in
+`assets/review16.js` and `assets/review18.js`.
+
+### Home
+
+**The gender switch rides on the caption line.** It was a block of
+its own between "Conference standings · after stop 3 of 6" and the
+table, so it read as a second heading. Caption and switch share one
+row now, bottom-aligned, ten pixels above the table — which is the
+gap the caption already had, so both sides of the line stand off the
+table by the same amount.
+
+**Seed is the third column.** The Live now table gets the column the
+conference table and Statistics already had, filled by the same
+derived value. Thirteen columns in a 908px accordion needed the
+width back: Federation, Seed and Tour pts are narrower and the stop
+columns absorb the difference, so Status still ends inside the box
+rather than scrolling off it — the failure this table had at twelve.
+
+**Two ways out of an open accordion.** "View conference" goes to the
+conference's Overview; "Follow this stop" goes to the stop. The
+first is new and carries `.acc-conf-lnk`, because review16 relabels
+the *second* link and would otherwise have renamed the one that had
+just been added.
+
+### Conferences
+
+**Find a team and Overview stand side by side again**, six and six.
+The eighteenth round stacked them at full width; seeing it, Daniel
+asked for the size they were.
+
+**The grey line over the black one is gone.** A played stop's tab
+carried a 2px `--border-default` rule that sat directly on the
+strip's own 1px black rule, so the strip read as two lines of
+different colours. The state is already said by the label.
+
+**The timeline moves under the conference standings.** The table
+answers where the conference stands; the timeline answers how it got
+there, which is the second question.
+
+**Seed is the third column here too**, so the table a reader met in
+the Live now accordion is the same table when they open the
+conference.
+
+### Stop
+
+**The conference keeps the headline on all seven of its views.** The
+page used to retitle itself "Stop 2 · Cangzhou", which made the tab
+strip look like it was moving between pages rather than between
+views of one. The H1 and the sub-header are the conference's now,
+and what changes is stated under the strip: "STOP 1 · CANGZHOU" over
+"China · 10 Aug 2026". The stream frame hangs off that block instead
+of off the tabs, so it lands under the stop's name and not between
+the name and the tab that chose it.
+
+**The strip scrolls on a phone.** Seven tabs cannot share 358px —
+mobile5.css gives every tab an equal share and the labels ran over
+each other. review18 had already written the scrolling rule; the
+mobile layer loads after it and outranked it on order alone, so it
+is restated at a specificity that survives.
+
+### Standings and Statistics
+
+**The bar reads left to right.** "Qualification only" and Export are
+both things you do to the table and stand together at the left; the
+legend is what you read about it and keeps the right end. Export was
+inside the legend, pushed to the far right by a margin.
+
+**The players table gets its heading.** "Player performance" over it,
+matching "Team performance" on the other tab — and the export button
+follows the heading, so both halves of Statistics are laid out the
+same way.
+
+### Calendar
+
+**A month card is a conference card.** Same E-03 shell, same grey
+stroke, same drop-shadow on hover, carried on the `.sh` wrapper
+because a clipped surface cannot draw a shadow on itself. The blue
+fill on hover is gone; a live stop takes the brand stroke, exactly
+as a live conference card does.
+
+**Day view goes back to what it was.** The seven-column grid built
+last round was a second calendar inside the calendar: Month view
+already answers "what does August look like", and under the day
+strip the grid only repeated the picking the strip was doing. It is
+not hidden — it is not built.
+
+**Clear filter belongs to the strip.** It undoes the region, the
+search and the picked day, and the picked day is what the strip is
+for, so it sits at the strip's bottom right rather than in the row of
+chips above.
+
+### Verification
+
+24 assertions on the twelve marks, all passing. 44 page loads across
+21 URLs at 1440 and 390 — including the off-season and pre-season
+states and the calendar's two views — with no JavaScript errors and
+no horizontal overflow.
+
+## 2026-09-03 — Eighteenth review: what a row is
+
+Every table on this site was built on a sentence nobody had written
+down: a row is a federation. It is not. A row is a federation **in a
+conference, in a gender, in an age category** — a team site — and
+almost every fault in this round's brief comes from the two being
+confused. `assets/review18.css` carries the round's styling and
+`tools/p28_review18.py` links it; the rest is a correction to
+`assets/site.js` itself, because a layer over a wrong row definition
+would only have painted over it.
+
+### Daniel's second pass
+
+**Live now never loaded.** The skeleton was cleared from the list of
+blocks it had covered — but `repeat()` clones the first accordion once
+per stop, so the block that was covered is thrown away and six copies
+of it are put on the page, each carrying a skeleton nobody was holding
+a reference to. It is swept from the document now. (`.rv` did this in
+round seven and `display:contents` in round sixteen; a clone bringing
+state along is the recurring shape of the bug on this site.)
+
+**Seeding, found.** There is no seed field in the snapshot —
+tourTeams, teamRankings and qualifications are all empty collections
+and no record carries the word. What the feed does carry is the thing
+a seed is made of: a FIBA 3x3 ranking for 709 of the season's 711
+players. A 3x3 team is ranked by the sum of its three highest-ranked
+players and a conference seeds its field by that ranking, so every
+team site has a seed now, derived that way rather than invented. It
+is read through the same `seedOf()` as before: the day teams.json
+gains a `seed`, the stated value wins and the derivation stops being
+consulted.
+
+**A conference and its stops are one page with seven views.** The tab
+strip is Overview and six stops, drawn by one function on both pages.
+Overview is the timeline, the standings, the leading scorers and the
+photographs. A stop is never a page of its own: it is the conference,
+on one of its stops, with the strip above it and its own tab marked.
+The stop's title states the stop and its host, the line under it the
+place and the day, and the second gender switch that stood beside it
+is gone — the conference sets the gender and the answer is remembered
+for the tab.
+
+**The calendar has two views.** Month is what it opens on: every stop
+as a card, grouped by the month it is played in, newest month first.
+Day view is the grid and the day strip, unchanged. The link at the
+right of the header, which pointed at Conferences, is gone: a
+calendar does not need a way off itself.
+
+Smaller marks, all Daniel's: Find a team moves under Overview on the
+landing page and runs the full width on Conferences, with Overview
+under it — six columns was enough for a search field but not for the
+four steps the module has. The count above it ("68 nations · 202 team
+sites this conference") is removed; it was a fact about the database,
+and on Conferences its second half was not true of the page it sat
+on. Photographs are three across the content's full width — the
+slides were a fixed 464px, which came to 1408 in a 1376 column and
+clipped the third while showing a sliver of the fourth. Statistics
+loses Team stats spotlight and Overview outright. The Standings
+export moves to the end of the legend.
+
+### The day the site is showing
+
+The prototype pins a date so that "live" means something. It was 26
+August, chosen for a stream; the two conferences playing that day
+have no standings rows in the snapshot at all, so the landing page
+opened on a table of zeroes and em dashes. It is 12 August now: Asia
+Central/East at Cangzhou, stop 3 of 6, and Europe-4 at Bratislava,
+stop 5 of 6 — two conferences, both with a full six rows in both
+genders, and Bratislava with a real stream, so the frame plays.
+
+Moving the day exposed something the stop columns had made visible
+and nobody had looked at: the snapshot carries results for stops
+that have not been played yet. A conference reading "3 of 6 stops"
+under six filled columns is a contradiction on the screen. The
+season tables stop at today now — a stop counts once it has started,
+and everything after today is blank.
+
+### The loading state, and the way out of the file
+
+Two things this round belong to the layer rather than to the site,
+because neither is about what the site knows.
+
+**el-26 Skeleton.** Eight JSON files are fetched at boot, and until
+they land every page shows the specimen markup it was built from:
+Serbia in every table, the same four player cards, a news story from
+the mock. It reads as real content that then changes under the
+reader. The skeleton is laid over each block and takes its geometry
+from that block's own markup, so it is the same height, the same row
+count and the same column positions as what replaces it. It clears
+on the render signal, not on a timer. `#skeleton=hold` holds it, so
+the state can be shown without throttling a network to see it.
+
+**Export.** Alex asked for Excel. A CSV loses every number's type; a
+SpreadsheetML `.xls` opens under a "the format does not match the
+extension" warning, which is the first thing a federation would see.
+So the `.xlsx` is written here — a stored ZIP of XML parts, about
+sixty lines including a CRC table — rather than pulled off a CDN.
+The rows come from the table on the screen rather than from the data
+behind it, so the file and the page cannot disagree about what the
+filters left, and a stop column becomes two: the finish and the
+points it paid.
+
+### The month
+
+"The day list is hard to understand — a monthly view is better." A
+row of eight days answers what is on this week and nothing else; a
+season is read in months. The calendar opens on a month grid where
+every stop is a card that goes to that stop's page, a finished one
+carrying the federation that won it in the gender the switch is set
+to. The day strip stays, because picking a day is what opens the
+list underneath — and the list is only there when a day has been
+picked, which is what the wall of every stop in the season was doing
+wrong.
+
+### The season table is decomposed
+
+`federationTable()` grouped by IOC code, so a federation that plays
+two conferences had its two schedules added together and reported
+twelve events in a six-stop season. Three causes, not the one the
+brief named: twenty-six federations field a U21 side as well as a
+U23 one; seven appear in two conferences filed under the same
+category; and — the one nobody had seen — **the age category is not
+only in the conference name**. Europe and Asia have U21 conferences;
+Africa and the Americas do not, and mark their U21 sides by a suffix
+on the federation's name, in two different spellings: `Egypt (U21)`
+and `Chile U21`. Twenty-four rows were being read as U23 and offered
+a place at the U23 World Cup.
+
+`siteTable()` is the season table now, one row per team site, and
+`federationTable()` wraps it under its old name for its old callers.
+`fedTotals()` adds sites up where a federation total is the answer
+being asked for. Events played is six or fewer on every page.
+
+U23 and U21 are two ladders, each counting from one, and Q and S are
+set on the U23 ladder alone: the field those letters name is the U23
+World Cup, which a U21 side is not playing for. Standings and
+Statistics rest on that ladder order rather than on tour points,
+because sorting the two together printed 1, 1, 2, 2 down a column
+headed Position.
+
+### One column set
+
+Alex asked the league to read the way the World Tour reads. Four
+tables were each drawing a different subset of that, so a reader
+comparing two pages was comparing two column sets. `wtTable()` builds
+all four — position, federation, tour points, every stop with its
+finish over the points it paid, win ratio, points average, status —
+and the landing page's Live now accordion, the conference standings,
+the stop-by-stop matrix and the Statistics team table are now four
+callers of one function.
+
+Seeding rides in the same builder. `teams.json` has no `seed` field
+yet, so the column shows an em dash: a column with a dash under it
+says the data is coming, where no column says it was forgotten. Every
+reader of the value goes through `seedOf()` — one line to change when
+Rob's data lands.
+
+### Search finds team sites
+
+"Germany" returned one row where the federation fields four sides;
+"U21" returned nothing at all. The unit of a result is the team site
+now, and the category and the gender are part of what a side is
+called. Matching is on words rather than on one joined string —
+otherwise "men" matches "women" — and results rank exact IOC code
+first, then a word that starts with what was typed, then anything
+containing it. The overlay, the standing search page and the Find a
+team finder all read the same function.
+
+### A federation's page is about the federation
+
+`team.html` opened on one of a federation's four sides and offered
+the other three behind a switch, so "how is Germany doing" had to be
+asked four times and added up by hand. The switch has gained an
+**All** in front of it, and All is where the page opens: the four
+sides as cards, each with its conference, its conference rank, its
+seed, its stops, its tour points, its win ratio and its Q/S/R, over
+a row of federation totals. A category the federation does not enter
+keeps its place in the grid and says so. No new page, no new link,
+no new component that the design system did not already have.
+
+### Conferences, and the stops that leave
+
+The Schedule block is gone from the global Conferences page: a live
+stream, today's games and a results panel are three answers about one
+conference, sitting above a grid of eighteen. On a conference page the
+dot rail is a tab strip — six stops, stated, each one a link straight
+to that stop's page — and with the stops leaving, the Overview /
+Stops pair goes with them and the page is one view again.
+
+### Statistics
+
+Team Spotlight named the federation scoring most per game, which
+compares teams at different points of different seasons: one stop in
+and one good day was enough to top it. It is gone, and so is the
+second table that ranked the same federations by points scored; the
+space is rows, thirty of them, the same cap the player table uses.
+The team table gained the total-points column the player table
+already had.
+
+
 ## 2026-09-01 — Seventeenth review: the two off-calendar states, separated
 
 Round sixteen built one off-season page and showed it under two
