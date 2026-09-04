@@ -43,18 +43,8 @@
   var M = /(?:^|[#&])season=(live|off|pre)\b/.exec(location.hash || '');
   var mode = M ? M[1] : 'live';
 
-  /* Review 18 — the in-season day moved from 26 August to 12 August.
-     On the 26th the two conferences playing were Asia West/Pacific
-     and U21 Europe-2, and the snapshot holds no standings rows for
-     either: the landing page opened on a table of zeroes and em
-     dashes, which is the first thing a client sees. The 12th has two
-     conferences on — Asia Central/East at Cangzhou (stop 3 of 6) and
-     Europe-4 at Bratislava (stop 5 of 6) — both with a full six rows
-     in both genders, both with a cover, and Bratislava with a real
-     stream, so the video frame plays rather than explaining itself.
-     Nothing else in the site knows the date; it is read from here. */
   var PIN = {
-    live: '2026-08-12T15:20:00',
+    live: '2026-08-26T15:20:00',
     off:  '2026-08-31T11:00:00',
     pre:  '2026-08-31T11:00:00'
   };

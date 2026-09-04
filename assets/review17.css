@@ -16,27 +16,18 @@
    ============================================================ */
 
 
-/* ---- 0  F-02: the season links are back on the page ----------
-   Round seventeen hid In season / Off season / Pre season because
-   they read as site navigation in the top right; Daniel said "for
-   now", and now asks for them back. The rule that hid them is gone
-   rather than overridden, so the pair below is once again drawn by
-   review16 (the two states) and review17 (the way back), with the
-   review16 separator holding them apart from Hero / No hero.
+/* ---- 0  F-02: the season links come off the page -------------
+   In season / Off season / Pre season are a demonstration control,
+   not part of the design, and they were reading as site navigation
+   in the top right. They are hidden rather than removed: the links
+   and their handlers stay wired, the state still lives in the hash
+   (`#season=off`, `#season=pre`, `#hero=nl` for live) and still
+   survives a link within the tab, so the three states can be shown
+   by typing the hash. Delete this rule to bring the switch back.
 
-   Nothing else had to change: the links, the capture handler and
-   the hash contract (`#season=off`, `#season=pre`, `#hero=nl` for
-   live) were left wired the whole time.
-
-   To hide them again, restore:
-     .f02-fam .f02-season,
-     .f02-fam .f02-sep { display: none !important; }  */
-
-/* The Hero / No hero pair that the review16 separator was written
-   to divide from is no longer in the bar, which left the divider
-   as the first thing in it — a rule with nothing on its left. It
-   comes back on its own the moment anything precedes it. */
-.f02-fam > .f02-sep:first-child { display: none; }
+   Hero / No hero are untouched. */
+.f02-fam .f02-season,
+.f02-fam .f02-sep { display: none !important; }
 
 
 /* ---- 1  Conferences: no gender switch ------------------------

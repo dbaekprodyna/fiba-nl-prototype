@@ -477,26 +477,5 @@
     "desc": "The template behind About, How it works and FAQ: a sticky table of contents on the left, long-form body on the right, and el-19 DisclosureRow for anything question-shaped."
    }
   ]
- },
- {
-  "id": "additions",
-  "name": "Additions · World Tour",
-  "items": [
-   {
-    "slug": "s-14-stopbar",
-    "title": "S-14 StopBar",
-    "desc": "The season as a submenu. Past recedes, the live stop is the only white one and the only one with a dot, the stops still to come stay legible."
-   },
-   {
-    "slug": "el-31-meterbar",
-    "title": "el-31 MeterBar",
-    "desc": "One value against a track. Stackable, so rows can be compared — which S-09's built-in bar and el-22's filling bar cannot do."
-   },
-   {
-    "slug": "el-32-videothumb",
-    "title": "el-32 VideoThumb",
-    "desc": "A video poster that links out. There is no player in this system; this is the thumbnail that sends people to one."
-   }
-  ]
  }
 ]

@@ -151,34 +151,11 @@
   }
 
   /* Paint a picture placeholder with a real photograph. */
-  /* Review 20 — a news photograph zooms under the pointer, the way
-     the World Tour prototype's video thumbnails do. A background
-     image cannot do it: background-size does not interpolate from
-     the `cover` keyword, so there is nothing to transition. A photo
-     that has to move is an <img> inside a clipping box instead, and
-     the box is the same box it always was. */
-  function photo(node, url, zoom) {
-    if (!node || !url) return;
-    if (zoom) {
-      node.classList.add('ph-zoom');
-      var im = $('img.ph-img', node);
-      if (!im) {
-        im = document.createElement('img');
-        im.className = 'ph-img';
-        im.alt = '';
-        /* A background image that 404s leaves the box empty; an <img>
-           that 404s leaves a broken-image mark in it. The box is the
-           fallback, so the picture takes itself out rather than
-           showing that it failed. */
-        im.addEventListener('error', function () { im.remove(); });
-        node.insertBefore(im, node.firstChild);
-      }
-      if (im.getAttribute('src') !== url) im.setAttribute('src', url);
-    } else {
-      node.style.backgroundImage = 'url("' + url + '")';
-      node.style.backgroundSize = 'cover';
-      node.style.backgroundPosition = 'center';
-    }
+  function photo(node, url) {
+    if (!url) return;
+    node.style.backgroundImage = 'url("' + url + '")';
+    node.style.backgroundSize = 'cover';
+    node.style.backgroundPosition = 'center';
     $$('.t-caption', node).forEach(function (c) { c.style.display = 'none'; });
   }
 
@@ -191,7 +168,7 @@
   function nationOf(ioc) {
     if (!ioc || !D.teams) return '';
     var t = D.teams.filter(function (x) { return x.ioc === ioc; })[0];
-    return t ? cleanTeam(t.name) : '';
+    return (t && t.name) || '';
   }
   function stop(slug) { return D.events.filter(function (e) { return e.slug === slug; })[0]; }
   /* Whether a stop has been played is a fact about the calendar, not
@@ -307,199 +284,40 @@
      Tour points are the ranking measure — the column has always been
      labelled Tour Points, but it was being filled with the basketball
      points a team scored, which ranked the table by offence. */
-  /* Review 18 — SEEDING, and the row a season table is made of.
-
-     Seeding first. Alex: the seed is stated wherever a federation is
-     named — Federation Overview, a team page, Standings, Statistics.
-     teams.json has no `seed` field yet (Rob's data is pending), so
-     every reader of the value goes through seedOf(): when the field
-     lands, this one line reads it and four tables fill in at once.
-     A seed belongs to a team site, not to a federation — a side
-     seeded 3 in Europe-1 U23 is not seeded 3 in U21 Europe-1 — so it
-     is looked up by the site and never by the IOC code alone. */
-  function seedOf(site) {
-    if (!site) return null;
-    var v = site.seed;
-    if (v == null || v === '') return null;
-    var n = +v;
-    return isNaN(n) ? v : n;
-  }
-  function siteRecord(ioc, confId, gender) {
-    var g = gender || 'men';
-    return D.teams.filter(function (t) {
-      return t.ioc === ioc && t.conference === confId && (t.gender || 'men') === g;
-    })[0] || D.teams.filter(function (t) {
-      return t.ioc === ioc && t.conference === confId;
-    })[0] || null;
-  }
-  function seedOfSite(ioc, confId, gender) {
-    var rec = siteRecord(ioc, confId, gender);
-    var stated = seedOf(rec);
-    if (stated != null) return stated;
-    return derivedSeed(ioc, confId, gender, rec);
-  }
-
-  /* Review 18 (second pass) — Daniel: "find the seeding for every
-     team and put it in."
-
-     There is no seed field to find. The snapshot's tourTeams,
-     teamRankings and qualifications collections are all empty and no
-     record anywhere carries the word. What it does carry is the thing
-     a seed is made of: every player's FIBA 3x3 ranking points, on 709
-     of the 711 players in the season. A 3x3 team is ranked by the sum
-     of its three highest-ranked players and a conference seeds its
-     field by that ranking — so the seed is derived here rather than
-     invented, and derived per team site, because a federation's U23
-     and U21 squads are different players.
-
-     Every reader still goes through seedOf(): the moment teams.json
-     gains a `seed`, the stated value wins and this stops being
-     consulted. A conference whose squads carry no ranking points at
-     all (two of forty-two) keeps its em dash rather than being given
-     a made-up number. */
-  var SEED_IDX = null;
-  function squadPoints(t) {
-    return (t.roster || [])
-      .map(function (m) {
-        var p = D.playersById && D.playersById[m.id];
-        return (p && p.rankingPoints) || 0;
-      })
-      .sort(function (a, b) { return b - a; })
-      .slice(0, 3)
-      .reduce(function (a, b) { return a + b; }, 0);
-  }
-  function seedIndex() {
-    if (SEED_IDX) return SEED_IDX;
+  function federationTable(gender) {
     var by = {};
-    teamSites().forEach(function (t) {
-      var k = t.conference + '|' + (t.gender || 'men') + '|' + rowCat(t.conference, t.name);
-      (by[k] = by[k] || []).push({ ioc: t.ioc, pts: squadPoints(t) });
-    });
-    SEED_IDX = {};
-    Object.keys(by).forEach(function (k) {
-      var rows = by[k].sort(function (a, b) { return b.pts - a.pts; });
-      if (!rows.length || !rows[0].pts) return;      /* nothing to rank on */
-      rows.forEach(function (r, i) { SEED_IDX[k + '|' + r.ioc] = i + 1; });
-    });
-    return SEED_IDX;
-  }
-  function derivedSeed(ioc, confId, gender, rec) {
-    if (!D.teams || !D.playersById) return null;
-    var cat = rowCat(confId, rec && rec.name);
-    var v = seedIndex()[confId + '|' + (gender || 'men') + '|' + cat + '|' + ioc];
-    return v == null ? null : v;
-  }
-  /* One formatter, so a missing seed reads the same everywhere and
-     nobody is tempted to leave a column out until the data arrives. */
-  function seedText(v) { return (v == null) ? '\u2014' : v; }
-
-  /* A season-wide table, one row per TEAM SITE — a federation in a
-     conference in a gender, which is what a stop standings row
-     actually belongs to.
-
-     It used to group by IOC code alone, and 33 of the 68 federations
-     play two conferences: 26 field a U21 side as well as a U23 one,
-     and 7 appear in two U23 conferences (KEN in Africa East and
-     Africa North, CAN in both Americas). Their two schedules were
-     added together — which is where "12 events" in a six-stop season
-     came from — and the Conference column could name only whichever
-     of the two the feed listed last. The row is the team site now;
-     a federation total is made by adding sites up, in the one place
-     that wants a federation total. */
-  function siteTable(gender, opts) {
-    opts = opts || {};
-    /* Review 18 — the season so far, not the whole file. The snapshot
-       carries results for stops that have not been played yet on the
-       day the site is showing, and with every stop now a column of
-       its own the contradiction is on screen: a conference reading
-       "3 of 6 stops" under six filled columns. A stop counts once it
-       has started; everything after today is blank. */
-    var upto = opts.uptoISO || isoDay(new Date());
-    var by = {};
-    D.standings.forEach(function (s) {
-      if (gender && s.gender && s.gender !== gender) return;
-      var e = stop(s.stop);
-      if (e && (!e.start || e.start > upto)) return;
-      var c = conf(s.conference);
+    D.standings.filter(function (s) {
+      return !gender || !s.gender || s.gender === gender;
+    }).forEach(function (s) {
       s.rows.forEach(function (r) {
-        if (!r.ioc) return;
-        var g = s.gender || 'men';
-        var cat = rowCat(s.conference, r.team);
-        var k = r.ioc + '|' + s.conference + '|' + g + '|' + cat;
-        var t = by[k] = by[k] || {
-          key: k, ioc: r.ioc, team: cleanTeam(r.team),
-          conference: s.conference, gender: g,
-          cat: cat, confname: confLabel(c, cat), zone: regionOf(c),
-          played: 0, won: 0, scored: 0, tour: 0, stops: 0, stopRank: {}
-        };
-        t.played += r.played || 0;
-        t.won += r.won || 0;
-        t.scored += r.points || 0;
-        t.tour += tourPoints(r.rank);
-        t.stops += 1;
-        if (e && e.number) {
-          t.stopRank[e.number] = { rank: r.rank || null, pts: tourPoints(r.rank) };
-        }
+        var k = r.ioc;
+        if (!k) return;
+        by[k] = by[k] || { ioc: k, team: r.team, played: 0, won: 0, scored: 0,
+                           tour: 0, stops: 0, conference: s.conference };
+        by[k].played += r.played || 0;
+        by[k].won += r.won || 0;
+        by[k].scored += r.points || 0;
+        by[k].tour += tourPoints(r.rank);
+        by[k].stops += 1;
       });
     });
     var list = Object.keys(by).map(function (k) { return by[k]; });
-    if (opts.cat) list = list.filter(function (t) { return t.cat === opts.cat; });
-    if (opts.conference) list = list.filter(function (t) { return t.conference === opts.conference; });
     list.forEach(function (t) {
       t.winRatio = t.played ? t.won / t.played : 0;
       t.avg = t.played ? Math.round((t.scored / t.played) * 10) / 10 : 0;
-      t.seed = seedOfSite(t.ioc, t.conference, t.gender);
-      t.seedSort = (t.seed == null) ? 9999 : t.seed;
-      t.label = t.team + ' \u00b7 ' + t.cat + ' ' +
-                (t.gender === 'women' ? 'Women' : 'Men');
+      t.confname = confName(conf(t.conference));
+      /* Review 15 — the zone the Standings filter offers. regionOf()
+         already folds Europe-1..4 and the U21 conferences back into
+         the five zones, so nothing new is derived here. */
+      t.zone = regionOf(conf(t.conference));
     });
-    /* Ranked inside its own category, because U23 and U21 are two
-       competitions and a position that mixed them would mean nothing.
-       Q and S are set on the U23 ladder only: the field they name is
-       the U23 World Cup, which a U21 side is not playing for. */
-    var ORDER = { q: 0, s: 1, n: 2 };
-    ['U23', 'U21'].forEach(function (cat) {
-      list.filter(function (t) { return t.cat === cat; })
-          .sort(function (a, b) { return b.tour - a.tour || b.winRatio - a.winRatio; })
-          .forEach(function (t, i) {
-            t.rank = i + 1;
-            t.catRank = (cat === 'U23') ? 0 : 1;
-            t.status = (cat === 'U23')
-              ? (i < QUALIFIED ? 'q' : (i < FIELD ? 's' : 'n')) : '';
-            t.statusRank = ORDER[t.status] != null ? ORDER[t.status] : 3;
-            /* One sortable key that says "U23 ladder, then U21
-               ladder" — the table's resting order, and the one the
-               Position column is counting. */
-            t.order = t.catRank * 1000 + t.rank;
-          });
+    list.sort(function (a, b) { return b.tour - a.tour || b.winRatio - a.winRatio; });
+    list.forEach(function (t, i) {
+      t.rank = i + 1;
+      t.status = i < QUALIFIED ? 'q' : (i < FIELD ? 's' : 'n');
+      t.statusRank = { q: 0, s: 1, n: 2 }[t.status];
     });
-    list.sort(function (a, b) { return a.catRank - b.catRank || a.rank - b.rank; });
     return list;
-  }
-
-  /* Every site one federation fields, added up. This is the only
-     place a sum across conferences is the right answer, and it is
-     what a Federation Overview states. */
-  function fedTotals(ioc, gender, cat) {
-    var mine = siteTable(gender, cat ? { cat: cat } : null)
-      .filter(function (t) { return t.ioc === ioc; });
-    var tot = { ioc: ioc, sites: mine, played: 0, won: 0, scored: 0, tour: 0, stops: 0 };
-    mine.forEach(function (t) {
-      tot.played += t.played; tot.won += t.won;
-      tot.scored += t.scored; tot.tour += t.tour; tot.stops += t.stops;
-    });
-    tot.winRatio = tot.played ? tot.won / tot.played : 0;
-    tot.avg = tot.played ? Math.round((tot.scored / tot.played) * 10) / 10 : 0;
-    tot.best = mine.slice().sort(function (a, b) { return b.tour - a.tour; })[0] || null;
-    return tot;
-  }
-
-  /* federationTable() keeps its name and every caller it had; what
-     changed is what a row is. Standings, Statistics, the team page
-     and the qualification board all read these rows, so a
-     federation's numbers cannot disagree between two pages. */
-  function federationTable(gender, cat) {
-    return siteTable(gender, cat ? { cat: cat } : null);
   }
 
   /* el-05 StatusBadge as a table marker. */
@@ -509,15 +327,6 @@
     ['q', 's', 'r', 'n'].forEach(function (c) {
       mk.classList.remove('marker-' + c, 'el-05-StatusBadge--marker-' + c);
     });
-    /* Review 18 — a U21 side has no Q/S/N: the field those letters
-       name is the U23 World Cup. An em dash says so; a letter would
-       be an answer to a question nobody asked. */
-    if (!code) {
-      mk.classList.add('marker-none');
-      $('.lbl', mk) ? ($('.lbl', mk).textContent = '\u2014') : (mk.textContent = '\u2014');
-      return;
-    }
-    mk.classList.remove('marker-none');
     mk.classList.add('marker-' + code, 'el-05-StatusBadge--marker-' + code);
     text(mk, '.lbl', code.toUpperCase());
   }
@@ -588,35 +397,6 @@
      nowhere else, which is why no U23 column exists in the system. */
   function shortCat(c) { return /^U21\b/.test((c && c.name) || '') ? 'U21' : 'U23'; }
 
-  /* Review 18 — the feed states the age category in two different
-     places and shortCat() only knew one of them. Europe and Asia have
-     conferences of their own for U21, named "U21 Europe-2"; Africa
-     does not — its U21 sides sit inside the U23 conference and are
-     marked by "(U21)" after the federation's name. Reading the
-     conference alone labelled 24 African U21 rows U23 and offered
-     them a place at the U23 World Cup. Read both. */
-  /* Two spellings, because two regions filed it differently: Africa
-     writes "Egypt (U21)" and the Americas write "Chile U21". Both are
-     a suffix on the federation's name and both mean the same thing. */
-  var CAT_SUFFIX = /\s*\(?\s*(U2[13])\s*\)?\s*$/i;
-  function rowCat(confId, teamName) {
-    var m = CAT_SUFFIX.exec(teamName || '');
-    if (m) return m[1].toUpperCase();
-    return /(^|-)u21(-|$)/.test(confId || '') ? 'U21' : 'U23';
-  }
-  /* The category is a column and a label of its own now, so it comes
-     off the name it was appended to. */
-  function cleanTeam(name) {
-    return String(name || '').replace(CAT_SUFFIX, '').trim();
-  }
-  /* confName() always ends in the category the conference is named
-     for; an African U21 row belongs to the same conference under the
-     other category, and the label has to say so. */
-  function confLabel(c, cat) {
-    var base = confName(c);
-    return cat ? base.replace(/\bU2[13]$/, cat) : base;
-  }
-
   /* The feed's region field is not a region: Europe arrives as four
      separate values (Europe-1 … Europe-4) and every U21 conference
      arrives as "U21", which would collect the U21 conferences into a
@@ -643,235 +423,39 @@
   }
 
   function conferenceTable(confId, gender, uptoISO) {
-    /* Same rule as siteTable: a conference table states the stops
-       that have started. Callers that browse a past day pass their
-       own date; the rest get today. */
-    var upto = uptoISO || isoDay(new Date());
     var by = {};
     D.events.forEach(function (e) {
       if (e.conference !== confId) return;
-      if (!e.start || e.start > upto) return;
+      if (uptoISO && (!e.start || e.start > uptoISO)) return;
       var s = standingsFor(e.slug, gender);
       if (!s) return;
       s.rows.forEach(function (r) {
         if (!r.ioc) return;
         var t = by[r.ioc] = by[r.ioc] ||
-          { ioc: r.ioc, team: cleanTeam(r.team), cat: rowCat(confId, r.team),
-            conference: confId, gender: gender || 'men',
-            played: 0, won: 0, pts: 0, tour: 0, stops: 0, stopRank: {} };
+          { ioc: r.ioc, team: r.team, played: 0, won: 0, pts: 0, tour: 0, stops: 0 };
         t.played += r.played || 0;
         t.won += r.won || 0;
         t.pts += r.points || 0;
         t.tour += tourPoints(r.rank);
         t.stops += 1;
-        /* Review 18 — the WT column set states every stop, so the
-           finish at each one is kept here rather than looked up
-           again per cell by every table that wants it. */
-        if (e.number) t.stopRank[e.number] = { rank: r.rank || null, pts: tourPoints(r.rank) };
       });
     });
     var list = Object.keys(by).map(function (k) { return by[k]; });
     list.forEach(function (t) {
       t.winRatio = t.played ? t.won / t.played : 0;
       t.avg = t.played ? Math.round((t.pts / t.played) * 10) / 10 : 0;
-      t.seed = seedOfSite(t.ioc, confId, gender);
-      t.seedSort = (t.seed == null) ? 9999 : t.seed;
     });
     list.sort(function (a, b) { return b.tour - a.tour || b.winRatio - a.winRatio; });
     list.forEach(function (t, i) { t.rank = i + 1; });
     return list;
   }
 
-  /* ---------- Review 18: the World Tour column set -------------
-     Alex asked the league to read the way the World Tour reads:
-     position, federation, tour points, then every stop with the
-     finish above the points it paid, then win ratio, points average
-     and status. Four tables were each drawing a different subset of
-     that — the landing page accordion, the conference standings, the
-     stop-by-stop matrix and the Statistics team table — so a reader
-     comparing two pages was comparing two column sets.
-
-     One builder, four callers. The federation cell keeps the flag
-     and the IOC code and drops the country name: with six stop
-     columns there is no room for it, and the name is on the row's
-     title and one click away. */
-  function wtStops(confId) {
-    return stopsOfConference(confId);
-  }
-  /* A table that ranks across conferences cannot borrow one
-     conference's stop list. Every conference runs the same six, so
-     the columns are the season's stop numbers. */
-  var SEASON_STOPS = null;
-  function seasonStops() {
-    if (SEASON_STOPS) return SEASON_STOPS;
-    var max = 0;
-    D.events.forEach(function (e) { if (e.number > max) max = e.number; });
-    SEASON_STOPS = [];
-    for (var i = 1; i <= (max || 6); i++) SEASON_STOPS.push({ number: i });
-    return SEASON_STOPS;
-  }
-  /* A twelve-column table is wider than a conference card and wider
-     than the accordion body. Boxed once, here, rather than by each
-     caller remembering to. */
-  function wtScroll(tbl) {
-    if (!tbl || !tbl.parentNode) return tbl;
-    if (tbl.parentNode.classList.contains('wt-scroll')) return tbl;
-    var box = el('div', 'wt-scroll');
-    tbl.parentNode.insertBefore(box, tbl);
-    box.appendChild(tbl);
-    return tbl;
-  }
-  function wtTable(host, rows, stops, opts) {
-    if (!host) return 0;
-    opts = opts || {};
-    var showPos = opts.pos !== false;
-    var showStatus = opts.status !== false;
-    var showSeed = opts.seed === true;
-    var showPoints = opts.points === true;
-    var list = opts.limit ? rows.slice(0, opts.limit) : rows;
-
-    function th(cls, label, num, sortKey) {
-      return '<div class="' + cls + ' cell' + (num ? ' cell-num' : '') +
-             (sortKey ? ' cell-sortable" role="button" tabindex="0"' : '"') + '>' +
-             '<span class="t-caption" style="color:inherit">' + label + '</span>' +
-             (sortKey ? SORT_SVG : '') + '</div>';
-    }
-    var head = '<div class="el-08-TableHeaderRow cut cut-s thead wt-head">' +
-      /* Review 20 — POS carried a sort arrow, which offered to
-         re-sort by the order the sort had just produced, and in a
-         44px column pushed the label off the centre the numbers
-         below it stand on. */
-      (showPos ? th('cell-position c-pos', 'POS', 0, 0) : '') +
-      th('cell-federation c-fed', 'FEDERATION', 0, 1) +
-      (showSeed ? th('cell-seed c-wtseed', 'SEED', 1, 1) : '') +
-      th('cell-points c-wtpts', 'TOUR PTS', 1, 1) +
-      stops.map(function (e) {
-        return th('cell-wtstop c-wtstop', 'STOP ' + e.number, 1);
-      }).join('') +
-      th('cell-winratio c-wr', 'W%', 1, 1) +
-      /* Alex: the player table states total points and the team
-         table did not. Tour points rank the table; these are the
-         points actually scored, which is the figure the two halves
-         of Statistics now share. */
-      (showPoints ? th('cell-scored c-wtscored', 'POINTS', 1, 1) : '') +
-      th('cell-ptsavg c-pa', 'PTS AVG', 1, 1) +
-      (showStatus ? th('cell-status c-st', 'STATUS', 0, 1) : '') +
-      '</div>';
-
-    var body = list.map(function (r, i) {
-      var cells = stops.map(function (e) {
-        var f = r.stopRank && r.stopRank[e.number];
-        if (!f || !f.rank) {
-          return '<div class="cell-wtstop c-wtstop cell cell-num">' +
-                 '<span class="t-data-m wt-none">—</span></div>';
-        }
-        return '<div class="cell-wtstop c-wtstop cell cell-num"><span class="wt-stack">' +
-               '<span class="t-data-m' + (f.rank === 1 ? ' wt-first' : '') + '">' +
-               ordinal(f.rank) + '</span>' +
-               '<span class="t-caption wt-pts">' + f.pts + '</span></span></div>';
-      }).join('');
-      var st = r.status;
-      return '<div class="el-04-TeamRow trow wt-row" data-ioc="' + r.ioc +
-        '" data-href="team.html?ioc=' + r.ioc + '" title="' + (r.team || '') + '">' +
-        (showPos ? '<div class="cell-position c-pos cell"><span class="t-data-m">' +
-                   (r.rank || i + 1) + '</span></div>' : '') +
-        '<div class="cell-federation c-fed cell">' +
-          '<div class="el-13-FederationTag--m-both-plain ftag ftag-m cut cut-s ftag-plain">' +
-          '<div class="flag flag-ring"></div><div class="ftag-txt">' +
-          '<span class="ftag-code">' + r.ioc + '</span>' +
-          /* Statistics ranks across conferences, so which conference
-             a row belongs to is part of reading it. There is no room
-             for a column of its own beside six stops, so it goes
-             under the code — the same two-line stack the stop cells
-             use. */
-          (opts.sub ? '<span class="t-caption wt-sub">' + opts.sub(r) + '</span>' : '') +
-          '</div></div></div>' +
-        (showSeed ? '<div class="cell-seed c-wtseed cell cell-num"><span class="t-data-m' +
-                    (r.seed == null ? ' wt-none' : '') + '">' +
-                    seedText(r.seed) + '</span></div>' : '') +
-        '<div class="cell-points c-wtpts cell cell-num"><span class="t-data-m">' +
-          (r.tour || 0) + '</span></div>' +
-        cells +
-        '<div class="cell-winratio c-wr cell cell-num"><span class="t-data-m">' +
-          pctRatio(r.winRatio) + '</span></div>' +
-        (showPoints ? '<div class="cell-scored c-wtscored cell cell-num">' +
-          '<span class="t-data-m">' + scoredOf(r) + '</span></div>' : '') +
-        '<div class="cell-ptsavg c-pa cell cell-num"><span class="t-data-m">' +
-          (r.avg != null ? r.avg.toFixed(1) : '—') + '</span></div>' +
-        (showStatus
-          ? '<div class="cell-status c-st cell">' +
-            (st ? '<div class="el-05-StatusBadge--marker-' + st + ' marker marker-' + st +
-                  ' cut cut-s"><span class="lbl">' + st.toUpperCase() + '</span></div>'
-                : '<span class="t-data-m wt-none">—</span>') +
-            '</div>'
-          : '') +
-        '</div>';
-    }).join('');
-
-    host.innerHTML = head + body;
-    host.classList.add('wt-tbl');
-    $$('.wt-row', host).forEach(function (row) {
-      flag($('.flag', row), row.dataset.ioc);
-      link(row, row.dataset.href);
-    });
-    return list.length;
-  }
-  /* ---- Review 18: SEED, inserted into a table that was built
-     without one. The column shows before the data does: an em dash
-     under a Seed heading says "this is coming", where no column at
-     all says "we forgot". One insertion point, so when teams.json
-     gains the field nothing else has to move. */
-  function ensureSeedColumn(tbl, after) {
-    if (!tbl || tbl._seed) return;
-    tbl._seed = 1;
-    after = after || 'cell-federation';
-    var head = $('.thead', tbl);
-    if (head) {
-      var h = el('div', 'cell-seed cell c-wtseed cell-num cell-sortable',
-                 '<span class="t-caption" style="color:inherit">Seed</span>' + SORT_SVG);
-      h.setAttribute('role', 'button');
-      h.setAttribute('tabindex', '0');
-      var ref = $('.' + after, head);
-      if (ref) ref.after(h); else head.appendChild(h);
-    }
-    $$('.trow', tbl).forEach(function (row) {
-      if ($('.cell-seed', row)) return;
-      var c = el('div', 'cell-seed cell c-wtseed cell-num',
-                 '<span class="t-data-m">\u2014</span>');
-      var ref2 = $('.' + after, row);
-      if (ref2) ref2.after(c); else row.appendChild(c);
-    });
-  }
-  /* siteTable calls it scored, conferenceTable calls it pts; both
-     mean the points this side put on the board. */
-  function scoredOf(r) {
-    var v = (r.scored != null) ? r.scored : r.pts;
-    return (v == null) ? '\u2014' : v;
-  }
-  /* The sort arrow the design system draws in el-08. */
-  var SORT_SVG = '<svg fill="currentColor" height="16" viewBox="0 -960 960 960" ' +
-    'width="16" xmlns="http://www.w3.org/2000/svg"><path d="M480-120 300-300l44-44 ' +
-    '136 136 136-136 44 44-180 180ZM344-612l-44-44 180-180 180 180-44 44-136-136-136 ' +
-    '136Z"></path></svg>';
-  /* The column keys a WT table sorts on, in one place because four
-     tables use them. */
-  var WT_COLS = {
-    'cell-position':   { key: 'rank' },
-    'cell-federation': { key: 'team', text: 1 },
-    'cell-seed':       { key: 'seedSort' },
-    'cell-points':     { key: 'tour' },
-    'cell-winratio':   { key: 'winRatio' },
-    'cell-scored':     { key: 'scored' },
-    'cell-ptsavg':     { key: 'avg' },
-    'cell-status':     { key: 'statusRank' }
-  };
-
   /* Q once the conference is over and this row won it — a conference
      winner qualifies. Everyone else is still in the race; S is a
      season-wide judgement and is set on the Standings page, not here. */
   function paintStandingRow(row, r, complete) {
     row.hidden = false;
-    fed(row, r.ioc, cleanTeam(r.team));
+    fed(row, r.ioc, r.team);
     text(row, '.cell-position .t-data-m', r.rank);
     text(row, '.cell-winratio .t-data-m', pctRatio(r.winRatio));
     text(row, '.cell-ptsavg .t-data-m', r.avg.toFixed(1));
@@ -879,7 +463,7 @@
     text(row, '.cell-points .t-data-m', r.tour);
     var mk = $('.cell-status .marker', row);
     if (mk) {
-      var st = (complete && r.rank === 1 && r.tour > 0) ? 'q' : 'r';
+      var st = (complete && r.rank === 1) ? 'q' : 'r';
       mk.classList.remove('marker-q', 'marker-s', 'marker-r');
       mk.classList.add('marker-' + st);
       text(mk, '.lbl', st.toUpperCase());
@@ -1261,31 +845,24 @@
     if (!el) return null;
     var have = {};
     sites.forEach(function (t) {
-      have[rowCat(t.conference, t.name) + '|' + (t.gender || 'men')] = t;
+      var cat = /(^|-)u21(-|$)/.test(t.conference || '') ? 'U21' : 'U23';
+      have[cat + '|' + (t.gender || 'men')] = t;
     });
     var cats = ['U23', 'U21'].filter(function (c) {
       return have[c + '|men'] || have[c + '|women'];
     });
+    var both = cats.length > 1;
     var opts = [];
     cats.forEach(function (c) {
       ['men', 'women'].forEach(function (g) {
         if (!have[c + '|' + g]) return;
         opts.push({
           cat: c, gender: g,
-          label: c + ' ' + (g === 'men' ? 'Men' : 'Women')
+          label: (both ? c + ' ' : '') + (g === 'men' ? 'Men' : 'Women')
         });
       });
     });
     if (!opts.length) return null;
-    /* Review 18 — "All" comes first and opens the page. A federation
-       is arrived at by its IOC code (teams.html links team.html?ioc=)
-       and the question that brings a reader here is "how is this
-       federation doing", not "how is its U23 men's side doing". The
-       four sides are the answer's parts, so they are shown together
-       first and each of them is one click away. */
-    if (opts.length > 1) {
-      opts.unshift({ cat: 'All', gender: sexGet() || 'men', label: 'All' });
-    }
 
     /* Which of the four opens. The reader's gender first, and U23
        ahead of U21 inside it, because U23 is the road to the World
@@ -1294,11 +871,11 @@
        the one it does field, rather than to whatever came first. */
     var want = sexGet();
     function pick(list) { return list.length ? list[0] : null; }
-    var current = opts[0].cat === 'All' ? opts[0] : (
+    var current =
       pick(opts.filter(function (o) { return o.gender === want && o.cat === 'U23'; })) ||
       pick(opts.filter(function (o) { return o.gender === want; })) ||
       pick(opts.filter(function (o) { return o.cat === 'U23'; })) ||
-      opts[0]);
+      opts[0];
 
     var proto = $('.el02-seg', el).cloneNode(true);
     el.innerHTML = '';
@@ -1308,7 +885,7 @@
       text(seg, '.lbl', o.label);
       seg.onclick = function () {
         current = o;
-        if (o.cat !== 'All') sexSet(o.gender);
+        sexSet(o.gender);
         $$('.el02-seg', el).forEach(function (s) { s.classList.remove('el02-on'); });
         seg.classList.add('el02-on');
         onChange(o);
@@ -1317,18 +894,6 @@
       if (o === current) seg.classList.add('el02-on');
     });
     el.classList.toggle('el02-quad', opts.length > 2);
-    el.classList.toggle('el02-five', opts.length > 4);
-    /* So a card in the overview can hand the switch a category. */
-    el._pick = function (cat, gender) {
-      var segs = $$('.el02-seg', el);
-      for (var i = 0; i < opts.length; i++) {
-        if (opts[i].cat === cat && (cat === 'All' || opts[i].gender === gender)) {
-          segs[i].click();
-          return true;
-        }
-      }
-      return false;
-    };
     return current;
   }
 
@@ -1341,111 +906,12 @@
   function siteStatus(team) {
     if (!team || !team.ioc) return '';
     var g = team.gender || 'men';
-    var k = g + '|' + team.ioc + '|' + (team.conference || '');
+    var k = g + '|' + team.ioc;
     if (STATUS_CACHE[k] != null) return STATUS_CACHE[k];
-    /* Review 18 — matched on the team site, not on the IOC code. A
-       federation that fields U21 as well as U23 has two answers and
-       the code alone could not say which one was being asked for. */
-    var rows = federationTable(g);
-    var row = rows.filter(function (t) {
-      return t.ioc === team.ioc && t.conference === team.conference;
-    })[0] || rows.filter(function (t) { return t.ioc === team.ioc; })[0];
+    var row = federationTable(g).filter(function (t) {
+      return t.ioc === team.ioc;
+    })[0];
     return (STATUS_CACHE[k] = (row && row.status) || '');
-  }
-
-  /* ---------- Review 18: what a search is searching ----------
-     "Germany" returned one row where the federation fields four
-     sides, and "U21" returned nothing at all. Two causes, and the
-     same one twice: the unit of a result was the federation
-     (de-duplicated by IOC code), and the haystack was the name and
-     the code. The unit is the team site now, and the category and
-     the gender are part of what a team site is called. Neither is a
-     field in teams.json — the category is carried in the conference
-     name and the gender in the record — so both are derived here,
-     once, for all three places that search. */
-  function siteCat(t) { return rowCat(t.conference, t.name); }
-  function siteLabel(t) {
-    return siteCat(t) + ' ' + ((t.gender || 'men') === 'women' ? 'Women' : 'Men');
-  }
-  /* One entry per team site. teams.json holds one record per stop, so
-     a federation appears in it up to six times per conference. */
-  function teamSites() {
-    if (D._sites) return D._sites;
-    var seen = {}, out = [];
-    D.teams.forEach(function (t) {
-      if (!t.ioc) return;
-      var k = t.ioc + '|' + t.conference + '|' + (t.gender || 'men') + '|' + siteCat(t);
-      if (seen[k]) return;
-      seen[k] = 1;
-      out.push(t);
-    });
-    out.sort(function (a, b) {
-      return cleanTeam(a.name).localeCompare(cleanTeam(b.name)) ||
-             siteLabel(a).localeCompare(siteLabel(b));
-    });
-    return (D._sites = out);
-  }
-  /* Words, not one long string: "men" must not match "women", which
-     a substring test on a joined haystack would do. A token matches
-     on its opening — "ger" finds Germany and GER, "u21" finds the
-     category — and the full name is tested as a phrase as well, so a
-     two-word country still answers to the second word typed with the
-     first. */
-  function siteTokens(t) {
-    if (t._tok) return t._tok;
-    var c = conf(t.conference) || {};
-    var g = (t.gender || 'men');
-    var words = [];
-    function add(v) {
-      String(v || '').toLowerCase().split(/[^a-z0-9]+/i).forEach(function (w) {
-        if (w) words.push(w);
-      });
-    }
-    add(cleanTeam(t.name)); add(t.ioc); add(siteCat(t)); add(g);
-    add(confLabel(c, siteCat(t))); add(regionOf(c));
-    /* The host cities of this conference's stops: "Kigali" is a fair
-       way to ask who is playing in Kigali. */
-    stopsOfConference(t.conference).forEach(function (e) { add(cityOf(e)); add(e.country); });
-    return (t._tok = words);
-  }
-  function siteMatch(t, q) {
-    var w = siteTokens(t);
-    for (var i = 0; i < w.length; i++) if (w[i].indexOf(q) === 0) return true;
-    return ((t.name || '') + ' ' + (t.ioc || '')).toLowerCase().indexOf(q) > -1;
-  }
-  /* The cap was six, which one federation with four sides could fill
-     on its own. Twelve, so a category search still shows a spread. */
-  var SEARCH_MAX = 12;
-  function searchSites(q, limit) {
-    q = (q || '').trim().toLowerCase();
-    if (!q) return [];
-    /* Ranked, because a substring match is a real hit but a weaker
-       one: "GER" is Germany's IOC code and it is also three letters
-       inside "Algeria". Exact code first, then a word that starts
-       with what was typed, then anything containing it. */
-    return teamSites().filter(function (t) { return siteMatch(t, q); })
-      .map(function (t) {
-        var r = 2;
-        if ((t.ioc || '').toLowerCase() === q) r = 0;
-        else if (siteTokens(t).some(function (w) { return w.indexOf(q) === 0; })) r = 1;
-        return { t: t, r: r };
-      })
-      .sort(function (a, b) { return a.r - b.r; })
-      .map(function (x) { return x.t; })
-      .slice(0, limit || SEARCH_MAX);
-  }
-  /* A result row states the side, not just the country: the category
-     and the gender on the title line, the conference under it. */
-  function paintSiteRow(row, t) {
-    var name = cleanTeam(t.name);
-    /* The overlay row states the country in the federation tag and
-       has no second title slot, so the side is named on the meta
-       line: "U21 Women · Europe-1 U21". */
-    fed(row, t.ioc, name);
-    text(row, '.e11-t', name + ' ' + siteLabel(t));
-    text(row, '.e11-m',
-         siteLabel(t) + ' \u00b7 ' + confLabel(conf(t.conference), siteCat(t)));
-    link(row, 'team.html?ioc=' + t.ioc);
   }
 
   /* ---------- E-01 TeamFinder --------------------------------
@@ -1461,15 +927,8 @@
 
     /* The count sits in the section header now, not inside the module,
        so it is addressed from the document. */
-    /* Review 18 (second pass) — the count above Find a team goes.
-       "68 nations · 202 team sites this conference" is a fact about
-       the database rather than an answer to the question the module
-       asks, and on the Conferences page the second half of it was not
-       even true of the page it sat on. */
-    /* It is in the page's section header, not inside the module — the
-       comment above says so, and scoping the removal to the module
-       was why it kept surviving. */
-    $$('.finder-count').forEach(function (n) { n.remove(); });
+    text(document, '.finder-nations', feds.length);
+    text(document, '.finder-sites', D.teams.length);
     $$('.finder-change, .finder-change-2', f).forEach(function (c) {
       c.style.cursor = 'pointer';
       c.addEventListener('click', function () { step(1); list(''); });
@@ -1493,16 +952,14 @@
       q = (q || '').trim().toLowerCase();
       [].slice.call(menu.querySelectorAll('.acm-row')).forEach(function (r) { r.remove(); });
       if (!q) { menu.hidden = true; return; }
-      /* Review 18 — the candidate list is team sites, so "U21" and
-         "women" find something and a federation with four sides shows
-         all four. Picking one still opens step 3, which is where the
-         Q/S/R markers are and where the category is confirmed. */
-      var hits = searchSites(q, 8);
+      var hits = feds.filter(function (t) {
+        return (t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1;
+      }).slice(0, 6);
       menu.hidden = false;
       if (!hits.length) {
         var none = document.createElement('div');
         none.className = 'acm-row';
-        none.innerHTML = '<span class="t-body-s">No team matches \u201c' + q + '\u201d.</span>';
+        none.innerHTML = '<span class="t-body-s">No nation matches \u201c' + q + '\u201d.</span>';
         menu.appendChild(none);
         return;
       }
@@ -1515,9 +972,8 @@
             '<div class="ftag-txt"><span class="ftag-name"></span></div></div>' +
           '<div class="t-caption acm-conf"></div>';
         flag(row, t.ioc);
-        row.querySelector('.ftag-name').textContent = t.name + ' ' + siteLabel(t);
-        row.querySelector('.acm-conf').textContent =
-          t.ioc + ' \u00b7 ' + confName(conf(t.conference));
+        row.querySelector('.ftag-name').textContent = t.name;
+        row.querySelector('.acm-conf').textContent = t.ioc;
         row.style.cursor = 'pointer';
         row.addEventListener('click', function () { choose(t); });
         menu.appendChild(row);
@@ -1530,7 +986,7 @@
     function choose(t) {
       picked = t;
       flag($('.finder-picked', f), t.ioc);
-      text(f, '.finder-country', cleanTeam(t.name));
+      text(f, '.finder-country', t.name);
       var sites = D.teams.filter(function (x) { return x.ioc === t.ioc; });
       /* Review 15 — the label was hard-coded to U23, so a federation
          that fields U21 as well was offered the same two buttons
@@ -1538,7 +994,7 @@
          in the conference and nowhere else. */
       var byCat = {};
       sites.forEach(function (x) {
-        var label = rowCat(x.conference, x.name) + ' ' +
+        var label = shortCat(conf(x.conference)) + ' ' +
                     (x.gender === 'women' ? 'Women' : 'Men');
         byCat[label] = byCat[label] || x;
       });
@@ -1644,59 +1100,6 @@
      that is ok." It is, so it says so. The caption also carries
      the stop the table stands after, which is what the head used
      to repeat next to the dots. */
-  /* Review 18 — the accordion's table, boxed so the WT builder owns
-     it and the caption and the links around it stay put. */
-  function accTable(node) {
-    var body = $('.acc-body', node);
-    if (!body) return null;
-    var cap = $('.acc-cap', body);
-    if (cap && cap.parentNode && !cap.parentNode.classList.contains('acc-capline')) {
-      var line = el('div', 'acc-capline');
-      cap.replaceWith(line);
-      line.appendChild(cap);
-      line.appendChild(el('div', 'acc-gslot'));
-    }
-    var tbl = $('.acc-tbl', body);
-    if (tbl) return tbl;
-    var scroll = el('div', 'wt-scroll');
-    tbl = el('div', 'tbl wt-tbl acc-tbl');
-    scroll.appendChild(tbl);
-    var head = $('.thead', body);
-    if (head) body.insertBefore(scroll, head); else body.appendChild(scroll);
-    $$('.thead, .trow', body).forEach(function (n) { tbl.appendChild(n); });
-    return tbl;
-  }
-
-    /* Review 19 — an open accordion offers two ways on, in the order
-       a reader wants them: the conference the standings belong to,
-       then the stop being played. The second link is the one the
-       markup ships and the one review16 relabels ("Follow this stop"
-       / "See the last stop"); the first is added here and carries
-       .acc-conf-lnk so that relabelling leaves it alone.
-
-       repeat() clones an already-painted accordion as its template, so
-       the link is looked for before it is made — otherwise every
-       repaint would add another one. */
-  function accLinks(node, e) {
-    var acts = $('.acc-actions', node);
-    if (!acts) return;
-    var stopLnk = $('.lnk:not(.acc-conf-lnk)', acts);
-    var confLnk = $('.acc-conf-lnk', acts);
-    if (!confLnk && stopLnk) {
-      confLnk = stopLnk.cloneNode(true);
-      confLnk.classList.add('acc-conf-lnk');
-      confLnk.removeAttribute('data-stop-href');
-      acts.insertBefore(confLnk, acts.firstChild);
-    }
-    var href = 'conference.html?id=' + e.conference;
-    if (confLnk) {
-      var lbl = $('.lbl', confLnk) || confLnk;
-      lbl.textContent = 'View conference';
-      link(confLnk, href);
-    }
-    if (stopLnk) link(stopLnk, href);
-  }
-
   function accCaption(node, c, e, all) {
     var cap = $('.acc-cap', node);
     if (!cap) return;
@@ -1725,7 +1128,6 @@
     });
   }
 
-  var NL_PLACE_GENDER = null, NL_PARK_GENDER = null;
   PAGES['index.html'] = function () {
     /* ---- Live now -------------------------------------------
        LP-17, and Johannes' note on the strip: only offer days that have
@@ -1881,7 +1283,6 @@
       paintAccordions(evs.slice(0, 6), dISO);
       if (window.FIBA) window.FIBA.init(accHost);
       soloAccordions(accHost);
-      if (NL_PLACE_GENDER) NL_PLACE_GENDER();
       /* a stop that is on but has no results in the feed yet */
       $$('.acc', accHost).forEach(function (a) {
         var rows = $$('.trow', a).filter(function (r) { return !r.hidden; });
@@ -1899,7 +1300,6 @@
 
     function paintAccordions(evs, dISO) {
       var today = iso(new Date());
-      if (NL_PARK_GENDER) NL_PARK_GENDER();
       repeat(accHost, '.acc', evs, function (node, e) {
         var c = conf(e.conference) || {};
         var g = gender;
@@ -1930,53 +1330,24 @@
 
         var rows = conferenceTable(c.id, g, dISO);
         var complete = all.length && played >= all.length;
-        /* Review 18 — the World Tour column set: position, federation,
-           tour points, every stop with its finish over the points it
-           paid, then win ratio, points average and status. The
-           federation cell is the flag and the IOC code, because six
-           stop columns leave no room for the country's name. */
-        rows.forEach(function (r) {
-          r.status = (complete && r.rank === 1 && r.tour > 0) ? 'q' : 'r';
-        });
-        var atbl = accTable(node);
-        if (atbl) {
-          if (!rows.length) atbl.innerHTML = '';
-          else wtTable(atbl, rows, all, { limit: 6, seed: true });
+        if (!rows.length) {
+          $$('.trow', node).forEach(function (r) { r.hidden = true; });
+        } else {
+          repeat(node, '.trow', rows.slice(0, 6), function (row, r) {
+            paintStandingRow(row, r, complete);
+          });
         }
-        accLinks(node, e);
+        var view = $$('.lnk, .btn', node).filter(function (l) {
+          return /conference/i.test(l.textContent);
+        })[0];
+        if (view) link(view, 'conference.html?id=' + e.conference);
       });
     }
 
-    /* Review 18 — one switch still, but it rides with the table it
-       changes. In the filter bar it sat above six closed accordions
-       and read as a filter on all of them; at the head of the open
-       one, on the same line as "Conference standings · after stop 5
-       of 6", it says exactly what it governs. It is moved, never
-       cloned: parked back in the filter bar before every repaint,
-       because repeat() clones the first accordion and a switch left
-       inside would be duplicated six times. */
-    var gpark = $('.filterbar');
+    /* One switch for the whole block, in the filter bar beside the
+       region chips, rather than one inside every accordion. */
     gender = genderSwitch(function (g) { gender = g; drawLive(); },
-                          gpark) || 'men';
-    var gsw = gpark && $('.el02', gpark);
-
-    function parkGender() { if (gsw && gpark) gpark.appendChild(gsw); }
-    function placeGender() {
-      if (!gsw || !accHost) return;
-      var open = $$('.acc', accHost).filter(function (a) {
-        return a.getAttribute('data-open') === 'true';
-      })[0];
-      var slot = open && $('.acc-gslot', open);
-      if (slot) { if (gsw.parentNode !== slot) slot.appendChild(gsw); }
-      else if (gpark && gsw.parentNode !== gpark) gpark.appendChild(gsw);
-    }
-    if (accHost && window.MutationObserver) {
-      new MutationObserver(function () { placeGender(); })
-        .observe(accHost, { attributes: true, subtree: true,
-                            attributeFilter: ['data-open'] });
-    }
-    NL_PLACE_GENDER = placeGender;
-    NL_PARK_GENDER = parkGender;
+                          $('.filterbar')) || 'men';
 
     region = chipFilter(function (r) {
       region = r;
@@ -2008,7 +1379,7 @@
       var gender = 'men';
 
       function drawBoard() {
-        var list = federationTable(gender, 'U23').slice(0, FIELD);
+        var list = federationTable(gender).slice(0, FIELD);
         repeat(board, '.r01-row', list, function (row, t, i) {
           text(row, '.r01-pos .t-data-m', i + 1);
           fed(row, t.ioc, t.team);
@@ -2046,7 +1417,7 @@
       text(card, '.c02-title', n.title);
       var cap = $('.t-caption', card);
       if (cap) cap.textContent = fmtDate(n.date);
-      photo($('.c02-himg, .c02-img', card), img(n.thumb, 900), true);
+      photo($('.c02-himg, .c02-img', card), img(n.thumb, 900));
       link(card, 'article.html?id=' + n.slug);
     });
 
@@ -2151,22 +1522,6 @@
 
   /* E-01 TeamFinder replaces the plain search field in whichever block
      asks for it. */
-  /* Review 18 (second pass) — on the landing page Find a team was the
-     last block before the news, four screens below the fold. It
-     answers the first question a reader arrives with, so it goes
-     directly under Overview, above Live now. */
-  function finderUnderOverview() {
-    var colL = $('.home-split .tpl-colL');
-    var fdr = $('.finder');
-    if (!colL || !fdr || !fdr.closest) return;
-    var fsec = fdr.closest('.tpl-sub');
-    if (!fsec || fsec.parentNode === colL) return;
-    var ov = $('.s09');
-    var ovSec = ov && ov.closest('.tpl-sub');
-    if (ovSec && ovSec.parentNode === colL) colL.insertBefore(fsec, ovSec.nextSibling);
-    else colL.insertBefore(fsec, colL.firstChild);
-  }
-
   function mountFinder() {
     var sub = $$('.tpl-sub').filter(function (x) {
       return /find a team/i.test((x.querySelector('.t-h2') || {}).textContent || '');
@@ -2181,9 +1536,6 @@
         var f = host.querySelector('.finder');
         old.replaceWith(f);
         initFinder(f);
-        if ((document.body.dataset.page || '') === 'index.html') {
-          try { finderUnderOverview(); } catch (e) {}
-        }
         if (window.FIBA) window.FIBA.init(sub);
       });
   }
@@ -2250,7 +1602,7 @@
             tag.classList.add('ftag-static');
             flag(tag, t.ioc);
             text(tag, '.ftag-code', t.ioc);
-            tag.title = cleanTeam(t.name);
+            tag.title = t.name;
           });
         } else {
           var box = $('.e03-feds', card);
@@ -2260,50 +1612,6 @@
       });
     });
   };
-
-  /* ---- Review 18 (second pass): one tab strip for a conference
-     A conference and its six stops are one thing with seven views,
-     and they were two pages with two navigations. The strip is built
-     once here and drawn on both: on the conference page Overview is
-     the tab you are on, on a stop page it is the way back and the
-     stop you are on is marked. A stop is never a page on its own any
-     more — it is always the conference, on one of its stops. */
-  function confTabs(c, activeSlug) {
-    var stops = stopsOfConference(c.id);
-    var today = isoDay(new Date());
-    var strip = el('div', 'ctl-03-Tab--default tabs cnf-stoptabs');
-    var ov = el('div', 'tab' + (activeSlug ? '' : ' tab-active'),
-                '<span class="cnf-tab-n">Overview</span>');
-    if (activeSlug) {
-      ov.setAttribute('role', 'link');
-      ov.setAttribute('tabindex', '0');
-      link(ov, 'conference.html?id=' + c.id);
-    }
-    strip.appendChild(ov);
-    stops.forEach(function (e) {
-      var played = stopPlayed(e, today);
-      var live = stopLive(e, today);
-      var here = activeSlug === e.slug;
-      var t = el('div', 'tab' + (here ? ' tab-active' : '') +
-                        (live ? ' cnf-tab-live' : '') +
-                        (played ? ' cnf-tab-done' : '') +
-                        (!played && !live ? ' tab-disabled' : ''),
-                 '<span class="cnf-tab-n">STOP ' + e.number + '</span>');
-      if (live) t.appendChild(el('div', 'f03-dot'));
-      /* An upcoming stop has no squads and no results; it is stated
-         and not offered. */
-      if ((played || live) && !here) {
-        t.setAttribute('role', 'link');
-        t.setAttribute('tabindex', '0');
-        link(t, 'stop.html?id=' + e.slug);
-      } else if (!played && !live) {
-        t.setAttribute('aria-disabled', 'true');
-        t.title = 'Not played yet';
-      }
-      strip.appendChild(t);
-    });
-    return strip;
-  }
 
   /* ctl-03 Tab as a pane switch. Panes are marked in the markup with
      data-pane, so adding a block to a tab is a markup change and not a
@@ -2422,29 +1730,10 @@
                    { icon: 'clock' });
         return;
       }
-      /* Review 18 — the same table the landing page's Live now
-         accordion draws, because a reader who opens the accordion
-         and then opens the conference is reading one thing twice
-         and should not have to learn two column sets to do it. */
-      rows.forEach(function (r) {
-        r.status = (complete && r.rank === 1 && r.tour > 0) ? 'q' : 'r';
-      });
-      /* Review 18 — Africa North and Africa South run U23 and U21
-         sides in ONE standings table (the feed marks the U21 ones by
-         a suffix on the name, and cleanTeam() takes the suffix off
-         because the category is its own thing now). Where a table
-         holds both, it says which is which under the code; where it
-         holds one, the heading already said it. */
-      var mixed = rows.some(function (r) { return r.cat !== rows[0].cat; });
-      /* Review 19 — Seed is the third column here too, so the table a
-         reader met in the Live now accordion is the same table when
-         they open the conference. */
-      var wopts = { seed: true };
-      if (mixed) wopts.sub = function (r) { return r.cat; };
-      wtScroll(tbl);
-      wtTable(tbl, rows, stops, wopts);
-      $$('.wt-row', tbl).forEach(function (row, i) {
-        row.classList.toggle('trow-hi', complete && i === 0);
+      $$('.trow', tbl).forEach(function (r) { r.hidden = false; });
+      repeat(tbl, '.trow', rows, function (row, r) {
+        paintStandingRow(row, r, complete);
+        row.classList.toggle('trow-hi', complete && r.rank === 1);
       });
     }
 
@@ -2519,44 +1808,85 @@
     }
 
     /* ---- Stops: the selector, the matrix, the games ---- */
-    /* Review 18 (second pass) — the dot rail is gone and the tab
-       strip replaced it, but the S-02 timeline came up into Overview
-       and still has to be painted: left unpainted it showed the
-       specimen's African cities under an Asian conference. It states
-       the season and no longer selects anything — the tabs do that. */
-    function drawTimeline() {
+    function drawStopNav() {
+      repeat($('.stopnav') || document, '.stopnav-i', stops, function (node, e, i) {
+        node.textContent = e.number;
+        /* Played is a calendar fact, not a snapshot fact — see
+           stopPlayed(). A stop that has been played but whose results
+           have not been ingested is still a played stop. */
+        var has = stopPlayed(e, today);
+        var live = stopLive(e, today);
+        node.classList.toggle('stopnav-done', has);
+        node.classList.toggle('stopnav-live', live);
+        node.classList.toggle('stopnav-on', i === sel);
+        node.onclick = function () { sel = i; drawStopNav(); drawStop(); drawGames(); };
+      });
       repeat($('.s02') || document, '.s02-stop, .s02-i', stops, function (node, e, i) {
+        /* Played is a calendar fact, not a snapshot fact — see
+           stopPlayed(). A stop that has been played but whose results
+           have not been ingested is still a played stop. */
         var has = stopPlayed(e, today);
         var live = stopLive(e, today);
         node.classList.toggle('s02-done', has);
         node.classList.toggle('s02-live', live);
-        node.classList.remove('s02-on');
+        node.classList.toggle('s02-on', i === sel);
         text(node, '.s02-city, .t-label', cityOf(e));
-        text(node, '.t-caption', live ? 'Live'
-                                      : fmtDate(e.start, { day: 'numeric', month: 'short' }));
-        if (has || live) {
-          node.style.cursor = 'pointer';
-          link(node, 'stop.html?id=' + e.slug);
-        } else {
-          node.onclick = null;
-          node.style.cursor = '';
-        }
+        text(node, '.t-caption', fmtDate(e.start, { day: 'numeric', month: 'short' }));
+        node.onclick = function () { sel = i; drawStopNav(); drawStop(); drawGames(); };
       });
     }
 
     /* One row per federation, one column per stop — the wireframe's
        matrix, sized to however many stops this conference has. */
-    /* Review 18 — Stop by stop is removed. With the WT column set on
-       the conference standings, every stop is already a column there
-       with the finish over the points it paid: the matrix was the
-       same rows, the same stops, the same two figures, missing only
-       the position and the status. Two tables that differ by two
-       columns are one table and a mistake. Daniel's call, on seeing
-       them stacked. */
     function drawMatrix() {
       var host = $('.s11');
-      var sec = host && host.closest('.tpl-sub');
-      if (sec) sec.remove(); else if (host) host.remove();
+      if (!host) return;
+      var rows = conferenceTable(c.id, gender);
+      var oldM = host.parentElement.querySelector(':scope > .site-empty');
+      if (oldM) oldM.remove();
+      if (!rows.length) {
+        host.hidden = true;
+        emptyState(host.parentElement, 'Nothing to show yet',
+                   'The matrix fills in stop by stop as the conference is played.',
+                   { icon: 'clock' });
+        return;
+      }
+      host.hidden = false;
+      var head = '<div class="el-08-TableHeaderRow cut cut-s thead">' +
+        '<div class="cell-federation cell c-fed"><span class="t-caption" style="color:inherit">Federation</span></div>' +
+        stops.map(function (e) {
+          return '<div class="cell-mstop cell c-mstop cell-num"><span class="t-caption" style="color:inherit">Stop ' +
+                 e.number + '</span></div>';
+        }).join('') +
+        '<div class="cell-points cell c-pts cell-num"><span class="t-caption" style="color:inherit">Tour Points</span></div>' +
+        '</div>';
+      var body = rows.map(function (r) {
+        var cells = stops.map(function (e) {
+          var s = standingsFor(e.slug, gender);
+          var mine = s && s.rows.filter(function (x) { return x.ioc === r.ioc; })[0];
+          if (!mine || !mine.rank) {
+            return '<div class="cell-mstop cell c-mstop cell-num"><span class="t-data-m">—</span></div>';
+          }
+          return '<div class="cell-mstop cell c-mstop cell-num">' +
+                 '<span class="t-data-m' + (mine.rank === 1 ? ' s11-first' : '') + '">' +
+                 ordinal(mine.rank) + '</span>' +
+                 '<span class="t-caption s11-pts">' + tourPoints(mine.rank) + ' pts</span></div>';
+        }).join('');
+        return '<div class="el-04-TeamRow trow s11-row" data-href="team.html?ioc=' + r.ioc + '">' +
+          '<div class="cell-federation cell c-fed">' +
+            '<div class="el-13-FederationTag--m-both-plain ftag ftag-m cut cut-s ftag-plain">' +
+            '<div class="flag flag-ring"></div><div class="ftag-txt">' +
+            '<span class="ftag-code">' + r.ioc + '</span>' +
+            '<span class="ftag-name">' + r.team + '</span></div></div></div>' +
+          cells +
+          '<div class="cell-points cell c-pts cell-num"><span class="t-data-m">' + r.tour + '</span></div>' +
+          '</div>';
+      }).join('');
+      host.innerHTML = head + body;
+      $$('.s11-row', host).forEach(function (row) {
+        flag($('.flag', row), row.dataset.href.split('ioc=')[1]);
+        link(row, row.dataset.href);
+      });
     }
 
     /* Picking a stop has to change something. The matrix answers how
@@ -2637,10 +1967,10 @@
       drawStandings();
       drawScorers();
       drawHighlights();
-      drawTimeline();
-      /* The stop detail and its game list were the Stops pane; they
-         live on the stop pages now and their hosts are no longer on
-         this page. */
+      drawStopNav();
+      drawMatrix();
+      drawStop();
+      drawGames();
       paintPhotos(photosFor(stops).slice(0, 12));
       if (window.FIBA) window.FIBA.init(document);
     }
@@ -2660,61 +1990,32 @@
       if (!live && dot) dot.remove();
     }
 
-    /* ---- Review 18: the stops are tabs -----------------------
-       The dot rail stated how far the conference had got but not
-       where you could go, and a stop was two clicks away (open
-       Stops, then pick a dot). ctl-03 Tab states the structure —
-       Overview and six stops, this one is on, these have been
-       played, these have not — and each stop goes to that stop.
-
-       Overview is the tab this page is: the timeline, the standings,
-       the leading scorers and the photographs. What was behind the
-       Stops pane has moved to the stop pages, where it belongs. */
-    function buildStopTabs() {
-      var old = $('.cnf-tabs');
-      if (!old) return;
-      var strip = confTabs(c, null);
-      strip.classList.add('cnf-tabs');
-      old.replaceWith(strip);
-    }
-
-    function foldStopsPane() {
-      var content = $('.tpl-content') || document.body;
-      /* The timeline was inside the stop navigation, which is gone.
-         It is a picture of the conference's season, so it opens
-         Overview. */
-      var tl = $('.s02');
-      if (tl) {
-        var wrap = el('div', 'tpl-sub cnf-timeline');
-        wrap.setAttribute('data-pane', 'overview');
-        wrap.appendChild(tl);
-        /* Review 19 — Daniel: the timeline reads after the standings,
-           not before them. The table answers "where does the
-           conference stand"; the timeline answers "how did it get
-           here", which is the second question. */
-        var stbl = $$('.tbl', content).filter(function (x) {
-          return !x.classList.contains('s11') &&
-                 !x.classList.contains('games-tbl') &&
-                 x.closest('[data-pane="overview"]');
-        })[0];
-        var after = stbl && stbl.closest('.tpl-sub');
-        var firstOv = $$('[data-pane="overview"]', content)[0];
-        if (after && after.parentNode) {
-          after.parentNode.insertBefore(wrap, after.nextSibling);
-        } else if (firstOv && firstOv.parentNode) {
-          firstOv.parentNode.insertBefore(wrap, firstOv);
-        } else {
-          content.appendChild(wrap);
-        }
-      }
-      $$('[data-pane="stops"]', content).forEach(function (n) { n.remove(); });
-      $$('[data-pane="overview"]', content).forEach(function (n) { n.hidden = false; });
-    }
-
     genderSwitch(function (g) { gender = g; draw(); });
-    foldStopsPane();
-    buildStopTabs();
+    tabPanes(document, '.cnf-tabs');
+
+    /* Pressing Stops re-reads the day: the tab is an entry point,
+       not a place you are kept, so it always opens on the live
+       stop (or the last played one) however far you browsed
+       before leaving it. Inside the tab the dots still rule. */
+    $$('.cnf-tabs .tab').forEach(function (t) {
+      if (t.dataset.tab !== 'stops') return;
+      t.addEventListener('click', function () {
+        sel = defaultStop();
+        drawStopNav(); drawStop(); drawGames();
+      });
+    });
     draw();
+    markLiveTab();
+
+    /* "See updated conference table" goes back to the standings, which
+       is on the other tab. */
+    var back = $$('.cnf-back .lnk')[0];
+    if (back) back.onclick = function () {
+      var t = $$('.cnf-tabs .tab').filter(function (x) { return x.dataset.tab === 'overview'; })[0];
+      if (t) t.click();
+      var tbl = $$('.tbl').filter(function (x) { return !x.classList.contains('s11'); })[0];
+      if (tbl) tbl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
   };
 
   PAGES['stop.html'] = function () {
@@ -2727,64 +2028,7 @@
     /* The page carried an el-02 GenderSwitch that was wired to nothing:
        the podium, the pools, the bracket and the game list all read the
        men's records and the list printed both genders end to end. */
-    /* Review 18 (second pass) — a stop is never a page of its own; it
-       is the conference, on one of its stops. The conference's tab
-       strip is drawn at the head with this stop marked, so Overview
-       and the other five are one click away and a reader never leaves
-       the conference they came in through.
-
-       The gender switch that stood at the right of the title goes
-       with it: the conference states the gender at its top right and
-       the answer is remembered for the tab, so a second switch beside
-       a stop's name was a second place to set one thing. */
-    var gender = sexGet() || 'men';
-    /* Review 20 — Daniel: the Schedule module comes back, at the head
-       of the stop that is being played. On Conferences it sat above a
-       grid of eighteen and streamed whichever one happened to be on,
-       which is why round eighteen took it off that page. Here it has
-       exactly one subject: this stop, the recording that actually went
-       out behind the play button, and the day's games beside it. A
-       stop that is not on has nothing to stream, so the module is
-       built only where it has something to say. */
-    var liveHere = false;
-    (function () {
-      var ctl = $('.f04-ctl');
-      if (ctl) ctl.remove();
-      var f04 = $('.f04');
-      if (f04 && f04.parentNode && !$('.cnf-stoptabs')) {
-        f04.parentNode.insertBefore(confTabs(c, first.slug), f04.nextSibling);
-      }
-      /* The dot rail, the timeline under it and the way back out are
-         the tab strip's job now. */
-      var nav = $('.cnf-stopnav');
-      if (nav) nav.remove();
-      $$('.cnf-back').forEach(function (n) { n.remove(); });
-      $$('.nav-a, .lnk').forEach(function (n) {
-        if (/back to stops/i.test(n.textContent || '')) {
-          (n.closest('.cnf-back') || n).remove();
-        }
-      });
-    })();
-
-    /* Review 19 — the stop's own name, directly under the tab that
-       selected it: "STOP 1 · CANGZHOU" over "China · 10 Aug 2026".
-       It is built once and repainted, so switching stops moves the
-       text and not the block. */
-    function stopHeadline(e) {
-      var tabs = $('.cnf-stoptabs');
-      if (!tabs || !tabs.parentNode) return;
-      var box = $('.stop-idl');
-      if (!box) {
-        box = el('div', 'stop-idl');
-        box.innerHTML = '<h2 class="t-h2 stop-idl-t"></h2>' +
-                        '<span class="t-body-s stop-idl-s"></span>';
-        tabs.parentNode.insertBefore(box, tabs.nextSibling);
-      }
-      text(box, '.stop-idl-t', 'Stop ' + e.number + ' · ' + cityOf(e));
-      text(box, '.stop-idl-s',
-           [e.country, fmtDate(e.start, { day: 'numeric', month: 'short', year: 'numeric' })]
-             .filter(Boolean).join(' · '));
-    }
+    var gender = genderSwitch(function (g) { gender = g; draw(); });
 
     function draw() {
       var e = stops[sel] || first;
@@ -2792,34 +2036,16 @@
       var gl = gamesFor(e.slug, gender);
       if (!gl.length) gl = gamesFor(e.slug);
 
-      /* Review 19 — Daniel: the headline stays the conference across
-         all seven of its views, so the tab strip changes what is under
-         a title that does not move. Which stop is being read is stated
-         under the strip instead, by stopHeadline(). */
       $$('.f04-h1, .f04-h1-m, .f04-h1-s, .t-h1, .f04-title').forEach(function (n) {
-        n.textContent = confName(c);
+        n.textContent = 'Stop ' + e.number + ' · ' + cityOf(e);
       });
       crumbs([{ label: 'Home', href: 'index.html' },
               { label: 'Conferences', href: 'conferences.html' },
               { label: confName(c), href: 'conference.html?id=' + c.id },
               { label: 'Stop ' + e.number }]);
-      /* The sub-header is the conference's, exactly as it reads on the
-         conference page: its hosts and the span of its season. */
       var sub = $('.f04-idl .t-body-s, .f04-sub');
-      if (sub && stops.length) {
-        var cities = [];
-        stops.forEach(function (x) {
-          var nm = cityOf(x);
-          if (nm && cities.indexOf(nm) === -1) cities.push(nm);
-        });
-        var cf = stops[0].start;
-        var cl = stops[stops.length - 1].end || stops[stops.length - 1].start;
-        sub.textContent = cities.slice(0, 2).join(' · ') +
-          (cities.length > 2 ? ' +' + (cities.length - 2) : '') +
-          ' · ' + fmtDate(cf, { day: 'numeric', month: 'short' }) +
-          ' – ' + fmtDate(cl, { day: 'numeric', month: 'short' });
-      }
-      stopHeadline(e);
+      if (sub) sub.textContent = [e.venue, cityOf(e), e.country, fmtDate(e.start)]
+        .filter(Boolean).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(' · ');
 
       /* the selector */
       repeat($('.stopnav') || document, '.stopnav-i', stops, function (node, x, i) {
@@ -2883,14 +2109,7 @@
       /* Review 6: the timeline says which stop; the stream says you
          can watch it. It sits under the timeline, on the left, with
          the block that is waiting for the results on the right. */
-      /* The stream frame hung off the dot rail; it hangs off the tab
-         strip now, which is what the rail became. */
-      /* Where the Schedule module is on the page it is the stream,
-         so the small frame beside the stub would be a second player
-         for the same stop. */
-      if (!liveHere) {
-        stopStream($('.stop-idl') || $('.cnf-stoptabs'), e, today, '.stop-stub', true);
-      }
+      stopStream($('.cnf-stopnav'), e, today, '.stop-stub', true);
 
       /* S-05 Pools. Two tables, and until now both of them were painted
          from the same list: every federation at the stop landed in Pool
@@ -2954,7 +2173,7 @@
         var sides = $$('.s06-side', rd);
         [game.home, game.away].forEach(function (t, k) {
           if (!sides[k]) return;
-          fed(sides[k], t.ioc, cleanTeam(t.name));
+          fed(sides[k], t.ioc, t.name);
           text(sides[k], '.s06-sc', t.score != null ? t.score : '–');
           sides[k].classList.toggle('s06-lose',
             game.home.score != null && t.score < Math.max(game.home.score, game.away.score));
@@ -2999,24 +2218,7 @@
       if (window.FIBA) window.FIBA.init(document);
     }
 
-    liveHere = stopLive(first, today);
     draw();
-    if (liveHere) {
-      var pageContent = $('.tpl-content');
-      scheduleModule(pageContent, c.id);
-      /* scheduleModule drops itself in at the head of the content; it
-         belongs under the stop's name, which draw() has just written. */
-      var schedWrap = $('.sched', pageContent);
-      var idl = $('.stop-idl') || $('.cnf-stoptabs');
-      if (schedWrap && idl && idl.parentNode === pageContent) {
-        pageContent.insertBefore(schedWrap, idl.nextSibling);
-      }
-      /* The module brings a Men / Women switch to the page head. One
-         switch, one page: it drives the podium, the pools and the
-         bracket as well as the module's own list. */
-      var schedSw = $('.sched-gender');
-      if (schedSw) genderSwitch(function (g) { gender = g; draw(); }, schedSw);
-    }
   };
 
   /* Competition Standings — every registered federation, ranked on how
@@ -3033,17 +2235,11 @@
     var tbl = $('.tbl');
     var gender = 'men', query = '', confPick = '', zonePick = '';
     var qualOnly = new URLSearchParams(location.search).get('view') === 'qualification';
-    /* Review 18 — a row is a team site now, so the table holds two
-       ladders (U23 and U21) and each counts from one. Resting on
-       tour points interleaved them and printed 1, 1, 2, 2 down the
-       Position column; it rests on the ladder order instead, which
-       is what Position is counting. */
-    var state = { key: 'order', dir: 1 };
+    var state = { key: 'tour', dir: -1 };
     var COLS = {
-      'cell-position':   { key: 'order' },
+      'cell-position':   { key: 'rank' },
       'cell-federation': { key: 'team', text: 1 },
       'cell-conference': { key: 'confname', text: 1 },
-      'cell-seed':       { key: 'seedSort' },
       'cell-winratio':   { key: 'winRatio' },
       'cell-ptsavg':     { key: 'avg' },
       'cell-ep':         { key: 'stops' },
@@ -3055,12 +2251,7 @@
       /* The field is the top twenty. Search narrows what is shown of it
          and never changes who is in it. */
       var pool = federationTable(gender);
-      /* The field of twenty is a U23 field — the U23 World Cup is
-         what it qualifies for — so it is taken off the U23 ladder
-         and not off the first twenty rows of a mixed table. */
-      if (qualOnly) pool = pool.filter(function (t) {
-        return t.cat === 'U23' && t.rank <= FIELD;
-      });
+      if (qualOnly) pool = pool.slice(0, FIELD);
       var list = pool.filter(function (t) {
         if (confPick && t.confname !== confPick) return false;
         if (zonePick && t.zone !== zonePick) return false;
@@ -3089,11 +2280,6 @@
         fed(row, t.ioc, t.team);
         text(row, '.cell-position .t-data-m', t.rank);
         text(row, '.cell-conference .t-body-s', t.confname);
-        var sc = $('.cell-seed .t-data-m', row);
-        if (sc) {
-          sc.textContent = seedText(t.seed);
-          sc.classList.toggle('wt-none', t.seed == null);
-        }
         text(row, '.cell-winratio .t-data-m', pctRatio(t.winRatio));
         text(row, '.cell-ptsavg .t-data-m', t.avg.toFixed(1));
         text(row, '.cell-ep .t-data-m', t.stops);
@@ -3105,7 +2291,6 @@
 
     gender = genderSwitch(function (g) { gender = g; draw(); });
     searchField(document, 'Search a federation or IOC code', function (q) { query = q; draw(); });
-    ensureSeedColumn(tbl);
     sortable(tbl, COLS, state, draw);
 
     /* ctl-04 Select, right edge of the search row: every
@@ -3190,7 +2375,7 @@
       grid.hidden = false;
       repeat(grid, '.e09-cell', list, function (cell, t) {
         flag(cell, t.ioc);
-        text(cell, '.e09-n', cleanTeam(t.name));
+        text(cell, '.e09-n', t.name);
         text(cell, '.e09-c', t.ioc);
         link(cell, 'team.html?ioc=' + t.ioc);
       });
@@ -3210,199 +2395,18 @@
 
     crumbs([{ label: 'Home', href: 'index.html' },
             { label: 'Teams', href: 'teams.html' },
-            { label: cleanTeam(t.name) }]);
+            { label: t.name }]);
 
-    var tname = cleanTeam(t.name);
     var head = $('.e04-top') || $('.e04');
-    if (head) { flag(head, t.ioc); text(head, '.ftag-code', t.ioc); text(head, '.ftag-name', tname); }
-    $$('.f04-h1, .e04-name, .t-h1, .f04-h1-m, .f04-h1-s').forEach(function (n) { n.textContent = tname; });
-
-    /* ---- Review 18: FEDERATION OVERVIEW ---------------------
-       The page a federation is linked to is a federation's page.
-       It used to open on one of its four sides and offer the other
-       three behind a switch, so "how is Germany doing" had to be
-       asked four times and added up by hand. team.html is promoted
-       rather than replaced: teams.html already links here by IOC
-       code, the crumbs already say Home / Teams / Germany, and the
-       switch that chose between the sides is still the switch —
-       it has gained an "All" in front, and All is where it opens.
-
-       Nothing new is derived. The cards read the same rows the
-       Standings page ranks (federationTable), the same conference
-       tables the conference page draws (conferenceTable), and the
-       same Q/S/R the finder puts on its buttons (siteStatus). The
-       parts are el-13 FederationTag, el-05 StatusBadge and the e04
-       stat row; the only new thing is the grid they sit in. */
-    var ovHost = null;
-    function fedOverview(show) {
-      var e04 = $('.e04');
-      var content = $('.tpl-content') || document.body;
-      /* The per-side blocks — season journey, roster, results,
-         photos — describe one team site and say nothing about a
-         federation, so they stand down while All is showing. */
-      $$(':scope > .tpl-sub', content).forEach(function (n) {
-        if (n === ovHost) return;
-        n.hidden = !!show;
-      });
-      var sub = $('.e04-sub');
-      var act = $('.e04-act');
-      if (act) act.hidden = !!show;
-
-      if (!show) { if (ovHost) ovHost.hidden = true; return; }
-
-      if (!ovHost) {
-        ovHost = el('div', 'tpl-sub fed-ov');
-        if (e04 && e04.parentNode) e04.parentNode.insertBefore(ovHost, e04.nextSibling);
-        else content.insertBefore(ovHost, content.firstChild);
-      }
-      ovHost.hidden = false;
-
-      /* One cell per side this federation fields. */
-      var cells = teamSites().filter(function (x) { return x.ioc === t.ioc; });
-      var ORDER = ['U23 Men', 'U23 Women', 'U21 Men', 'U21 Women'];
-      var recs = cells.map(function (x) {
-        var g = x.gender || 'men';
-        var cat = rowCat(x.conference, x.name);
-        var c2 = conf(x.conference) || {};
-        var season = federationTable(g).filter(function (r) {
-          return r.ioc === x.ioc && r.conference === x.conference && r.cat === cat;
-        })[0];
-        var ctab = conferenceTable(x.conference, g);
-        var me = ctab.filter(function (r) { return r.ioc === x.ioc; })[0];
-        var all = stopsOfConference(x.conference);
-        var done = all.filter(function (e2) { return stopPlayed(e2, isoDay(new Date())); }).length;
-        return {
-          site: x, cat: cat, gender: g, conf: c2,
-          label: cat + ' ' + (g === 'women' ? 'Women' : 'Men'),
-          confname: confLabel(c2, cat),
-          rank: me ? me.rank : null, field: ctab.length,
-          stops: season ? season.stops : (me ? me.stops : 0),
-          ofStops: all.length,
-          done: done,
-          tour: season ? season.tour : (me ? me.tour : 0),
-          winRatio: season ? season.winRatio : (me ? me.winRatio : 0),
-          seed: seedOfSite(x.ioc, x.conference, g),
-          status: siteStatus({ ioc: x.ioc, gender: g, conference: x.conference })
-        };
-      }).sort(function (a, b) {
-        var i = ORDER.indexOf(a.label), j = ORDER.indexOf(b.label);
-        return (i < 0 ? 9 : i) - (j < 0 ? 9 : j);
-      });
-
-      /* Federation totals: the sum across every side, which is the
-         one place a sum across conferences is the right answer. */
-      var tot = { tour: 0, stops: 0, played: 0, won: 0, scored: 0 };
-      recs.forEach(function (r) {
-        var g = r.gender;
-        var row = federationTable(g).filter(function (x2) {
-          return x2.ioc === t.ioc && x2.conference === r.site.conference && x2.cat === r.cat;
-        })[0];
-        if (!row) return;
-        tot.tour += row.tour; tot.stops += row.stops;
-        tot.played += row.played; tot.won += row.won; tot.scored += row.scored;
-      });
-      /* Qualification is a U23 question — the field it names is the
-         U23 World Cup — so the denominator is the U23 sides, not all
-         four. "0 of 4" counted two sides that are not playing for it. */
-      var u23 = recs.filter(function (r) { return r.cat === 'U23'; });
-      var qCount = u23.filter(function (r) { return r.status === 'q'; }).length;
-      var best = recs.slice().sort(function (a, b) { return b.tour - a.tour; })[0];
-
-      if (sub) {
-        var parts = $$('.t-body-m', sub);
-        if (parts[0]) parts[0].textContent = recs.length +
-          ' team site' + (recs.length === 1 ? '' : 's');
-        if (parts[1]) parts[1].textContent = recs.map(function (r) {
-          return r.confname;
-        }).filter(function (v, i, a) { return a.indexOf(v) === i; }).join(' \u00b7 ');
-        var badge = $('.badge', sub);
-        if (badge) {
-          ['q', 's', 'n'].forEach(function (x2) { badge.classList.remove('badge-' + x2); });
-          badge.classList.add(qCount ? 'badge-q' : 'badge-s');
-          text(badge, '.lbl', qCount
-            ? qCount + ' side' + (qCount === 1 ? '' : 's') + ' qualified'
-            : 'In the race');
-          badge.hidden = false;
-        }
-      }
-
-      /* e04's six figures, restated about the federation. */
-      var FIG = [
-        ['Tour Points', tot.tour],
-        ['Win Ratio', pctRatio(tot.played ? tot.won / tot.played : 0)],
-        ['Record', tot.won + '\u2013' + (tot.played - tot.won)],
-        ['Events played', tot.stops],
-        ['Team sites', recs.length],
-        ['Qualified (U23)', u23.length ? (qCount + ' of ' + u23.length) : '\u2014']
-      ];
-      $$('.e04-stats .e04-stat').forEach(function (cell, i) {
-        if (!FIG[i]) { cell.hidden = true; return; }
-        cell.hidden = false;
-        text(cell, '.t-caption', FIG[i][0]);
-        var v = $('.e04-v', cell);
-        if (v) v.textContent = FIG[i][1];
-      });
-
-      var head = '<div class="el-01-SectionHeader--default el01-wrap"><div class="el01">' +
-        '<div class="el01-left"><h2 class="t-h2">Categories</h2>' +
-        '<span class="t-body-s fed-ov-sub">' + recs.length +
-        ' of 4 entered \u00b7 pick one to read its season</span></div></div></div>';
-
-      var cards = ORDER.map(function (lab) {
-        var r = recs.filter(function (x2) { return x2.label === lab; })[0];
-        if (!r) {
-          return '<div class="fed-card fed-card-off cut cut-m cut-out">' +
-            '<div class="cutfill"></div>' +
-            '<div class="fed-card-h"><span class="t-h3">' + lab + '</span></div>' +
-            '<div class="t-body-s fed-card-none">No side entered</div></div>';
-        }
-        function line(k, v) {
-          return '<div class="fed-line"><span class="t-caption">' + k +
-                 '</span><span class="t-data-m">' + v + '</span></div>';
-        }
-        var mk = r.status
-          ? '<div class="el-05-StatusBadge--marker-' + r.status + ' marker marker-' +
-            r.status + ' cut cut-s"><span class="lbl">' + r.status.toUpperCase() +
-            '</span></div>'
-          : '<span class="t-data-m wt-none">\u2014</span>';
-        return '<div class="fed-card cut cut-m cut-out" role="link" tabindex="0" ' +
-          'data-cat="' + r.cat + '" data-gender="' + r.gender + '">' +
-          '<div class="cutfill"></div>' +
-          '<div class="fed-card-h"><span class="t-h3">' + lab + '</span>' + mk + '</div>' +
-          '<div class="t-body-s fed-card-conf">' + r.confname + '</div>' +
-          '<div class="fed-lines">' +
-            line('Conference rank', r.rank ? ordinal(r.rank) + ' of ' + r.field : '\u2014') +
-            line('Seed', seedText(r.seed)) +
-            line('Stops played', r.stops + ' of ' + (r.ofStops || 6)) +
-            line('Tour points', r.tour) +
-            line('Win ratio', pctRatio(r.winRatio)) +
-          '</div>' +
-          '<div class="ctl-02-Link--default lnk fed-card-go"><span class="lbl">' +
-          'See this season</span></div></div>';
-      }).join('');
-
-      ovHost.innerHTML = head + '<div class="fed-grid">' + cards + '</div>';
-      $$('.fed-card[data-cat]', ovHost).forEach(function (card) {
-        card.addEventListener('click', function () {
-          var sw = $('.f04-ctl .el02') || $('.el02');
-          if (sw && sw._pick) sw._pick(card.dataset.cat, card.dataset.gender);
-          window.scrollTo({ top: 0, behavior: 'smooth' });
-        });
-        card.addEventListener('keydown', function (ev) {
-          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); card.click(); }
-        });
-      });
-      if (window.FIBA) window.FIBA.init(ovHost);
-    }
+    if (head) { flag(head, t.ioc); text(head, '.ftag-code', t.ioc); text(head, '.ftag-name', t.name); }
+    $$('.f04-h1, .e04-name, .t-h1, .f04-h1-m, .f04-h1-s').forEach(function (n) { n.textContent = t.name; });
 
     /* One selection drives the whole page: which of this federation's
        team sites is being read. */
     function draw(sel) {
-      if (sel && sel.cat === 'All') { fedOverview(true); return; }
-      fedOverview(false);
       var site = sites.filter(function (x) {
-        return rowCat(x.conference, x.name) === sel.cat &&
-               (x.gender || 'men') === sel.gender;
+        var cat = /(^|-)u21(-|$)/.test(x.conference || '') ? 'U21' : 'U23';
+        return cat === sel.cat && (x.gender || 'men') === sel.gender;
       })[0] || t;
       var c = conf(site.conference) || {};
 
@@ -3410,26 +2414,14 @@
       if (sub) {
         var parts = $$('.t-body-m', sub);
         if (parts[0]) parts[0].textContent = sel.cat + ' ' + (sel.gender === 'men' ? 'Men' : 'Women');
-        if (parts[1]) parts[1].textContent = confLabel(c, sel.cat);
+        if (parts[1]) parts[1].textContent = confName(c);
       }
-
-      /* Review 18 — the overview relabels e04's six figures about
-         the federation; a category puts back the six it states about
-         one side. */
-      var CAPS = ['Tour Points', 'Win Ratio', 'Record', 'Stops played',
-                  'Conference rank', 'Race position'];
-      $$('.e04-stats .e04-stat').forEach(function (cell, i) {
-        cell.hidden = false;
-        if (CAPS[i]) text(cell, '.t-caption', CAPS[i]);
-      });
 
       /* season totals for this team site */
       var table = conferenceTable(c.id, site.gender || sel.gender);
       var me = table.filter(function (r) { return r.ioc === site.ioc; })[0];
       var season = federationTable(site.gender || sel.gender)
-                     .filter(function (r) {
-                       return r.ioc === site.ioc && r.conference === c.id;
-                     })[0];
+                     .filter(function (r) { return r.ioc === site.ioc; })[0];
       var ev = $$('.e04-v');
       if (me) {
         if (ev[0]) ev[0].textContent = me.tour;
@@ -3443,15 +2435,8 @@
       if (badge && season) {
         var lbl = { q: 'Qualified', s: 'Shortlisted', n: 'Not qualified' }[season.status];
         ['q', 's', 'n'].forEach(function (x) { badge.classList.remove('badge-' + x); });
-        if (season.status) {
-          badge.classList.add('badge-' + season.status);
-          text(badge, '.lbl', lbl);
-          badge.hidden = false;
-        } else {
-          /* U21: the badge states qualification for the U23 World Cup
-             and there is none to state. */
-          badge.hidden = true;
-        }
+        badge.classList.add('badge-' + season.status);
+        text(badge, '.lbl', lbl);
       }
       /* The stream is a conference-level thing (first review): only
          offer it while this conference is actually playing. */
@@ -3537,7 +2522,8 @@
     }
 
     var start = categorySwitch($('.f04-ctl') || document, sites, draw) ||
-                { cat: rowCat(t.conference, t.name), gender: t.gender || 'men' };
+                { cat: /(^|-)u21(-|$)/.test(t.conference || '') ? 'U21' : 'U23',
+                  gender: t.gender || 'men' };
     draw(start);
   };
 
@@ -3734,7 +2720,7 @@
       text(row, '.c04-t', n.title);
       var cap = $('.t-caption', row);
       if (cap) cap.textContent = fmtDate(n.date);
-      photo($('.c04-img', row), img(n.thumb, 600), true);
+      photo($('.c04-img', row), img(n.thumb, 600));
       link(row, 'article.html?id=' + n.slug);
     });
   };
@@ -3798,14 +2784,11 @@
     var accHost = ($('.acc') || {}).parentElement;
 
     function drawStrip() {
-      /* Review 18 (second pass) — the day strip is Day view's control;
-         in Month view there is no day to pick. */
-      if (strip) strip.hidden = (view !== 'day');
-      if (view !== 'day') return;
-      var window8 = days.slice(win, win + SLOTS);
+      if (!strip) return;
+      var view = days.slice(win, win + SLOTS);
       var play = {};
       playDays().forEach(function (d) { play[d] = 1; });
-      repeat(strip, '.s03-d', window8, function (cell, dISO) {
+      repeat(strip, '.s03-d', view, function (cell, dISO) {
         var d = new Date(dISO + 'T00:00:00');
         cell.classList.toggle('s03-on', sel >= 0 && dISO === days[sel]);
         cell.classList.toggle('s03-off', !play[dISO]);
@@ -3839,45 +2822,18 @@
       });
     }
 
-    /* Review 18 (second pass) — the search reaches both views, so
-       what it matches is stated once. */
-    function matchQuery(e) {
-      if (!query) return true;
-      var c = conf(e.conference) || {};
-      var feds = D.teams.filter(function (t) { return t.stop === e.slug; })
-                        .map(function (t) { return t.ioc + ' ' + cleanTeam(t.name); }).join(' ');
-      return (confName(c) + ' ' + cityOf(e) + ' ' + (e.country || '') + ' ' +
-              'stop ' + e.number + ' ' + feds).toLowerCase().indexOf(query) > -1;
-    }
-
     function drawList() {
       if (!accHost) return;
       var old = accHost.querySelector(':scope > .site-empty');
       if (old) old.remove();
-      /* Review 18 — the list is what a picked day opens. With no day
-         picked the month grid is the page, and a wall of every stop
-         in the season under it was the thing that was hard to read.
-         Only the accordions stand down: the section around them also
-         holds the region chips and the day strip. */
-      var cap = $('.cal-daycap', accHost);
-      /* Review 20 — Daniel: Clear filter used to empty the page.
-         Clearing a filter means seeing what it was hiding, so Day
-         view with no day picked is the whole season. Day view now
-         arrives on a day — 12 August, the day Live now opens on —
-         and Clear filter is what widens it back out. */
-      if (view !== 'day') {
-        $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
-        if (cap) cap.hidden = true;
-        return;
-      }
-      if (!cap) {
-        cap = el('div', 'cal-daycap t-h3');
-        accHost.insertBefore(cap, $('.acc', accHost));
-      }
-      cap.hidden = false;
       var evs = pool().filter(function (e) {
         if (!(sel < 0 || (e.start <= days[sel] && (e.end || e.start) >= days[sel]))) return false;
-        return matchQuery(e);
+        if (!query) return true;
+        var c = conf(e.conference) || {};
+        var feds = D.teams.filter(function (t) { return t.stop === e.slug; })
+                          .map(function (t) { return t.ioc + ' ' + t.name; }).join(' ');
+        return (confName(c) + ' ' + cityOf(e) + ' ' + (e.country || '') + ' ' +
+                'stop ' + e.number + ' ' + feds).toLowerCase().indexOf(query) > -1;
       });
       if (!evs.length) {
         $$('.acc', accHost).forEach(function (a) { a.hidden = true; });
@@ -3888,10 +2844,6 @@
         return;
       }
       $$('.acc', accHost).forEach(function (a) { a.hidden = false; });
-      cap.textContent = (sel >= 0
-        ? fmtDate(days[sel], { weekday: 'short', day: 'numeric', month: 'long' })
-        : (query ? 'Search results' : 'Whole season')) + ' \u00b7 ' + evs.length +
-        ' stop' + (evs.length === 1 ? '' : 's');
       var today = iso(new Date());
       repeat(accHost, '.acc', evs, function (node, e) {
         var c = conf(e.conference) || {};
@@ -3931,230 +2883,6 @@
       /* One open at a time: the list is the whole season here, so
          leaving them open turns the page into a wall of tables. */
       soloAccordions(accHost);
-    }
-
-    /* ---- Review 18: the month --------------------------------
-       "The day list is hard to understand — a monthly view is
-       better." A row of eight days answers "what is on this week"
-       and nothing else; the shape of a season is months, and the
-       stops in it are events with a place and a state, which is
-       how fiba3x3.com states its own calendar.
-
-       The day strip stays: it is how a day is picked, and picking
-       a day is what opens the list underneath. The month grid is
-       what the page opens on. Daily and Weekly are a later
-       phase — this is the month, and the day list it already had. */
-    var monthHost = null, monthPick = null;
-    /* Review 18 (second pass) — two views, and the month is the one
-       the page opens on. The grid answers "what does August look
-       like"; the cards answer "what is on, and when", which is the
-       question a reader brings to a calendar. Day view keeps the grid
-       and the day strip exactly as they were. */
-    var view = 'month';
-    var cardHost = null;
-
-    function monthsWithStops() {
-      var seen = {};
-      pool().forEach(function (e) { seen[e.start.slice(0, 7)] = 1; });
-      return Object.keys(seen).sort();
-    }
-    function monthLabelOf(m) {
-      var d = new Date(m + '-01T12:00:00');
-      return d.toLocaleDateString('en-GB', { month: 'long', year: 'numeric' });
-    }
-    /* Monday-first, which is how a European federation reads a week
-       and how every other date on this site is written. */
-    var DOW = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-
-    function winnerOf(e, g) {
-      var rows = (standingsFor(e.slug, g) || {}).rows || [];
-      var w = rows.filter(function (r) { return r.rank === 1; })[0];
-      return w && w.ioc ? w : null;
-    }
-
-    /* Stops as cards, grouped by the month they are played in —
-       the same card language as the Conferences grid, because a stop
-       and a conference are the same kind of thing to click on. Only
-       months that have something in them appear, and only days that
-       do: an empty week is not information. */
-    function drawCards() {
-      if (!cardHost) return;
-      cardHost.hidden = (view !== 'month');
-      if (view !== 'month') return;
-      var evs = pool().filter(matchQuery);
-      if (!evs.length) {
-        cardHost.innerHTML = '';
-        emptyState(cardHost, query ? 'Nothing matches that search'
-                                   : 'Nothing in this region yet',
-                   query ? 'Try a city, a conference or an IOC code.'
-                         : 'Pick another region.',
-                   { icon: query ? 'search' : 'calendar' });
-        return;
-      }
-      var byMonth = {};
-      evs.forEach(function (e) { (byMonth[e.start.slice(0, 7)] = byMonth[e.start.slice(0, 7)] || []).push(e); });
-      /* Newest month first — the season is read backwards from where
-         it has got to — and, inside a month, in the order it is
-         played. */
-      var months = Object.keys(byMonth).sort().reverse();
-      var todayISO = iso(new Date());
-
-      cardHost.innerHTML = months.map(function (m) {
-        var list = byMonth[m].slice().sort(function (a, b) { return a.start.localeCompare(b.start); });
-        var cards = list.map(function (e) {
-          var c = conf(e.conference) || {};
-          var live = stopLive(e, todayISO);
-          var played = stopPlayed(e, todayISO);
-          var w = played ? winnerOf(e, gender) : null;
-          var all = stopsOfConference(c.id);
-          var d = new Date(e.start + 'T12:00:00');
-          var day = d.toLocaleDateString('en-GB',
-                      { weekday: 'short', day: 'numeric', month: 'short' }).toUpperCase();
-          var tail = live
-            ? '<div class="el-05-StatusBadge--live badge badge-live cut cut-s">' +
-              '<span class="badge-dot"></span><span class="lbl">Live</span></div>'
-            : (w ? '<div class="ftag ftag-s cut cut-s ftag-plain ftag-static cal-card-w">' +
-                   '<div class="flag flag-ring"></div><div class="ftag-txt">' +
-                   '<span class="ftag-code">' + w.ioc + '</span></div></div>' +
-                   '<span class="t-caption cal-card-won">Winner</span>'
-                 : '<span class="t-caption cal-ev-soon">' +
-                   (played ? 'Result to come' : 'Upcoming') + '</span>');
-          /* Review 19 — Daniel: the same card as Conferences, down to
-             the hover. E-03 ships wrapped in .sh because a drop-shadow
-             cannot be drawn on a clipped surface; the wrapper carries
-             the elevation and the card carries the grey stroke. A live
-             stop takes the brand stroke, exactly as a live conference
-             card does. */
-          return '<div class="sh e03-sh cal-sh">' +
-            '<div class="cal-card e03-card cut cut-m cut-out' +
-            (live ? ' brandstroke' : '') +
-            '" role="link" tabindex="0" data-href="stop.html?id=' + e.slug +
-            '" data-ioc="' + (w ? w.ioc : '') + '">' +
-            '<div class="cutfill"></div>' +
-            '<div class="cal-card-top"><span class="t-caption cal-card-date">' + day + '</span>' +
-            '<span class="t-caption cal-card-stop">Stop ' + e.number +
-            ' of ' + (c.stopCount || all.length) + '</span></div>' +
-            '<div class="e03-name cal-card-name">' + confName(c) + '</div>' +
-            '<div class="t-body-s cal-card-meta">' +
-            [cityOf(e), e.country].filter(Boolean).join(' \u00b7 ') + '</div>' +
-            '<div class="cal-card-foot">' + tail + '</div></div></div>';
-        }).join('');
-        return '<div class="cal-mgroup">' +
-          '<div class="el-01-SectionHeader--default el01-wrap"><div class="el01">' +
-          '<div class="el01-left"><h2 class="t-h2">' + monthLabelOf(m) + '</h2>' +
-          '<span class="t-body-s fed-ov-sub">' + list.length +
-          ' stop' + (list.length === 1 ? '' : 's') + '</span></div></div></div>' +
-          '<div class="cal-cards">' + cards + '</div></div>';
-      }).join('');
-
-      $$('.cal-card', cardHost).forEach(function (card) {
-        if (card.dataset.ioc) flag($('.flag', card), card.dataset.ioc);
-        link(card, card.dataset.href);
-      });
-      if (window.FIBA) window.FIBA.init(cardHost);
-    }
-
-    function drawMonth() {
-      if (!monthHost) return;
-      monthHost.hidden = (view !== 'day');
-      if (view !== 'day') return;
-      var months = monthsWithStops();
-      if (!months.length) { monthHost.hidden = true; return; }
-      monthHost.hidden = false;
-      if (months.indexOf(monthPick) < 0) {
-        var todayM = iso(new Date()).slice(0, 7);
-        monthPick = months.indexOf(todayM) > -1 ? todayM : months[months.length - 1];
-      }
-
-      var byDay = {};
-      pool().forEach(function (e) { (byDay[e.start] = byDay[e.start] || []).push(e); });
-
-      var first = new Date(monthPick + '-01T12:00:00');
-      var startDow = (first.getDay() + 6) % 7;                 /* Monday = 0 */
-      var gridStart = new Date(first);
-      gridStart.setDate(1 - startDow);
-      var todayISO = iso(new Date());
-
-      var nav = months.map(function (m) {
-        return '<div class="cal-mtab' + (m === monthPick ? ' cal-mtab-on' : '') +
-               '" role="button" tabindex="0" data-m="' + m + '">' +
-               new Date(m + '-01T12:00:00')
-                 .toLocaleDateString('en-GB', { month: 'short' }).toUpperCase() +
-               '</div>';
-      }).join('');
-
-      var cells = '';
-      for (var i = 0; i < 42; i++) {
-        var d = new Date(gridStart);
-        d.setDate(gridStart.getDate() + i);
-        var dISO = isoDay(d);
-        var out = dISO.slice(0, 7) !== monthPick;
-        if (out && i >= 35) continue;
-        var evs = byDay[dISO] || [];
-        var evHtml = evs.map(function (e) {
-          var c = conf(e.conference) || {};
-          var live = stopLive(e, todayISO);
-          var played = stopPlayed(e, todayISO);
-          var w = played ? winnerOf(e, gender) : null;
-          var tail = live
-            ? '<div class="el-05-StatusBadge--live badge badge-live cut cut-s">' +
-              '<span class="badge-dot"></span><span class="lbl">Live</span></div>'
-            : (w ? '<div class="ftag ftag-s cut cut-s ftag-plain ftag-static cal-ev-w">' +
-                   '<div class="flag flag-ring"></div>' +
-                   '<div class="ftag-txt"><span class="ftag-code">' + w.ioc + '</span></div></div>'
-                 : '<span class="t-caption cal-ev-soon">' +
-                   (played ? 'Finished' : 'Upcoming') + '</span>');
-          return '<div class="cal-ev cut cut-s cut-out' +
-            (live ? ' cal-ev-live' : played ? ' cal-ev-done' : ' cal-ev-next') +
-            '" data-href="stop.html?id=' + e.slug + '" data-ioc="' + (w ? w.ioc : '') +
-            '" role="link" tabindex="0" title="' + confName(c) + ' \u00b7 Stop ' + e.number +
-            ' \u00b7 ' + cityOf(e) + '">' +
-            '<div class="cutfill"></div>' +
-            '<span class="cal-ev-c t-caption">' + confName(c) + '</span>' +
-            '<span class="cal-ev-city t-body-s">' + cityOf(e) + ' \u00b7 Stop ' + e.number + '</span>' +
-            '<span class="cal-ev-tail">' + tail + '</span></div>';
-        }).join('');
-        cells += '<div class="cal-cell' + (out ? ' cal-out' : '') +
-          (dISO === todayISO ? ' cal-today' : '') +
-          (sel >= 0 && dISO === days[sel] ? ' cal-sel' : '') +
-          (evs.length ? ' cal-has' : '') + '" data-d="' + dISO + '">' +
-          '<span class="cal-daynum t-caption">' + d.getDate() + '</span>' +
-          evHtml + '</div>';
-      }
-
-      monthHost.innerHTML =
-        '<div class="el-01-SectionHeader--default el01-wrap cal-mhead"><div class="el01">' +
-        '<div class="el01-left"><h2 class="t-h3">' + monthLabelOf(monthPick) + '</h2></div>' +
-        '<div class="el01-right"><div class="cal-mnav">' + nav + '</div></div></div></div>' +
-        '<div class="cal-grid">' +
-        DOW.map(function (w) { return '<div class="cal-dow t-caption">' + w + '</div>'; }).join('') +
-        cells + '</div>';
-
-      $$('.cal-mtab', monthHost).forEach(function (t) {
-        t.addEventListener('click', function () { monthPick = t.dataset.m; drawMonth(); });
-        t.addEventListener('keydown', function (ev) {
-          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); t.click(); }
-        });
-      });
-      $$('.cal-ev', monthHost).forEach(function (c) {
-        if (c.dataset.ioc) flag($('.flag', c), c.dataset.ioc);
-        link(c, c.dataset.href);
-      });
-      /* The day number is the other control: it picks the day, which
-         is what the strip and the list below already speak. */
-      $$('.cal-cell.cal-has .cal-daynum', monthHost).forEach(function (n) {
-        n.style.cursor = 'pointer';
-        n.addEventListener('click', function (ev) {
-          ev.stopPropagation();
-          var dISO = n.parentElement.dataset.d;
-          var i = days.indexOf(dISO);
-          if (i < 0) return;
-          sel = (sel === i) ? -1 : i;
-          win = Math.max(0, Math.min(i - Math.floor(SLOTS / 2), Math.max(0, days.length - SLOTS)));
-          clampWin();
-          drawStrip(); drawList();      /* drawList redraws the month */
-        });
-      });
     }
 
     days = dayList();
@@ -4220,120 +2948,14 @@
          the page is still narrowed; clearing it puts the page back to
          All and to the whole season and the button goes with it. */
       function syncClear() {
-        /* Review 18 (second pass) — a picked day is a Day view fact.
-           In Month view the calendar opens on today by default, which
-           made Clear filter appear on a page with nothing filtered. */
-        var dayFilter = (view === 'day') && sel >= 0;
-        b.hidden = (!region || region === 'All') && !dayFilter && !query;
+        b.hidden = (!region || region === 'All') && sel < 0 && !query;
       }
       var _strip = drawStrip, _list = drawList;
       drawStrip = function () { _strip(); syncClear(); };
       drawList = function () { _list(); syncClear(); };
       syncClear();
-      /* Review 19 — Daniel: the reset belongs to the day strip, at its
-         bottom right, and not in the row of chips at the top. The row
-         above keeps the chips and the view switch; this is the one
-         control that undoes both. */
-      if (strip && strip.parentNode) {
-        var cbar = el('div', 'cal-clearbar');
-        cbar.appendChild(b);
-        strip.parentNode.insertBefore(cbar, strip.nextSibling);
-      } else {
-        bar.appendChild(b);
-      }
+      bar.appendChild(b);
     })();
-
-    (function () {
-      /* The section still carried the landing page's "Live now"
-         heading, which is what it was copied from. On a calendar it
-         is the season. */
-      /* Review 20 — Daniel: the sub-headline goes. The page is
-         titled Calendar, the chips say which region and the two view
-         chips say which view; a second heading reading "Season
-         calendar" over all of it named the page a second time. The
-         header carried the block's only link out to Conferences,
-         which round eighteen had already removed. */
-      var h = $$('.el01 .t-h2').filter(function (n) {
-        return /live now|season calendar/i.test(n.textContent || '');
-      })[0];
-      var hwrap = h && (h.closest('.el01-wrap') || h.closest('.el01'));
-      if (hwrap) hwrap.remove();
-
-      /* One section holds the header, the chips, the day strip and the
-         accordions. Month cards go directly under the strip; the grid
-         and the day's list follow, and which of the two sets is on
-         screen is what the view toggle decides. */
-      /* Review 19 — Daniel: Day view goes back to what it was, which
-         is the Live now block on a day of the reader's choosing. The
-         seven-column grid built last round was a second calendar
-         inside the calendar: Month view already answers "what does
-         August look like", and under the day strip it only repeated
-         the picking the strip was doing. It is not hidden, it is not
-         built — drawMonth() finds no host and stands down. */
-      cardHost = el('div', 'cal-cardwrap');
-      var firstAcc = accHost && $('.acc', accHost);
-      if (firstAcc) accHost.insertBefore(cardHost, firstAcc);
-      else if (accHost) accHost.appendChild(cardHost);
-    })();
-
-    /* ctl-14 Chip as a view switch, at the right of the filter row —
-       where Clear filter used to sit, because it is the control that
-       decides what the row below is. */
-    (function () {
-      var bar = $('.cal-bar');
-      if (!bar) return;
-      var wrap = el('div', 'cal-view');
-      /* Review 20 — Material Symbols' calendar_month and
-         calendar_today: a month of squares and a single day, so the
-         two chips are told apart before the words are read. */
-      var ICO = {
-        month: '<svg class="cal-vico" fill="currentColor" height="18" width="18" ' +
-          'viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 ' +
-          '23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 ' +
-          '56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 240q-17 ' +
-          '0-28.5-11.5T440-440q0-17 11.5-28.5T480-480q17 0 28.5 11.5T520-440q0 17-11.5 28.5T480-400Zm-160 ' +
-          '0q-17 0-28.5-11.5T280-440q0-17 11.5-28.5T320-480q17 0 28.5 11.5T360-440q0 17-11.5 28.5T320-400Zm320 ' +
-          '0q-17 0-28.5-11.5T600-440q0-17 11.5-28.5T640-480q17 0 28.5 11.5T680-440q0 17-11.5 28.5T640-400ZM480-240q-17 ' +
-          '0-28.5-11.5T440-280q0-17 11.5-28.5T480-320q17 0 28.5 11.5T520-280q0 17-11.5 28.5T480-240Zm-160 ' +
-          '0q-17 0-28.5-11.5T280-280q0-17 11.5-28.5T320-320q17 0 28.5 11.5T360-280q0 17-11.5 28.5T320-240Zm320 ' +
-          '0q-17 0-28.5-11.5T600-280q0-17 11.5-28.5T640-320q17 0 28.5 11.5T680-280q0 17-11.5 28.5T640-240Z"></path></svg>',
-        day: '<svg class="cal-vico" fill="currentColor" height="18" width="18" ' +
-          'viewBox="0 -960 960 960" aria-hidden="true"><path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 ' +
-          '23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 ' +
-          '56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Zm280 ' +
-          '160h200v200H480v-200Z"></path></svg>'
-      };
-      [['month', 'Month view'], ['day', 'Day view']].forEach(function (v) {
-        var b = el('div', 'el-14-Chip--m-default chip chip-m cut cut-s cut-out' +
-                          (v[0] === view ? ' chip-on' : ''),
-                   '<div class="cutfill"></div>' + ICO[v[0]] +
-                   '<span class="lbl">' + v[1] + '</span>');
-        b.setAttribute('role', 'button');
-        b.setAttribute('tabindex', '0');
-        b.addEventListener('click', function () {
-          if (view === v[0]) return;
-          view = v[0];
-          $$('.chip', wrap).forEach(function (x) { x.classList.remove('chip-on'); });
-          b.classList.add('chip-on');
-          /* Day view is a day, so arriving at it lands on one — the
-             same day Live now opens on — rather than on the whole
-             season with an empty strip. */
-          if (view === 'day' && sel < 0) { openOnToday(); }
-          drawStrip(); drawList();
-        });
-        b.addEventListener('keydown', function (ev) {
-          if (ev.key === 'Enter' || ev.key === ' ') { ev.preventDefault(); b.click(); }
-        });
-        wrap.appendChild(b);
-      });
-      bar.appendChild(wrap);
-    })();
-
-    /* The region chips, the gender switch and Clear filter all reach
-       the month as well as the strip and the list — one set of
-       controls over one page, which is the rule this site keeps. */
-    var _list0 = drawList;
-    drawList = function () { _list0(); drawCards(); };
 
     drawStrip();
     drawList();
@@ -4376,65 +2998,132 @@
       });
     }
 
-    /* Review 18 — one cap, both tables. */
-    var TOP_N = 30;
-    /* Review 18 — the same resting order the Standings page uses:
-       the U23 ladder, then the U21 ladder, each counting from one.
-       Sorting the two together by tour points put a side with no
-       qualification status at position 1 of a table whose last
-       column is qualification status. */
-    var perfSort = { key: 'order', dir: 1 };
+    var perfSort = { key: 'tour', dir: -1 };
     var playSort = { key: 'points', dir: -1 };
 
     function drawTeams() {
       var list = scope();
 
-      /* Review 18 — Team Spotlight is gone. It named the federation
-         scoring most per game, which is a comparison between teams
-         that have played different numbers of stops in conferences
-         at different points of their season: a federation one stop
-         in could top it on one good day. Alex asked for tables,
-         filters and export instead, and the space it took is now
-         rows. The player side keeps its own. */
-      var spot = $('.st-top');
-      var spotSec = spot && spot.closest('.tpl-sub');
-      if (spotSec) spotSec.remove();
-      /* Review 18 (second pass) — Overview goes with it. Five figures
-         about the filter ("604 final games, 101 teams in scope") are a
-         description of the query rather than a statistic anyone came
-         for, and the tables below state everything they summarised. */
-      var ovSec = ($('.st-ov') || {}).closest ? $('.st-ov').closest('.tpl-sub') : null;
-      if (ovSec) ovSec.remove();
-      /* The second table ranked the same federations by points
-         scored — one column the main table did not have. That column
-         is in the main table now (TOUR PTS is the ranking measure and
-         PTS AVG the rate), so the block is absorbed rather than kept. */
-      var scoring = $('.st-scoring');
-      var scoringSec = scoring && scoring.closest('.tpl-sub');
-      if (scoringSec) scoringSec.remove();
-
-      var tbl = $('.st-perf');
-      if (!tbl) return;
-      var oldF = tbl.parentElement.querySelector(':scope > .site-empty');
-      if (oldF) oldF.remove();
-      if (!list.length) {
-        tbl.innerHTML = '';
-        emptyState(tbl.parentElement, 'Nothing to rank yet',
-                   'No federation in this filter has played a game.',
-                   { icon: 'info' });
-        return;
+      /* Top score is the federation scoring most per game in scope — a
+         real figure, not a placeholder. It used to be a section of its
+         own with a flag and a 40px country name; it is now the first
+         column of the spotlight, stated as el-13 FederationTag at L, so
+         the federation and the six figures that describe it read as one
+         row instead of two blocks. */
+      /* Scoring most per game is only meaningful over a comparable
+         number of games — otherwise a federation that played one stop
+         and one good day outranks one that played all six. Anything
+         under half the field's busiest schedule is out of the running. */
+      var maxPlayed = list.reduce(function (a, t) { return Math.max(a, t.played || 0); }, 0);
+      var qualified = list.filter(function (t) { return (t.played || 0) >= maxPlayed / 2; });
+      var best = (qualified.length ? qualified : list)
+        .slice().sort(function (a, b) { return b.avg - a.avg; })[0];
+      var tag = $('.st-topftag');
+      if (tag) {
+        if (best) {
+          fed(tag, best.ioc, best.team);
+          tag.title = best.confname;
+          tag.hidden = false;
+        } else {
+          tag.hidden = true;
+        }
       }
-      /* Review 18 — the same rule the player table uses: sort by the
-         chosen column, then take the top thirty. It was twelve here
-         and thirty there, so the two halves of the page disagreed
-         about how much of the field they were showing. */
-      var perf = list.slice().sort(cmp(perfSort.key, perfSort.dir));
-      wtScroll(tbl);
-      wtTable(tbl, perf, seasonStops(), {
-        seed: true, points: true, limit: TOP_N,
-        sub: function (r) { return r.confname; }
+
+      /* Team stats spotlight — the same six-figure row as a team page */
+      var v = $$('.e04-stats .e04-v'), k = $$('.e04-stats .t-caption:not(.st-top .t-caption)');
+      var stats = best ? [
+        ['Score points', best.scored],
+        ['Events', best.stops],
+        ['Games', best.played],
+        ['Avg points', best.avg.toFixed(1)],
+        ['PPG', best.avg.toFixed(1)],
+        ['Tour points', best.tour]
+      ] : [];
+      stats.forEach(function (s, i) {
+        if (k[i]) k[i].textContent = s[0];
+        if (v[i]) v[i].textContent = s[1];
       });
-      sortable(tbl, WT_COLS, perfSort, drawTeams);
+
+      var games = [];
+      D.events.forEach(function (e) {
+        if (confId !== 'All' && e.conference !== confId) return;
+        games = games.concat(gamesFor(e.slug, gender));
+      });
+      var finalGames = games.filter(function (g) { return g.home && g.home.score != null; });
+      var pts = finalGames.reduce(function (a, g) { return a + g.home.score + g.away.score; }, 0);
+      var withGames = {};
+      finalGames.forEach(function (g) { withGames[g.home.ioc] = withGames[g.away.ioc] = 1; });
+      var activeConf = {};
+      D.events.forEach(function (e) {
+        if ((stopPlayed(e) || stopLive(e)) && (confId === 'All' || e.conference === confId)) activeConf[e.conference] = 1;
+      });
+
+      /* Overview, as the wireframe states it: five figures about what is
+         actually in front of you, recomputed against the gender switch
+         and the conference filter. It used to be S-09 — the season-wide
+         conferences-and-stops block, which said the same thing on every
+         page and ignored both controls. */
+      var ovFigures = [
+        finalGames.length,
+        list.length,
+        Object.keys(withGames).filter(Boolean).length,
+        Object.keys(activeConf).length,
+        finalGames.length ? (pts / (finalGames.length * 2)).toFixed(1) : '—'
+      ];
+      $$('.st-ov .e04-stat').forEach(function (cell, i) {
+        text(cell, '.e04-v', ovFigures[i] != null ? ovFigures[i] : '—');
+      });
+
+      function fillTable(sel, rows, paint) {
+        var tbl = $(sel);
+        if (!tbl) return;
+        var oldF = tbl.parentElement.querySelector(':scope > .site-empty');
+        if (oldF) oldF.remove();
+        if (!rows.length) {
+          $$('.trow', tbl).forEach(function (r) { r.hidden = true; });
+          emptyState(tbl.parentElement, 'Nothing to rank yet',
+                     'No federation in this filter has played a game.',
+                     { icon: 'info' });
+          return;
+        }
+        tbl.hidden = false;
+        repeat(tbl, '.trow', rows, paint);
+      }
+
+      /* Review 15 — addressed by class rather than by index: the
+         table gained PPG and a status marker, and painting by
+         position is how the win ratio ended up under Pts Average
+         the last time a column moved. */
+      var perf = list.slice().sort(cmp(perfSort.key, perfSort.dir));
+      fillTable('.st-perf', perf.slice(0, 12), function (row, t, i) {
+        row.hidden = false;
+        fed(row, t.ioc, t.team);
+        text(row, '.cell-position .t-data-m, .cell-position .t-body-s', i + 1);
+        text(row, '.cell-conference .t-body-s', t.confname);
+        text(row, '.cell-gp .t-data-m', t.played);
+        text(row, '.cell-wl .t-data-m', t.won + '–' + (t.played - t.won));
+        text(row, '.cell-winratio .t-data-m', pctRatio(t.winRatio));
+        text(row, '.cell-ppg .t-data-m', t.avg != null ? t.avg.toFixed(1) : '—');
+        text(row, '.cell-points .t-data-m', t.tour);
+        marker(row, t.status || 'r');
+        link(row, 'team.html?ioc=' + t.ioc);
+      });
+
+      var byScore = list.slice().sort(function (a, b) { return b.scored - a.scored; });
+      fillTable('.st-scoring', byScore.slice(0, 12), function (row, t, i) {
+        row.hidden = false;
+        fed(row, t.ioc, t.team);
+        var c = $$('.cell', row);
+        var mine = finalGames.filter(function (g) {
+          return g.home.ioc === t.ioc || g.away.ioc === t.ioc;
+        }).map(function (g) { return g.home.ioc === t.ioc ? g.home.score : g.away.score; });
+        text(c[0], '.t-data-m, .t-body-s', i + 1);
+        text(c[2], '.t-body-s', t.confname);
+        text(c[3], '.t-data-m', t.scored);
+        text(c[4], '.t-data-m', t.avg.toFixed(1));
+        text(c[5], '.t-data-m', mine.length ? Math.max.apply(null, mine) : '—');
+        link(row, 'team.html?ioc=' + t.ioc);
+      });
     }
 
     function drawPlayers() {
@@ -4462,7 +3151,7 @@
         p.teamioc = (teamOf[p.id] || {}).ioc || p.ioc || '';
         p.confname = confName(conf((teamOf[p.id] || {}).conference));
       });
-      list = list.sort(cmp(playSort.key, playSort.dir)).slice(0, TOP_N);
+      list = list.sort(cmp(playSort.key, playSort.dir)).slice(0, 30);
 
       var old = host.parentElement.querySelector(':scope > .site-empty');
       if (!list.length) {
@@ -4507,6 +3196,16 @@
     /* Review 15 — "I assume sorteable by PPG, and Team and name."
        Both tables use the same el-08 sorter the Standings page has;
        each opens on the column its ranking is about. */
+    var PERF_COLS = {
+      'cell-federation': { key: 'team', text: 1 },
+      'cell-conference': { key: 'confname', text: 1 },
+      'cell-gp':         { key: 'played' },
+      'cell-wl':         { key: 'won' },
+      'cell-winratio':   { key: 'winRatio' },
+      'cell-ppg':        { key: 'avg' },
+      'cell-points':     { key: 'tour' },
+      'cell-status':     { key: 'statusRank' }
+    };
     var PLAY_COLS = {
       'cell-player':     { key: 'pname', text: 1 },
       'cell-team':       { key: 'teamioc', text: 1 },
@@ -4519,8 +3218,7 @@
 
     gender = genderSwitch(function (g) { gender = g; draw(); });
     tabPanes(document, '.st-tabs');
-    /* The team table is rebuilt on every draw, so its header is new
-       each time and the sorter is bound inside drawTeams(). */
+    if ($('.st-perf')) sortable($('.st-perf'), PERF_COLS, perfSort, draw);
     var plTbl = $('[data-pane="players"] .thead');
     if (plTbl) sortable(plTbl.parentElement, PLAY_COLS, playSort, draw);
     draw();
@@ -4529,13 +3227,17 @@
   /* qualification.html is a redirect to standings.html?view=qualification
      — the two tables were merged behind ctl-08 ToggleSwitch. */
 
-  /* Review 18 — search.html is the overlay, full width: initChrome
-     binds this page's own .ovl to searchOverlay() and paints it on
-     every keystroke, so a second renderer here would only fight it.
-     What the page did need is a way in from a link — a magnifier on
-     another page can now hand over a query — which is prefilled in
-     initChrome, where the input actually exists. */
-  PAGES['search.html'] = function () {};
+  PAGES['search.html'] = function () {
+    var pool = D.teams.filter(function (t, i, a) {
+      return a.findIndex(function (x) { return x.ioc === t.ioc; }) === i;
+    }).slice(0, 8);
+    repeat(document, '.e11-row', pool, function (row, t) {
+      fed(row, t.ioc, t.name);
+      text(row, '.e11-t', t.name);
+      text(row, '.e11-m', (conf(t.conference) || {}).name || '');
+      link(row, 'team.html?ioc=' + t.ioc);
+    });
+  };
 
   /* ---------- site chrome: mega menu and search overlay -------
      Both are documented modules (F-05 and E-11). They live in
@@ -4676,13 +3378,7 @@
           txt.replaceWith(inp);
           inp.addEventListener('input', function () { searchOverlay(ovl, this.value); });
         }
-        /* Review 18 — arriving with ?q= runs the search rather than
-           showing an empty page and waiting to be typed into. */
-        var q0 = (document.body.dataset.page === 'search.html')
-          ? (new URLSearchParams(location.search).get('q') || '') : '';
-        var inp0 = ovl && ovl.querySelector('input');
-        if (q0 && inp0) inp0.value = q0;
-        searchOverlay(ovl, q0);       /* empty: every group hidden */
+        searchOverlay(ovl, '');       /* empty: every group hidden */
       }
       if (window.FIBA) window.FIBA.init(host);
     });
@@ -4699,8 +3395,12 @@
     }
     if (scrim) scrim.hidden = false;
 
-    /* Review 18 — team sites, not federations. */
-    var feds = searchSites(q, SEARCH_MAX);
+    var feds = [], seen = {};
+    D.teams.forEach(function (t) {
+      if (!t.ioc || seen[t.ioc]) return;
+      seen[t.ioc] = 1;
+      if ((t.name + ' ' + t.ioc).toLowerCase().indexOf(q) > -1) feds.push(t);
+    });
     var players = D.players.filter(function (p) {
       return (p.name || '').toLowerCase().indexOf(q) > -1;
     }).slice(0, 6);
@@ -4710,8 +3410,13 @@
 
     var groups = $$('.e11-g', ovl);
     var sets = [
-      { rows: feds, label: 'Teams',
-        paint: function (row, t) { paintSiteRow(row, t); } },
+      { rows: feds.slice(0, 6), label: 'Federations',
+        paint: function (row, t) {
+          fed(row, t.ioc, t.name);
+          text(row, '.e11-t', t.name);
+          text(row, '.e11-m', (conf(t.conference) || {}).name || '');
+          link(row, 'team.html?ioc=' + t.ioc);
+        } },
       { rows: players, label: 'Players',
         paint: function (row, p) {
           fed(row, p.ioc, nationOf(p.ioc) || p.country);
@@ -4754,7 +3459,7 @@
      load, and the page says so under the box score.
      ============================================================ */
 
-  function hashOf(str) {
+  function seedOf(str) {
     var h = 2166136261;
     for (var i = 0; i < String(str).length; i++) {
       h ^= String(str).charCodeAt(i);
@@ -4798,13 +3503,13 @@
     return (t.roster || []).map(function (m, i) {
       var p = player(m.id);
       if (!p) return null;
-      var n = 3 + (hashOf(m.id) % 21);
+      var n = 3 + (seedOf(m.id) % 21);
       while (used[n]) n = 3 + ((n - 2) % 21);
       used[n] = 1;
       return {
         id: m.id, first: p.first, last: p.last, name: p.name,
         captain: !!m.captain, no: n,
-        role: GAME_ROLES[hashOf(m.id + 'r') % GAME_ROLES.length],
+        role: GAME_ROLES[seedOf(m.id + 'r') % GAME_ROLES.length],
         rank: p.rankingPoints || 0,
         two: 0, ft: 0, pts: 0, order: i
       };
@@ -4898,7 +3603,7 @@
   }
 
   function deriveGame(g) {
-    var rand = rngOf(hashOf(g.id));
+    var rand = rngOf(seedOf(g.id));
     var H = { squad: gameSquad(g, 'home') }, A = { squad: gameSquad(g, 'away') };
     var hs = g.home.score, as = g.away.score;
     if (hs == null || as == null) return { home: H, away: A, events: [], leadChanges: 0, played: false };
@@ -4921,7 +3626,7 @@
 
   function boxOf(g) {
     if (BOX_CACHE[g.id]) return BOX_CACHE[g.id];
-    var rand = rngOf(hashOf(g.id));
+    var rand = rngOf(seedOf(g.id));
     var H = { squad: gameSquad(g, 'home') }, A = { squad: gameSquad(g, 'away') };
     var hs = g.home.score, as = g.away.score;
     if (hs != null && as != null) {
@@ -5711,10 +4416,7 @@
     if (!content || content._r3) return;
     content._r3 = 1;
 
-    /* Review 19 — back to six and six. Daniel, on seeing them stacked
-       at full width: the two blocks answer the same question from two
-       sides ("look one up" and "here is the shape of the season") and
-       belong on one screen, at the size they were. */
+    /* Find a team and Overview stand side by side, six and six. */
     var subs = $$(':scope > .tpl-sub', content);
     if (subs.length >= 2) {
       var split = el('div', 'tpl-split cnf-head');
@@ -5770,15 +4472,7 @@
       apply();   /* live first on arrival, not only after a pick */
     }
 
-    /* Review 18 — the Schedule block is gone from the global
-       Conferences page. It is a live stream, today's games and a
-       results panel: three answers about ONE conference, sitting
-       above a grid of eighteen. A reader who wants a stream picks a
-       conference; this page's job is to let them pick.
-       (review16's confGenderHome() looks for the switch this module
-       made and returns satisfied when there is none, so nothing is
-       left waiting. The conference detail page still builds it —
-       scheduleModule() itself is untouched.) */
+    scheduleModule(content, null);
   }
 
   /* ---------- the pages this review touches ------------------- */

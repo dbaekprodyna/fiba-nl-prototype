@@ -62,7 +62,7 @@
 
   /* Anything absolutely placed, decorative, or already carrying a
      transform of its own must not be given one. */
-  var NOMOVE = '.cutfill,.hnl-kv,.hnl-court,.hnl-bg,.f04-kv,.ad,.brandstroke';
+  var NOMOVE = '.cutfill,.hnl-kv,.hnl-court,.f04-kv,.ad,.brandstroke';
 
   /* When it has arrived, every trace of the reveal comes off the
      element. It has to: .rv.is-in sets the whole `transition`
@@ -142,7 +142,6 @@
        their transform and the reveal must not write to it */
     var band = D.querySelector('.hnl');
     if (band) {
-      mark(band.querySelector('.hnl-bg'), 0, true);
       mark(band.querySelector('.hnl-court'), 0, true);
       mark(band.querySelector('.hnl-kv-l'), 1, true);
       mark(band.querySelector('.hnl-kv-r'), 2, true);
@@ -211,14 +210,7 @@
        artwork — the corner came away from its own corner. It is
        drawn INTO that edge, so it has to hold it; the depth in
        the band comes from the other three.                     */
-    /* Round twenty-one: the season plate. It is drawn at twice
-       the band height and centred, so it has half a band of slack
-       each way and not a pixel more — travel past that and the
-       gradient ground appears at the band's edge. e[3] = 1 asks
-       frame() to clamp the layer to that slack; the others have
-       no such limit because they are drawn into their corners. */
     [[q('.hnl-kv-l'), 0.00, 0], [q('.hnl-kv-r'), 0.22, 0],
-     [q('.hnl-bg'), 0.45, 0, 1],
      [q('.hnl-court'), 0.44, 1], [q('.hnl-in'), -0.16, 2]]
       .forEach(function (e) {
         if (!e[0]) return;
@@ -236,11 +228,6 @@
     var p = Math.min(s, par.h * 1.5);
     par.layers.forEach(function (e) {
       var yv = p * e[1];
-      /* a layer with a mask of its own may not leave it */
-      if (e[3] === 1) {
-        var cap = par.h / 2;
-        if (yv > cap) yv = cap; else if (yv < -cap) yv = -cap;
-      }
       /* At rest the inline transform comes off altogether. A
          translate3d(0,0,0) still promotes the layer it sits on,
          and the hero's strap re-rasterises when it does — the
